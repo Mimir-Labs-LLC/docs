@@ -1,44 +1,40 @@
 # PROPRIETARY EVALUATION & NON-DISCLOSURE AGREEMENT (PHASE 2)
 ## Project Yggdrasil: Deterministic Architecture & B2B Marketplace
 
-**PARTIES:**
-- **Mimir Labs LLC** ("Disclosing Party"), Harrisburg, PA.
-- **[Entity Name]** ("Receiving Party"), [Location].
-
-**EFFECTIVE DATE:** [Date]
+**THIS AGREEMENT** is made as of [Date] (the "Effective Date") by and between **Mimir Labs LLC** ("Disclosing Party"), Harrisburg, PA, and **[Entity Name]** ("Receiving Party").
 
 ---
 
-### 1. DEFINITION OF HIGH-VALUE TECHNICAL IP
-"Confidential Information" under this Phase 2 agreement specifically includes:
-- **The Deterministic Core:** The mathematical mapping protocols and state-machine logic used to convert stochastic business processes into immutable nodes.
-- **Articulated Frameworks:** Proprietary schemas, B2B marketplace transaction layers, and the Java-to-Qt6 "Universal Bootstrapper" integration.
-- **Universal BI Logic:** The underlying data-orchestration algorithms and compliance-by-design (SOC 2/CGMP) hardening sequences.
+### 1. DEFINITION OF HIGH-VALUE TECHNICAL IP & TRADE SECRETS
+"Confidential Information" specifically includes:
+- **TRADE SECRETS:** The proprietary mathematical mapping protocols, deterministic state-machine logic, and Yggdrasil source code.
+- **PROPRIETARY DATA:** Articulated frameworks, B2B marketplace schemas, Universal BI orchestration algorithms, and Java-to-Qt6 deployment integration.
 
-### 2. RESTRICTIVE USE & NON-COMPETE
-The Receiving Party agrees that Confidential Information is provided **solely** for technical vetting and strategic alliance evaluation. 
-- **NO DERIVATIVE WORKS:** The Receiving Party shall not use the disclosed architectural logic to develop, or assist any third party in developing, a competitive "Deterministic" or "Articulated" ERP framework.
-- **NO REVERSE ENGINEERING:** Any attempt to decompile, disassemble, or derive the source code or underlying "Secret Sauce" mapping logic is a material breach of this agreement.
+### 2. HYBRID DURATION & SURVIVAL
+- **GENERAL OBLIGATIONS:** Confidentiality regarding business plans and marketplace nodes shall persist for **five (5) years** from the Effective Date.
+- **TRADE SECRET SURVIVAL:** Notwithstanding the above, all obligations regarding **Trade Secrets** (as defined by the Pennsylvania Uniform Trade Secrets Act) shall survive indefinitely for as long as the information remains a trade secret.
 
-### 3. NON-SOLICITATION OF EVANGELIZERS & TALENT
-To protect the Mimir Labs ecosystem:
-- **Talent:** Receiving Party shall not solicit or hire Mimir Labs employees or key technical partners (e.g., Maxim Teleguz) for a period of **two (2) years**.
-- **Marketplace Nodes:** Receiving Party shall not circumvent Mimir Labs to independently contract with members of the **2026 Validation Cohort** for ERP-related services disclosed during this evaluation.
+### 3. RESTRICTIVE USE & NON-COMPETE
+The Receiving Party agrees that Confidential Information is provided **solely** for technical vetting. 
+- **NO DERIVATIVE WORKS:** Receiving Party shall not use the disclosed architectural logic to develop a competitive "Deterministic" or "Articulated" ERP framework.
+- **NO REVERSE ENGINEERING:** Any attempt to decompile or derive the underlying "Secret Sauce" mapping logic is a material breach.
 
-### 4. INJUNCTIVE RELIEF
-The Receiving Party acknowledges that a breach of this Phase 2 agreement would cause irreparable harm to Mimir Labs’ position in the [South Central PA tech corridor](https://harrisburg.launchbox.psu.edu). Mimir Labs shall be entitled to seek immediate injunctive relief and recovery of all legal fees in the event of a breach.
+### 4. NON-SOLICITATION
+Receiving Party shall not solicit or hire Mimir Labs employees or key technical partners (e.g., Maxim Teleguz) for a period of **two (2) years**.
 
-### 5. TERM OF PROTECTION
-While the evaluation period may be brief, the obligations regarding the **Deterministic Core IP** and **Non-Compete** shall survive for **five (5) years** from the Effective Date.
+### 5. INJUNCTIVE RELIEF & SEALED STATUS
+The parties agree that this Agreement is executed **Under Seal**. Breach of this Agreement causes irreparable harm to Mimir Labs’ position in the [South Central PA tech corridor](https://harrisburg.launchbox.psu.edu). Mimir Labs is entitled to seek immediate injunctive relief and recovery of all legal fees.
 
 ---
 
 ### EXECUTION & AUTHORIZATION
 
+**INTENDING TO BE LEGALLY BOUND**, the parties have executed this Agreement **UNDER SEAL** as of the Effective Date.
+
 **Mimir Labs LLC**  
-________________________________________  
+________________________________________ {SEAL}  
 Christopher "Doc" Gaither, CEO/COO  
 
 **Receiving Party**  
-________________________________________  
+________________________________________ {SEAL}  
 [Name], [Title]
