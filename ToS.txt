@@ -1,0 +1,14 @@
+Yggdrasil ERP Alpha Release - Terms of Service Snippet
+1. Alpha Status and "As-Is" Warranty
+Customer acknowledges that the Software is a Pre-Release Alpha Build (v0.1.3a). Notwithstanding any other provision, the Software is provided "AS IS" and "WITH ALL FAULTS." Mimir Labs expressly disclaims all warranties, express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. Mimir Labs does not warrant that the Software will be error-free or that its use will be uninterrupted. 
+2. Acknowledgment of Known Issues
+By using the Software, Customer acknowledges the "Known Issues" disclosed in the Release Notes, including but not limited to:
+Pending UI completions and entity lock validation enhancements.
+The current lack of API rate limiting and automated OpenAPI documentation.
+Customer agrees that these identified issues do not constitute a breach of contract or a failure of the Software’s business function. 
+3. Limitation of Liability
+To the maximum extent permitted by law, Mimir Labs shall not be liable for any direct, indirect, incidental, special, or consequential damages, including but not limited to loss of profits, data, or business interruption, arising out of the use or inability to use the Software, even if advised of the possibility of such damages. 
+4. Total Liability Cap
+In no event shall the total aggregate liability of Mimir Labs for all claims relating to this Agreement exceed the total amount of fees actually paid by Customer to Mimir Labs for the Software during the three (3) months immediately preceding the event giving rise to the claim. 
+5. Right to Modify and Terminate
+Mimir Labs reserves the right to modify, suspend, or terminate the Alpha Test and this Agreement at any time, with or without notice, and without compensation of any kind to the Customer. 
