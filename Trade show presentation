@@ -1,0 +1,53 @@
+# PRESENTATION SCRIPT: "THE END OF THE ERP SOFTWARE TAX"
+
+## [0:00-2:00] THE HOOK: THE SILENT CRISIS
+(Slide 1: Title & Mimir Labs Logo)
+
+"Good afternoon. My name is [Your Name], and I am the founder of Mimir Labs. 
+
+I want to start with a question: How many of you here feel like you are being held hostage by your own ERP? 
+
+Every year, like clockwork, your legacy provider hits you with a 15% or 20% 'maintenance hike.' They call it an upgrade; your balance sheet calls it a 'Software Tax.' You want to launch a B2B Marketplace? They say 'No.' You want to automate a vendor portal? They say 'That’s a six-figure custom dev bill.' 
+
+You aren't just running software; you are drowning in Technical Debt."
+
+## [2:00-5:00] THE INSIGHT: THE 2026 COMPLIANCE WALL
+(Slide 2: A 'Compliance Gap' Chart showing SOC 2 / CGMP Requirements)
+
+"If you look at **Page 4** of the pamphlet I handed out, you’ll see the 'Compliance Wall.' 
+
+By the time we hit Q3 2026, the regulatory requirements for **SOC 2 Type II and CGMP** are going to leave un-hardened companies in the dust. If your current ERP isn't audit-ready today, you aren't scaling tomorrow. 
+
+Most legacy systems were built for 1990s accounting, not 2026 B2B commerce. They are 'closed boxes' that isolate your data and create bottlenecks in your supply chain. We didn't build Yggdrasil for accountants; we built it for **Operators** who are tired of the chaos."
+
+## [5:00-8:00] THE HERO: INTRODUCING YGGDRASIL
+(Slide 3: High-Res Screenshot of the Yggdrasil Dashboard)
+
+"That is why we built the **Yggdrasil ERP Engine.** 
+
+It is a marketplace-native system designed to resolve technical debt, not add to it. It’s an audit-ready, hardened infrastructure that handles the 'messy' logic of B2B transactions out-of-the-box. 
+
+If you flip to **Page 6**, you’ll see our architecture. We’ve baked in the security and API-first logic that legacy providers charge you extra for. We’ve removed the 'middle-man' costs so you can actually connect your buyers and sellers in real-time."
+
+## [8:00-12:00] THE OFFER: THE STRATEGIC RESERVE
+(Slide 4: $4,800/mo 'Founder Rate' in Large Text + QR Code)
+
+"I’m not here to sell you a subscription for today. I’m here to help you plan for your 2026 infrastructure roadmap. 
+
+Today, we are opening our **Strategic Reserve.** We are selecting exactly five **Charter Members** for our 2026 Cohort. 
+
+For these five companies, we are locking in a **$4,800 'Founder Rate'** for two full years. 
+* No maintenance hikes. 
+* No surprise 'module' fees. 
+* And we apply **100% of your deposit as a migration credit.** 
+
+We basically move you for free because we want the five best, most ambitious B2B firms in our first cohort."
+
+## [12:00-15:00] THE CLOSE: THE CALL TO ACTION
+(Slide 5: Large QR Code + Your Email)
+
+"You have the technical specs in your hands. On the **back cover (Page 12)**, you’ll see a QR code. That takes you directly to our Strategic Reserve application. 
+
+My Lead Engineer and I will be at Booth [Number] for the rest of the day to walk you through the API logic and how we handle the SOC 2 hardening. 
+
+Let’s stop paying the 'Software Tax' and start building for the 2026 Marketplace. I’m [Your Name], and I look forward to seeing your application. Thank you."
