@@ -21,8 +21,26 @@ Yggdrasil consists of three application tiers sharing a PostgreSQL database:
 
 Each tenant site runs the full Yggdrasil stack locally. Cross-tenant B2B event streaming is handled by a central Redpanda broker accessed through Cloudflare Zero Trust tunnels via a lightweight Go sidecar.
 
+### VPS Naming Convention
+
+Every VPS instance is named after one of the **Nine Realms of Yggdrasil**, followed by a 3-digit sequential code (e.g., `Niflheim-851`). Each realm maps to an industry sector, grouping tenant workloads by domain. **Asgard** is reserved for the central Mimir Labs infrastructure VPS.
+
+| Tier | Realm | Industrial Sector | Server Role / Function |
+|------|-------|-------------------|------------------------|
+| **Central** | **Asgard** | Mimir Labs Internal | Website, central broker, mesh DB, tunnels, all Mimir Labs-internal services |
+| Upper | **Vanaheim** | Agriculture, Biotech & Green Tech | Sustainability tracking, biological data, environmental monitoring |
+| Upper | **Alfheim** | Media, Arts & Communications | CDNs, creative assets, front-end UI hosting |
+| Middle | **Midgard** | Customer Relations & Sales | Public-facing websites, CRM databases, e-commerce gateways |
+| Middle | **Jotunheim** | Heavy Industry & Logistics | Supply chain management, fleet tracking, large-scale manufacturing data |
+| Middle | **Nidavellir** | R&D, Engineering & Hardware | CAD/CAM files, hardware prototypes, deep technical documentation |
+| Lower | **Muspelheim** | Energy & Power Utilities | HPC, thermal monitoring, energy grid management |
+| Lower | **Niflheim** | Finance, Banking & Compliance | Cold storage, historical archives, high-security transactional ledgers |
+| Lower | **Helheim** | Security & Disaster Recovery | Redundant backups, "dead" data archives, firewall/security protocols |
+
+Format: `{Realm}-{3-digit code}` — e.g., `Asgard-001`, `Midgard-002`, `Niflheim-851`
+
 ```
-                                  Central Server
+                                  Asgard-001
   Tenant A                  (Hetzner VPS -> Mimir Labs           Tenant B
                                   on-prem)
  +------------------+           +----------------------+          +------------------+
@@ -45,7 +63,7 @@ Each tenant site runs the full Yggdrasil stack locally. Cross-tenant B2B event s
  +------------------+                                              +------------------+
 ```
 
-The central server is currently hosted on a Hetzner CPX31 VPS. Long-term plan is to migrate to dedicated on-premises hardware at Mimir Labs.
+The central server (**Asgard-001**) is currently hosted on a Hetzner CPX31 VPS. Long-term plan is to migrate to dedicated on-premises hardware at Mimir Labs.
 
 ### Federation Modes
 
