@@ -13,7 +13,7 @@ Versions follow the format: `v[Major].[Build].[Patch][Phase]`
 - **Patch** -- Bug fixes and incremental improvements
 - **Phase** -- Alphabetical suffix indicating release stage (e.g., `a` for alpha)
 
-**Current version:** v0.4.4a
+**Current version:** v0.4.4a-1
 
 ### Rules
 
@@ -158,7 +158,7 @@ npm test
 ```
 
 - **Framework:** Custom TypeScript runner (`tests/runner.ts`)
-- **Coverage:** 20+ business-process arcs with 100+ story files
+- **Coverage:** 23 business-process arcs with 128 story files
 - **Requires:** Running server instance
 - **Arcs cover:** Foundation, manufacturing, order-to-cash, quality-to-resolution, procure-to-pay, record-to-report, and more
 

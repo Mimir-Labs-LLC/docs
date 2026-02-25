@@ -214,7 +214,7 @@ npm install
 npm test
 ```
 
-This runs 20+ business-process arcs with 100+ story files covering end-to-end workflows.
+This runs 23 business-process arcs with 128 story files covering end-to-end workflows.
 
 ---
 

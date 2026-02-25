@@ -27,6 +27,7 @@ docs/
 - [Features](product/FEATURES.md) -- Feature inventory by implementation status
 - [Roadmap](product/ROADMAP.md) -- 5-phase product roadmap (current through 2027+)
 - [SOC 2 Roadmap](product/SOC2_ROADMAP.md) -- Compliance path to Type I/II attestation
+- [Testing Manual](product/TESTING_MANUAL.md) -- Automated testing guide (Vitest, Catch2, integration tests, CI pipeline)
 
 ### Business
 - [Market Analysis](business/MARKET_ANALYSIS.md) -- Target market, competition, SWOT

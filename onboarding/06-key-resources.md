@@ -12,7 +12,7 @@ A directory of important documents, files, and references across both repositori
 |----------|------|-------------|
 | **CLAUDE.md** | `yggdrasil/CLAUDE.md` | Authoritative development guide -- architecture, build commands, conventions, CI/CD, testing |
 | **README.md** | `yggdrasil/README.md` | Project overview, quick start, module list, tech stack |
-| **TODO.md** | `yggdrasil/TODO.md` | Product readiness assessment (~45% sell-ready) with categorized blockers |
+| **TODO.md** | `yggdrasil/TODO.md` | Product readiness assessment (~65% sell-ready) with categorized blockers |
 | **VERSION** | `yggdrasil/VERSION` | Current version and patch notes |
 | **CHANGELOG.md** | `yggdrasil/CHANGELOG.md` | Version history |
 
@@ -68,9 +68,9 @@ All policies are in `yggdrasil/docs/policies/`:
 
 | Resource | Path | Purpose |
 |----------|------|---------|
-| Testing manual | `yggdrasil/docs/TESTING_MANUAL.md` | Testing guide |
+| Testing manual | `yggdrasil/docs/TESTING_MANUAL.md` (also in `docs/product/TESTING_MANUAL.md`) | Testing guide |
 | Integration test runner | `yggdrasil/tests/runner.ts` | Story-driven test framework |
-| Test stories | `yggdrasil/tests/stories/` | 20+ business-process arcs |
+| Test stories | `yggdrasil/tests/stories/` | 23 business-process arcs, 128 story files |
 | Web unit tests | `yggdrasil/web-app/` (co-located `__tests__/`) | Vitest unit tests |
 | Server unit tests | `yggdrasil/server/tests/` | Catch2 unit tests |
 | Build verification | `yggdrasil/verify_build.sh` | Prereq and structure checks |
@@ -98,6 +98,7 @@ All policies are in `yggdrasil/docs/policies/`:
 | Features | `product/FEATURES.md` | Feature inventory by implementation status |
 | Roadmap | `product/ROADMAP.md` | 5-phase product roadmap through 2027+ |
 | SOC 2 Roadmap | `product/SOC2_ROADMAP.md` | 6-phase compliance roadmap for Type I/II |
+| Testing Manual | `product/TESTING_MANUAL.md` | Automated testing guide (Vitest, Catch2, integration, CI) |
 
 ### Business
 

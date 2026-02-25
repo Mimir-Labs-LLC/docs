@@ -4,7 +4,7 @@
 Goal: Core architecture, database, and module APIs
 
 ### Database & Schema
-- [x] PostgreSQL database schema (108 tables, 6 views, 150+ indexes)
+- [x] PostgreSQL database schema (117+ tables, 12 views, 150+ indexes)
 - [x] Multi-tenant architecture with tenant_id isolation on all tables
 - [x] Audit trail timestamps (created_at, updated_at) on all entity tables
 - [x] Foundation seed data (tenant config, 10 RBAC roles, permissions catalog, tenant settings)
@@ -75,37 +75,42 @@ Goal: Core architecture, database, and module APIs
 ## Phase 1: Stabilization (Current - Q2 2026)
 Goal: Production-ready alpha release
 
-- [ ] Comprehensive automated test suite (unit + integration tests) — *in progress: story-driven integration framework built with 9 foundation stories, reporter with JSON + text output; unit tests not yet started*
-- [ ] CI/CD pipeline with GitHub Actions
+- [x] Comprehensive automated test suite (unit + integration tests) — Vitest (web, 39 tests), Catch2 (server 27 tests + client tests), story-driven integration framework (23 arcs, 128 stories)
+- [x] CI/CD pipeline with GitHub Actions — 8-job pipeline (web-lint, web-test, web-build, server-build, server-test, client-build, client-test, schema-validate)
 - [x] JWT token refresh mechanism
 - [x] Auto-login from persisted credentials (Qt client AuthManager)
 - [ ] Fix all null-width GUI layout issues
 - [ ] Convert remaining text fields to proper dropdowns
-- [ ] Ensure cross-module data linkage (e.g., CRM entities → Sales orders → Invoices) — *in progress: PLM EBOM→MBOM linkage complete, CRM entity→contact→opportunity linkage complete; other cross-module links pending*
-- [ ] Form field validation (required fields, format checking) — *in progress: server-side Validator utility exists; client-side form validation not yet implemented*
+- [x] Ensure cross-module data linkage (e.g., CRM entities → Sales orders → Invoices) — PLM EBOM→MBOM linkage, CRM entity→contact→opportunity linkage, order-to-invoice flow, contact→address FK linkage
+- [x] Form field validation (required fields, format checking) — server-side Validator utility with field-level error responses; web app displays field-level errors below form fields
 - [ ] Error boundary for 401/session expiry with auto-redirect to login
-- [ ] Data table pagination for large result sets
-- [ ] Search and filter functionality on all data tables — *in progress: PLM part search with type-ahead implemented; other modules pending*
+- [x] Data table pagination for large result sets — server-side `?limit=N&offset=N` with total count; web and desktop clients paginated at 50 rows per page
+- [ ] Search and filter functionality on all data tables — *in progress: PLM part search with type-ahead, CrudPanel substring search implemented; full-text search pending*
 - [ ] API endpoint documentation (auto-generated)
 - [ ] SSL/TLS configuration guide
-- [ ] Database migration tooling — *in progress: migrations directory exists with 001_b2b_realtime.sql; automated migration runner not yet built*
+- [ ] Database migration tooling — *in progress: 8 migrations exist (001 through 008); automated migration runner not yet built*
 
 ## Phase 2: Feature Completion (Q2-Q3 2026)
 Goal: Full feature parity with mid-market competitors
 
-- [ ] Next.js web application connected to backend APIs — *in progress: Admin module fully connected; API client layer exists for HR, PLM, Workflow; remaining modules are stub pages*
-- [ ] Gantt chart implementation for Projects module
-- [ ] OEE trend charts for Manufacturing — *in progress: OEE API endpoint exists (GET /api/manufacturing/oee); charting UI not yet built*
-- [ ] Financial report generation (Balance Sheet, Income Statement, Cash Flow, etc.)
+- [x] Next.js web application connected to backend APIs — all 13+ module pages with functional CRUD panels connected to backend API; full PLM (EBOM, MBOM, Where Used, Scoped Where Used), MRP, Quote Builder, Reports, RFI/RFQ/RFP, Migration tools
+- [ ] Gantt chart implementation for Projects module — *placeholder exists; interactive visualization not yet functional*
+- [ ] OEE trend charts for Manufacturing — *in progress: OEE API endpoint exists (GET /api/manufacturing/oee); dashboard placeholder exists but charting not yet rendering real data*
+- [ ] Financial report generation (Balance Sheet, Income Statement, Cash Flow, etc.) — *in progress: report buttons wired in UI; backend report logic is placeholder only*
 - [ ] Data export (CSV, PDF) across all modules — *in progress: tenant-wide JSON export exists (POST /api/admin/data/export); per-module CSV/PDF not yet built*
 - [ ] Document/file attachment support on records
-- [x] Logistics/Shipping module with live carrier integration — *complete: shipment CRUD, carrier CRUD, tracking events, labels, packing lists, packages, warehouses, return shipments; live UPS/FedEx/USPS API integration (rate shopping, label generation, tracking, void) with tenant-isolated credentials, OAuth token caching, and API audit log; web UI with carrier settings panel*
+- [x] Logistics/Shipping module with live carrier integration — shipment CRUD, carrier CRUD, tracking events, labels, packing lists, packages, warehouses, return shipments; live UPS/FedEx/USPS API integration (rate shopping, label generation, tracking, void) with tenant-isolated credentials, OAuth token caching, and API audit log; web UI with carrier settings panel
 - [ ] Project milestones, dependencies, and budget tracking — *in progress: database tables exist (pm_milestones, pm_task_dependencies, pm_budget_items); API endpoints and UI pending*
 - [ ] Quality inspection plans and results workflow — *in progress: database tables exist (quality_inspection_plans, quality_inspection_characteristics, quality_inspection_results); API endpoints and UI pending*
 - [ ] Sales commission tracking
 - [ ] Email notification integration
-- [ ] Audit trail viewer in desktop client — *in progress: structured audit logging implemented in Logger; viewer UI not yet built*
+- [x] Audit trail viewer — filtered audit trail UI in Admin with table name, entity ID, date range, and action type filters; expandable change diff (old vs new values); paginated at 50 records
 - [ ] Print-ready forms (POs, Invoices, Quotes, Pick Lists)
+- [x] MRP (Material Requirements Planning) — run configuration, demand summary (color-coded stockout/reorder/sufficient), planned orders with confirm/confirm-all, exceptions tab; MRP summary embedded in Manufacturing page
+- [x] Quote Builder — master-detail quote management with header editing, inline line items, auto-calculated totals, status workflow (Save Draft, Send, Approve, Reject)
+- [x] RFI/RFQ/RFP procurement processes — full procurement request lifecycle in Purchasing module with line items and supplier responses (migration 008)
+- [x] Reports module — Empty Fields Report showing records with missing data across all modules, with module/table selector, completion percentage, and summary stats
+- [x] Migration tools — data import wizard supporting Business Central, Salesforce, CSV/Excel, QuickBooks, and Sage with four-step flow and import history tracking
 
 ## Phase 3: Production Hardening (Q3-Q4 2026)
 Goal: Production deployment readiness
@@ -156,8 +161,10 @@ Goal: Market expansion and feature leadership
 | Milestone | Target Date | Status |
 |-----------|-------------|--------|
 | Alpha release (current state) | Feb 2026 | Done |
+| CI/CD pipeline operational | Feb 2026 | Done |
+| Automated test suites (Vitest, Catch2, integration) | Feb 2026 | Done |
+| Web app connected to backend (all modules) | Feb 2026 | Done |
 | Automated test coverage > 60% | Q2 2026 | In progress |
-| Web app connected to backend | Q2 2026 | In progress |
 | First internal production deployment | Q3 2026 | Not started |
 | Security audit complete | Q4 2026 | Not started |
 | Beta release | Q4 2026 | Not started |

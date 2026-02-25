@@ -16,15 +16,15 @@ Yggdrasil has foundational elements in place but significant gaps remain before 
 |------|---------------|------|
 | **Authentication** | JWT (HS256, 1 hr expiry), salted SHA-256 passwords, refresh tokens | No MFA, no account lockout, no password complexity enforcement |
 | **Authorization** | Database-driven RBAC (9 roles, 33 permissions, `tenant_roles`/`role_permissions` tables) | Not enforced per-endpoint; controllers must check manually |
-| **Multi-tenancy** | `tenant_id` FK on all 101 tables with cascade delete | No PostgreSQL RLS; isolation depends entirely on app-layer WHERE clauses |
-| **Logging** | Structured JSON logger with file rotation (10 MB / 10 files); `Logger::audit()` method | No persistent audit table; logs are mutable flat files on disk |
+| **Multi-tenancy** | `tenant_id` FK on all 117+ tables with cascade delete; app-layer enforcement on list, update, and delete operations via `resolveTenantId()` helper | No PostgreSQL RLS; isolation depends entirely on app-layer WHERE clauses |
+| **Logging** | Structured JSON logger with file rotation (10 MB / 10 files); `Logger::audit()` method; `audit_change_log` table with field-level diffs (who, what, when, old/new as JSONB); `created_by`/`updated_by` on 35+ tables; soft-delete on 16 key tables | Audit viewer exists in Admin UI but not yet in desktop client; logs are still mutable flat files on disk |
 | **Encryption in transit** | SSL config keys present in `server.conf` | `EnableSSL=false` by default; CORS set to `*` |
 | **Encryption at rest** | Passwords salted+hashed | No field-level encryption for PII; backups unencrypted |
 | **Secrets** | Config file values (`JWTSecret=change_me_in_production`) | No vault integration; no rotation mechanism |
 | **Rate limiting** | Per-endpoint sliding window (100/60 s default, 50/60 s auth) | In-memory only; no per-IP or per-user limiting |
 | **Input validation** | Validator utility (email, length, range, PO-specific) | Partial coverage; no CSRF tokens; no XSS filtering |
 | **Backups** | Daily `pg_dump`, 14-day retention, systemd timer | Not encrypted; no restore testing; no off-site copy |
-| **CI/CD** | 7-job GitHub Actions pipeline with minimal permissions | No SAST, no dependency scanning, no SBOM |
+| **CI/CD** | 8-job GitHub Actions pipeline (web-lint, web-test, web-build, server-build, server-test, client-build, client-test, schema-validate) with minimal permissions | No SAST, no dependency scanning, no SBOM |
 | **Compliance tests** | Arc 20 (compliance-audit) with 1 story on audit trail | Endpoint returns 404; minimal coverage |
 
 ---
@@ -40,7 +40,7 @@ _Target: controls designed and deployed_
 
 | # | Control | TSC | Work Required |
 |---|---------|-----|---------------|
-| 1.1 | **Immutable audit log** | CC7.2, CC7.3 | Create `audit_log` table (user, action, table, old/new values, timestamp). Add DB triggers for INSERT/UPDATE/DELETE on all entity tables. Wire `Logger::audit()` to persist there. Expose read-only `/api/admin/audit` endpoint. |
+| 1.1 | **Immutable audit log** | CC7.2, CC7.3 | *Partially done:* `audit_change_log` table exists with field-level diffs (who, what, when, old/new as JSONB); `GET /api/admin/change-log` endpoint with filters; `created_by`/`updated_by` on 35+ tables; soft-delete on 16 key tables. *Remaining:* Add DB triggers for immutability (append-only), ensure all INSERT/UPDATE/DELETE operations are captured via triggers (not just app-layer). |
 | 1.2 | **Enable TLS by default** | CC6.1, CC6.7 | Set `EnableSSL=true` in `server.conf`. Document cert provisioning. Add HSTS header. Enforce HTTPS redirect in web app. |
 | 1.3 | **Restrict CORS** | CC6.1 | Replace `CORSOrigins=*` with explicit allowed origins in `server.conf`. |
 | 1.4 | **Login audit events** | CC7.2 | Log every login attempt (success/failure, user, IP, timestamp) to audit_log. |
@@ -130,7 +130,7 @@ All policies are in [`docs/policies/`](docs/policies/). They must be approved by
 
 | ID | Risk | Severity | Phase | Mitigation |
 |----|------|----------|-------|------------|
-| R1 | No audit trail — cannot prove data integrity | Critical | 1 | Control 1.1: audit_log table + triggers |
+| R1 | Audit trail exists (`audit_change_log`) but not immutable — no DB triggers, records can be modified | High | 1 | Control 1.1: add DB triggers for immutability; make audit_change_log append-only |
 | R2 | SSL disabled — traffic interceptable | Critical | 1 | Control 1.2: enable TLS |
 | R3 | CORS `*` — any origin can call API | High | 1 | Control 1.3: restrict origins |
 | R4 | No RLS — DB queries can leak cross-tenant data | Critical | 2 | Control 2.5: PostgreSQL RLS policies |

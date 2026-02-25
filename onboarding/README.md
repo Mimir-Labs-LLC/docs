@@ -14,7 +14,7 @@ Work through these documents in order. Each builds on the previous one.
 | 2 | [Architecture Overview](02-architecture.md) | System architecture, tech stack, deployment topology, key concepts | 20 min |
 | 3 | [Development Environment Setup](03-dev-environment.md) | Prerequisites, repo setup, database, building/running all components | 60 min |
 | 4 | [Development Workflow & Standards](04-development-workflow.md) | Git conventions, versioning, CI/CD, code standards, testing | 15 min |
-| 5 | [Business Module Reference](05-modules.md) | All 11 modules, their entities, workflows, and cross-module links | 20 min |
+| 5 | [Business Module Reference](05-modules.md) | All 14 modules, their entities, workflows, and cross-module links | 20 min |
 | 6 | [Key Resources](06-key-resources.md) | Directory of every important document and file across both repos | Reference |
 
 ---

@@ -55,11 +55,11 @@ The manufacturing ERP market was valued at $10B+ in 2024 with 8-10% CAGR. The SM
 
 ## Product Status
 
-**Current version:** v0.4.4a (alpha)
+**Current version:** v0.4.4a-1 (alpha)
 
-**Readiness:** ~45% ready for paying customers
+**Readiness:** ~65% ready for paying customers (90% build/run)
 
-The core infrastructure, all 11 business module APIs (150+ endpoints), the desktop client, and the database schema (117 tables) are implemented. Key gaps remain in the web application (partially connected), file attachments, email notifications, reporting/visualization, and full-text search.
+The core infrastructure, all 14 business module APIs (150+ endpoints), the desktop client, and the database schema (117+ tables) are implemented. The web application is now fully connected to the backend with CRUD panels on all module pages. Key remaining gaps include file attachments, email notifications, financial report generation, full-text search, and print-ready forms. Recent additions include MRP, Quote Builder, RFI/RFQ/RFP procurement, Reports module, migration tools, Scoped Where Used in PLM, and a filtered audit trail.
 
 See [product/ROADMAP.md](../product/ROADMAP.md) for the full development roadmap.
 
@@ -89,7 +89,7 @@ See [business/PRICING.md](../business/PRICING.md) and [business/PROJECTIONS.md](
 | Phase | Target | Goal |
 |-------|--------|------|
 | **Phase 0** | Complete | Core infrastructure, modules, APIs, desktop client, web foundation |
-| **Phase 1** | Current - Q2 2026 | Stabilization -- tests, CI/CD, web app connection, form validation |
+| **Phase 1** | Current - Q2 2026 | Stabilization -- tests (done), CI/CD (done), web app connected (done), remaining: search, SSL guide, migration runner |
 | **Phase 2** | Q2-Q3 2026 | Feature completion -- reporting, Gantt, OEE viz, file attachments |
 | **Phase 3** | Q3-Q4 2026 | Production hardening -- security audit, SOC 2, load testing, Docker/K8s |
 | **Phase 4** | Q4 2026 - Q1 2027 | Market entry -- onboarding, demos, billing, first paying customers |

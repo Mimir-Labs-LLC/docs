@@ -1,7 +1,7 @@
 # Yggdrasil ERP - Market Analysis & Competition Report
 
 **Date:** February 2026
-**Version:** 0.2.0a (Alpha)
+**Version:** 0.4.4a-1 (Alpha)
 
 ---
 
@@ -44,10 +44,10 @@ These organizations need robust manufacturing capabilities -- work orders, BOMs,
 
 ### Fully Implemented Features
 
-Yggdrasil v0.2.0a delivers working implementations across the following areas:
+Yggdrasil v0.4.4a-1 delivers working implementations across the following areas:
 
 **Core Infrastructure:**
-- Multi-tenant PostgreSQL schema (108+ tables, 150+ indexes, tenant_id isolation on all entities)
+- Multi-tenant PostgreSQL schema (117+ tables, 150+ indexes, tenant_id isolation on all entities)
 - C++17/Qt 6 HTTP server with thread pool and WebSocket real-time event streaming
 - JWT authentication with session management, password hashing, and token refresh
 - Role-Based Access Control with 10 default roles and a granular permissions catalog
@@ -55,17 +55,17 @@ Yggdrasil v0.2.0a delivers working implementations across the following areas:
 - Performance metrics collection with counters and duration tracking
 - B2B event federation via Redis and Redpanda (Kafka-protocol) relays
 
-**Business Modules (152+ API endpoints across 10+ modules):**
+**Business Modules (152+ API endpoints across 14 modules):**
 - **CRM** -- Accounts, contacts, opportunities, leads with full lifecycle management
-- **Sales** -- Quotes, orders, invoices with line items, quote-to-order conversion
-- **Purchasing** -- Purchase orders with line items, suppliers, receipts, three-way matching
-- **Manufacturing** -- Work centers, operations, work orders, shop floor tracking, OEE metrics
+- **Sales** -- Quotes, orders, invoices with line items, quote-to-order conversion, Quote Builder with master-detail editing and auto-calculated totals
+- **Purchasing** -- Purchase orders with line items, suppliers, receipts, three-way matching, RFI/RFQ/RFP procurement request lifecycle
+- **Manufacturing** -- Work centers, operations, work orders, shop floor tracking, OEE metrics, MRP (Material Requirements Planning) with demand summary and planned orders
 - **Warehouse** -- Inventory with real-time transactions, pick lists with line items, cycle counts
 - **Finance** -- General ledger, journal entries, AR/AP invoices, payments
 - **Projects** -- Projects, tasks, time entries, budget tracking
-- **PLM** -- Parts with articulated numbering, EBOMs with option groups, MBOMs generated from EBOMs, routings, ECOs, engineering reports with severity tracking
+- **PLM** -- Parts with articulated numbering, EBOMs with option groups, MBOMs generated from EBOMs, routings, ECOs, engineering reports with severity tracking, Where Used search, Scoped Where Used pathfinding
 - **Quality** -- 8D reports, CAPA (corrective/preventive actions), NCRs, audits
-- **Service** -- Tickets, RMA, warranty claims, maintenance
+- **Service** -- Tickets, RMA, warranty claims, maintenance, service orders with cost/price tracking
 - **HR** -- Employees, departments, positions, compensation, payroll, benefits, leave, reviews, training, garnishments, direct deposits
 - **Workflow Engine** -- Configurable workflow templates with steps, transitions, and instance tracking
 - **Admin** -- User management, role assignment, permissions, tenant settings, data export/import/backup/purge
@@ -90,11 +90,16 @@ Yggdrasil v0.2.0a delivers working implementations across the following areas:
 - Persistent credential storage with auto-login
 
 **Web Application (Next.js 15):**
-- All 13 module pages with functional CRUD panels
-- Admin module fully connected (Users, Roles, Permissions, Settings)
+- All 13+ module pages with functional CRUD panels connected to backend API
+- Admin module fully connected (Users, Roles, Permissions, Settings, Audit Trail, Migration Tools)
 - HR module components (Employee, Payroll, Performance tables)
-- PLM module components (EBOM, MBOM, Engineering Report panels)
+- PLM module components (EBOM, MBOM, Engineering Report, Where Used, Scoped Where Used panels)
+- MRP page with run configuration, demand summary, planned orders, and exceptions
+- Quote Builder with master-detail editing, inline line items, and auto-calculated totals
+- Reports page with Empty Fields Report
+- RFI/RFQ/RFP tabs in Purchasing module
 - Carrier API settings panel with credential management, rate shopping UI, and API call log viewer
+- Data migration wizard (Business Central, Salesforce, CSV/Excel, QuickBooks, Sage)
 - Sidebar navigation with module grouping
 - Tailwind CSS with custom yggdrasil theme
 
@@ -160,7 +165,7 @@ Open-source ERP represents both a competitive threat and a validation of the mar
 Yggdrasil includes native Product Lifecycle Management with EBOM/MBOM/Routing lifecycle management, engineering change requests (ECRs), revision tracking, option groups with choices, and automated manufacturing BOM generation. Most mid-market ERP competitors require separate, expensive PLM software (e.g., Arena, Teamcenter) or offer only rudimentary BOM management. This integration eliminates data silos between engineering and manufacturing.
 
 ### 2. Multi-Tenant Architecture
-True tenant isolation is built into the database schema (108+ tables with `tenant_id`) without requiring per-tenant database instances. This enables efficient SaaS deployment while maintaining data security -- a capability that many legacy mid-market ERPs retrofitted poorly or not at all.
+True tenant isolation is built into the database schema (117+ tables with `tenant_id`) without requiring per-tenant database instances. This enables efficient SaaS deployment while maintaining data security -- a capability that many legacy mid-market ERPs retrofitted poorly or not at all.
 
 ### 3. Real-Time B2B Events
 The built-in WebSocket server (port 8081) and B2BEventHub provide real-time event streaming for supply chain integration, with cross-server federation support via Redis and Redpanda (Kafka protocol). As manufacturers increasingly demand visibility into supplier and customer systems, this capability positions Yggdrasil ahead of competitors that rely on batch EDI processing.
@@ -192,21 +197,22 @@ Validated end-to-end business workflows spanning multiple modules: Order-to-Cash
 
 ### Strengths
 
-- **Comprehensive module coverage** -- 10+ fully implemented business modules (CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, HR, Logistics) with 152+ API endpoints covering the complete manufacturing business process.
+- **Comprehensive module coverage** -- 14 fully implemented business modules (CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, HR, Logistics, Reports, Admin) with 152+ API endpoints covering the complete manufacturing business process.
 - **Modern technology stack** -- C++17, Qt 6, Next.js 15, PostgreSQL. No legacy technical debt, no framework migrations needed.
 - **Integrated PLM** -- A differentiator that most mid-market competitors cannot match without third-party integrations. Includes EBOM option groups, MBOM generation, ECOs, and engineering reports.
 - **Live carrier integration** -- Server-side UPS, FedEx, and USPS API integration with tenant-isolated credentials, multi-carrier rate shopping, label generation, and live tracking. No third-party shipping plugin required.
-- **Multi-tenant by design** -- Not retrofitted; the schema was designed from day one for multi-tenancy with 108+ tables supporting tenant isolation.
+- **Multi-tenant by design** -- Not retrofitted; the schema was designed from day one for multi-tenancy with 117+ tables supporting tenant isolation.
 - **Real-time event infrastructure** -- WebSocket-based B2B event hub with Redis and Redpanda federation enables supply chain integration patterns that competitors are only beginning to explore.
 - **Dual-interface architecture** -- Desktop and web clients serve different user personas without compromise.
 - **Performance** -- C++ backend avoids the overhead and latency of interpreted or JVM-based alternatives.
 - **Validated business processes** -- End-to-end workflows (O2C, P2P, L2C, Q2O, R2R, Q2R) have been validated through integration testing, providing confidence in cross-module data integrity.
-- **Comprehensive test coverage** -- 20 integration test arcs covering CRUD operations, business processes, data validation, security, accuracy, and compliance.
+- **Comprehensive test coverage** -- 23 integration test arcs with 128 story files covering CRUD operations, business processes, data validation, security, accuracy, and compliance; plus Vitest (web) and Catch2 (server + client) unit test suites.
+- **CI/CD pipeline** -- 8-job GitHub Actions pipeline covering lint, test, build for all three components plus schema validation.
 
 ### Weaknesses
 
-- **Alpha maturity** -- Version 0.2.0a is not production-tested. No customer deployments, no battle-tested reliability data.
-- **No CI/CD pipeline** -- Manual build verification (`verify_build.sh`) is insufficient for production-grade software delivery.
+- **Alpha maturity** -- Version 0.4.4a-1 is not production-tested. No customer deployments, no battle-tested reliability data.
+- **CI/CD pipeline in place but coverage gaps remain** -- 8-job GitHub Actions pipeline covers lint, test, build, and schema validation; integration tests require a running server and do not yet run in CI.
 - **Small development team** -- Limited capacity for feature development, bug fixes, and customer support simultaneously.
 - **No mobile application** -- Manufacturing floor workers, field service technicians, and sales teams increasingly expect mobile access.
 - **No established customer base** -- Zero production deployments means no case studies, references, or proven ROI data.
