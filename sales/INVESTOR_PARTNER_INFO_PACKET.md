@@ -39,7 +39,7 @@
 |---|---|
 | **Founded** | 2026 |
 | **Headquarters** | Harrisburg, PA |
-| **Legal Entity** | Delaware LLC |
+| **Legal Entity** | Pennsylvania LLC |
 | **Founder/CEO** | Christopher "Doc" Gaither |
 | **Product** | Yggdrasil ERP Platform |
 | **Stage** | Alpha (v0.4.4a) — pre-revenue |
@@ -529,3 +529,4 @@ Harrisburg, PA
 ---
 
 *This document contains confidential and proprietary information of Mimir Labs LLC. Distribution is restricted to authorized recipients under NDA. All financial projections are forward-looking estimates based on assumptions described in the detailed financial model.*
+
