@@ -1,0 +1,48 @@
+# WORK INSTRUCTION: QT-TO-FIGMA RECONSTRUCTION (YGGDRASIL ERP)
+
+### PHASE 1: HIGH-FIDELITY ASSET CAPTURE
+*Goal: Create the "Source of Truth" images for the AI to deconstruct.*
+
+1. **Environmental Prep:** 
+   - Set your monitor to its highest possible resolution (4K preferred). 
+   - Ensure "System Scaling" (DPI) is set to 100% to prevent blurry UI elements.
+2. **Module Execution:** 
+   - Open each of the 10 Yggdrasil modules in your Qt Desktop App.
+   - Populate fields with **Mock Data** (e.g., OEE stats for Mfg, Route ETAs for Logistics).
+3. **Lossless Capture:** 
+   - Use a high-quality capture tool (e.g., ShareX or built-in OS screenshot) and capture images of each tab in each module, as well as detail pages (click a record in each tab to open the associated detail page for that type of record)
+   - Save each screenshot as a **.PNG** (not JPG) to maintain pixel-perfect edges.
+   - **Checklist:** Ensure dropdowns, modals, and tooltips are captured in separate "hover state" shots.
+
+### PHASE 2: AI-ASSISTED LAYER RECONSTRUCTION
+*Goal: Convert flat images back into editable Figma components.*
+
+1. **Initialize Figma:** 
+   - Open your Figma "Mimir Labs" team file.
+   - Install the **[Codia AI Design](https://www.figma.com)** or **[html.to.design](https://www.figma.com)** plugin.
+2. **Import & Convert:** 
+   - Launch the plugin and upload your lossless module PNGs.
+   - The AI will "read" the layout and recreate text layers, buttons, and input fields.
+3. **Manual Verification:** 
+   - Check that the colors match your **Primary Navy (#003366)** brand.
+   - Ensure the "SOC 2 Verified" badges are editable vector layers.
+
+### PHASE 3: THE "ORACLE" SYNC (SVG ASSETS)
+*Goal: Ensure icons and charts remain razor-sharp.*
+
+1. **Qt SVG Export:** 
+   - In Qt Creator, select any custom vector icons or data visualization components.
+   - Export these directly as **.SVG** files.
+2. **Figma Drag-and-Drop:** 
+   - Drag the .SVG files directly into your Figma canvas.
+   - Swap out any blurry AI-generated icons with these original vector versions.
+
+### PHASE 4: PROTOTYPE WIRING
+*Goal: Make the "Digital Twin" interactive for the trade show.*
+
+1. **Global Sidebar:** 
+   - Create a single **Sidebar Component** in Figma.
+   - In **Prototype Mode**, link each icon to the corresponding "Converted" module screen.
+2. **Transition Logic:** 
+   - Use **"Smart Animate"** for all module switches.
+   - Set the timing to **300ms (Ease-out)** to mimic the snappiness of your desktop app.
