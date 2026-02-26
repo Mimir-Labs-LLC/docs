@@ -499,20 +499,21 @@ From the perspective of a manufacturing operations professional, here are featur
 15. Add financial reports to web-app
 16. Surface Service Orders in desktop client
 17. Expand web-app Supplier detail to match desktop (25 fields vs 5)
+18. Add Playwright E2E test suite for web-app (cover critical flows: quote→SO→invoice, PO→receive, WO lifecycle, login/auth). Install Playwright MCP server for CI integration once suite is in place.
 
 **Medium-term (expected by manufacturing professionals):**
-18. Inspection plans and results recording
-19. Incoming inspection workflow
-20. Work order costing (labor + material + overhead)
-21. BOM cost roll-up
-22. Standalone Part creation (for purchased/raw materials)
-23. Document/file attachment on records
-24. Print/PDF/CSV export
-25. Per-record change history (audit trail)
-26. Approval workflows with approve/reject actions
-27. MRP → confirmed PO/WO creation
-28. Three-way match (PO vs Receipt vs Vendor Invoice)
-29. Pick-Pack-Ship workflow from Sales Orders
+19. Inspection plans and results recording
+20. Incoming inspection workflow
+21. Work order costing (labor + material + overhead)
+22. BOM cost roll-up
+23. Standalone Part creation (for purchased/raw materials)
+24. Document/file attachment on records
+25. Print/PDF/CSV export
+26. Per-record change history (audit trail)
+27. Approval workflows with approve/reject actions
+28. MRP → confirmed PO/WO creation
+29. Three-way match (PO vs Receipt vs Vendor Invoice)
+30. Pick-Pack-Ship workflow from Sales Orders
 
 ---
 
