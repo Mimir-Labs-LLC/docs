@@ -2,6 +2,7 @@
 
 > **Version:** 0.2.0a (alpha)
 > **Audit Date:** 2026-02-26
+> **Last Remediation:** 2026-02-26
 > **Auditor Perspective:** Manufacturing Operations
 >
 > This document is a living audit that compares the desktop client (Qt6/QML),
@@ -9,6 +10,9 @@
 > are evaluated from the perspective of a manufacturing operations professional
 > who expects every transactional document to behave like it would in a mature
 > ERP system.
+>
+> **Remediation Status:** 6 of 6 critical gaps FIXED in this session. See
+> strikethrough items below.
 
 ---
 
@@ -27,65 +31,68 @@
 
 These are issues that would immediately confuse or block a manufacturing user.
 
-### 1.1 Quotes Have No Line Items (Desktop Client)
+### ~~1.1 Quotes Have No Line Items (Desktop Client)~~ FIXED
 
 | Item | Detail |
 |------|--------|
 | **Where** | Desktop client — Sales > Quotes |
-| **Problem** | The Quote detail page has header-level financial fields (Subtotal, Discount, Tax, Shipping, Total) but **no line-item section** for individual parts, quantities, and unit prices. |
-| **Impact** | Users cannot build a quote by adding parts — they can only type a lump-sum total. This makes quoting useless for any real sales workflow. |
-| **Web-App** | The web-app has a full `QuoteBuilder` component with line items, per-line discounts, and auto-calculated totals. |
-| **Database** | `crm_quote_lines` table exists with `part_id`, `quantity`, `unit_price`, `discount_percentage`, `line_total`. |
-| **Server** | Endpoints exist: `POST /sales/quotes/{id}/lines`, `PUT /sales/quotes/{id}/lines/{line_id}`, `DELETE /sales/quotes/{id}/lines/{line_id}`. |
-| **Fix** | Add a nested "Quote Lines" section to the desktop Quote detail page, matching the pattern already used by Sales Orders and Purchase Orders. |
-| **Priority** | **Critical** |
+| **Problem** | ~~The Quote detail page has header-level financial fields but no line-item section.~~ |
+| **Fix Applied** | Added `sections` config with "Quote Lines" to `SalesPage.qml` Quote detail, with Part autocomplete, Qty, Unit Price, Discount %, and Line Total columns. Full add/delete CRUD via `/sales/quotes/{id}/lines`. |
+| **Priority** | ~~Critical~~ **Resolved** |
 
-### 1.2 Sales Orders Missing Line Items (Web-App)
+### ~~1.2 Sales Orders Missing Line Items (Web-App)~~ FIXED
 
 | Item | Detail |
 |------|--------|
 | **Where** | Web-app — Sales > Orders |
-| **Problem** | Sales Orders use the generic `CrudPanel` with header fields only. No line-item editor is exposed in the UI. The `total_amount` is a manually typed number, not a calculated sum of line items. |
-| **Impact** | Users cannot add parts to an order. The order total is disconnected from any actual items being ordered. |
-| **Desktop** | Desktop client has a full "Order Lines" nested section with Part autocomplete, Qty, Unit Price, Discount %, and Line Total. |
-| **Database** | `crm_sales_order_lines` table exists. |
-| **Server** | `POST /sales/orders/{id}/lines` endpoint exists. |
-| **Fix** | Replace the generic CrudPanel for Sales Orders with a specialized component (like `QuoteBuilder`) that includes line-item management, or add a detail view with nested CrudPanel sections for lines. |
-| **Priority** | **Critical** |
+| **Problem** | ~~Sales Orders used generic CrudPanel with no line items.~~ |
+| **Fix Applied** | Replaced CrudPanel with `DocumentBuilder` component. Sales Orders now have master-detail layout with inline-editable line items (Part ID, Description, Qty, Unit Price, Discount %, Line Total), computed totals, and status actions (Confirm, Ship, Complete). |
+| **Priority** | ~~Critical~~ **Resolved** |
 
-### 1.3 Sales Orders Missing Cost/Price Fields (Web-App)
+### ~~1.3 Sales Orders Missing Cost/Price Fields (Web-App)~~ FIXED
 
 | Item | Detail |
 |------|--------|
 | **Where** | Web-app — Sales > Orders |
-| **Problem** | The CrudPanel config only shows `order_number`, `entity_id`, `status`, `total_amount`, `ship_date`, `payment_terms`. Missing: Subtotal, Discount, Tax, Shipping, Currency, Order Type, all date fields beyond ship_date. |
-| **Impact** | Financial breakdown is invisible. Users see one "total" number with no way to understand how it was composed. |
-| **Desktop** | Desktop shows: Subtotal, Discount, Tax, Shipping Cost, Total, Currency, Payment Terms, Order Type, four different date fields. |
-| **Fix** | Expand the CrudPanel field configuration or build a custom Sales Order detail view. |
-| **Priority** | **Critical** |
+| **Problem** | ~~Only showed total_amount. No subtotal, discount, tax, shipping, currency, or order type.~~ |
+| **Fix Applied** | DocumentBuilder config for Sales Orders now includes: Order Type, Order Date, Requested/Promised Delivery dates, Currency, Payment Terms, Shipping Method, Discount Amount, Tax Amount, Shipping Cost, and auto-computed subtotal/total from line items. |
+| **Priority** | ~~Critical~~ **Resolved** |
 
-### 1.4 Purchase Orders Missing Line Items (Web-App)
+### ~~1.4 Purchase Orders Missing Line Items (Web-App)~~ FIXED
 
 | Item | Detail |
 |------|--------|
 | **Where** | Web-app — Purchasing > Purchase Orders |
-| **Problem** | Same issue as Sales Orders. POs use generic CrudPanel with header-only fields. No line-item editor. Total is manually typed. |
-| **Desktop** | Desktop has full "PO Lines" section with Part autocomplete, Qty, Unit Price, Line Total. |
-| **Database** | `finance_purchase_order_lines` table exists with `received_quantity` tracking. |
-| **Server** | `POST /purchasing/orders/{id}/lines` endpoint exists. |
-| **Fix** | Add line-item section to PO detail view. |
-| **Priority** | **Critical** |
+| **Problem** | ~~POs used generic CrudPanel with no line items.~~ |
+| **Fix Applied** | Replaced CrudPanel with `DocumentBuilder`. POs now have inline-editable line items (Part ID, Description, Qty, Unit Price, Line Total), full financial breakdown (Tax, Shipping, computed totals), status actions (Submit, Approve, Mark Received), and expanded header fields. Supplier form also expanded from 5 to 14 fields. |
+| **Priority** | ~~Critical~~ **Resolved** |
 
-### 1.5 Invoice Line Items Missing (Web-App)
+### ~~1.5 Invoice Line Items Missing (Web-App)~~ FIXED
 
 | Item | Detail |
 |------|--------|
 | **Where** | Web-app — Sales > Invoices AND Finance > Invoices |
-| **Problem** | Both invoice views use generic CrudPanel. No line-item editor visible. |
-| **Desktop** | Desktop has "Invoice Lines" section with Description, Qty, Unit Price, Line Total, Tax Code, Tax Amount. |
-| **Database** | `finance_invoice_lines` table exists. |
-| **Fix** | Add line-item section to Invoice detail views. |
-| **Priority** | **Critical** |
+| **Problem** | ~~Both invoice views used generic CrudPanel with no line items.~~ |
+| **Fix Applied** | Both Sales and Finance invoice tabs now use `DocumentBuilder` with inline-editable line items (Description, Qty, Unit Price, Line Total, Tax Code, Tax Amount), computed totals, Amount Paid/Due tracking, and status actions (Send, Mark Paid). Finance invoice also includes linked Order ID and expanded header fields. |
+| **Priority** | ~~Critical~~ **Resolved** |
+
+### ~~1.6 Journal Entry Lines Missing (Web-App)~~ FIXED
+
+| Item | Detail |
+|------|--------|
+| **Where** | Web-app — Finance > Journal Entries |
+| **Problem** | ~~Journal Entries used generic CrudPanel with no debit/credit lines.~~ |
+| **Fix Applied** | Replaced with `DocumentBuilder`. Journal Entries now have inline-editable lines (Account, Description, Debit, Credit), status actions (Post Entry, Reverse Entry), and proper header fields (Entry Date, Accounting Period, Reference Type/ID). |
+| **Priority** | ~~Critical~~ **Resolved** |
+
+### ~~1.7 No Delete Capability (Both Apps)~~ FIXED
+
+| Item | Detail |
+|------|--------|
+| **Where** | Web-app — all entity types |
+| **Problem** | ~~No delete button on any record in the web-app.~~ (Desktop already had delete with confirmation on RecordDetailPage.) |
+| **Fix Applied** | Added delete with confirmation dialog to: `CrudPanel` (all simple CRUD entities), `DocumentBuilder` (all transactional documents), and `QuoteBuilder` (quotes). All show a red "Delete" button and require confirmation before executing. |
+| **Priority** | ~~Critical~~ **Resolved** |
 
 ---
 
