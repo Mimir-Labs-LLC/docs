@@ -13,6 +13,7 @@ docs/
 ├── business/            Business docs (market analysis, pricing, projections, costs)
 ├── legal/               Legal agreements and templates (contracts, NDAs, EULA, ToS)
 ├── sales/               Sales and marketing materials (demos, pitches, trade shows)
+├── due-diligence/       Technical due diligence document set
 └── research/            Research papers and whitepapers
 ```
 
@@ -38,6 +39,14 @@ docs/
 - [SaaS Contract](legal/CONTRACT.md) -- Subscription agreement
 - [EULA](legal/EULA.txt) -- End-User License Agreement
 - [Terms of Service](legal/ToS.txt) / [Terms of Use](legal/ToU.txt)
+
+### Due Diligence
+- [DD Index](due-diligence/DD-00-INDEX.md) -- Document set overview and reading order
+- [DD-01: System Identity](due-diligence/DD-01-SYSTEM-IDENTITY.md) -- What the system is and is not
+- [DD-02: Architecture & Trust](due-diligence/DD-02-ARCHITECTURE-AND-TRUST.md) -- Technical architecture and trust boundaries
+- [DD-03: Data Custody](due-diligence/DD-03-DATA-CUSTODY-AND-AUDITABILITY.md) -- Data ownership, mutability, and audit trail
+- [DD-04: Failure Modes](due-diligence/DD-04-FAILURE-MODES.md) -- Infrastructure, data, and trust failures
+- [DD-05: Maturity & Risk](due-diligence/DD-05-MATURITY-AND-RISK.md) -- Honest gap analysis and production readiness
 
 ### Sales
 - [Demo Script](sales/Full%20Demo%20Script) -- Full platform walkthrough
