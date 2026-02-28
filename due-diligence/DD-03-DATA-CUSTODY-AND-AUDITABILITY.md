@@ -4,11 +4,13 @@
 
 ## 1. Who Owns What
 
-Data ownership in Yggdrasil follows from the deployment topology described in DD-02. Each tenant's business data — CRM records, sales orders, purchase orders, work orders, inventory, financial transactions, quality records, HR data — resides in a PostgreSQL database that the tenant controls. In a self-hosted deployment, this is the tenant's own infrastructure. In the managed SaaS deployment, it is an isolated PostgreSQL container (`ygg-db-{slug}`) provisioned on the VPS.
+Data ownership in Yggdrasil follows from the deployment topology described in DD-02. Each tenant's business data — CRM records, sales orders, purchase orders, work orders, inventory, financial transactions, quality records, HR data — resides in an isolated PostgreSQL container (`ygg-db-{slug}`) provisioned on the provider's VPS. The tenant does not run or directly access this database; the provider operates it on the tenant's behalf. In the rare self-hosted deployment (reserved for data sovereignty requirements such as defense or aerospace), the tenant runs the database on their own infrastructure. In both cases, the data is contractually the tenant's property — the provider operates the infrastructure but does not claim ownership of the data it holds.
 
 The SaaS Subscription Agreement (Article VI) codifies this: "Client retains all right, title, and interest in and to Client Data. Provider acquires no rights in Client Data except the limited rights expressly granted in this Agreement." The provider's license to client data is limited to "use, process, store, and transmit Client Data solely to the extent necessary to provide the Service." Upon termination, the provider must make data available for export in CSV, JSON, or SQL dump format within 30 days, with a 90-day retrieval window.
 
-The central `ygg_central` database contains coordination metadata — organizations, users, subscriptions, invitations, support tickets, module activations, tenant connection status. This is provider-managed data about the tenancy relationship, not about the tenant's business operations. The provider does retain a license to anonymize and aggregate client data for product improvement (Article VI, Section 6.6), but no data marketplace or benchmarking product is built or planned.
+The central `ygg_central` database contains coordination metadata — organizations, users, subscriptions, invitations, support tickets, module activations, tenant connection status. This is provider-managed data about the tenancy relationship, not about the tenant's business operations.
+
+The provider retains a license to anonymize and aggregate client data for "product improvement, benchmarking, and analytical purposes" (Article VI, Section 6.6). This clause supports a planned secondary revenue stream: anonymized industry benchmarks, trend indices, and aggregate demand signals derived from the tenant population. The aggregation pipeline is designed to consume statistical summaries, not identifiable records. The mechanism by which tenant data enters the aggregation layer — whether through event-stream taps, periodic ETL from tenant databases, or opt-in reporting — is not yet implemented. The contractual basis exists; the technical implementation does not. DD-01 Section 7 covers the business rationale.
 
 The Redpanda event broker holds events in transit with a 7-day retention window. These events are structured messages about commercial transactions (order created, status changed, shipment confirmed). They are not indexed, queried, or retained beyond the retention window. The broker is a pipe with a short buffer, not a data store.
 
@@ -56,7 +58,7 @@ What the system cannot do is prove that the physical shipment matched the electr
 
 The system provides data export through multiple mechanisms. The Admin module's data management API supports tenant-wide JSON export (`POST /api/admin/data/export`) and per-table CSV export. The SaaS contract guarantees data availability in CSV, JSON, or SQL dump format within 30 days of a written request.
 
-For self-hosted deployments, the tenant has direct access to the PostgreSQL database and can export using standard tools (`pg_dump`, COPY TO). The schema is documented and uses conventional naming (snake_case, standard SQL types, JSONB for flexible fields). There is no proprietary binary format or application-level encryption that would prevent a third party from reading the data.
+For the rare self-hosted deployment, the tenant has direct access to the PostgreSQL database and can export using standard tools (`pg_dump`, COPY TO). For SaaS tenants, the provider performs the export on request. In either case, the schema is documented and uses conventional naming (snake_case, standard SQL types, JSONB for flexible fields). There is no proprietary binary format or application-level encryption that would prevent a third party from reading the data.
 
 The `provision-tenant.sh` script demonstrates the inverse operation — provisioning a new tenant database from the canonical schema, applying migrations, and optionally loading seed data. This same mechanism could support data migration into or out of the system.
 
@@ -68,7 +70,7 @@ The VPS infrastructure includes a daily backup script (`infra/vps/backup-db.sh`)
 
 Backups are not encrypted at rest. The SOC 2 roadmap identifies this as Risk R8 and schedules AES-256 encryption of backup output as Phase 1, Control 1.5. Backups are not replicated off-site. There is no point-in-time recovery (PITR) capability — the system can restore to the last daily backup, but not to an arbitrary point between backups.
 
-For the managed SaaS deployment, each tenant's database runs in its own Docker container with a named volume (`ygg-db-{slug}-data`). Recovery involves restoring the PostgreSQL dump into a fresh container. The mesh server maintains tenant registry metadata separately, so the coordination layer can be rebuilt independently of tenant data.
+Each tenant's database runs in its own Docker container on the VPS with a named volume (`ygg-db-{slug}-data`). Recovery involves restoring the PostgreSQL dump into a fresh container. The mesh server maintains tenant registry metadata separately, so the coordination layer can be rebuilt independently of tenant data. Since both tenant databases and the coordination layer live on the same VPS, a total VPS failure affects all tenants simultaneously — backup and restore is a provider-side operation for the entire fleet, not a per-tenant concern that the tenant can address independently.
 
 The system does not currently test backup restores automatically. Monthly restore testing is specified in the SOC 2 Phase 5 observation window (Section 5.3), but this has not been implemented.
 

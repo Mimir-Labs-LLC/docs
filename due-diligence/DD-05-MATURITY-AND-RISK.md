@@ -60,7 +60,7 @@ The CI pipeline runs web linting, web unit tests, web build, server build, serve
 
 ## 7. Architectural Risks
 
-**Single-node broker.** The Redpanda instance is a single node with no replication. If it fails, cross-tenant event propagation stops. Events are buffered locally at each tenant, but a broker failure during a high-volume period could cause significant delivery delays once the broker recovers. A 3-node Redpanda cluster is planned but not implemented.
+**Single-VPS concentration.** All SaaS tenant servers, databases, the Redpanda broker, and the portal run on a single Hetzner VPS. A VPS failure is a total outage for all tenants, not a degraded-mode scenario. There is no automatic failover, no database replication, and no geographic redundancy. The Redpanda instance is a single node with no replication. Multi-node deployment with database replication is planned but not implemented.
 
 **In-memory portal DAL.** As noted, the portal's use of in-memory Maps means that any restart of the portal process — planned deployment, crash, VPS reboot — destroys all coordination metadata. This is not a theoretical risk; it will occur on the first production deployment if not addressed.
 
@@ -74,7 +74,7 @@ The CI pipeline runs web linting, web unit tests, web build, server build, serve
 
 **Zero revenue.** The system has no paying customers and no production deployments. The pricing model (Starter at $800/month, Professional at $1,900/month, Enterprise at $4,800/month) is untested against market willingness to pay. The competitive landscape includes well-funded incumbents with established sales channels and open-source alternatives with large communities.
 
-**Infrastructure costs are low.** The central VPS runs on a Hetzner CPX31 at approximately EUR 12.49/month. Tenant PostgreSQL containers add marginal cost. Cloudflare Zero Trust tunneling is free at the current usage tier. Redpanda is self-hosted. Total infrastructure cost for the current architecture is under $50/month, which is favorable for a pre-revenue product but also reflects the lack of production-grade redundancy.
+**Infrastructure costs are low.** The VPS runs on a Hetzner CPX31 at approximately EUR 12.49/month, hosting all tenant containers and coordination services. Cloudflare Zero Trust tunneling is free at the current usage tier. Redpanda is self-hosted. Total infrastructure cost for the current architecture is under $50/month, which is favorable for a pre-revenue product but also reflects the single-VPS concentration risk — scaling to production load will require larger or multiple hosts, and the cost model will change accordingly.
 
 **Licensing.** The system uses open-source components (Qt 6, PostgreSQL, Redpanda, Cloudflare, Node.js, React) under permissive or compatible licenses. Redpanda uses the BSL 1.1 license, which converts to Apache 2.0 after the change date. The ERP itself is proprietary under the Mimir Labs EULA. No third-party commercial licenses are required for the current stack.
 
@@ -100,7 +100,7 @@ None of these items represent architectural changes. They are implementation com
 
 ## 10. Assessment
 
-Yggdrasil is an architecturally sound system with a large functional surface area and a clear technical vision for cross-enterprise coordination without central data authority. The database schema is comprehensive. The server-side business logic covers 11 modules with 150+ endpoints. The deployment topology — tenant-owned infrastructure connected through zero-trust tunnels to a lightweight coordination layer — is differentiated and well-reasoned.
+Yggdrasil is an architecturally sound system with a large functional surface area and a clear technical vision for cross-enterprise coordination. The database schema is comprehensive. The server-side business logic covers 11 modules with 150+ endpoints. The multi-tenant container model — each tenant provisioned as an isolated set of containers on provider infrastructure, with a self-hosted option for data sovereignty cases — is practical for the target market.
 
 The system is not production-ready. The security posture has known critical gaps. The web application is partially implemented. Core business workflows are disconnected. The portal's data persistence is ephemeral. Test coverage is thin. Compliance preparation is in planning, not in execution.
 

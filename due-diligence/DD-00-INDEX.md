@@ -12,7 +12,7 @@
 What the system is. What it is not. Where it sits relative to the ERP ecosystem and why it was built the way it was. Covers the positioning choice — operating inside the existing ERP market as a coordination substrate rather than as a platform authority or data monopoly.
 
 **DD-02 — Architecture and Trust Model**
-The technical architecture: multi-tenant data isolation, the federation layer for cross-tenant B2B coordination, the deployment topology (on-premise tenant sites connected through a central broker via zero-trust tunnels), and the trust assumptions that hold the system together. Explains how tenants interact across organizational boundaries without surrendering custody of their data.
+The technical architecture: multi-tenant data isolation, the federation layer for cross-tenant B2B coordination, the deployment topology (provider-hosted tenant containers with a self-hosted option for data sovereignty cases), and the trust assumptions that hold the system together. Explains how tenants interact across organizational boundaries and what the provider's operational access implies for data custody.
 
 **DD-03 — Data Custody and Auditability**
 How data ownership works in a multi-tenant system where cross-tenant workflows exist by design. Covers mutability (business records can be edited and deleted; the audit trail cannot), the audit_change_log mechanism, soft-delete semantics, and what evidence the system can produce under dispute or regulatory scrutiny.

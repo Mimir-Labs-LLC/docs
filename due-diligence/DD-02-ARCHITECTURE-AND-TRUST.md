@@ -4,15 +4,17 @@
 
 ## 1. Deployment Topology
 
-Yggdrasil is not a centralized SaaS application in the conventional sense. Each tenant runs a full ERP stack on its own infrastructure — a C++17 server, a PostgreSQL database, and optionally a desktop client and web application. The central infrastructure, currently a Hetzner CPX31 VPS, provides three services: a tenant registry (Go mesh server), an event broker (Redpanda), and a reverse proxy for the web portal (Caddy). All traffic between tenant sites and the central infrastructure flows through Cloudflare Zero Trust tunnels. No ports are exposed on the VPS.
+In the default SaaS deployment, the entire server-side stack runs on provider-managed infrastructure — currently a Hetzner CPX31 VPS. Each tenant is provisioned as an isolated set of Docker containers (C++ server, PostgreSQL database, Go sidecar) alongside the shared coordination services (Redpanda broker, mesh server, portal, Caddy reverse proxy). Clients — the Qt 6 desktop application and web browsers — run at the tenant's site and connect to the VPS through Cloudflare Zero Trust tunnels.
 
-This topology means that a tenant's operational data never leaves its site under normal conditions. The central broker sees events in transit — structured messages about commercial transactions — but does not store or index the underlying business records. The tenant registry knows that a tenant exists, what its subscription tier is, and where its tunnel endpoint lives. It does not have access to the tenant's database.
+A self-hosted deployment option exists for organizations with data sovereignty requirements that cannot be met by the managed model — defense contractors, aerospace manufacturers, or tenants subject to jurisdictional data residency mandates. In this mode, the tenant runs the full server-side stack on their own infrastructure and connects to the central broker through a Cloudflare tunnel for B2B federation. This is the exception, not the default.
 
-The consequence of this design is that the central infrastructure is a coordination layer, not a data layer. If the central VPS goes offline, tenants continue operating in standalone mode. They lose cross-tenant event propagation and portal access, but their ERP functionality is unaffected.
+The central infrastructure provides coordination services: the Redpanda event broker for cross-tenant B2B event federation, the Go mesh server for tenant registry and API proxying, and the Caddy reverse proxy for routing. The tenant registry knows that a tenant exists, what its subscription tier is, and which containers serve it. The broker sees events in transit — structured messages about commercial transactions — but does not store or index the underlying business records.
+
+The consequence of this design is that the VPS is operationally critical. If it goes offline, all SaaS tenants lose access to their ERP servers and databases, not just the coordination layer. Self-hosted tenants lose only cross-tenant event propagation and portal access.
 
 ## 2. The Tenant Stack
 
-Each tenant site runs the following components, all of which are deployed as Docker containers or native binaries depending on the customer's preference.
+Each tenant is provisioned with the following server-side components, running as Docker containers on the VPS in the SaaS deployment (or on the tenant's own infrastructure in the self-hosted case).
 
 The **C++ server** (Qt 6, port 8080) handles all business logic, REST API endpoints, authentication, and database access. It exposes 150+ endpoints across 22 route modules. The server runs a thread pool (default 10 threads) and includes an in-memory cache (512 MB default, TTL-based eviction), a per-endpoint rate limiter, structured JSON logging with file rotation, and a metrics collector exposed at `/metrics`.
 
@@ -20,9 +22,11 @@ The **PostgreSQL database** (version 13+) contains 127 tables, 150+ indexes, and
 
 The **B2BEventHub** (port 8081) is a WebSocket server embedded in the C++ process. It handles real-time event delivery to locally connected clients and, when federation is enabled, forwards events to the central Redpanda broker through a relay. Clients authenticate their WebSocket connection by sending a JWT as their first message.
 
-The **Go sidecar** establishes a Cloudflare Access tunnel from the tenant site to the central broker. It maps the central Redpanda broker to a local port (default 19092), verifies the TCP handshake, registers the tenant's endpoints with the mesh server, and exposes a health check at `/healthz`. If the tunnel drops, the sidecar reports unhealthy and the C++ server's relay enters a reconnection loop with exponential backoff.
+The **Go sidecar** bridges the tenant's C++ server to the central Redpanda broker. In the SaaS deployment, it runs alongside the other tenant containers on the VPS and connects to Redpanda on the Docker network. In a self-hosted deployment, it establishes a Cloudflare Access tunnel outbound to the central broker. In both cases, it registers the tenant's endpoints with the mesh server and exposes a health check at `/healthz`. If connectivity to the broker drops, the sidecar reports unhealthy and the C++ server's relay enters a reconnection loop with exponential backoff.
 
-The **desktop client** (Qt 6 Widgets/QML) provides a native interface for power users — warehouse operators, production planners, finance teams — who need fast, dense interfaces. It connects to the local C++ server via HTTP and WebSocket.
+The following components run at the tenant's site, not on the VPS:
+
+The **desktop client** (Qt 6 Widgets/QML) provides a native interface for power users — warehouse operators, production planners, finance teams — who need fast, dense interfaces. It connects to the tenant's C++ server via HTTP and WebSocket through the Cloudflare tunnel.
 
 The **web application** (Next.js 14, App Router) provides browser-based access. It communicates with the C++ server via Axios with bearer token authentication and subscribes to WebSocket events for real-time updates. In the current alpha, the web application is partially implemented: 13 module pages are scaffolded with CRUD panels, but several lack full feature parity with the desktop client.
 
@@ -38,7 +42,7 @@ The **Go mesh server** (port 8080 internally) provides tenant registry CRUD, API
 
 **Caddy** handles reverse proxying based on hostname. The marketing site, web portal, and Redpanda console each get their own subdomain, all routed to the appropriate container. TLS terminates at the Cloudflare edge.
 
-The **Cloudflare tunnel** provides zero-trust ingress. External hostnames (mimirlabs.net, app.mimirlabs.net, broker.mimirlabs.net, db.mimirlabs.net) route through Cloudflare to the Caddy proxy or directly to TCP services. Tenant sidecars connect outbound to the broker hostname, so no inbound ports need to be opened on tenant firewalls.
+The **Cloudflare tunnel** provides zero-trust ingress. External hostnames (mimirlabs.net, app.mimirlabs.net, broker.mimirlabs.net, db.mimirlabs.net) route through Cloudflare to the Caddy proxy or directly to TCP services. Desktop clients and web browsers at tenant sites reach their tenant's server through these tunnels. Self-hosted tenants run their own outbound tunnel to the broker for B2B federation.
 
 ## 4. Multi-Tenancy and Data Isolation
 
@@ -48,7 +52,7 @@ At the **database level**, the system uses a shared-schema, tenant-scoped model.
 
 The current enforcement mechanism is application-layer WHERE clauses. The C++ server's route handlers and the Repository abstraction include tenant filtering on all queries. PostgreSQL Row-Level Security (RLS) policies are designed but not yet enforced — they are on the SOC 2 roadmap as a Phase 2 control (Control 2.5). This is a known gap. Until RLS is enabled, isolation depends entirely on the correctness of the application layer.
 
-At the **infrastructure level**, the current SaaS deployment provisions a separate PostgreSQL container per tenant (`ygg-db-{slug}`), which provides container-level isolation in addition to the schema-level isolation. Self-hosted tenants run their own PostgreSQL instance entirely, making the isolation question moot at that layer.
+At the **infrastructure level**, the SaaS deployment provisions a separate PostgreSQL container per tenant (`ygg-db-{slug}`) on the VPS, which provides container-level isolation in addition to the schema-level isolation. Each tenant's database runs in its own Docker container with its own named volume — tenants do not share a PostgreSQL process. Self-hosted tenants (data sovereignty exceptions) run their own PostgreSQL instance entirely, making the isolation question moot at that layer.
 
 The marketing site and portal (the `mimirlabs` repository) maintain a separate database (`ygg_central`) with a Prisma schema covering organizations, users, subscriptions, invitations, support tickets, service requests, module activations, and tenant connection metadata. This database has no access to any tenant's ERP data. The portal reaches tenant ERP data only through the mesh server proxy, which routes requests through the Cloudflare tunnel to the tenant's C++ server.
 
@@ -86,9 +90,9 @@ Three federation modes are supported, configured in `server.conf`: `none` (stand
 
 The system has four trust boundaries that matter for due diligence purposes.
 
-**Tenant to ERP server.** The tenant trusts its own C++ server to enforce access control, maintain data integrity, and correctly scope queries. This trust is grounded in the server running on the tenant's own infrastructure (or in a dedicated container provisioned for them). The tenant controls the database credentials, the server configuration, and the network access to both.
+**Tenant to ERP server.** The tenant trusts the C++ server and PostgreSQL database provisioned for them to enforce access control, maintain data integrity, and correctly scope queries. In the SaaS deployment, these run on the provider's VPS as isolated containers — the tenant trusts the provider to maintain that isolation and to not access the tenant's data outside the scope of service delivery. In a self-hosted deployment, the tenant controls the infrastructure directly. This trust boundary is the most consequential one: it is where the provider's operational access and the tenant's data sovereignty overlap.
 
-**Tenant to central broker.** The tenant trusts the central Redpanda broker to deliver events without modification, not to persist them beyond the configured retention window, and not to expose them to unauthorized consumers. The Cloudflare tunnel provides transport encryption. The broker does not authenticate consumers at the application level — any sidecar with a valid Cloudflare Access token can consume from the shared topics. Topic-level ACLs are not currently configured. Events contain `sourceTenantId` and `destTenantId` fields; the receiving tenant's server validates the source against its partner registry before processing.
+**Tenant to event broker.** The tenant trusts the Redpanda broker to deliver cross-tenant events without modification, not to persist them beyond the configured retention window, and not to expose them to unauthorized consumers. In the SaaS deployment, the broker runs on the same VPS as the tenant's server, so this is a trust boundary within provider-managed infrastructure rather than across a network. The broker does not authenticate consumers at the application level — any sidecar with access to the Docker network (or, for self-hosted tenants, a valid Cloudflare Access token) can consume from the shared topics. Topic-level ACLs are not currently configured. Events contain `sourceTenantId` and `destTenantId` fields; the receiving tenant's server validates the source against its partner registry before processing.
 
 **Tenant to trading partner.** When Tenant A sends an event to Tenant B, both tenants trust that the event schema is accurate (enforced by the shared software) and that the event represents an actual business action (enforced by the source tenant's server logic). Neither tenant trusts the other to maintain their copy of the data correctly — each side keeps its own records. The event is an advisory notification, not a binding instruction. Tenant B's server decides what to do with incoming events based on its own business rules and workflow configuration.
 
