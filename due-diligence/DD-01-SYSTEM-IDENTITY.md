@@ -40,7 +40,7 @@ Yggdrasil constrains semantics. A purchase order line item means the same thing 
 
 The system does not constrain business decisions. A tenant can edit its records, delete them, change prices, modify quantities, reject incoming orders, or ignore events from trading partners. The coordination layer is advisory at the edges — it delivers information, but the receiving tenant's business rules determine what happens with that information. The system does not enforce that a buyer must accept an order, or that a supplier must honor a quote. Those are business decisions, and the system stays out of them.
 
-What the system does constrain, absolutely, is the internal audit trail. Business records are mutable. The log of changes to those records is not. This is the only place where the system asserts immutability, and it does so for a specific reason: the audit trail exists so that the system can produce evidence. Under regulatory scrutiny, under dispute between trading partners, under internal investigation — the audit trail is the system's answer to "what happened." If it were mutable, it could not serve that purpose.
+What the system does constrain, absolutely, is the internal audit trail. Business records are mutable. The log of changes to those records is not. This immutability is enforced at the database level: PostgreSQL triggers on the `audit_change_log` table reject any UPDATE, DELETE, or TRUNCATE operation, regardless of the caller's application-layer or database privileges. This is the only place where the system asserts immutability, and it does so for a specific reason: the audit trail exists so that the system can produce evidence. Under regulatory scrutiny, under dispute between trading partners, under internal investigation — the audit trail is the system's answer to "what happened." If it were mutable, it could not serve that purpose.
 
 ## 6. Where Yggdrasil Sits in the Ecosystem
 
@@ -68,5 +68,5 @@ The architecture, trust model, and isolation mechanisms are covered in DD-02. Da
 
 ---
 
-*Document version: 1.0 — February 2026*
+*Document version: 1.1 — February 2026*
 *System version: Yggdrasil v0.4.4a (alpha)*

@@ -20,13 +20,13 @@ Business records in Yggdrasil are mutable. Users with appropriate RBAC permissio
 
 Deletion uses a soft-delete pattern on 16 key business entity tables (CRM entities, contacts, opportunities, sales orders, invoices, payments, purchase orders, PLM parts, ECOs, work orders, quality NCRs, 8D reports, CAPAs, service requests, RMAs, projects, and HR employees). These tables carry `deleted_at` (timestamp) and `deleted_by` (user UUID) columns, added in migration 006. A soft-deleted record is excluded from standard queries but remains in the database and in the audit trail. Physical deletion of business records is not exposed through the standard API.
 
-The exception to mutability is the audit trail itself. The `audit_change_log` table is append-only by design. It records every INSERT, UPDATE, and DELETE operation on business entity tables, capturing the user who made the change, the timestamp, the table and entity affected, and JSONB snapshots of the old and new field values. There is no API endpoint or application-layer mechanism to modify or delete audit log entries.
+The exception to mutability is the audit trail itself. The `audit_change_log` table is append-only by design. It records every INSERT, UPDATE, and DELETE operation on business entity tables, capturing the user who made the change, the timestamp, the table and entity affected, and JSONB snapshots of the old and new field values. There is no API endpoint or application-layer mechanism to modify or delete audit log entries. As of migration 014, immutability is also enforced at the database level: three PostgreSQL triggers (`trg_audit_log_no_update`, `trg_audit_log_no_delete`, `trg_audit_log_no_truncate`) raise exceptions on any attempt to UPDATE, DELETE, or TRUNCATE audit records, regardless of the caller's database privileges.
 
 This distinction — mutable records, immutable trail — is the system's answer to the tension between operational flexibility and evidentiary integrity. A user can correct an error on a sales order. They cannot erase the fact that the error existed or that it was corrected.
 
 ## 3. The Audit Trail
 
-The audit trail is implemented through the `audit_change_log` table, introduced in migration 006.
+The audit trail is implemented through the `audit_change_log` table, introduced in migration 007.
 
 The table schema is straightforward: `change_id` (BIGSERIAL primary key), `tenant_id` (UUID), `user_id` (UUID), `action` (VARCHAR — INSERT, UPDATE, or DELETE), `table_name` (VARCHAR), `entity_id` (VARCHAR), `changed_at` (TIMESTAMP WITH TIME ZONE, defaults to NOW()), `old_values` (JSONB), and `new_values` (JSONB). Five indexes support efficient querying: by tenant, by table name, by (table_name, entity_id) pair, by user, and by timestamp.
 
@@ -52,7 +52,7 @@ The system can produce the following evidence. On Tenant A's side: the sales ord
 
 The Redpanda broker retains event messages for 7 days. If the dispute arises within that window, the original event payload can be retrieved from the broker as a third-party record. After 7 days, the event exists only in the `b2b_events` tables on each tenant's server.
 
-What the system cannot do is prove that the physical shipment matched the electronic record. It can prove what each party's system recorded and when. It can prove whether records were modified after the fact (the audit trail shows all changes). It cannot prove that neither party tampered with their database outside the application layer — there are no database-level triggers enforcing write-once semantics on the audit table, and a user with direct database access could modify audit records. This is a known limitation, addressed in the SOC 2 roadmap as Control 1.1 (immutable audit log with database triggers).
+What the system cannot do is prove that the physical shipment matched the electronic record. It can prove what each party's system recorded and when. It can prove whether records were modified after the fact (the audit trail shows all changes). As of migration 014, the `audit_change_log` table is protected by database-level triggers that reject any UPDATE, DELETE, or TRUNCATE operation — even from users with direct database access (including superusers, unless the trigger is explicitly disabled). A user with sufficient PostgreSQL privilege could still disable the trigger temporarily, but doing so would require DDL access (`ALTER TABLE ... DISABLE TRIGGER`) and would itself be visible in PostgreSQL's server log. This represents a significant improvement over the prior state, where audit records could be silently modified by anyone with SQL access.
 
 ## 6. Data Portability
 
@@ -80,5 +80,5 @@ The operational implications of these custody and audit mechanisms under various
 
 ---
 
-*Document version: 1.0 — February 2026*
+*Document version: 1.1 — February 2026*
 *System version: Yggdrasil v0.4.4a (alpha)*

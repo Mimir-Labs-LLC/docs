@@ -18,7 +18,7 @@ Each tenant is provisioned with the following server-side components, running as
 
 The **C++ server** (Qt 6, port 8080) handles all business logic, REST API endpoints, authentication, and database access. It exposes 150+ endpoints across 22 route modules. The server runs a thread pool (default 10 threads) and includes an in-memory cache (512 MB default, TTL-based eviction), a per-endpoint rate limiter, structured JSON logging with file rotation, and a metrics collector exposed at `/metrics`.
 
-The **PostgreSQL database** (version 13+) contains 127 tables, 150+ indexes, and the complete ERP schema — CRM, sales, purchasing, manufacturing, warehouse, finance, quality, service, HR, projects, PLM, workflow engine, and audit trail. Every entity table carries a `tenant_id` column. The schema is deployed from a single canonical SQL file (3,810 lines) with eight numbered migrations applied in sequence.
+The **PostgreSQL database** (version 13+) contains 140+ tables, 150+ indexes, and the complete ERP schema — CRM, sales, purchasing, manufacturing, warehouse, finance, quality, service, HR, projects, PLM, workflow engine, and audit trail. Every entity table carries a `tenant_id` column. The schema is deployed from a single canonical SQL file (~4,100 lines) with 14 numbered migrations applied in sequence. Migrations are additive-only — the Data Preservation Policy prohibits dropping columns or tables — and are enforced by a CI migration linter that rejects destructive DDL, non-idempotent statements, and checksum mismatches on committed migrations.
 
 The **B2BEventHub** (port 8081) is a WebSocket server embedded in the C++ process. It handles real-time event delivery to locally connected clients and, when federation is enabled, forwards events to the central Redpanda broker through a relay. Clients authenticate their WebSocket connection by sending a JWT as their first message.
 
@@ -28,7 +28,7 @@ The following components run at the tenant's site, not on the VPS:
 
 The **desktop client** (Qt 6 Widgets/QML) provides a native interface for power users — warehouse operators, production planners, finance teams — who need fast, dense interfaces. It connects to the tenant's C++ server via HTTP and WebSocket through the Cloudflare tunnel.
 
-The **web application** (Next.js 14, App Router) provides browser-based access. It communicates with the C++ server via Axios with bearer token authentication and subscribes to WebSocket events for real-time updates. In the current alpha, the web application is partially implemented: 13 module pages are scaffolded with CRUD panels, but several lack full feature parity with the desktop client.
+The **web application** (Next.js 15, App Router) provides browser-based access. It communicates with the C++ server via Axios with bearer token authentication and subscribes to WebSocket events for real-time updates. In the current alpha, the web application is partially implemented: 13 module pages are scaffolded with CRUD panels, but several lack full feature parity with the desktop client.
 
 ## 3. The Central Infrastructure
 
@@ -110,5 +110,5 @@ The architecture does not currently provide end-to-end encryption of event paylo
 
 ---
 
-*Document version: 1.0 — February 2026*
+*Document version: 1.1 — February 2026*
 *System version: Yggdrasil v0.4.4a (alpha)*

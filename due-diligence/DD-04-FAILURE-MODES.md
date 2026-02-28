@@ -42,7 +42,7 @@ For self-hosted tenants, a tunnel failure is narrower: their local ERP continues
 
 Within a single tenant, the C++ server uses Qt's QSqlQuery within explicit transaction blocks (BEGIN/COMMIT/ROLLBACK) for operations that span multiple tables. Creating a sales order with line items, for example, inserts into `crm_sales_orders` and `crm_sales_order_lines` within a single transaction. If the connection drops mid-transaction, PostgreSQL rolls back the incomplete changes.
 
-The audit trail entry is written as part of the same logical operation but is not wrapped in the same database transaction in all cases. A failure between the business data write and the audit write could result in a business record change that is not captured in the audit trail. This is a correctness gap — the SOC 2 roadmap's Control 1.1 (immutable audit log with database triggers) would address it by moving audit capture to the database trigger level, where it would be transactionally bound to the data change.
+The audit trail entry is written as part of the same logical operation but is not wrapped in the same database transaction in all cases. A failure between the business data write and the audit write could result in a business record change that is not captured in the audit trail. This is a correctness gap. Migration 014 addressed the immutability half of SOC 2 Control 1.1 — database triggers now prevent any UPDATE, DELETE, or TRUNCATE on the `audit_change_log` table, ensuring that once an audit record is written it cannot be altered. However, the capture half remains application-level: audit writes are performed by the C++ server, not by PostgreSQL row-level triggers on the business tables themselves. Moving audit capture to database triggers would make it transactionally bound to the data change, eliminating the window where a write could succeed without a corresponding audit entry. This remains a planned improvement.
 
 Cross-tenant writes are not transactional. When Tenant A publishes a B2B event that triggers a purchase order creation on Tenant B, these are two independent database transactions on two separate PostgreSQL containers (which may run on the same VPS but are logically independent databases). If Tenant A's event is published but Tenant B's PO creation fails, the system is in an inconsistent state: Tenant A believes the order was communicated, but Tenant B has no record of it. The event remains in Redpanda (or in the `b2b_events` table) and will be retried, but there is no two-phase commit or saga pattern that guarantees atomicity across tenants. This is a deliberate design choice — distributed transactions across organizational boundaries would require a central coordinator, which contradicts the system's custody model. The trade-off is eventual consistency with manual reconciliation as a fallback.
 
@@ -86,5 +86,5 @@ The in-memory fallback DAL in the portal (the `globalThis` Maps in the `mimirlab
 
 ---
 
-*Document version: 1.0 — February 2026*
+*Document version: 1.1 — February 2026*
 *System version: Yggdrasil v0.4.4a (alpha)*

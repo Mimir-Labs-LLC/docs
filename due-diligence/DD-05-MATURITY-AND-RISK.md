@@ -8,11 +8,11 @@ This document provides an honest inventory of the system's current state — wha
 
 ## 2. What Is Built and Working
 
-The C++ backend server implements 150+ REST endpoints across 22 route modules. All 11 business modules — CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, and HR — have functional CRUD operations with tenant-scoped data access, JWT authentication, and role-based authorization. The B2BEventHub provides real-time WebSocket event streaming with Redis and Redpanda federation. The database schema covers 127 tables with 150+ indexes, a field-level audit trail, soft-delete support, and a workflow engine.
+The C++ backend server implements 150+ REST endpoints across 22 route modules. All 11 business modules — CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, and HR — have functional CRUD operations with tenant-scoped data access, JWT authentication, and role-based authorization. The B2BEventHub provides real-time WebSocket event streaming with Redis and Redpanda federation. The database schema covers 140+ tables with 150+ indexes, a field-level audit trail with database-enforced immutability (migration 014 — triggers prevent UPDATE, DELETE, and TRUNCATE on the audit log), soft-delete support, and a workflow engine.
 
 The Qt 6 desktop client provides a native interface to all modules with WebSocket event integration, dark/light theming, persistent credentials, and module-specific views. PLM features are particularly mature: EBOM with option groups and revision control, MBOM generation from EBOM, routing management, and engineering change orders.
 
-The infrastructure layer works: Docker Compose orchestration, Cloudflare Zero Trust tunneling, Caddy reverse proxying, Redpanda event brokering, Go mesh server with tenant registry and API proxying, Go sidecar with tunnel health checks, tenant provisioning scripting, systemd service management, and a CI/CD pipeline with 8 jobs covering lint, unit tests, builds, and schema validation.
+The infrastructure layer works: Docker Compose orchestration, Cloudflare Zero Trust tunneling, Caddy reverse proxying, Redpanda event brokering, Go mesh server with tenant registry and API proxying, Go sidecar with tunnel health checks, tenant provisioning scripting, systemd service management, and a CI/CD pipeline with 12 jobs covering lint, unit tests, builds, schema validation, migration linting (Data Preservation Policy enforcement with checksum verification), schema backward-compatibility testing (golden SQL queries against N-1 API versions), and automatic version tagging.
 
 The carrier integration is complete: server-side UPS, FedEx, and USPS REST API integration with tenant-isolated credentials, multi-carrier rate shopping, label generation, live tracking, and shipment void. OAuth token caching, audit logging, and the carrier settings UI in the web application are all implemented.
 
@@ -42,7 +42,7 @@ The security posture is early-stage. Foundations exist, but hardening has not be
 
 ## 5. Compliance Readiness
 
-The SOC 2 roadmap identifies 12 risks across 6 phases. Three risks are rated Critical: no immutable audit trail (R1, addressed by making audit writes transactional via database triggers), SSL disabled (R2, configuration change), and no RLS (R4, PostgreSQL policy deployment). Four risks are rated High: CORS wildcard (R3), RBAC not enforced at endpoint level (R5), SHA-256 passwords on the ERP server — the document references SHA-256, though the code uses bcrypt (R6), secrets in plaintext config files (R7), and unencrypted backups (R8).
+The SOC 2 roadmap identifies 12 risks across 6 phases. Three risks were originally rated Critical: no immutable audit trail (R1), SSL disabled (R2, configuration change), and no RLS (R4, PostgreSQL policy deployment). R1 has been partially addressed — migration 014 installs database triggers that prevent modification or deletion of audit records, closing the immutability gap. The remaining piece of R1 — moving audit capture itself from application-level writes to database-level triggers so that capture is transactionally bound to the data change — is not yet implemented. The remaining Critical risks (R2, R4) are unchanged. Four risks are rated High: CORS wildcard (R3), RBAC not enforced at endpoint level (R5), SHA-256 passwords on the ERP server — the document references SHA-256, though the code uses bcrypt (R6), secrets in plaintext config files (R7), and unencrypted backups (R8).
 
 Phase 1 (audit and encryption foundations) and Phase 2 (access control hardening) contain the controls needed for basic security hygiene. Phase 3 (data protection and secrets) addresses field-level encryption, vault integration, and MFA. Type I readiness — attesting that controls are suitably designed — is targeted after Phase 3. Type II — attesting that controls operated effectively over a review period — requires a 6-month observation window after Phase 3 controls are live.
 
@@ -56,7 +56,7 @@ Testing coverage is thin. The C++ server has approximately 5 test files covering
 
 The integration test framework is more substantial: 20 business-process arcs with 106 story files covering CRUD operations, cross-module workflows, security, and compliance scenarios. However, these require a running C++ server and database, do not run in CI, and are not executed automatically on any code change.
 
-The CI pipeline runs web linting, web unit tests, web build, server build, server unit tests, client build, and schema validation. Integration tests are not part of CI. There are no end-to-end browser tests (no Playwright or Cypress). There is no SAST, dependency scanning, or SBOM generation.
+The CI pipeline runs 12 jobs: web linting, web unit tests, web build, server build, server unit tests, client build, client tests, schema validation, migration linting (enforces Data Preservation Policy — no column/table drops, idempotent DDL, checksum integrity), schema backward-compatibility testing (golden SELECT queries verifying N-1 API compatibility), automatic version tagging (creates git tags when the VERSION file changes), and a notification job summarizing results. Integration tests are not part of CI. There are no end-to-end browser tests (no Playwright or Cypress). There is no SAST, dependency scanning, or SBOM generation.
 
 ## 7. Architectural Risks
 
@@ -108,5 +108,5 @@ The distance from the current state to a production-capable state is measurable 
 
 ---
 
-*Document version: 1.0 — February 2026*
+*Document version: 1.1 — February 2026*
 *System version: Yggdrasil v0.4.4a (alpha)*
