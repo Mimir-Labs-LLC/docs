@@ -12,7 +12,7 @@
 
 [Show Ratatosk logo]
 
-Ratatosk is a structured data governance workshop for manufacturers. In one day, we map the meaning of your existing data landscape and deliver a governance baseline you can use to make informed decisions about migration, integration, or system consolidation.
+Ratatosk is a structured data governance workshop for manufacturers. In as little as one day, we map the meaning of your existing data landscape and deliver a governance baseline you can use to make informed decisions about migration, integration, or system consolidation.
 
 Let me walk you through what a client receives.
 
@@ -22,13 +22,15 @@ Let me walk you through what a client receives.
 
 Before the workshop, we ask for read-only schema access — DDL exports, ERDs, or data dictionaries from your source systems. We don't touch production data. We don't need credentials to your live environment. We work from the structural metadata.
 
-For a typical manufacturer on Epicor or SAP, this is a 15-minute export from your DBA.
+And it's not just the ERP. We ingest everything — the shadow systems too. The Access databases, the Excel workbooks with macros, the departmental tools that grew into critical infrastructure when nobody was looking. If it holds business data, it goes into the analysis. That's usually where the most important conflicts are hiding.
+
+For a typical manufacturer on Epicor or SAP, the ERP export is a 15-minute job from your DBA. The shadow systems take longer to inventory, but they're often more revealing.
 
 ### The Analysis (45 sec)
 
 [Show the Mimisbrunnr reference model — can be the schema diagram from docs]
 
-Every table and column in your schema is classified against Mimisbrunnr — our universal semantic reference model. 170 tables across 17 business domains: CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, PLM, Quality, Service, and more.
+Every table and column in your schema is classified against Mimisbrunnr — our universal semantic reference model. 170 tables across 17 business domains: CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, PLM, Quality, Service, and more. Alternatively, we can also target any one the top ERP/BI systems standard dictionaries.
 
 The classification is deterministic. No AI inference, no fuzzy matching. Levenshtein distance for name similarity, foreign key graph analysis for relationship detection, column archetype heuristics for type classification. Same input produces the same output every time.
 
@@ -38,13 +40,13 @@ The classification is deterministic. No AI inference, no fuzzy matching. Levensh
 
 The taxonomy manifest is the core deliverable. It's a machine-readable map of your data: every table classified by domain, every column labeled with its semantic role, confidence scores on every classification.
 
-This isn't a slide deck. It's a JSON artifact that can be imported directly into Ragnarok for migration planning, or used by your team to evaluate any ERP vendor's data model against your current reality.
+This isn't a slide deck. It's a JSON artifact that can be imported directly into our Ragnarok migration planning tool, or used by your team to evaluate any ERP vendor's data model against your current reality.
 
 ### Deliverable: Coverage Report (30 sec)
 
 [Show a coverage report — percentages, domain breakdown]
 
-The coverage report answers a simple question: of all the data in your source system, what percentage can we structurally account for?
+The coverage report answers a simple question: of all the data in your source systems, what percentage can we structurally account for?
 
 90% coverage means 10% of your data is unclassified — and that 10% is where migration surprises live. Most manufacturers discover they have 15-30% more data complexity than they thought.
 
