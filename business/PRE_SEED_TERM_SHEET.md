@@ -1,0 +1,141 @@
+# Mimir Labs — Pre-Seed Term Sheet (Opening Position)
+
+**Confidential — Not a binding offer**
+**Date:** April 2026
+
+---
+
+## Round Summary
+
+| Term | Value |
+|------|-------|
+| **Instrument** | Priced equity (preferred stock) |
+| **Raise amount** | $500,000 |
+| **Pre-money valuation** | $5,000,000 |
+| **Post-money valuation** | $5,500,000 |
+| **Equity issued (base)** | 10.0% |
+| **Performance warrants** | Up to 5.0% additional (see below) |
+| **Maximum dilution** | 15.0% |
+| **Minimum founder ownership post-close** | 85.0% |
+
+---
+
+## Use of Funds (18-Month Runway)
+
+| Category | Allocation |
+|----------|-----------|
+| Founder compensation (18 months) | $127,000 |
+| First hire — customer-facing engineer (12 months) | $110,000 |
+| Infrastructure (hosting, tooling, services) | $30,000 |
+| Legal & compliance (SOC 2 prep, contracts, IP) | $20,000 |
+| Sales & marketing (travel, trade shows, content) | $35,000 |
+| Service delivery costs (Ratatosk workshops) | $15,000 |
+| Operating reserve | $63,000 |
+| **Total** | **$400,000** |
+
+Remaining $100,000 provides runway extension or accelerated hiring if pipeline exceeds capacity.
+
+---
+
+## Performance Warrants
+
+### Structure
+
+In addition to the 10% base equity, the investor may earn up to 5% additional equity through performance-based warrants tied to platform adoption by the investor's portfolio companies.
+
+### Vesting Mechanic
+
+For every **$100 million in annual revenue represented by portfolio companies** the investor brings to the Mimir Labs platform, the investor earns **0.1% additional equity**.
+
+| Cumulative Portco ARR Brought | Additional Equity Earned |
+|-------------------------------|-------------------------|
+| $100M | 0.1% |
+| $500M | 0.5% |
+| $1B | 1.0% |
+| $2B | 2.0% |
+| $5B (cap) | 5.0% (maximum) |
+
+### Definitions
+
+- **"Portfolio company" (portco):** An entity in which the investor holds an equity or debt position at the time of introduction.
+- **"Annual revenue represented":** The portco's trailing twelve-month revenue as reported at the time of platform contract execution. This is the portco's own business revenue, not the subscription fee they pay Mimir Labs.
+- **"Brought to the platform":** A warm introduction, documented with the investor as referral source, that results in a signed Mimir Labs service or subscription agreement within 12 months of introduction.
+- **"Mimir Labs platform":** Any paid engagement including Ratatosk workshops, Ragnarok migration services, Yggdrasil ERP subscriptions, Bifrost subscriptions, or Norn paid tiers. Free tier usage does not qualify.
+
+### Terms
+
+- **Exercise window:** 5 years from close
+- **Vesting is cumulative:** Multiple portcos aggregate toward thresholds
+- **Cap:** 5.0% total additional equity regardless of cumulative portco ARR
+- **Anti-dilution:** Warrants are exercisable at the original pre-money valuation ($5M) regardless of subsequent round pricing
+
+### Anti-Gaming Provisions
+
+- Introductions must be documented in writing (email to founder) before the portco's first engagement with Mimir Labs
+- Portcos already in active pipeline at time of close do not qualify
+- Investor must hold an equity or debt position in the portco at the time of introduction (not retroactive)
+- Disputed attribution resolved by mutual agreement; if unresolved, introduction does not vest
+
+---
+
+## Negotiation Parameters
+
+**Internal — do not share with investors.**
+
+### What Moves
+
+| Term | Opening | First Concession | Final Position |
+|------|---------|-------------------|----------------|
+| Warrant rate | 0.1% per $100M | 0.15% per $100M | 0.2% per $100M |
+| Exercise window | 5 years | 6 years | 7 years |
+
+At 0.2% per $100M, full vest requires $2.5B cumulative portco ARR. A manufacturing-focused PE firm with 15-20 portcos averaging $100-200M each could realistically earn 2-3% additional equity over 5 years.
+
+### What Doesn't Move
+
+| Term | Position | Reason |
+|------|----------|--------|
+| Base equity | 10% | Preserves cap table for seed, Series A, option pool |
+| Warrant cap | 5% | 85% minimum founder ownership post-raise is non-negotiable |
+| Pre-money valuation | $5M | Working six-product platform, not a deck. If they want lower valuation, counter with warrant rate flexibility. |
+| Raise amount | $500K | Less than $350K doesn't fund the first hire. More than $600K can't be deployed productively in 18 months with a 2-person team. |
+
+### Walkaway
+
+If the investor demands more than 15% total (base + warrants) for $500K, or a pre-money valuation below $3.5M, walk. These terms would compress the cap table too early and signal desperation.
+
+---
+
+## Milestones (18-Month Targets)
+
+These are operational targets, not contractual obligations. They define what success looks like at the end of the runway.
+
+| Milestone | Target |
+|-----------|--------|
+| Ratatosk workshops completed | 3-5 |
+| Named case studies on website | 2+ |
+| Ragnarok migration engagements | 1-2 |
+| Yggdrasil ERP pilots in production | 1 |
+| Norn free tier users | 50+ |
+| Norn paid conversions | 3-5 |
+| ARR run rate | ~$500K |
+| Team size | 2-3 FTE |
+
+Achievement of these milestones positions the company for a seed round at $8-15M valuation.
+
+---
+
+## Investor Profile (Ideal)
+
+The warrant structure is designed to attract a specific investor profile:
+
+- **Manufacturing-focused PE firm or family office** with 10+ portcos in discrete/process manufacturing
+- **Operating partner model** where the investor actively helps portcos with technology decisions
+- **Geographic proximity to South Central PA** manufacturing corridor (preferred, not required)
+- **Previous ERP or enterprise software investment experience**
+
+A generalist fintech investor who writes a check and disappears gets 10%. A manufacturing-focused investor who actively channels their portfolio onto the platform can earn up to 15%. The structure rewards the investor who is most valuable to the business, not just the one with the largest check.
+
+---
+
+*This document represents an opening negotiation position. Final terms subject to legal review and mutual agreement.*
