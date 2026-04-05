@@ -47,8 +47,12 @@ In addition to the 10% base equity, the investor may earn up to 5% additional eq
 
 For every **$100 million in annual revenue represented by portfolio companies** the investor brings to the Mimir Labs platform, the investor earns **0.1% additional equity**.
 
-| Cumulative Portco ARR Brought | Additional Equity Earned |
-|-------------------------------|-------------------------|
+**Each qualifying agreement is a separate vesting event.** A single portco that signs multiple qualifying agreements (e.g., Ratatosk recurring governance, then Ragnarok annual maintenance, then Yggdrasil ERP subscription) counts its annual revenue toward the cumulative threshold **per agreement**. This rewards investors who drive full-platform adoption, not just single-product introductions.
+
+**Example:** A portco with $100M annual revenue signs three qualifying agreements over 18 months. The investor receives $300M in cumulative vesting credit (3 × $100M), earning 0.3%.
+
+| Cumulative Portco ARR Credit | Additional Equity Earned |
+|------------------------------|-------------------------|
 | $100M | 0.1% |
 | $500M | 0.5% |
 | $1B | 1.0% |
@@ -96,9 +100,30 @@ For every **$100 million in annual revenue represented by portfolio companies** 
 | Term | Opening | First Concession | Final Position |
 |------|---------|-------------------|----------------|
 | Warrant rate | 0.1% per $100M | 0.15% per $100M | 0.2% per $100M |
+| ARR divisor | $100M | $75M | $50M |
 | Exercise window | 5 years | 6 years | 7 years |
 
-At 0.2% per $100M, full vest requires $2.5B cumulative portco ARR. A manufacturing-focused PE firm with 15-20 portcos averaging $100-200M each could realistically earn 2-3% additional equity over 5 years.
+With per-agreement vesting, a PE firm with 5 portcos averaging $100M each, all walked through 3 products = $1.5B cumulative credit at opening terms (1.5% earned). At final position (0.2% per $50M): same scenario = 6% earned, capped at 5%. The per-agreement mechanic already makes the warrants substantially more achievable — move the rate and divisor only if the investor pushes hard on valuation.
+
+### Floor Analysis
+
+**Test scenario:** Active PE investor, 5 portcos at $75M avg, 2.5 agreements each = $937M cumulative credit.
+
+| Rate | Divisor | Earned | Total Equity | Effective Valuation |
+|------|---------|--------|-------------|-------------------|
+| 0.1% | $100M | 0.9% | 10.9% | $4.59M |
+| 0.2% | $100M | 1.9% | 11.9% | $4.20M |
+| 0.2% | $75M | 2.5% | 12.5% | $4.00M |
+| **0.2%** | **$50M** | **3.7%** | **13.7%** | **$3.65M** |
+| 0.25% | $50M | 4.7% | 14.7% | $3.40M |
+
+**Individual floors (if only one term moves):**
+- Rate: **0.25% per $100M** — active investor earns 2.3%, total 12.3%. Safe.
+- Divisor: **$50M at 0.1%** — active investor earns 1.9%, total 11.9%. Safe.
+
+**Combined floor: 0.2% per $50M.** Active investor earns 3.7%, total 13.7%, effective valuation $3.65M. Above walkaway. The dilution is justified — they've delivered 5 manufacturing customers worth $500K+/year in platform revenue.
+
+**Hard stop: Never cross 0.25% per $50M.** That puts the active investor at 4.7% earned, effectively guaranteeing they hit the 5% cap. Total 14.7%, effective valuation $3.40M — below walkaway threshold.
 
 ### What Doesn't Move
 
