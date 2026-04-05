@@ -12,15 +12,17 @@
 
 Hi, I'm Doc Gaither. I'm the founder of Mimir Labs.
 
-Before I wrote a line of code, I spent fifteen years in manufacturing — on shop floors, in planning meetings, fighting with ERP systems that couldn't give me a straight answer about inventory levels or production status.
+I spent fifteen years in manufacturing — on shop floors, in planning meetings, fighting with ERP systems that couldn't give me a straight answer about inventory levels or production status.
 
 Every manufacturer I worked with had the same problem. The ERP was supposed to be the single source of truth. But after five years of custom fields, workarounds, and consultant patches, nobody trusted the data. So everyone kept their own spreadsheets. The ERP became a $200,000-a-year filing cabinet.
 
-I started Mimir Labs to fix that.
+I started writing VBA workarounds to patch the gaps — macros to reconcile inventory, scripts to validate data between systems, tools to make the ERP do what it was supposed to do out of the box. Eventually I realized I wasn't patching a system. I was building a shadow system on top of a broken one.
+
+Mimir Labs exists to build the real thing — the systems those workarounds were trying to be.
 
 [Brief pause]
 
-We build five products. They work together as a platform, but each one solves a specific problem.
+We build six products. They work together as a platform, but each one solves a specific problem.
 
 **Yggdrasil** is our manufacturing ERP. Ten integrated modules, one shared data model, zero custom fields. The data is trustworthy in year five for the same reason it's trustworthy in year one — the model doesn't drift.
 
@@ -29,6 +31,8 @@ We build five products. They work together as a platform, but each one solves a 
 **Ragnarok** is migration orchestration. When you're ready to move off your legacy ERP, Ragnarok ensures every record is mapped with semantic fidelity, validated before it moves, and accounted for after it lands.
 
 **Bifrost** is live integration. Real-time synchronization between your systems — not nightly batch jobs that are stale by morning.
+
+**Jormungandr** is canon governance. Once your definitions are established and your systems are aligned, Jormungandr ensures they stay that way — continuous drift detection, schema validation, and compliance enforcement.
 
 **Norn** is contract intelligence. Import any document, auto-detect the fields, fill, sign, and archive with a full audit trail. Because contracts are operational data too.
 
