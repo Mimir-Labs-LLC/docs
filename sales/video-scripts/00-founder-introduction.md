@@ -12,11 +12,13 @@
 
 Hi, I'm Doc Gaither. I'm the founder of Mimir Labs.
 
-I spent fifteen years in manufacturing — on shop floors, in planning meetings, fighting with ERP systems that couldn't give me a straight answer about inventory levels or production status.
+I didn't take a straight path to get here. I'm a Marine, a mechanical engineer, and I have AuDHD — which means I spent a lot of years struggling to find where I fit. I tried a lot of things that didn't work before I found the one that did.
 
-Every manufacturer I worked with had the same problem. The ERP was supposed to be the single source of truth. But after five years of custom fields, workarounds, and consultant patches, nobody trusted the data. So everyone kept their own spreadsheets. The ERP became a $200,000-a-year filing cabinet.
+What worked was manufacturing. I spent fifteen years on shop floors, in planning meetings, running operations — and I was good at it, because the thing my brain does naturally is see structural patterns. How parts connect. Where tolerances matter. Why a system that looks fine on paper breaks down in practice.
 
-I started writing VBA workarounds to patch the gaps — macros to reconcile inventory, scripts to validate data between systems, tools to make the ERP do what it was supposed to do out of the box. Eventually I realized I wasn't patching a system. I was building a shadow system on top of a broken one.
+The problem I couldn't stop seeing was the data. Every manufacturer I worked with had the same issue: the ERP was supposed to be the single source of truth, but after five years of custom fields, workarounds, and consultant patches, nobody trusted it. So every department kept their own spreadsheets. The ERP became a $200,000-a-year filing cabinet.
+
+I started writing VBA workarounds to bridge the gaps — macros to reconcile inventory, scripts to validate data between systems, tools to make the ERP do what it was supposed to do out of the box. Eventually I realized I wasn't patching a system. I was building a shadow system on top of a broken one.
 
 Mimir Labs exists to build the real thing — the systems those workarounds were trying to be.
 
