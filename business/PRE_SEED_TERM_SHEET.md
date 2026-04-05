@@ -59,8 +59,17 @@ For every **$100 million in annual revenue represented by portfolio companies** 
 
 - **"Portfolio company" (portco):** An entity in which the investor holds an equity or debt position at the time of introduction.
 - **"Annual revenue represented":** The portco's trailing twelve-month revenue as reported at the time of platform contract execution. This is the portco's own business revenue, not the subscription fee they pay Mimir Labs.
-- **"Brought to the platform":** A warm introduction, documented with the investor as referral source, that results in a signed Mimir Labs service or subscription agreement within 12 months of introduction.
-- **"Mimir Labs platform":** Any paid engagement including Ratatosk workshops, Ragnarok migration services, Yggdrasil ERP subscriptions, Bifrost subscriptions, or Norn paid tiers. Free tier usage does not qualify.
+- **"Brought to the platform":** A warm introduction, documented with the investor as referral source, that results in a **qualifying agreement** (defined below) executed within 12 months of introduction.
+- **"Qualifying agreement":** A recurring or annualized service agreement with a **minimum annual contract value (ACV) of $10,000**. Qualifying agreements include:
+  - Yggdrasil ERP subscription (any tier)
+  - Bifrost subscription (any paid tier)
+  - Norn subscription (Pro tier or above)
+  - Ratatosk governance workshop series (recurring annual engagement, not a single one-time workshop)
+  - Ragnarok migration engagement with annual maintenance/support component
+  - Any other Mimir Labs service agreement with a recurring annual commitment of $10,000 or more
+- **Non-qualifying engagements:** One-time Ratatosk workshops without a recurring commitment, Norn free tier usage, trial entitlements, and pilot agreements at discounted rates do not qualify on their own.
+- **Upgrade provision:** A non-qualifying agreement that upgrades to or above the $10,000 ACV threshold within 24 months of initial execution qualifies retroactively. The investor receives vesting credit as of the upgrade date. This ensures that relationships the investor created which expand into meaningful platform commitments are properly credited.
+- **Trigger event:** Warrant vesting credit accrues on the date the qualifying agreement is fully executed (signed by both parties), or on the date of qualifying upgrade if the upgrade provision applies. Credit does not accrue on the date of introduction or the date of first payment.
 
 ### Terms
 
