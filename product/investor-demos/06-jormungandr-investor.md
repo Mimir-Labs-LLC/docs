@@ -23,7 +23,7 @@ Jormungandr closes the loop.
 
 Jormungandr is a canon governance engine. It maintains an immutable version history of every semantic definition — every table, column, and relationship classification. When a connected system's schema changes, Jormungandr detects the drift and flags it before it compounds.
 
-Continuous validation. Compliance reporting. System-agnostic — it works across any connected platform, not just Yggdrasil.
+Continuous validation. Compliance reporting. System-agnostic — it works across any connected platform, not just Yggdrasil ERP.
 
 ### Why Investors Should Care (15 sec)
 

@@ -37,7 +37,7 @@ $9,500 remote. $14,500 on-site. Gross margin above 80% — the analysis is tool-
 
 50% of the workshop fee credits toward migration services. This creates natural upsell: the workshop reveals the mess, Ragnarok provides the migration path, and Yggdrasil is the destination.
 
-Even if the customer doesn't migrate to Yggdrasil, the workshop is profitable standalone and the governance baseline is valuable with any ERP vendor.
+Even if the customer doesn't migrate to Yggdrasil ERP, the workshop is profitable standalone and the governance baseline is valuable with any ERP vendor.
 
 ### Closing (10 sec)
 

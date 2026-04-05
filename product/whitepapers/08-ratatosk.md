@@ -1,363 +1,224 @@
-# Ratatosk — Pre-Migration Taxonomy & Data Governance Tool White Paper
-
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
-**Status:** Implemented (v0.1.0)
-
+---
+title: "Ratatosk — Semantic Discovery and Manifest Generation"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-009"
+classification: "Public"
+logo: "mimir_labs_logo.png"
 ---
 
-## Executive Summary
+## Overview
 
-Ratatosk is a standalone Qt 6 desktop application that scouts and analyzes customer database schemas, classifies tables and columns into business domains, generates governance metadata, and produces JSON manifests that drive the entire Mimir Labs data platform. Named for the squirrel that runs along the World Tree in Norse mythology, Ratatosk is the first tool in the data platform trilogy — it discovers and annotates what exists before Ragnarok migrates it and Bifrost synchronizes it.
+Ratatosk is the discovery layer of the Mimir Labs architecture stack. It is designed to extract, normalize, and formalize the semantic meaning of enterprise data before large-scale system transformation occurs. Like all tools in the Mimir Labs suite, Ratatosk is system-agnostic — it analyzes any enterprise database or data environment without requiring a specific target platform.
 
-Ratatosk uses the Mimisbrunnr semantic model as its Rosetta Stone — a universal reference schema of 166 tables across 17 business domains that provides a shared vocabulary for classifying enterprise data regardless of the source or target system. While Mimisbrunnr originates from Yggdrasil ERP, Ratatosk is system-agnostic: it can scout and classify schemas destined for any target platform.
+Most enterprise software initiatives fail not because of tooling limitations but because organizations cannot articulate the meaning of their own data structures. Definitions for fundamental business entities such as "customer", "inventory", or "available quantity" often differ across departments, systems, and reporting layers. Ratatosk addresses this problem by creating a structured, machine-readable description of enterprise meaning.
 
-Ratatosk operates without AI, LLM, or cloud dependency. All classification and analysis is deterministic and rule-based.
+The output of Ratatosk is a canonical semantic manifest describing entities, attributes, relationships, and operational constraints across the enterprise data environment.
 
----
+This manifest becomes the foundation for downstream systems in the Mimir Labs stack, including migration tooling, synchronization layers, and governance engines.
 
-## 1. Platform Position
+## Role in the Mimir Labs Architecture
 
-| Tool | Role | Lifecycle |
-|------|------|-----------|
-| **Ratatosk** | Migration Scouter — schema discovery, taxonomy classification, manifest generation | One-time (Migration-Key license) |
-| **Ragnarok** | Migration Executor — heuristic mapping, semantic review, bulk ingestion | One-time (Migration-Key license) |
-| **Bifrost** | Live Data Bridge — persistent sync, event orchestration, conflict resolution | Ongoing (subscription) |
+Ratatosk operates as the entry point into the broader architecture stack.
 
-Ratatosk is the entry point for every customer engagement. Its output — the `.ratatosk.json` manifest — is consumed by both Ragnarok (for migration) and Bifrost (as the foundational routing table), and can be imported into Jormungandr (for ongoing governance enforcement).
+The stack is structured as follows:
 
----
+1. **Ratatosk** — semantic discovery and manifest generation
+2. **Mimisbrunnr** — canonical semantic reference model
+3. **Ragnarok** — migration and transformation engine
+4. **Bifrost** — cross-system synchronization layer
+5. **Jormungandr** — governance and lifecycle enforcement
+6. **Yggdrasil ERP** — operational execution environment
 
-## 2. Technology Foundation
+Ratatosk analyzes existing enterprise systems and produces a semantic manifest aligned to the canonical reference model provided by Mimisbrunnr.
 
-| Component | Specification |
-|-----------|---------------|
-| Language | C++17 (ISO/IEC 14882:2017) |
-| Framework | Qt 6.2+ (Core, Gui, Widgets, Sql) |
-| Build System | CMake 3.16+ with `CMAKE_AUTOMOC ON` |
-| Optional | Qt Network + OpenSSL (telemetry subsystem, compile-time flag) |
-| Source Support | PostgreSQL (ODBC), SQL Server (ODBC), CSV, JSON |
+Downstream systems use this manifest to guide data transformation, synchronization, and governance.
 
----
+## Problem: Semantic Drift
 
-## 3. Architecture
+Enterprise environments accumulate multiple operational systems over time. ERP platforms, warehouse systems, CRM tools, analytics pipelines, and custom applications all maintain their own data definitions. Although the structures may appear compatible, the meaning of key fields frequently diverges.
 
-### 3.1 Module Structure
+Common examples include:
 
-Ratatosk is organized into five subsystems:
+- "Customer" representing a billing entity in finance but a purchasing contact in CRM
+- "Available inventory" meaning different things depending on reservations, quality holds, or warehouse states
+- "Revenue" being recognized differently between operational reporting and accounting systems
 
-```
-ratatosk/src/
-├── core/          — Business logic engines (taxonomy, quality, policy, metrics)
-├── engine/        — DDL parsing and schema analysis
-├── ingest/        — Schema loading from databases and files
-├── ui/            — Qt Widgets user interface
-└── telemetry/     — Optional usage analytics (consent-gated)
-```
+These semantic inconsistencies propagate through integrations and reporting layers, eventually producing operational conflict.
 
-### 3.2 Core Engines
+ERP migrations frequently expose these conflicts only after implementation has begun, when correction becomes expensive and disruptive.
 
-#### TaxonomySessionModel
+Ratatosk moves this discovery process earlier by making semantic inconsistencies visible before migration or integration begins.
 
-Manages the interactive taxonomy classification session:
+## Discovery Workflow
 
-- Holds the current state of all table-to-domain assignments
-- Supports undo/redo for classification changes
-- Tracks classification confidence scores
-- Serializable to/from JSON for session persistence
+Ratatosk is typically deployed through a structured discovery engagement.
 
-#### ManifestModel / ManifestSerializer
+The discovery process proceeds through several stages.
 
-The manifest is the primary output artifact:
+### System Mapping
 
-- **ManifestModel** — In-memory representation of the classified schema with all metadata
-- **ManifestSerializer** — Reads/writes `.ratatosk.json` manifest files
+Existing systems are cataloged, including:
+
+- ERP platforms
+- Warehouse management systems
+- CRM systems
+- Manufacturing execution systems
+- Analytics environments
+
+Schema structures and operational data models are captured.
+
+### Entity Extraction
+
+Core business entities are identified across systems. Examples include customers, suppliers, orders, products, inventory locations, and financial accounts.
+
+Each entity definition is examined for structural and semantic differences.
+
+### Semantic Alignment
+
+Entities are mapped to canonical definitions derived from the Mimisbrunnr reference model.
+
+Conflicts in meaning, lifecycle state, or operational constraints are documented.
+
+### Manifest Generation
+
+The discovery process produces a machine-readable manifest describing the enterprise semantic model.
+
+This artifact becomes the authoritative description of enterprise meaning.
+
+## Artifact Portfolio
+
+Ratatosk produces a layered set of deliverables designed for different audiences — from executive stakeholders evaluating data maturity to technical operators preparing for migration. Every artifact is deterministic and reproducible. None contain row-level data.
+
+### Canonical Manifest
+
+The primary machine-readable output is the Ratatosk Manifest, a JSON document that captures the full semantic structure of an enterprise data environment. It is the artifact that downstream tools — Ragnarok, Bifrost, and Jormungandr — consume directly.
 
 The manifest contains:
-- Table definitions with business labels and domain classifications
-- Column definitions with data types, labels, and semantic annotations
-- FK relationship graph
-- Taxonomy group hierarchy
-- Quality metrics and coverage statistics
-- Source metadata (database, timestamp, operator)
 
-#### QualityEngine
+- **Source descriptors** — connection metadata, source classification (system of record, shadow system, legacy, reference), and profiling capabilities
+- **Table annotations** — business labels, taxonomy group assignments, semantic notes, ontology concepts, and review status with full audit history
+- **Field-level annotations** — per-column business labels, semantic notes, ontology mappings, and provenance origin
+- **Ragnarok mapping hints** — target table, per-column target mappings, WHERE clause filters, and confidence scores for every proposed mapping
+- **Data steward assignments** — named accountability for taxonomy groups and individual tables
+- **Policy and quality rule configurations** — governance thresholds and evaluation criteria
+- **Auto-label metadata** — algorithm version, match thresholds, confidence caps, and dictionaries consulted, ensuring reproducibility
+- **Data audit baselines** — aggregate profiling statistics (row counts, null rates, distinct counts, string lengths) captured under zero-knowledge constraints
 
-Assesses data quality characteristics of the source schema:
+This manifest is not a report. It is an operational artifact that drives migration planning, synchronization configuration, and governance enforcement across the entire Mimir Labs tool suite.
 
-- Column completeness (percentage of non-null values)
-- Value distribution analysis
-- Data type consistency (mixed types in string columns)
-- Referential integrity health (orphan FK references)
-- Generates quality scores per table and per column
+### Executive Summary
 
-#### PolicyEngine
+A four-page PDF designed for leadership and steering committees. It presents the governance state of an organization's data in terms that support investment and prioritization decisions.
 
-Enforces classification policies and governance rules:
+The summary includes a visual field coverage score, color-coded health indicators for definition consistency, ownership clarity, governance maturity, migration readiness, and schema completeness. A narrative section translates these metrics into plain-language findings: how many fields were assessed, where semantic collisions were detected, which areas lack clear data ownership, and how many remediation items the action plan contains. The report classifies overall governance maturity as Foundational, Developing, or Structured, with contextual explanation of what that classification means for operational risk.
 
-- Mandatory domain assignment (no unclassified tables)
-- Business label requirements (critical columns must have labels)
-- Minimum confidence thresholds for auto-classification
-- Custom policy rules per engagement
+### Action Plan
 
-#### MetricsEngine
+A prioritized remediation roadmap that converts governance findings into executable work. Available as both PDF (for stakeholder review) and JSON (for project management tooling).
 
-Collects and reports engagement-level metrics:
+Action items are organized into four phases: Critical items requiring immediate attention, High-priority items to plan within weeks, Consolidation items for medium-term improvement, and Migration-prep items that establish the foundation for data movement. Each item includes a description, expected outcome, affected entities, effort estimate, and impact score. The plan also includes an operational risk inventory that identifies scenarios like duplicate order propagation or financial reconciliation failures that governance gaps could produce.
 
-- Schema statistics (table count, column count, FK count, index count)
-- Classification coverage (percentage of tables classified)
-- Quality scores (aggregated from QualityEngine)
-- Time tracking per stage
+The plan computes an overall governance score and estimates the improvement achievable if all items are executed, giving stakeholders a concrete measure of return on governance investment.
 
-#### ActionPlanGenerator
+### Governance Summary
 
-Produces a structured action plan for the customer:
+A comprehensive technical report covering the full depth of governance analysis. It includes field coverage breakdowns, per-source classification tables, taxonomy distribution charts, structural observations (collision counts, unclassified fields), schema quality profiles (type distributions, nullability coverage, FK density, orphan tables), annotation depth metrics, and migration readiness scoring with confidence distribution histograms.
 
-- Recommended migration order based on FK dependencies
-- Risk assessment per table (complexity, data quality, FK depth)
-- Estimated effort for manual review requirements
-- Gap identification (tables that don't map cleanly to the Mimisbrunnr reference model or the intended target schema)
+### Conflict and Coverage Report
 
-#### ArtifactGenerator
+A detailed collision analysis identifying where semantic definitions disagree across sources or within the same source. The report distinguishes label collisions (same business concept, different labels), name collisions (same field name, different semantic assignments), and ownership divergences. Priority analysis ranks collisions by severity and distinguishes cross-source conflicts from intra-source inconsistencies.
 
-Generates deliverable documents from the analysis:
+### Data Quality Report
 
-- Executive summary report
-- Detailed schema analysis
-- Taxonomy classification report
-- Data quality assessment
-- Recommended migration plan
+A rules-based quality evaluation that assesses primary key presence, foreign key coverage, nullable ratios, naming conventions, type consistency, and column count bounds. Each rule produces a pass, fail, or not-applicable result with the specific threshold, actual value, and list of violations. Quality rules are capability-gated — if profiling data is unavailable, the rule reports N/A with an explanation rather than failing incorrectly.
 
-#### DataAuditBaseline
+### Policy Compliance Report
 
-Establishes the pre-migration data baseline:
+A governance policy evaluation covering organization-defined rules with pass/fail results, actual-vs-threshold comparisons, and per-rule violation details. This artifact supports compliance workflows where governance standards must be demonstrably met before migration proceeds.
 
-- Row counts per table
-- Data freshness (most recent timestamps)
-- Volume estimates for migration planning
-- Checksums for post-migration verification
+### Stewardship Matrix
 
-#### GLPeriodDiscovery
+A data accountability document that maps named stewards (with department, role, and contact information) to their assigned taxonomy groups and tables. This artifact establishes clear ownership before transformation work begins, preventing the common failure mode where no one owns the data definitions that migration depends on.
 
-Specialized engine for financial data:
+### Visual Artifacts
 
-- Discovers General Ledger fiscal period boundaries
-- Identifies chart of accounts structure
-- Maps financial reporting hierarchy
-- Critical for Finance domain classification accuracy
+Four SVG visualizations designed for presentations, workshops, and printed materials:
 
-### 3.3 Engine Layer
+- **Coverage chart** — horizontal progress bar showing labeled vs. unlabeled field ratio
+- **Taxonomy distribution** — stacked bar chart showing table counts per business domain
+- **Collision summary** — bar chart comparing label collisions, name collisions, and ownership divergences
+- **Data ecosystem map** — bipartite graph showing source systems connected to business domains via Bezier curves, with edge thickness proportional to table count, source nodes colored by classification (system of record, shadow system, legacy, reference), and a detailed cross-department FK path listing showing how data flows between organizational boundaries
 
-#### DdlParser
+### Data Audit Baseline
 
-Parses DDL (Data Definition Language) from multiple sources:
+When connected to a live source via ODBC, Ratatosk profiles every column to produce aggregate statistics: row counts, null percentages, distinct value counts, string length distributions, and empty-string counts. No actual row values are ever queried, computed, or stored — the engine operates exclusively on aggregate SQL functions (COUNT, AVG, MAX of lengths). The baseline enables data quality flagging: sparse columns, constant columns, all-empty text fields, and empty tables are identified automatically.
 
-- PostgreSQL CREATE TABLE statements
-- SQL Server CREATE TABLE statements
-- Extracts: table names, column definitions, data types, constraints, FK relationships, indexes
-- Builds the in-memory schema graph used by all other engines
+## Integration with Mimisbrunnr
 
-### 3.4 Ingest Layer
+Mimisbrunnr provides the canonical semantic model used to normalize enterprise data structures.
 
-| Loader | Source | Method |
-|--------|--------|--------|
-| `OdbcIntrospector` | PostgreSQL, SQL Server | ODBC connection → `INFORMATION_SCHEMA` queries |
-| `CsvSchemaLoader` | CSV files | Header row analysis + type inference |
-| `JsonSchemaLoader` | JSON files | Structure analysis + type inference |
-| `SchemaIngestorBase` | Abstract base | Common interface for all loaders |
+Ratatosk aligns discovered enterprise entities with this reference model.
 
----
+This alignment allows organizations to translate disparate schemas into a shared semantic representation without forcing immediate structural changes to existing systems.
 
-## 4. User Interface
+The canonical model therefore acts as a semantic intermediary between systems with incompatible schemas.
 
-### 4.1 Workshop Flow
+## Integration with Migration and Synchronization Layers
 
-Ratatosk is designed for use during facilitated workshops with the customer's data stewards:
+Once a Ratatosk manifest has been produced, additional components of the architecture stack can operate against it.
 
-1. **Source Selection** — Connect to source database or load schema files
-2. **Schema Discovery** — Automatic schema introspection with statistics
-3. **Taxonomy Classification** — Interactive domain assignment with auto-suggestions
-4. **Annotation** — Business label entry and semantic notes per column
-5. **Quality Assessment** — Review data quality metrics and flag concerns
-6. **Review & Export** — Final review and manifest generation
-
-### 4.2 UI Components
-
-| Component | Purpose |
-|-----------|---------|
-| `SourceSelectDialog` | Database/file source configuration |
-| `CatalogPanel` | Schema browser with domain color-coding and search |
-| `AnnotationWindow` | Business label and semantic note editor |
-| `LineageWindow` | Visual FK relationship graph (table lineage) |
-| `ReviewDialog` | Final classification review before export |
-| `ExportDialog` | Manifest export with format options |
-| `GovernanceExportDialog` | Export governance artifacts for Jormungandr |
-| `PolicyDashboard` | Policy configuration and compliance monitoring |
-| `QualityDashboard` | Data quality visualization and drill-down |
-| `StewardshipPanel` | Data steward assignment and responsibility tracking |
-| `WorkshopDisplayWindow` | Presentation-mode view for workshop facilitation |
-
-The `WorkshopDisplayWindow` provides a large-format, presentation-friendly view designed to be projected during customer workshops, allowing real-time collaborative classification.
-
----
-
-## 5. Telemetry Subsystem
-
-### 5.1 Architecture
-
-Ratatosk includes an optional telemetry subsystem (compile-time flag: `RATATOSK_ENABLE_TELEMETRY`):
-
-| Component | Purpose |
-|-----------|---------|
-| `ConsentManager` | GDPR-compliant consent collection and persistence |
-| `TelemetryController` | Central telemetry coordinator |
-| `TelemetryKeyValidator` | Validates telemetry API keys |
-| `PayloadBuilder` | Constructs anonymized telemetry payloads |
-| `SessionTimer` | Tracks session duration and stage timing |
-| `TelemetryTransmitter` | HTTPS transmission to Mimir Labs analytics |
-| `AuditLog` | Local audit trail of all telemetry transmissions |
-| `TelemetryStatusDialog` | User-facing telemetry status and controls |
-
-### 5.2 Consent Model
-
-- **Opt-in only** — Telemetry is disabled by default
-- **Granular consent** — Users choose which data categories to share
-- **Transparency** — Every payload is viewable before transmission
-- **Revocable** — Consent can be withdrawn at any time
-- **Local audit** — All transmissions are logged locally for the user's records
-
-### 5.3 Ratatosk Key
-
-The `ratatosk-keygen` companion tool generates `.ratatosk-key` files:
-
-- **Ed25519 digital signatures** — Keys are cryptographically signed by Mimir Labs
-- **Consent verification** — Keys are generated only from verified consent documents
-- **Expiration** — Keys have configurable expiry (default: 90 days)
-- **Engagement-bound** — Each key is tied to a specific customer engagement
-
-The keygen is an internal Mimir Labs tool, not distributed to customers.
-
----
-
-## 6. Manifest Format
-
-The `.ratatosk.json` manifest is the primary output and the data contract between all Mimir Labs tools:
-
-```json
-{
-    "version": "1.0",
-    "engagement": {
-        "id": "eng-2026-0042",
-        "customer": "ACME Manufacturing",
-        "date": "2026-03-14",
-        "facilitator": "Data Steward"
-    },
-    "source": {
-        "type": "postgresql",
-        "database": "legacy_erp",
-        "table_count": 85,
-        "column_count": 1200
-    },
-    "taxonomy": {
-        "groups": [
-            {
-                "domain": "CRM",
-                "tables": ["customers", "contacts", "opportunities"],
-                "confidence": 0.95
-            }
-        ]
-    },
-    "tables": [
-        {
-            "source_name": "customers",
-            "domain": "CRM",
-            "business_label": "Customer Accounts",
-            "columns": [
-                {
-                    "source_name": "cust_id",
-                    "data_type": "integer",
-                    "business_label": "Customer Identifier",
-                    "semantic_notes": "Primary key, auto-increment",
-                    "quality_score": 1.0,
-                    "nullable": false
-                }
-            ],
-            "foreign_keys": [
-                {
-                    "column": "region_id",
-                    "references": "regions.id"
-                }
-            ]
-        }
-    ],
-    "quality": {
-        "overall_score": 0.87,
-        "completeness": 0.92,
-        "consistency": 0.83,
-        "referential_integrity": 0.91
-    },
-    "metrics": {
-        "classified_tables": 82,
-        "unclassified_tables": 3,
-        "total_columns": 1200,
-        "labeled_columns": 1150,
-        "session_duration_minutes": 240
-    }
-}
-```
-
-### 6.1 Manifest Consumers
-
-| Consumer | How It Uses the Manifest |
-|----------|------------------------|
-| **Ragnarok** | Loads as the migration plan foundation — table/column mappings, domain classification, quality scores |
-| **Bifrost** | Loads as the foundational routing table — sync routes, field ownership, domain scoping |
-| **Jormungandr** | Imports as the baseline canonical schema — establishes the governance canon |
-
----
-
-## 7. Security
-
-- **Air-gapped operation** — No internet required (telemetry is opt-in and optional)
-- **No credential storage** — Database credentials entered at runtime
-- **Operator authentication** — DevAdmin/TenantAdmin gate
-- **Ed25519 key verification** — Engagement keys are cryptographically verified
-- **Consent-gated telemetry** — No data leaves the machine without explicit opt-in
-
----
-
-## 8. Build and Distribution
-
-```bash
-cd tools/ratatosk && mkdir -p build && cd build
-cmake ..                                    # Without telemetry
-cmake .. -DRATATOSK_ENABLE_TELEMETRY=ON     # With telemetry
-make -j$(nproc)
-./Ratatosk
-```
-
-Companion keygen tool:
-```bash
-cd tools/ratatosk-keygen && mkdir -p build && cd build
-cmake ..
-make -j$(nproc)
-./RatatoskKeygen --consent consent.json --private-key ed25519.pem
-```
-
----
-
-## 9. Relationship to Jormungandr
-
-Ratatosk produces manifests. Jormungandr consumes and enforces them:
-
-```
-Ratatosk discovers and proposes canon.
-Jormungandr owns and enforces canon.
-```
-
-After a Ratatosk engagement, the manifest is imported into Jormungandr as the baseline canonical schema. Jormungandr then monitors for schema drift, validates new data structures against the canon, and produces governance compliance reports — converting a one-time engagement into an ongoing governance subscription.
+### Ragnarok
+
+Ragnarok uses the manifest to generate transformation pipelines for ERP migrations or system replacements.
+
+### Bifrost
+
+Bifrost uses the manifest to maintain semantic synchronization between multiple operational systems.
+
+### Jormungandr
+
+Jormungandr uses the manifest to enforce governance policies and maintain semantic consistency over time.
+
+## Operational Architecture
+
+Ratatosk is implemented as a standalone desktop application built using C++17 and Qt 6. It connects to enterprise systems through ODBC database connections and operates entirely locally — no cloud services, no external dependencies, no data transmitted off-premises.
+
+The application provides a multi-window interface organized around discovery, annotation, and governance workflows:
+
+- **Annotation Window** — the primary workspace where operators classify tables, assign business labels, review auto-generated mappings, and add semantic notes. Confidence-scored suggestions from the auto-label engine are presented for human review and override.
+- **Lineage Window** — a visual data lineage graph that draws Bezier curves from source tables to target mappings, color-coded by confidence level. Clicking a connection reveals the column-level mapping detail. Filters by source, taxonomy group, and mapping status allow operators to focus on specific areas.
+- **Workshop Display** — a projector-facing facilitation view designed for stakeholder workshops. It shows business-facing labels, taxonomy groups, and annotation progress without exposing technical schema details, confidence scores, or target identifiers.
+- **Quality Dashboard** — rules-based data quality evaluation with configurable thresholds. Results display pass/fail status, actual values vs. thresholds, and violation details.
+- **Policy Dashboard** — governance policy compliance evaluation with per-rule results and overall compliance scoring.
+- **Catalog Panel** — a searchable data dictionary showing every source column with its enriched metadata: business label, taxonomy classification, semantic notes, annotation status, and assigned steward. Exportable to CSV.
+- **Stewardship Panel** — data steward management and assignment interface that maps accountability to taxonomy groups and tables.
+- **Export Dialogs** — pre-export validation (error/warning gating with override controls) and governance artifact generation with selective artifact toggles and engagement metadata.
+
+The annotation engine uses a deterministic auto-label algorithm combining Levenshtein string distance, synonym normalization (50+ groups), and type compatibility scoring. All auto-generated labels are prefixed with `SUGGESTED:` and capped at 0.80 confidence to ensure that human operators remain authoritative. Every annotation carries a review status (Draft, Under Review, Approved, Locked) with a full audit trail of reviewer name, timestamp, and notes.
+
+## Deployment Model
+
+Ratatosk can operate in several deployment configurations.
+
+Typical modes include:
+
+- Consultant-operated discovery environment
+- Internal enterprise governance tool
+- Pre-migration analysis platform
+
+Because Ratatosk operates primarily on metadata and schema information, it can perform meaningful analysis without requiring full operational access to production systems.
+
+## Strategic Role
+
+Ratatosk represents the first step in establishing coherent enterprise data architecture.
+
+By formalizing the meaning of enterprise entities before transformation occurs, organizations gain a stable semantic foundation upon which migrations, integrations, and operational systems can be built. Because Ratatosk operates on schema metadata rather than requiring a specific target system, it delivers value to any organization regardless of whether they adopt Yggdrasil ERP or any other Mimir Labs product. The manifests it produces are consumed by the entire tool suite — Ragnarok, Bifrost, and Jormungandr — all of which share this system-agnostic design.
+
+The Ratatosk manifest becomes a durable artifact describing enterprise meaning — one that can guide both current operations and future system evolution.
+
+Ratatosk therefore functions not merely as a discovery tool, but as the mechanism through which organizations translate informal operational knowledge into a formal semantic architecture.
 
 ---
 

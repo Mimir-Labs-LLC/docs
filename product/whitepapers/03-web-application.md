@@ -1,483 +1,244 @@
-# Yggdrasil ERP — Web Application Architecture White Paper
-
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
-
+---
+title: "Yggdrasil ERP — Web Application Architecture"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-004"
+classification: "Public"
+logo: "mimir_labs_logo.png"
 ---
 
-## Executive Summary
+## Overview
 
-The Yggdrasil ERP web application is a Next.js 15 application built with React, TypeScript, and Tailwind CSS. It provides browser-based access to all 10 business modules, designed to match the feature set of the reference Qt desktop client while adding responsive layouts for tablet and mobile use. This white paper covers the application architecture, component model, state management, real-time integration, and deployment characteristics.
+The Yggdrasil ERP web application provides browser-based access to the platform while maintaining feature parity with the native desktop client. The application is implemented using Next.js, React, and TypeScript, and communicates exclusively with the Yggdrasil C++ backend server through the public REST and WebSocket interfaces.
 
----
+The web client is designed as a portable interface layer rather than the architectural reference implementation. New platform capabilities are first implemented and validated in the native desktop client and then reproduced in the web interface. This ensures that browser constraints never dictate core platform behavior while still enabling ubiquitous access across devices.
 
-## 1. Technology Stack
+The web application exposes all primary ERP modules as well as administrative, onboarding, and portal interfaces.
 
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Framework | Next.js | 15 |
-| Language | TypeScript | Strict mode |
-| UI Library | React | 18+ |
-| Styling | Tailwind CSS | 3.4.1 |
-| Server State | TanStack React Query | 5.51.1 |
-| Client State | Zustand | 4.5.4 |
-| HTTP Client | Axios | Latest |
-| Charts | Recharts | Latest |
-| Validation | Zod | Latest |
-| Testing | Vitest + Testing Library | 2.x |
+## Technology Stack
 
----
+| Component | Technology |
+|-----------|-----------|
+| Framework | Next.js |
+| Language | TypeScript (strict mode) |
+| UI Library | React |
+| Styling | Tailwind CSS |
+| Server State | TanStack React Query |
+| Client State | Zustand |
+| HTTP Client | Axios |
+| Charting | Recharts |
+| Validation | Zod |
+| Testing | Vitest + Testing Library |
 
-## 2. Application Architecture
+This stack provides strongly typed client logic, predictable state management, and modular component development while maintaining compatibility with modern browser environments.
 
-### 2.1 Next.js App Router
+## Application Structure
 
-The application uses Next.js 15's App Router for file-system-based routing:
+The web application uses Next.js App Router with filesystem-based routing. Each business module corresponds to a dedicated route within the application.
+
+Example structure:
 
 ```
-web-app/app/
-├── layout.tsx              — Root layout (sidebar, auth provider)
-├── page.tsx                — Dashboard
-├── crm/page.tsx            — CRM module
-├── sales/page.tsx          — Sales module
-├── purchasing/page.tsx     — Purchasing module
-├── manufacturing/page.tsx  — Manufacturing module
-├── warehouse/page.tsx      — Warehouse module
-├── finance/page.tsx        — Finance module
-├── projects/page.tsx       — Projects module
-├── plm/page.tsx            — PLM module
-├── quality/page.tsx        — Quality module
-├── service/page.tsx        — Service module
-├── hr/page.tsx             — HR module
-├── logistics/page.tsx      — Logistics module
-├── forms/page.tsx          — Form Builder
-├── approvals/page.tsx      — Approval center
-├── settings/page.tsx       — User settings
-├── admin/page.tsx          — Admin panel
-├── api-reference/page.tsx  — API documentation
-├── documents/page.tsx      — Document templates
-├── login/page.tsx          — Authentication
-└── portal/                 — Customer portal (separate layout)
-    ├── page.tsx            — Portal dashboard
-    ├── team/page.tsx       — User management
-    ├── subscription/       — Module activation
-    ├── settings/           — Organization settings
-    ├── support/            — Support tickets
-    ├── documents/          — Document library
-    ├── help/               — Help center (16 articles)
-    ├── api-docs/           — API reference
-    └── onboarding/         — New account wizard
+app/
+  layout.tsx
+  page.tsx
+  crm/
+  sales/
+  purchasing/
+  manufacturing/
+  warehouse/
+  finance/
+  projects/
+  plm/
+  quality/
+  service/
+  hr/
+  logistics/
+  forms/
+  approvals/
+  settings/
+  admin/
+  api-reference/
+  documents/
+  portal/
 ```
 
-### 2.2 Rendering Strategy
+The portal section contains a simplified interface intended for account management, onboarding, documentation access, and support interactions rather than operational ERP workflows.
 
-The application uses a hybrid rendering approach:
+## Rendering Model
 
-- **Server Components** — Layout components, metadata, and static content render on the server
-- **Client Components** — Interactive modules, forms, tables, and real-time elements use `"use client"` directive
-- **API Routes** — No Next.js API routes; all data flows through the C++ backend server
-
----
-
-## 3. Component Architecture
+The application uses a hybrid rendering strategy combining server and client components.
 
-### 3.1 Shared Components
-
-38+ reusable components in `components/shared/`:
+Server components handle layout composition, metadata, and static rendering tasks. Interactive functionality such as forms, tables, and live dashboards are implemented as client components using React hooks and browser APIs.
 
-| Component | Purpose |
-|-----------|---------|
-| `CrudPanel` | Generic CRUD list/detail view with search, pagination, inline editing, row actions, export, and attachments |
-| `AttachmentPanel` | File upload, download, and delete for any entity type |
-| `PrintableDocument` | Print-ready document framework (DocHeader, DocParties, DocLineItems, DocTotals, DocNotes, DocFooter) |
-| `ExportButton` | CSV/XLSX export with column selection |
-| `DocumentBuilder` | Quote/Invoice/PO document builder with line items and totals |
-| `RecordDetailPage` | Master-detail view with configurable sections |
+All operational data originates from the Yggdrasil backend server; the web application does not implement its own API layer.
 
-### 3.2 Chart Components
+## Component Architecture
 
-Recharts-based visualization components in `components/shared/charts/`:
+The interface is constructed from a library of reusable components that standardize interaction patterns across all modules.
 
-| Component | Type |
-|-----------|------|
-| `ChartCard` | Base wrapper with title and loading state |
-| `BarChartCard` | Vertical/horizontal bar charts |
-| `LineChartCard` | Time-series line charts |
-| `PieChartCard` | Pie/donut charts |
-| `AreaChartCard` | Stacked area charts |
-
-### 3.3 Navigation
-
-The `Sidebar` component provides:
-
-- Module navigation with icons and labels
-- Collapsible sections for module grouping
-- Active route highlighting
-- Role-based visibility (admin-only items hidden for regular users)
-- Global search with 300ms debounced typeahead
-- Notification badge for unread alerts
-- User profile and logout
-
-### 3.4 CrudPanel — The Core Component
-
-`CrudPanel` is the primary data interaction component, used by every module page. Its props enable full customization:
-
-| Prop | Purpose |
-|------|---------|
-| `entityType` | API endpoint path segment |
-| `columns` | Column definitions with sort, filter, and format options |
-| `formFields` | Create/edit form field definitions with validation |
-| `tabs` | Sub-entity navigation within the module |
-| `rowActions` | Per-row action buttons (e.g., Convert, Invoice, Complete) |
-| `attachmentEntityType` | Enable attachment panel for the entity |
-| `pdfEndpoint` | Enable print/PDF download button |
-| `searchable` | Enable server-side search |
-| `exportable` | Enable CSV/XLSX export |
-
----
-
-## 4. State Management
-
-### 4.1 Server State (React Query)
-
-TanStack React Query manages all server-side data:
-
-```typescript
-// Automatic caching, background refetch, and stale-while-revalidate
-const { data, isLoading, error } = useQuery({
-    queryKey: ['sales-orders', page, search],
-    queryFn: () => api.salesOrders.list({ page, search })
-});
-```
-
-Benefits:
-- **Automatic caching** — Responses cached by query key, reducing redundant API calls
-- **Background refetch** — Stale data is served immediately while fresh data loads
-- **Optimistic updates** — UI updates before server confirmation for snappy interactions
-- **Query invalidation** — Mutations automatically invalidate related queries
-- **Pagination** — Built-in support for cursor and offset-based pagination
-
-### 4.2 Client State (Zustand)
-
-Zustand stores manage client-side state:
-
-| Store | Purpose |
-|-------|---------|
-| `auth` | User session, JWT tokens, role, permissions |
-| `notifications` | Unread count, notification list, preferences |
-| `sidebar` | Collapsed state, active module |
-| `theme` | Color scheme preferences |
-
-```typescript
-// Lightweight, TypeScript-typed stores
-const useAuth = create<AuthState>((set) => ({
-    user: null,
-    isAuthenticated: false,
-    login: async (email, password) => { /* ... */ },
-    logout: () => set({ user: null, isAuthenticated: false })
-}));
-```
-
-### 4.3 State Architecture Separation
-
-- **React Query** handles everything that comes from the server: entity data, lists, aggregations, KPIs
-- **Zustand** handles everything that lives on the client: auth session, UI preferences, notification state
-- This separation prevents the common pitfall of using a global store for server data, which leads to stale data and manual cache management
-
----
-
-## 5. API Integration
-
-### 5.1 API Client Layer
-
-23+ API client modules in `lib/api/`:
-
-| Module | Endpoints |
-|--------|-----------|
-| `auth.ts` | Login, logout, refresh, MFA enrollment |
-| `crm.ts` | Accounts, contacts, opportunities, leads |
-| `sales.ts` | Quotes, orders, invoices, commissions |
-| `purchasing.ts` | POs, suppliers, receipts |
-| `manufacturing.ts` | Work orders, BOMs, operations, MRP |
-| `warehouse.ts` | Inventory, locations, transactions, picks |
-| `finance.ts` | GL, AR, AP, banking, currencies |
-| `projects.ts` | Projects, tasks, time entries, issues |
-| `plm.ts` | Parts, EBOMs, MBOMs, ECRs |
-| `quality.ts` | 8D, CAPA, NCR, audits, inspections |
-| `service.ts` | Tickets, RMA, maintenance, orders |
-| `hr.ts` | Employees, departments, positions |
-| `admin.ts` | Users, roles, system configuration |
-| `search.ts` | Global search across 12 module tables |
-| `notifications.ts` | Notification management |
-| `forms.ts` | Form templates and submissions |
-| `approvals.ts` | Approval workflows |
-| `integration.ts` | Dead letter management |
-| `attachments.ts` | File upload, download, delete |
-| `export.ts` | CSV/XLSX generation |
-| `dashboard.ts` | KPIs, charts, alerts, activity |
-
-### 5.2 Authentication Flow
-
-```
-1. User submits login form
-2. POST /api/auth/login (email + password + optional TOTP)
-3. Server sets HttpOnly Secure cookies (access + refresh tokens)
-4. Zustand auth store updates (user, role, permissions)
-5. Middleware.ts checks auth on every navigation
-6. 401 responses trigger automatic token refresh
-7. Refresh failure → redirect to login
-```
-
-### 5.3 Axios Configuration
-
-The Axios instance is configured with:
-- **Base URL** — `API_URL` from `next.config.js` environment variable
-- **Credentials** — `withCredentials: true` for cookie-based auth
-- **Interceptors** — Automatic 401 → refresh → retry pipeline
-- **Tenant header** — `X-Tenant-ID` injected on every request
-
----
-
-## 6. Real-Time Features
-
-### 6.1 WebSocket Integration
-
-The `lib/ws.ts` module manages WebSocket connections:
-
-```typescript
-// Connect to server's B2B Event Hub
-const ws = new WebSocket(`${WS_URL}?token=${accessToken}`);
-
-ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    switch (data.type) {
-        case 'notification': handleNotification(data); break;
-        case 'state_transition': invalidateQueries(data); break;
-        case 'data_change': invalidateQueries(data); break;
-    }
-};
-```
-
-### 6.2 Live Updates
-
-WebSocket events trigger React Query cache invalidation:
-
-- Status changes on viewed entities update in real-time
-- Dashboard KPIs refresh on relevant data changes
-- Notification badges update immediately
-- No polling — all updates are server-pushed
-
-### 6.3 Reconnection
-
-The WebSocket client handles connection interruptions:
-- Automatic reconnection with exponential backoff
-- Re-authentication on reconnect
-- Missed events recovered on next data fetch
-
----
-
-## 7. Validation
-
-### 7.1 Zod Schemas
-
-Input validation uses Zod schemas in `lib/validation/schemas/`:
+Core components include:
 
-| Schema File | Entities Validated |
-|-------------|-------------------|
-| `crm.ts` | Accounts, contacts, opportunities, leads |
-| `sales.ts` | Quotes, orders, invoices |
-| `purchasing.ts` | POs, suppliers |
-| `manufacturing.ts` | Work orders, BOMs, operations |
-| `warehouse.ts` | Inventory items, locations, transactions |
-| `finance.ts` | GL entries, payments, currencies |
-| `quality.ts` | 8D, CAPA, NCR, audits, inspections |
-| `service.ts` | Tickets, RMA, maintenance |
-| `approval.ts` | Approval requests |
-| `hr.ts` | Employees, departments |
-
-### 7.2 Validation Strategy
-
-- **Client-side** — Zod schemas validate form input before submission, providing instant feedback
-- **Server-side** — The C++ server validates all input independently (never trusts client validation)
-- **OpenAPI** — `additionalProperties: false` on all create/update schemas rejects unknown fields
-- **Type safety** — Zod infers TypeScript types from schemas, ensuring compile-time type checking
+| Component | Function |
+|-----------|----------|
+| CrudPanel | Generic CRUD interface for entity management |
+| RecordDetailPage | Master-detail entity view |
+| AttachmentPanel | File management for records |
+| ExportButton | CSV and spreadsheet export |
+| PrintableDocument | Print-ready document rendering |
+| DocumentBuilder | Interactive document generation |
 
----
-
-## 8. Styling and Theming
+The CrudPanel component acts as the primary interaction surface for module pages, providing a configurable system for data tables, forms, filtering, pagination, and row-level actions.
 
-### 8.1 Tailwind Configuration
-
-Custom Yggdrasil theme defined in `tailwind.config.ts`:
-
-```typescript
-theme: {
-    extend: {
-        colors: {
-            yggdrasil: {
-                50: '#f0fdf4',   // Lightest green
-                500: '#22c55e',  // Primary green
-                900: '#14532d',  // Darkest green
-                // Full 50-900 scale
-            }
-        }
-    }
-}
-```
+Chart components built with Recharts provide dashboard visualizations including bar, line, pie, and area charts.
 
-### 8.2 Design Principles
+### Navigation Model
 
-- **Consistent spacing** — Tailwind's spacing scale used throughout (no arbitrary pixel values)
-- **Component-level styling** — Styles are co-located with components, not in global stylesheets
-- **Responsive design** — All pages use Tailwind breakpoints (`sm:`, `md:`, `lg:`, `xl:`) for responsive layouts
-- **Dark mode ready** — Color palette supports dark mode through Tailwind's `dark:` variant (not yet enabled)
+The main navigation sidebar organizes modules according to operational domains. The sidebar provides:
 
----
+- Module navigation
+- Role-based visibility
+- Global search
+- Notification indicators
+- User account controls
 
-## 9. Portal
+Routes correspond directly to backend module domains, ensuring conceptual parity between interface navigation and server architecture.
 
-### 9.1 Separate Layout
+## State Management
 
-The customer portal (`/portal/*`) uses a separate layout from the main ERP application:
+The application separates server state and client state responsibilities.
 
-- **No sidebar** — Cleaner navigation for non-ERP functions
-- **Simplified header** — Organization name, user profile, logout
-- **Limited scope** — Administration and configuration, not data entry
+Server state is managed through TanStack React Query. This library provides automatic caching, background refetching, and optimistic update capabilities for data retrieved from the backend.
 
-### 9.2 Portal Pages
+Client state is handled by Zustand stores which maintain application-level information such as authentication status, user preferences, navigation state, and notification counts.
 
-| Page | Purpose |
-|------|---------|
-| Dashboard | Health status, module overview, quick actions |
-| Team | User management, invitations, CSV export |
-| Subscription | Module activation and tier management |
-| Settings | Profile, password, organization, deletion |
-| Support | Support ticket management with CSV export |
-| Documents | Print-ready document templates (PO, Invoice, Quote, Pick List) |
-| Help | 16-article help center with category search |
-| API Docs | 19-endpoint API reference |
-| Onboarding | New account setup wizard |
+This separation prevents the common failure mode of storing server data in global client stores, which often results in stale data and manual cache management.
 
----
+## API Integration
 
-## 10. Export and Printing
+All communication with the backend occurs through typed API modules located in the application's API client layer. These modules correspond directly to backend service domains.
 
-### 10.1 Data Export
+Examples include:
 
-The `ExportButton` component provides CSV and XLSX export:
+- CRM
+- Sales
+- Purchasing
+- Manufacturing
+- Warehouse
+- Finance
+- Projects
+- PLM
+- Quality
+- Service
+- HR
+- Administration
 
-- **Client-side generation** — `lib/export.ts` utilities generate files in the browser
-- **Column selection** — Users choose which columns to include
-- **Filename convention** — `{entity-type}_{date}.csv` format
-- **Large dataset support** — Streaming generation for datasets > 10,000 rows
+Each module exposes strongly typed functions for list queries, entity retrieval, mutations, and workflow operations.
 
-### 10.2 Document Printing
+Axios provides HTTP communication with a shared configuration that handles authentication cookies, tenant identification headers, and automatic token refresh when authorization failures occur.
 
-Server-generated PDFs for commercial documents:
+### Authentication Flow
 
-- `PrintableDocument` component renders print-ready HTML
-- Server endpoints generate branded PDF files with HTML templates
-- Supported documents: Quotes, Sales Orders, Invoices, Purchase Orders, Pick Lists, Work Orders
+User authentication occurs through the backend authentication service.
 
----
+The process follows this sequence:
 
-## 11. Testing
+1. User submits login credentials.
+2. The application calls the authentication endpoint.
+3. The server returns access and refresh tokens stored in secure HTTP-only cookies.
+4. Client session state updates within the authentication store.
+5. Navigation middleware validates session state on protected routes.
 
-### 11.1 Unit Tests
+If an access token expires, the Axios interceptor automatically attempts token refresh before retrying the request.
 
-```bash
-npm test              # Run all tests (single run)
-npm run test:watch    # Watch mode for development
-npm run test:coverage # Coverage report
-```
+## Real-Time Integration
 
-| Aspect | Configuration |
-|--------|--------------|
-| Framework | Vitest 2.x with jsdom environment |
-| Component testing | `@testing-library/react` |
-| Assertions | Vitest built-in + `@testing-library/jest-dom` |
-| Test location | Co-located `__tests__/` directories |
-| Naming | `*.test.ts` / `*.test.tsx` |
+The web client receives live system events through WebSocket connections to the server's event hub.
 
-### 11.2 Type Checking
+These events include:
 
-```bash
-npm run type-check    # tsc --noEmit
-```
+- Data changes
+- Workflow transitions
+- System notifications
 
-TypeScript strict mode is enabled with:
-- `strict: true` — Enables all strict type checking options
-- `noUncheckedIndexedAccess` — Array/object access returns `T | undefined`
-- `noImplicitReturns` — All code paths must return a value
+Incoming events invalidate corresponding React Query caches, triggering automatic UI updates without polling.
 
-### 11.3 Linting
+Connection management includes automatic reconnection, exponential backoff, and session reauthentication after reconnection.
 
-```bash
-npm run lint          # ESLint with next config
-```
+## Validation Model
 
-ESLint rules enforce:
-- React hooks rules (dependency arrays, hook order)
-- Import ordering
-- No unused variables
-- Accessibility (jsx-a11y)
+Client-side input validation uses Zod schemas which define entity validation rules shared across form components.
 
----
+Client validation improves user experience by catching invalid input immediately. However, the backend server performs independent validation for all requests to ensure data integrity.
 
-## 12. Build and Deployment
+TypeScript types are inferred from Zod schemas, ensuring compile-time consistency between validation logic and application code.
 
-### 12.1 Build Process
+## Styling System
 
-```bash
-npm run build         # Next.js production build
-npm run start         # Production server
-```
+The interface uses Tailwind CSS for utility-based styling. A custom Yggdrasil color palette defines the visual identity of the platform.
 
-Build output:
-- Server-rendered pages pre-compiled as static HTML where possible
-- Client-side JavaScript bundles with automatic code splitting
-- CSS extracted and minified
+Design principles emphasize:
 
-### 12.2 Environment Configuration
+- Consistent spacing scale
+- Responsive layouts
+- Component-level styling
+- Minimal global CSS
 
-| Variable | Purpose | Default |
-|----------|---------|---------|
-| `API_URL` | C++ backend server URL | `http://localhost:8080` |
-| `WS_URL` | WebSocket server URL | `ws://localhost:8081` |
+Dark-mode compatibility is supported through the Tailwind theme configuration although the feature is not currently enabled in production builds.
 
-### 12.3 CI/CD Pipeline
+## Portal Interface
 
-| Job | Purpose |
-|-----|---------|
-| `web-lint` | ESLint + TypeScript strict checking |
-| `web-test` | Vitest unit tests |
-| `web-build` | Next.js production build verification |
+The portal environment provides a simplified interface distinct from the operational ERP modules. It is intended for administrative and account-level interactions.
 
----
+Portal features include:
 
-## 13. Email System
+- Organization management
+- User invitations
+- Subscription configuration
+- Support ticket management
+- Help documentation
+- Onboarding workflows
 
-### 13.1 Email Templates
+This environment allows customers to manage their deployment without exposing full ERP complexity.
 
-8 email templates defined in `lib/email.ts`:
+## Export and Document Generation
 
-| Template | Trigger |
-|----------|---------|
-| Welcome | New user account creation |
-| Password reset | Password reset request |
-| Password changed | Successful password change |
-| MFA enabled | TOTP enrollment confirmation |
-| Approval request | New approval submitted |
-| Approval decision | Approval approved/rejected |
-| Notification digest | Daily/weekly notification summary |
-| Support ticket | New support ticket created |
+The application supports two document workflows.
 
-### 13.2 Delivery
+Data exports are generated directly within the browser, allowing users to download CSV or spreadsheet files derived from table data.
 
-- **Production** — SMTP delivery via the C++ server's EmailService
-- **Development** — stdout fallback for local testing without SMTP configuration
+Commercial documents such as invoices, purchase orders, and quotes are generated by the backend server as formatted PDFs and delivered to the client for printing or download.
+
+## Testing and Quality Assurance
+
+Testing is performed using the Vitest framework combined with React Testing Library.
+
+Tests cover component behavior, state management logic, and API integration points. TypeScript strict mode provides compile-time verification of type safety across the application.
+
+Linting rules enforce React hook correctness, import organization, and accessibility standards.
+
+## Build and Deployment
+
+Production builds are generated using the Next.js build pipeline.
+
+The build process produces optimized client bundles with automatic code splitting, static page generation where applicable, and compressed style assets.
+
+Environment variables configure the backend API endpoint and WebSocket event hub address.
+
+Continuous integration pipelines perform linting, type checking, unit tests, and production build verification before deployment.
+
+## Architectural Role
+
+Within the Yggdrasil ecosystem, the web client serves as a universal access layer that complements the native desktop interface.
+
+Its primary roles are:
+
+1. Browser-based operational access
+2. Responsive interfaces for tablet and mobile environments
+3. Administrative and portal workflows
+
+Because it interacts solely through the public platform APIs, the web application also acts as an external validation of the platform's interface stability and integration design.
 
 ---
 

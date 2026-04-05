@@ -1,0 +1,178 @@
+% Mimir Labs Whitepaper Template (XeLaTeX)
+% Used by pandoc to generate branded PDF whitepapers
+\documentclass[11pt,letterpaper]{article}
+
+% ── Packages ─────────────────────────────────────────────────────────
+\usepackage[margin=1in,top=1.4in,bottom=1.4in]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lastpage}
+\usepackage{tabularx}
+
+% ── Colors ───────────────────────────────────────────────────────────
+\definecolor{mlprimary}{HTML}{1B3A4B}    % Deep navy (Mimir Labs brand)
+\definecolor{mlaccent}{HTML}{2B6CB0}     % Steel blue accent
+\definecolor{mlgray}{HTML}{6B7280}       % Body gray
+\definecolor{mllightgray}{HTML}{E5E7EB}  % Rule/border gray
+\definecolor{mldarktext}{HTML}{1F2937}   % Near-black body text
+
+% ── Fonts ────────────────────────────────────────────────────────────
+\setmainfont{Segoe UI}[
+  BoldFont={Segoe UI Bold},
+  ItalicFont={Segoe UI Italic},
+  BoldItalicFont={Segoe UI Bold Italic}
+]
+\setmonofont{Cascadia Code}[Scale=0.85]
+
+% ── Hyperlinks ───────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=mlaccent,
+  urlcolor=mlaccent,
+  citecolor=mlaccent,
+  pdftitle={$title$},
+  pdfauthor={$author$},
+}
+
+% ── Section Formatting ───────────────────────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries\color{mlprimary}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\large\bfseries\color{mlprimary}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{mlprimary}}{\thesubsubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{1.5em}{0.75em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+\titlespacing*{\subsubsection}{0pt}{1em}{0.4em}
+
+% ── Paragraph Formatting ────────────────────────────────────────────
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+% ── Table Formatting ────────────────────────────────────────────────
+% Fix pandoc 3.9 longtable issue: \def\LTcaptype{none} needs counter "none"
+\newcounter{none}
+\captionsetup[table]{labelfont=bf,textfont=it,skip=6pt}
+\captionsetup[figure]{labelfont=bf,textfont=it,skip=6pt}
+
+% ── Lists ────────────────────────────────────────────────────────────
+\setlist[itemize]{topsep=0.3em,itemsep=0.15em,parsep=0pt}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.15em,parsep=0pt}
+
+% ── Code Blocks ──────────────────────────────────────────────────────
+\usepackage{framed}
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% ── Header / Footer ─────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+
+% Header: logo left, document info right
+\fancyhead[L]{%
+  \raisebox{-0.3\height}{\includegraphics[height=24pt]{$logo$}}%
+}
+\fancyhead[R]{%
+  \small\color{mlgray}%
+  $docnumber$ \enspace\textbar\enspace Rev.\ $version$ \enspace\textbar\enspace $date$%
+}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{mllightgray}\leaders\hrule height \headrulewidth\hfill}}
+
+% Footer: copyright left, page right
+\fancyfoot[L]{%
+  \scriptsize\color{mlgray}%
+  \copyright\ 2024--2026 Mimir Labs LLC. All rights reserved.%
+}
+\fancyfoot[R]{%
+  \small\color{mlgray}%
+  Page \thepage\ of \pageref{LastPage}%
+}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{mllightgray}\leaders\hrule height \footrulewidth\hfill}}
+
+% First page uses plain style with same footer
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[L]{%
+    \scriptsize\color{mlgray}%
+    \copyright\ 2024--2026 Mimir Labs LLC. All rights reserved.%
+  }
+  \fancyfoot[R]{%
+    \small\color{mlgray}%
+    Page \thepage\ of \pageref{LastPage}%
+  }
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.5pt}
+  \renewcommand{\footrule}{\hbox to\headwidth{\color{mllightgray}\leaders\hrule height \footrulewidth\hfill}}
+}
+
+% ── Horizontal Rules ────────────────────────────────────────────────
+\renewcommand{\rule}[2]{\textcolor{mllightgray}{\hrule height 0.5pt\relax}}
+
+% ── Pandoc tightlist ────────────────────────────────────────────────
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ═════════════════════════════════════════════════════════════════════
+% DOCUMENT
+% ═════════════════════════════════════════════════════════════════════
+\begin{document}
+\thispagestyle{plain}
+
+% ── Title Block ──────────────────────────────────────────────────────
+\begin{center}
+\vspace*{0.5em}
+\includegraphics[height=48pt]{$logo$}\\[1.2em]
+{\LARGE\bfseries\color{mlprimary} $title$}\\[0.8em]
+{\large\color{mlgray} Mimir Labs Technical Publication}\\[1.5em]
+
+\begin{tabular}{@{}rl@{\hspace{2.5em}}rl@{}}
+\textbf{\small\color{mlprimary} Document:} & \small $docnumber$ &
+\textbf{\small\color{mlprimary} Version:} & \small $version$ \\[0.3em]
+\textbf{\small\color{mlprimary} Author:} & \small $author$ &
+\textbf{\small\color{mlprimary} Date:} & \small $date$ \\[0.3em]
+\textbf{\small\color{mlprimary} Classification:} & \small $classification$ &
+ & \\
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textcolor{mllightgray}{\hrule height 0.75pt}
+\vspace{1em}
+
+% ── Body ─────────────────────────────────────────────────────────────
+$body$
+
+% ── Legal Footer ─────────────────────────────────────────────────────
+\vfill
+\textcolor{mllightgray}{\hrule height 0.5pt}
+\vspace{0.5em}
+\begin{center}
+\scriptsize\color{mlgray}
+\textbf{Mimir Labs LLC} \enspace\textbar\enspace Harrisburg, PA\\[0.3em]
+\copyright\ 2024--2026 Mimir Labs LLC. All rights reserved.\\[0.2em]
+This document contains proprietary information belonging to Mimir Labs LLC.
+No part of this publication may be reproduced, distributed, or transmitted
+in any form without the prior written permission of Mimir Labs LLC.
+The information herein is provided ``as is'' without warranty of any kind.
+Product names and trademarks referenced in this document are the property of
+their respective owners.
+\end{center}
+
+\end{document}

@@ -1,400 +1,143 @@
-# Yggdrasil ERP — Database Architecture White Paper
-
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
-
+---
+title: "Yggdrasil ERP — Database Architecture"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-005"
+classification: "Public"
+logo: "mimir_labs_logo.png"
 ---
 
 ## Executive Summary
 
-Yggdrasil ERP's data layer is built on PostgreSQL, leveraging the database's advanced features — row-level security, JSONB columns, partial indexes, and custom ENUM types — to provide a multi-tenant, auditable, and performant foundation for 10 business modules. The schema comprises 166 tables, 301+ indexes, 51 ENUM types, and 33 sequential migrations, supporting manufacturing, sales, finance, quality, and service operations at scale. This white paper details the schema architecture, multi-tenancy model, audit infrastructure, migration strategy, and performance design.
-
----
-
-## 1. Technology Choice
-
-| Attribute | Specification |
-|-----------|---------------|
-| Database engine | PostgreSQL 13+ |
-| Schema size | 166 tables, 12 views, 301+ indexes |
-| ENUM types | 51 custom types |
-| Migration count | 33 sequential migrations |
-| Extensions required | `pgcrypto` (UUID generation, encryption) |
-| Connection interface | Qt QPSQL driver (PostgreSQL wire protocol) |
+The Yggdrasil ERP database is designed as a governed persistence layer rather than a passive storage engine. It provides multi-tenant isolation, auditable data mutation, deterministic lifecycle states, and predictable query performance across the operational domains of a modern enterprise system.
 
-PostgreSQL was chosen over alternatives for several ERP-critical capabilities:
+The implementation uses PostgreSQL as the underlying datastore, but the architectural focus is not the database technology itself. The database functions as the canonical operational record supporting Yggdrasil's state-machine execution model and the broader Mimir Labs architecture.
 
-- **Row-Level Security (RLS)** — Hardware-enforced tenant isolation at the database level, not just application logic
-- **JSONB columns** — Flexible schema for audit payloads, form definitions, and configuration without sacrificing query performance
-- **Partial indexes** — Index only the rows that matter (e.g., active records, specific status values), reducing storage and improving query speed
-- **ENUM types** — Database-enforced value constraints on status fields, preventing invalid data from ever entering the system
-- **Transactional DDL** — Schema migrations run inside transactions, ensuring atomicity
-
----
-
-## 2. Schema Organization
-
-The 166 tables are organized across 17 domains:
-
-| Domain | Table Count | Key Tables |
-|--------|-------------|------------|
-| CRM | 12 | `crm_accounts`, `crm_contacts`, `crm_opportunities`, `crm_leads` |
-| Sales | 10 | `crm_quotes`, `crm_sales_orders`, `sales_invoices`, `sales_commissions` |
-| Purchasing | 8 | `finance_purchase_orders`, `purchasing_receipts`, `purchasing_suppliers` |
-| Manufacturing | 10 | `manufacturing_work_orders`, `manufacturing_wo_operations`, `manufacturing_bom_headers` |
-| Warehouse | 8 | `warehouse_items`, `warehouse_transactions`, `warehouse_locations`, `warehouse_pick_lists` |
-| Finance | 12 | `finance_gl_accounts`, `finance_gl_entries`, `finance_invoices`, `finance_payments` |
-| Projects | 6 | `pm_projects`, `pm_tasks`, `hr_time_entries`, `pm_issues` |
-| PLM | 8 | `plm_parts`, `plm_ebom_headers`, `plm_ebom_lines`, `engineering_change_requests` |
-| Quality | 8 | `quality_8d_reports`, `quality_capa`, `quality_ncr`, `quality_audits`, `quality_inspection_plans` |
-| Service | 8 | `service_tickets`, `service_rma`, `service_maintenance_orders`, `service_orders` |
-| HR | 6 | `hr_employees`, `hr_departments`, `hr_time_entries`, `hr_positions` |
-| Logistics | 4 | `logistics_shipments`, `logistics_carriers`, `fleet_vehicles` |
-| Integration | 7 | `integration_endpoints`, `integration_messages`, `integration_dead_letters` |
-| Infrastructure | 15 | `tenants`, `users`, `roles`, `audit_change_log`, `record_locks`, `file_attachments` |
-| Workflow | 6 | `workflow_templates`, `workflow_instances`, `workflow_instance_steps`, `approval_requests` |
-| Form Builder | 2 | `form_templates`, `form_submissions` |
-| Asset Management | 3 | `asset_registry`, `asset_ownership_history`, `product_serialization_config` |
-| MRP | 3 | `mrp_run_log`, `mrp_demand`, `mrp_planned_orders` |
-| Multi-Currency | 3 | `currencies`, `exchange_rates`, `currency_gain_loss` |
-
-### 2.1 Naming Conventions
-
-- **Tables** — `module_entity` format in snake_case (e.g., `crm_accounts`, `finance_gl_entries`)
-- **Columns** — snake_case throughout (e.g., `tenant_id`, `created_at`, `lifecycle_status`)
-- **Primary keys** — UUID type, column named `id`
-- **Foreign keys** — `referenced_table_id` pattern (e.g., `account_id`, `order_id`)
-- **Timestamps** — `created_at` and `updated_at` on all entity tables, with `DEFAULT NOW()` and trigger-based auto-update
-
----
-
-## 3. Multi-Tenancy Architecture
-
-### 3.1 Logical Isolation
-
-Yggdrasil uses a shared-database, shared-schema multi-tenancy model with logical isolation via `tenant_id`:
-
-```sql
--- Every tenant-scoped table includes:
-tenant_id UUID NOT NULL REFERENCES tenants(id),
-```
-
-This column appears on 120+ of the 166 tables. System tables (migrations, configuration, enum definitions) are tenant-agnostic.
-
-### 3.2 Row-Level Security (RLS)
-
-PostgreSQL RLS policies provide database-enforced tenant isolation:
-
-```sql
--- Example RLS policy on crm_accounts
-ALTER TABLE crm_accounts ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY crm_accounts_tenant_isolation ON crm_accounts
-    USING (tenant_id = current_setting('app.current_tenant_id')::uuid);
-```
-
-**How it works:**
-1. The application sets a session variable before each transaction: `SET LOCAL app.current_tenant_id = '<uuid>'`
-2. RLS policies automatically filter all SELECT, INSERT, UPDATE, and DELETE operations
-3. Even if application code omits a `WHERE tenant_id = ?` clause, the database rejects cross-tenant access
-4. This defense-in-depth model means no single application bug can cause a tenant data leak
+This paper describes how the schema, indexing strategy, multi-tenant controls, audit infrastructure, and migration system work together to maintain coherent enterprise data at scale.
 
-### 3.3 Tenant Table
-
-The `tenants` table is the root of the multi-tenancy hierarchy:
-
-| Column | Purpose |
-|--------|---------|
-| `id` | UUID primary key |
-| `name` | Organization display name |
-| `slug` | URL-safe unique identifier |
-| `settings` | JSONB for tenant-specific configuration |
-| `subscription_tier` | Module access level |
-| `is_active` | Soft deactivation flag |
+## 1. Architectural Role of the Database
 
----
+In Yggdrasil, the database is not merely a persistence target for application objects. It is a controlled boundary that preserves operational truth.
 
-## 4. ENUM Types
+Three responsibilities define the role of the database layer:
 
-Yggdrasil defines 51 custom PostgreSQL ENUM types to enforce value constraints at the database level. Key examples:
+First, it must provide a reliable representation of enterprise state across multiple operational domains including manufacturing, finance, quality, logistics, and service.
 
-| ENUM Type | Values | Used By |
-|-----------|--------|---------|
-| `quote_status` | draft, submitted, approved, converted, cancelled | `crm_quotes` |
-| `order_status` | draft, confirmed, in_progress, shipped, delivered, invoiced, cancelled, pending_approval | `crm_sales_orders` |
-| `po_status` | draft, submitted, approved, partial, received, billed, cancelled, pending_approval | `finance_purchase_orders` |
-| `work_order_status` | planned, released, in_progress, completed, closed, cancelled | `manufacturing_work_orders` |
-| `lifecycle_status` | design, review, released, obsolete | `plm_parts` |
-| `ecr_status` | draft, submitted, under_review, approved, rejected, implemented, closed | `engineering_change_requests` |
-| `ncr_status` | open, under_investigation, pending_disposition, closed | `quality_ncr` |
-| `ticket_status` | open, in_progress, pending, resolved, closed, escalated | `service_tickets` |
-| `journal_status` | draft, posted, reversed | `finance_gl_entries` |
-| `approval_status` | pending, approved, rejected, cancelled | `approval_requests` |
+Second, it must enforce structural integrity and tenant isolation so that application-level defects cannot compromise organizational boundaries.
 
-ENUM types provide:
-- **Type safety** — Invalid values are rejected at the database level, not just the application level
-- **Self-documenting schema** — The valid values for any status field are visible in the schema definition
-- **Coordination with StateMachine** — The server's StateMachine engine validates transitions within the ENUM's value set
+Third, it must maintain a complete history of operational changes so that lifecycle transitions remain observable and auditable.
 
----
+These properties allow the system to support both operational execution and post-hoc analysis without introducing reconciliation ambiguity.
 
-## 5. Audit Infrastructure
+## 2. Technology Foundation
 
-### 5.1 Change Log
+The database layer is implemented on PostgreSQL. The choice was driven by features that directly support ERP-class systems.
 
-The `audit_change_log` table records every data mutation:
+Row-level security provides database-enforced tenant isolation. JSONB storage enables flexible representation of structured artifacts such as audit payloads and form definitions. Partial indexes allow the system to optimize queries around active operational data rather than historical records. ENUM types allow the database to enforce lifecycle value constraints directly within the schema.
 
-```sql
-CREATE TABLE audit_change_log (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    tenant_id UUID REFERENCES tenants(id),
-    user_id UUID REFERENCES users(id),
-    action VARCHAR(20) NOT NULL,    -- INSERT, UPDATE, DELETE, STATUS_CHG
-    table_name VARCHAR(100) NOT NULL,
-    entity_id VARCHAR(255),
-    old_values JSONB,
-    new_values JSONB,
-    changed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
+Together, these capabilities allow the persistence layer to actively enforce system invariants rather than relying solely on application code.
 
-### 5.2 Audit Actions
+## 3. Schema Organization
 
-| Action | When Recorded |
-|--------|--------------|
-| `INSERT` | New entity creation |
-| `UPDATE` | Entity field modification |
-| `DELETE` | Entity removal (soft or hard) |
-| `STATUS_CHG` | Status transition via StateMachine |
+The Yggdrasil schema spans the operational domains typically required by an enterprise system. These include customer relationship management, sales, purchasing, manufacturing, warehouse management, finance, quality assurance, service operations, logistics, projects, and human resources.
 
-### 5.3 Audit Indexes
-
-Partial indexes optimize common audit queries:
+Supporting infrastructure tables manage tenancy, user identity, permissions, attachments, workflow instances, integration endpoints, and system configuration. Additional structures support form definitions, asset tracking, MRP planning artifacts, and multi-currency accounting.
 
-```sql
--- Status change history for a specific entity
-CREATE INDEX idx_audit_change_log_status_change
-    ON audit_change_log (table_name, entity_id, changed_at DESC)
-    WHERE action = 'STATUS_CHG';
+Although the schema contains more than one hundred tables, its structure follows a consistent naming and relationship pattern. Entities are organized by module, primary keys are universally represented as UUIDs, foreign key relationships follow explicit naming conventions, and lifecycle timestamps appear consistently across operational tables.
 
--- Tenant-wide status change timeline
-CREATE INDEX idx_audit_change_log_tenant_status
-    ON audit_change_log (tenant_id, changed_at DESC)
-    WHERE action = 'STATUS_CHG';
-```
+This uniformity is intentional. The schema is designed to remain legible and predictable even as additional modules are introduced.
 
-### 5.4 Soft Delete
+## 4. Multi-Tenancy Model
 
-Entity tables support soft deletion via `deleted_at` timestamps:
-- Soft-deleted records are excluded from normal queries via `WHERE deleted_at IS NULL`
-- The audit log captures the deletion event with the full JSONB snapshot of the deleted record
-- Soft-deleted records can be restored by administrators
+Yggdrasil uses a shared database and shared schema model with logical tenant isolation. Most operational tables include a tenant identifier that scopes each record to its owning organization.
 
----
+While this is a common multi-tenant pattern, Yggdrasil strengthens it with database-level enforcement. Row-level security policies ensure that every query automatically filters data by tenant context. The application sets the active tenant identifier for each transaction, and PostgreSQL applies isolation rules to all read and write operations.
 
-## 6. Index Strategy
+This defense-in-depth approach ensures that tenant boundaries remain intact even if application logic fails to include appropriate filters.
 
-The schema includes 301+ indexes across four categories:
+The tenants table acts as the root of the organizational hierarchy, storing identity information and configuration data for each environment.
 
-### 6.1 Index Types
+## 5. Lifecycle and Status Modeling
 
-| Type | Count | Purpose |
-|------|-------|---------|
-| Primary key | 166 | UUID primary keys on all tables |
-| Foreign key | ~80 | Relationship traversal (JOIN performance) |
-| Tenant scoping | ~40 | `(tenant_id, ...)` composite indexes for filtered queries |
-| Partial | ~15 | Conditional indexes on status fields, active records |
+Many ERP failures originate from loosely governed status fields. In Yggdrasil, lifecycle states are treated as first-class constraints within the schema.
 
-### 6.2 Composite Index Patterns
+Custom ENUM types define valid lifecycle values for major entities such as orders, work orders, engineering changes, financial journals, quality reports, and service tickets. These ENUM definitions work in conjunction with the server's state-machine service to ensure that transitions occur only within defined lifecycle graphs.
 
-Common composite index patterns used throughout:
+By enforcing lifecycle constraints at both the application and database layers, the system prevents invalid states from entering operational history.
 
-```sql
--- Tenant-scoped entity lookup (most common pattern)
-CREATE INDEX idx_crm_accounts_tenant ON crm_accounts(tenant_id, id);
+## 6. Audit and Change Tracking
 
--- Status-filtered queries
-CREATE INDEX idx_work_orders_active ON manufacturing_work_orders(tenant_id, status)
-    WHERE status NOT IN ('closed', 'cancelled');
+Operational traceability is a core property of the Yggdrasil architecture. The database records every meaningful mutation through a centralized audit log.
 
--- Date-range queries
-CREATE INDEX idx_gl_entries_period ON finance_gl_entries(tenant_id, posting_date DESC);
+Each audit record captures the acting user, tenant context, action type, affected table, entity identifier, and before-and-after data snapshots stored in JSON format. Status transitions are recorded explicitly so that lifecycle histories remain visible even when other fields change.
 
--- Full-text search support
-CREATE INDEX idx_crm_accounts_name ON crm_accounts(tenant_id, name);
-```
+This design provides a durable historical record of operational activity while remaining flexible enough to represent diverse entity structures.
 
-### 6.3 Performance Characteristics
+Soft deletion is also supported across entity tables. Instead of removing records entirely, deletion operations mark records as inactive while preserving them for historical and audit purposes.
 
-- **Covering indexes** — Key queries are served entirely from indexes without table lookups
-- **Partial indexes** — Status-based filters use partial indexes that exclude closed/archived records, reducing index size by 60-80% on mature datasets
-- **DESC ordering** — Date-based indexes use descending order to optimize "most recent first" queries without sort operations
+## 7. Index and Performance Strategy
 
----
+The indexing strategy focuses on supporting the most common ERP access patterns: tenant-scoped queries, lifecycle filtering, chronological reporting, and relationship traversal.
 
-## 7. Foreign Key Architecture
+Composite indexes typically begin with tenant identifiers so that queries remain efficient within large multi-tenant datasets. Partial indexes limit storage and lookup overhead by indexing only operationally active records. Date-ordered indexes support timeline-based queries such as recent transactions, postings, or workflow activity.
 
-### 7.1 Cross-Module Relationships
+These patterns allow the system to scale without requiring overly aggressive hardware resources while maintaining predictable query latency.
 
-Yggdrasil's 10 business modules are interconnected through foreign key relationships:
+## 8. Relationship Architecture
 
-```
-CRM Accounts ──→ Quotes ──→ Sales Orders ──→ Invoices ──→ Payments
-                                  │
-                                  ↓
-                           Work Orders ──→ Operations ──→ Time Entries
-                                  │
-                                  ↓
-                         Purchase Orders ──→ Receipts ──→ Bills
-                                  │
-                                  ↓
-                           Inventory ──→ Transactions ──→ Pick Lists
-```
+Operational modules are connected through explicit foreign key relationships. These relationships represent real enterprise workflows such as the progression from quotes to orders, orders to invoices, work orders to operations, or purchase orders to receipts.
 
-### 7.2 Cascade Rules
+Cascade rules are applied selectively. Child line items typically cascade from parent documents, while cross-module references use restrictive deletion rules to prevent accidental removal of critical operational history.
 
-| Relationship Type | ON DELETE | Rationale |
-|-------------------|-----------|-----------|
-| Parent → Child lines | CASCADE | Order lines, BOM lines, invoice lines |
-| Entity → Audit log | SET NULL | Preserve audit history even if entity is deleted |
-| Entity → Attachment | CASCADE | Remove attachments when parent is deleted |
-| Module cross-references | RESTRICT | Prevent deletion of referenced entities |
+The server exposes dedicated relationship endpoints that traverse these connections, enabling client applications to navigate operational flows without constructing complex joins themselves.
 
-### 7.3 Relationship Traversal API
+## 9. Schema Migration Model
 
-The server exposes 24 dedicated GET endpoints for cross-module relationship traversal:
-- `GET /crm/accounts/:id/contacts` — Contacts for an account
-- `GET /crm/accounts/:id/orders` — Sales orders for an account
-- `GET /plm/parts/:id/boms` — BOMs containing a part
-- `GET /manufacturing/work-orders/:id/operations` — Operations for a work order
-- And 20 more relationship endpoints
+The schema evolves through a sequential migration system executed automatically during server startup. Each migration is versioned and recorded in a schema tracking table. Migrations are designed to be additive whenever possible so that existing deployments remain stable during upgrades. Destructive schema changes are staged across multiple releases to reduce operational risk.
 
----
+Rollback scripts exist for each migration to support controlled recovery scenarios, although production upgrades are intended to proceed forward whenever possible.
 
-## 8. Migration System
+This disciplined migration strategy ensures that database structure and application behavior remain synchronized across environments.
 
-### 8.1 Sequential Versioning
+## 10. Flexible Data Structures
 
-Migrations are numbered sequentially from `001` through `033`:
+Although most operational entities use strongly typed relational structures, certain artifacts require flexible representation. These include form definitions, integration payloads, configuration settings, and audit snapshots.
 
-| Range | Scope |
-|-------|-------|
-| 001–013 | Core schema establishment (all 10 modules) |
-| 014–018 | Notification system, receipts, RBAC tables |
-| 019–024 | MRP engine, audit enhancements, form builder |
-| 025–028 | Asset registry, finance wiring, serialization, RLS fixes |
-| 029–031 | Multi-currency, quality improvements, MBOM linking |
-| 032–033 | Approval engine, state machine audit indexes |
+JSONB columns support these cases without introducing uncontrolled schema sprawl. PostgreSQL's JSON operators allow the system to query inside these structures when necessary while retaining relational performance characteristics.
 
-### 8.2 Migration Execution
+The result is a hybrid model that combines strict relational governance with controlled flexibility.
 
-- Migrations run automatically on server boot
-- Each migration is tracked in a `schema_migrations` table with filename and applied timestamp
-- Forward-only by default; rollback via `.down.sql` companion files
-- Checksum verification detects modified migrations
-- All DDL runs inside a transaction for atomicity
+## 11. Reporting and Derived Views
 
-### 8.3 Rollback Support
+Several database views provide aggregated operational perspectives across modules. These views support reporting scenarios such as inventory valuation, order fulfillment status, financial summaries, work order progress, and quality metrics.
 
-Every migration has a corresponding `.down.sql` file:
+By encapsulating complex joins and calculations inside views, the database provides stable reporting interfaces while shielding client applications from underlying schema complexity.
 
-```sql
--- 025_asset_registry.sql (forward)
-CREATE TABLE asset_registry (...);
-
--- 025_asset_registry.down.sql (rollback)
-DROP TABLE IF EXISTS asset_registry CASCADE;
-DROP TABLE IF EXISTS asset_ownership_history CASCADE;
-```
-
-The server supports programmatic rollback via `POST /api/admin/data/rollback`.
-
----
-
-## 9. Seed Data
-
-The seed system pre-populates reference data required for system operation:
-
-| Seed Category | Content |
-|---------------|---------|
-| GL Chart of Accounts | Standard account structure (Assets, Liabilities, Equity, Revenue, Expenses) |
-| Warehouse locations | Default storage locations and bin structure |
-| Quality templates | Standard 8D, CAPA, NCR templates |
-| NAICS codes | North American Industry Classification System codes |
-| Currencies | 15 common ISO 4217 currencies |
-| System configuration | Default tenant settings, notification preferences |
-
-Seed data is loaded idempotently — re-running seeds on an existing database uses `ON CONFLICT DO NOTHING` to avoid duplicates.
-
----
-
-## 10. JSONB Usage
-
-JSONB columns provide schema flexibility where rigid column definitions are impractical:
-
-| Table | JSONB Column | Content |
-|-------|-------------|---------|
-| `audit_change_log` | `old_values`, `new_values` | Before/after snapshots of data changes |
-| `form_templates` | `schema` | Dynamic form field definitions (8 field types) |
-| `form_submissions` | `data` | User-submitted form responses |
-| `tenants` | `settings` | Per-tenant configuration overrides |
-| `integration_messages` | `payload` | Variable-structure integration payloads |
-| `notification_preferences` | `preferences` | Per-user notification channel settings |
-
-JSONB advantages over separate tables:
-- No schema migration required when adding optional fields
-- GIN indexes enable efficient querying within JSONB documents
-- PostgreSQL JSONB operators (`->`, `->>`, `@>`, `?`) provide SQL-queryable access
-
----
-
-## 11. Views
-
-12 database views provide pre-computed query results for complex cross-module reports:
-
-| View | Purpose |
-|------|---------|
-| Inventory valuation | Current stock value by location and item |
-| Order fulfillment | Sales order → pick list → shipment status |
-| Financial summary | GL account balances by period |
-| Work order progress | Operation completion percentages |
-| Quality dashboard | Open NCR/CAPA/8D counts by status |
-| And 7 more | Various cross-module aggregations |
-
-Views are used by the dashboard KPI endpoints to serve real-time SQL aggregates: open orders, revenue MTD, active work orders, quality scores, and more.
-
----
+This approach also allows reporting logic to evolve independently from the transactional schema.
 
 ## 12. Backup and Recovery
 
-### 12.1 Backup Strategy
+Operational resilience requires predictable backup and restoration capabilities. The database layer supports scheduled full backups with encryption and integrity verification. Retention policies allow deployments to adjust storage requirements according to regulatory and operational needs.
 
-- **Daily full backups** — `pg_dump` compressed archives
-- **Encryption** — AES-256 before writing to disk
-- **Integrity** — SHA-256 checksums alongside each backup
-- **Retention** — Configurable retention period per data classification tier
-- **Storage** — Separate from the database host at `/opt/yggdrasil/backups/`
+Recovery procedures support both full restoration and point-in-time recovery through PostgreSQL's write-ahead logging mechanisms.
 
-### 12.2 Recovery Capabilities
-
-- `GET /api/admin/data/backups` — List available backups with timestamps and sizes
-- `POST /api/admin/data/restore` — Restore from backup JSON with `ON CONFLICT DO NOTHING` for safe idempotent restore
-- Cross-tenant guard prevents restoring data into the wrong tenant
-- Point-in-time recovery via PostgreSQL WAL archiving (when configured)
-
----
+Administrative endpoints in the server provide controlled access to backup management and restoration workflows.
 
 ## 13. Schema Evolution Philosophy
 
-The Yggdrasil schema follows these principles:
+The long-term stability of the Yggdrasil platform depends on disciplined schema evolution. Several guiding principles govern this process.
 
-1. **Additive changes preferred** — New columns use `DEFAULT` values; new tables have no impact on existing queries.
-2. **No destructive migrations in production** — Column drops and table removals are staged across multiple releases.
-3. **ENUM extensions are additive** — New status values are appended; existing values are never removed or renamed.
-4. **Mimisbrunnr is canonical** — The complete schema (166 tables) is the authoritative definition of the data model. External tools and migration engines must adapt to Mimisbrunnr, never the reverse.
+Additive changes are preferred so that new capabilities do not disrupt existing workflows. ENUM expansions occur by appending values rather than modifying existing definitions. Structural removals are staged gradually across multiple releases.
 
----
+Most importantly, the schema itself represents the operational expression of canonical enterprise meaning. External tools and migration utilities must adapt to this structure rather than redefining it.
+
+Within the broader Mimir Labs architecture, the schema functions as the operational counterpart to the canonical semantic model maintained by Mimisbrunnr.
+
+## Conclusion
+
+The Yggdrasil database architecture is designed to preserve operational coherence rather than simply store records. Tenant isolation, lifecycle enforcement, audit capture, and disciplined schema evolution ensure that enterprise data remains trustworthy over time.
+
+By combining strong relational governance with selective flexibility, the database layer supports the deterministic execution model implemented by the Yggdrasil server while remaining compatible with integration, reporting, and future semantic tooling across the Mimir Labs stack.
 
 *Copyright 2026 Mimir Labs. All rights reserved.*

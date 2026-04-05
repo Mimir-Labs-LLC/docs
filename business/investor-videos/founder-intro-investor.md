@@ -33,7 +33,9 @@ That lock-in is our opportunity.
 
 Six products, one platform.
 
-**Yggdrasil** is the ERP — ten integrated modules, one shared data model, zero custom fields. The data model doesn't drift because there's nothing to customize. This is the architectural moat.
+**Yggdrasil ERP** is the manufacturing platform — ten integrated modules, one shared data model, zero custom fields. The data model doesn't drift because there's nothing to customize. This is the architectural moat.
+
+It also includes a real-time B2B Event Hub. A purchase order in one tenant becomes a sales order in the supplier's tenant — instantly. This creates a network effect: every manufacturer on the platform makes the platform more valuable to every other manufacturer. Each customer pulls their trading partners onto the system.
 
 **Ratatosk** and **Ragnarok** are our go-to-market wedge. Ratatosk is a one-day data governance workshop — $9,500 — that gives manufacturers clarity about their existing data landscape. When that workshop reveals the mess in their legacy system, Ragnarok provides the governed migration path. These services generate revenue today while building the pipeline for ERP subscriptions.
 

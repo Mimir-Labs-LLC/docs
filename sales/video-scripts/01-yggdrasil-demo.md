@@ -12,7 +12,7 @@
 
 [Show Yggdrasil logo, then open the desktop client]
 
-This is Yggdrasil — a manufacturing ERP with ten integrated modules, one shared data model, and zero custom fields. Let me show you what that looks like in practice.
+This is Yggdrasil ERP — a manufacturing platform with ten integrated modules, one shared data model, and zero custom fields. Let me show you what that looks like in practice.
 
 ### The Operational Flow (90 sec)
 
@@ -52,17 +52,21 @@ Notice what's not here: no custom fields tab, no "user-defined fields" section, 
 
 This is what makes the data trustworthy year after year. There's nothing to drift.
 
-### B2B Event Streaming (30 sec)
+### B2B Event Hub & Network Effects (45 sec)
 
 [Show the B2B event hub or describe with a diagram]
 
-Yggdrasil includes a real-time event mesh. When a purchase order is created in one tenant, it can become a sales order in the supplier's tenant — automatically, in real-time, with full traceability. No EDI translation. No batch file exchange. Just structured event propagation across organizational boundaries.
+Yggdrasil ERP includes a real-time B2B Event Hub. When a purchase order is created in one tenant, it becomes a sales order in the supplier's tenant — automatically, in real-time, with full traceability. No EDI translation. No batch file exchange. Just structured event propagation across organizational boundaries.
+
+Here's why this matters beyond convenience: every customer that joins the platform makes the platform more valuable to every other customer. When your supplier is on Yggdrasil ERP, your purchase orders flow directly into their sales queue. When your customer is on Yggdrasil ERP, their orders flow directly into your production schedule. Each new tenant reduces manual data entry for everyone they trade with.
+
+This is a network effect. The more manufacturers on the platform, the more valuable each connection becomes — and the harder it is to leave.
 
 ### Closing (15 sec)
 
 [Return to dashboard or module overview]
 
-Ten modules. One data model. Every action governed, every change auditable, every integration structured. That's Yggdrasil.
+Ten modules. One data model. Every action governed, every change auditable, every integration structured. That's Yggdrasil ERP.
 
 Visit mimirlabs.net/yggdrasil to learn more, or schedule a conversation to discuss whether it's the right fit for your operation.
 

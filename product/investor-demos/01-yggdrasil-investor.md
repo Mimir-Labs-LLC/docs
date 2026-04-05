@@ -41,6 +41,14 @@ The moat isn't features — competitors have more features. The moat is the data
 
 The switching cost isn't contractual. It's architectural.
 
+### The Network Effect (30 sec)
+
+[Show B2B Event Hub diagram or brief screen recording]
+
+Yggdrasil ERP includes a real-time B2B Event Hub. A purchase order in one tenant becomes a sales order in the supplier's tenant — instantly, with full traceability. No EDI. No re-keying.
+
+This creates a network effect. Every manufacturer on the platform reduces manual data entry for every trading partner on the platform. Each customer becomes an evangelist who pulls their suppliers and customers onto the system. The value of Yggdrasil ERP increases with the number of connected tenants — which is the strongest possible retention mechanism.
+
 ### The Numbers (20 sec)
 
 [Slide: pricing and unit economics]
@@ -49,7 +57,7 @@ Implementation starts at $25,000. Annual subscriptions range from $35,000 to $25
 
 ### Closing (10 sec)
 
-Ten modules. One data model. Zero drift. That's Yggdrasil.
+Ten modules. One data model. Zero drift. That's Yggdrasil ERP.
 
 ---
 

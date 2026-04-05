@@ -1,0 +1,688 @@
+{
+    "author": "",
+    "createdAt": "2026-03-29T09:42:19",
+    "description": "",
+    "fields": [
+        {
+            "id": "8da3041b-ca47-4152-b44f-7ceb8a7da9e3",
+            "label": "Effective Date",
+            "page": 0,
+            "rect": {
+                "h": 33,
+                "w": 540,
+                "x": 36,
+                "y": 132
+            },
+            "type": "date"
+        },
+        {
+            "id": "ab9cddf4-8547-40e1-a52b-688931778f56",
+            "label": "designated maintenance windows (Sundays 02:00-06:00 UTC). Provider shall provide at",
+            "page": 2,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 689.8064516129031
+            },
+            "type": "signature"
+        },
+        {
+            "id": "2c7ddefd-0c2c-4d40-8e26-7796cf31de3f",
+            "label": "High (P2) Significant feature degradation 4 hours 1 business day",
+            "page": 3,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 234
+            },
+            "type": "signature"
+        },
+        {
+            "id": "015e0506-9682-418f-970e-9c281c419b7d",
+            "label": "in Schedule C. Invoices are due and payable within thirty (30) days of the invoice date.",
+            "page": 3,
+            "rect": {
+                "h": 18,
+                "w": 540,
+                "x": 36,
+                "y": 558
+            },
+            "type": "date"
+        },
+        {
+            "id": "f34fc960-02c3-413a-b433-3e003959c481",
+            "label": "physical safeguards designed to protect Client Data against unauthorized access,",
+            "page": 4,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 222.75
+            },
+            "type": "signature"
+        },
+        {
+            "id": "5d6e75fe-5145-4028-ad6c-88d0a6277969",
+            "label": "is designated as confidential or that a reasonable person would understand to be confidential",
+            "page": 5,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 153.29032258064515
+            },
+            "type": "signature"
+        },
+        {
+            "id": "76e87a54-787f-44c1-a21e-ce697b9613cb",
+            "label": "9.4 Beta/Early-Access Features. Any features designated as \"alpha,\" \"beta,\" or \"early",
+            "page": 6,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 290.4
+            },
+            "type": "signature"
+        },
+        {
+            "id": "9a47fcf3-2741-44b1-94c2-fdd2e8e783a3",
+            "label": "13.4 Assignment. Neither Party may assign this Agreement without the prior written consent",
+            "page": 8,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 308
+            },
+            "type": "signature"
+        },
+        {
+            "id": "41bb6710-c7b0-41ad-bced-fd7763c1542f",
+            "label": "of the other Party, except that either Party may assign this Agreement in connection with a",
+            "page": 8,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 330
+            },
+            "type": "signature"
+        },
+        {
+            "id": "6aed27c1-f31c-4eac-a7d3-4f38f67f3b53",
+            "label": "merger, acquisition, or sale of all or substantially all of its assets. Any purported assignment in",
+            "page": 8,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 352
+            },
+            "type": "signature"
+        },
+        {
+            "id": "feb0ed7c-51fe-4706-be42-818209cae430",
+            "label": "set forth above or to such other address as a Party may designate by written notice.",
+            "page": 8,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 462
+            },
+            "type": "signature"
+        },
+        {
+            "id": "0f073a49-6b40-4663-ac5b-e34ebaaf2256",
+            "label": "13.7 Amendment. This Agreement may be amended only by a written instrument signed by",
+            "page": 8,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 550
+            },
+            "type": "signature"
+        },
+        {
+            "id": "5ec1cedb-4a77-4955-8e0e-e9f71d7b1b3d",
+            "label": "agreement. Electronic signatures shall be deemed original signatures for all purposes.",
+            "page": 9,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 76.64516129032258
+            },
+            "type": "signature"
+        },
+        {
+            "id": "27e86924-de70-4b71-9d86-86b31660fcfb",
+            "label": "Option A",
+            "page": 9,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 401.14285714285717,
+                "x": 174.85714285714283,
+                "y": 306.58064516129036
+            },
+            "type": "text"
+        },
+        {
+            "id": "6997576f-26eb-412c-a71b-6db84449311c",
+            "label": "Option B",
+            "page": 9,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 432,
+                "x": 144,
+                "y": 434.3225806451614
+            },
+            "type": "text"
+        },
+        {
+            "id": "0b848d3e-7b65-413d-8062-47e752258414",
+            "label": "module configuration, UAT, and go-live within 90 calendar days of Effective Date.",
+            "page": 10,
+            "rect": {
+                "h": 26.4,
+                "w": 540,
+                "x": 36,
+                "y": 184.8
+            },
+            "type": "date"
+        },
+        {
+            "id": "7228a202-3b20-4261-84f9-daac83683503",
+            "label": "signed off, and minimum 2 training sessions completed.",
+            "page": 11,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 197.99999999999997
+            },
+            "type": "signature"
+        },
+        {
+            "id": "d2773551-d0f4-4861-9d39-51e98847a1f5",
+            "label": "{{@term_12|1}} 12 Months -- Annual subscription from the Effective Date. {{@term_24|1}} 24",
+            "page": 11,
+            "rect": {
+                "h": 28.285714285714285,
+                "w": 540,
+                "x": 36,
+                "y": 594
+            },
+            "type": "date"
+        },
+        {
+            "id": "ff07c4d9-d45b-4b29-a130-256a28c7f0db",
+            "label": "Milestone 2 %|milestone_2_pct}}% - UAT sign-off: {{text|1| |Milestone 3 %|milestone_3_pct}}",
+            "page": 12,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 218.4827586206897
+            },
+            "type": "signature"
+        },
+        {
+            "id": "3f42b45f-f153-4c30-a174-2d274c090d33",
+            "label": "duly authorized representatives as of the Effective Date.",
+            "page": 12,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 710.0689655172413
+            },
+            "type": "signature"
+        },
+        {
+            "id": "b51091d0-87bc-4c6e-bf9a-fa2a62da8816",
+            "label": "PROVIDER",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 337.5,
+                "x": 238.5,
+                "y": 25.548387096774192
+            },
+            "type": "text"
+        },
+        {
+            "id": "271bb56d-c7f3-41e3-b662-3d3525985972",
+            "label": "Signature",
+            "page": 13,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 51.096774193548384
+            },
+            "type": "signature"
+        },
+        {
+            "id": "ac54593c-4e2f-4a2d-bf00-51bd4fc0a0dd",
+            "label": "Printed Name",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 189,
+                "x": 387,
+                "y": 76.64516129032258
+            },
+            "type": "text"
+        },
+        {
+            "id": "69aac182-3fc8-47ce-a17a-ff1f8ecfb51d",
+            "label": "Title",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 290.7692307692307,
+                "x": 285.2307692307693,
+                "y": 102.19354838709677
+            },
+            "type": "text"
+        },
+        {
+            "id": "bd6f3904-6198-4079-9a64-acf8836de798",
+            "label": "Date",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 540,
+                "x": 36,
+                "y": 127.74193548387096
+            },
+            "type": "date"
+        },
+        {
+            "id": "2b94c64c-07bb-49a9-9c29-2579d9306732",
+            "label": "Initials",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 236.25,
+                "x": 339.75,
+                "y": 153.29032258064515
+            },
+            "type": "text"
+        },
+        {
+            "id": "a7272a88-05b1-49c2-a5d7-be30c24a86ca",
+            "label": "CLIENT",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 486,
+                "x": 90,
+                "y": 178.83870967741933
+            },
+            "type": "text"
+        },
+        {
+            "id": "acd6dfa3-cb08-4ab9-8f1a-ee1c661bd24b",
+            "label": "Signature",
+            "page": 13,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 204.38709677419354
+            },
+            "type": "signature"
+        },
+        {
+            "id": "a2a6dc6b-e8e3-4c86-9d48-d30d04ad2229",
+            "label": "Printed Name",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 189,
+                "x": 387,
+                "y": 229.93548387096774
+            },
+            "type": "text"
+        },
+        {
+            "id": "46161669-2e0d-43f0-9539-632597095205",
+            "label": "Title",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 290.7692307692307,
+                "x": 285.2307692307693,
+                "y": 255.48387096774195
+            },
+            "type": "text"
+        },
+        {
+            "id": "b7130f57-5520-48ea-80e0-3bc72f14ea22",
+            "label": "Date",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 540,
+                "x": 36,
+                "y": 281.03225806451616
+            },
+            "type": "date"
+        },
+        {
+            "id": "3a49ad54-c26d-47b1-8a69-70d2b93b5291",
+            "label": "Initials",
+            "page": 13,
+            "rect": {
+                "h": 25.548387096774192,
+                "w": 236.25,
+                "x": 339.75,
+                "y": 306.58064516129036
+            },
+            "type": "text"
+        },
+        {
+            "id": "b8db7ba9-813c-4c29-996e-9ceb7841d6c4",
+            "label": "APPENDIX D -- BOLDSIGN API CONFIGURATION",
+            "page": 13,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 332.12903225806457
+            },
+            "type": "signature"
+        },
+        {
+            "id": "59b05703-8caf-44b3-bcb8-a7cc7aad90f1",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 20,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 528.0000000000002
+            },
+            "type": "signature"
+        },
+        {
+            "id": "fd903a0b-15b7-4b10-afdb-60f26a934764",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 21,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 17.217391304347824
+            },
+            "type": "signature"
+        },
+        {
+            "id": "a88acbb1-919a-481c-bb5f-cab2f16a5654",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 22,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 17.6
+            },
+            "type": "signature"
+        },
+        {
+            "id": "de3347ed-2e34-43c9-b854-34cfe4f2aa5d",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 23,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 19.8
+            },
+            "type": "signature"
+        },
+        {
+            "id": "35e9c381-4c6a-43a6-b2f0-f41c9bf01bf1",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 24,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 17.6
+            },
+            "type": "signature"
+        },
+        {
+            "id": "bb08bb3c-7b7b-4f58-8e48-735720ebe97e",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 17.217391304347824
+            },
+            "type": "signature"
+        },
+        {
+            "id": "d5c00ca5-aaf1-44d0-8997-ce0ce0c5ddab",
+            "label": "provider_signature sign 1 Yes --",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 464.8695652173911
+            },
+            "type": "signature"
+        },
+        {
+            "id": "afc842e7-af18-4689-bcca-2a321673669f",
+            "label": "signature",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 499.3043478260867
+            },
+            "type": "signature"
+        },
+        {
+            "id": "9a186e5a-31f8-4a38-b162-98569458383d",
+            "label": "provider_signatory_name text 1 Yes --",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 516.5217391304345
+            },
+            "type": "signature"
+        },
+        {
+            "id": "f7436083-e687-4d90-b911-433598d3e20e",
+            "label": "signatory",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 550.9565217391303
+            },
+            "type": "signature"
+        },
+        {
+            "id": "0af2d704-c2b8-49a2-808a-4c6ec2efc5db",
+            "label": "provider_signatory_title text 1 Yes --",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 585.391304347826
+            },
+            "type": "signature"
+        },
+        {
+            "id": "dbaa641a-0ff1-45e8-96f2-bae4bc00b9b1",
+            "label": "signatory title",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 619.8260869565217
+            },
+            "type": "signature"
+        },
+        {
+            "id": "4c2425fe-2c02-47ee-b653-64fcfeaff375",
+            "label": "provider_sign_date date 1 Yes --",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 637.0434782608696
+            },
+            "type": "signature"
+        },
+        {
+            "id": "60718e61-1ca8-410b-990f-4e668880b37c",
+            "label": "signature date",
+            "page": 25,
+            "rect": {
+                "h": 30,
+                "w": 540,
+                "x": 36,
+                "y": 671.4782608695654
+            },
+            "type": "signature"
+        },
+        {
+            "id": "4d1f8366-6830-48bc-851a-56a767cb9162",
+            "label": "Field ID Type Signer Required Group Description",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 44
+            },
+            "type": "signature"
+        },
+        {
+            "id": "779fac8d-09d9-4a74-aade-7bbaf422b3fd",
+            "label": "client_signature sign 2 Yes --",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 88
+            },
+            "type": "signature"
+        },
+        {
+            "id": "ab19d9ee-2920-40d9-8a86-bd1bb34097d4",
+            "label": "signature",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 176
+            },
+            "type": "signature"
+        },
+        {
+            "id": "f126aaf2-3de3-4e03-af5b-b6976f29841b",
+            "label": "client_signatory_name text 2 Yes --",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 220
+            },
+            "type": "signature"
+        },
+        {
+            "id": "b066182f-1603-42e4-a17d-d12d64aa733e",
+            "label": "signatory",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 308
+            },
+            "type": "signature"
+        },
+        {
+            "id": "99da217f-2830-4245-97cc-b7f859094874",
+            "label": "client_signatory_title text 2 Yes --",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 396
+            },
+            "type": "signature"
+        },
+        {
+            "id": "305aeb92-20fb-4d5f-af79-33eb5a716171",
+            "label": "signatory title",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 484
+            },
+            "type": "signature"
+        },
+        {
+            "id": "12b553d4-2e94-49d3-a725-36503078cd12",
+            "label": "client_sign_date date 2 Yes --",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 528
+            },
+            "type": "signature"
+        },
+        {
+            "id": "1f852a1e-f213-40b0-9005-e71c947d191d",
+            "label": "signature date",
+            "page": 26,
+            "rect": {
+                "h": 44,
+                "w": 540,
+                "x": 36,
+                "y": 616
+            },
+            "type": "signature"
+        }
+    ],
+    "formatVersion": "1.0",
+    "id": "cc0cc72e-f000-4f8f-8942-fc553c13e231",
+    "name": "CONTRACT",
+    "pageCount": 27,
+    "sourcePdfHash": "214452567acf5a489fe8b9e03228a1c849109be826cea58341469e119cf0ab82",
+    "sourcePdfPath": "C:/Users/ChristopherGaither/Documents/GitHub/docs/legal/contract.pdf",
+    "tool": "Norn",
+    "updatedAt": "2026-03-29T09:42:58",
+    "version": "1.0"
+}

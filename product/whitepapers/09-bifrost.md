@@ -1,4 +1,4 @@
-# Bifrost — Live Data Bridge White Paper
+[# Bifrost — Live Data Bridge White Paper
 
 **Mimir Labs Technical Publication**
 **Document Version:** 0.1 (Evolving — Pre-Development)

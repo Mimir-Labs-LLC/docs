@@ -1,352 +1,239 @@
-# Yggdrasil ERP — Desktop Client Architecture White Paper
+---
+title: "Yggdrasil ERP — Desktop Client Architecture"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-003"
+classification: "Public"
+logo: "mimir_labs_logo.png"
+---
 
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
+## Overview
+
+The Yggdrasil ERP desktop client is the reference user interface implementation for the platform. It is a native application built with C++17 and Qt 6, combining QML for presentation with C++ service layers for networking, authentication, and application state.
+
+Unlike browser-first ERP systems, Yggdrasil follows a desktop-first development model. All client features are implemented and validated in the desktop client before being reproduced in the web interface. This ensures that the platform remains suitable for operational environments such as manufacturing floors, warehouses, and service operations where browser constraints can become limiting.
+
+The desktop client communicates with the Yggdrasil server exclusively through the public REST and WebSocket interfaces, making it both a production client and a functional reference implementation for third-party integrations.
 
 ---
 
-## Executive Summary
+## Technology Foundation
 
-The Yggdrasil ERP desktop client is a native Qt 6 application built with C++17 and QML, serving as the reference implementation for all client-facing features. It provides a rich, responsive interface for manufacturing floor operations, warehouse management, and office workflows — environments where browser-based UIs may be impractical or insufficient. This white paper details the client's architecture, component model, backend integration, and design philosophy.
-
----
-
-## 1. Technology Foundation
-
-| Component | Specification |
-|-----------|---------------|
-| Language | C++17 (ISO/IEC 14882:2017) |
-| UI Framework | Qt 6.2+ (Quick, QML, Controls 2) |
-| Charting | Qt 6 Charts module |
-| Build System | CMake 3.16+ with `CMAKE_AUTOMOC ON` |
-| Communication | HTTP (REST API), WebSocket (real-time events) |
+| Component | Implementation |
+|-----------|----------------|
+| Language | C++17 |
+| UI Framework | Qt 6 (QML + Qt Quick Controls) |
+| Charting | Qt Charts |
+| Build System | CMake |
+| Networking | REST over HTTP + WebSocket |
 | Target Platforms | Windows, Linux, macOS |
 
-### 1.1 Why Native Desktop?
+The decision to build the client in native Qt rather than as a browser application provides several operational advantages:
 
-Yggdrasil follows a **desktop-first development policy**. New client-facing features are designed and tested on the Qt desktop client first, then ported to the Next.js web application. The desktop client is the reference implementation — the web app follows it, not the other way around.
+- Consistent performance with large datasets
+- Reliable multi-window workflows
+- Direct hardware integration (barcode scanners, printers, measurement devices)
+- Deterministic UI behavior without browser lifecycle constraints
 
-Desktop-native advantages for ERP workloads:
-
-- **Offline capability** — Core operations continue without network connectivity (planned)
-- **Hardware integration** — Barcode scanners, label printers, and measurement devices connect directly
-- **Performance** — Native rendering and local computation for large datasets, complex BOMs, and real-time dashboards
-- **Multi-window workflows** — Users can view a work order, its BOM, and inventory simultaneously across monitors
-- **Shop floor durability** — No browser tab management, no accidental page closes, no memory pressure from unrelated tabs
+These properties are particularly valuable in industrial environments where operators interact with ERP systems continuously throughout the workday.
 
 ---
 
-## 2. Application Architecture
+## Application Architecture
 
-### 2.1 Initialization Sequence
+### Initialization Sequence
 
-The client's `main.cpp` orchestrates startup:
+Application startup follows a deterministic sequence:
 
-```
-1. QGuiApplication initialization
-2. QML Engine creation
-3. Backend singleton registration (6 singletons)
-4. QML module path configuration
-5. Resource loading (qml.qrc)
-6. Main window creation
-7. Authentication check → login dialog or main view
-```
+1. Initialize QGuiApplication
+2. Create the QML engine
+3. Register backend service singletons
+4. Load compiled QML resources
+5. Create the main application window
+6. Perform authentication check
 
-### 2.2 Backend Singletons
+Depending on authentication state, the client either displays the login dialog or loads the primary navigation interface.
 
-Six C++ singleton objects are registered with the QML engine, providing the bridge between the UI layer and the server:
+### Backend Service Layer
 
-| Singleton | QML Name | Purpose |
-|-----------|----------|---------|
-| `ApiClient` | `ApiClient` | HTTP REST client for all server communication |
-| `AuthManager` | `AuthManager` | Login, logout, token management, MFA |
-| `WebSocketManager` | `WebSocketManager` | Real-time event subscriptions and notifications |
-| `ThemeManager` | `Theme` | Application-wide color scheme, fonts, spacing |
-| `SettingsManager` | `Settings` | User preferences, server URL, cached state |
-| `NotificationManager` | `NotificationManager` | In-app notification display and management |
+The desktop client exposes several C++ backend services to the QML layer through global singleton objects. These services handle networking, authentication, configuration, and application-wide state.
 
-### 2.3 Singleton Registration
+| Service | Responsibility |
+|---------|----------------|
+| ApiClient | HTTP communication with the server API |
+| AuthManager | Login, logout, MFA handling, token lifecycle |
+| WebSocketManager | Real-time event subscription |
+| ThemeManager | Centralized visual styling tokens |
+| SettingsManager | User preferences and connection settings |
+| NotificationManager | In-app notifications and alerts |
 
-Singletons are registered as QML context properties, making them globally accessible from any QML file:
-
-```cpp
-engine.rootContext()->setContextProperty("ApiClient", &apiClient);
-engine.rootContext()->setContextProperty("AuthManager", &authManager);
-engine.rootContext()->setContextProperty("Theme", &themeManager);
-```
-
-This pattern avoids import dependencies and provides a clean separation between C++ business logic and QML presentation.
+These services form the boundary between presentation logic and operational functionality. QML components interact only with these services and never communicate directly with network layers.
 
 ---
 
-## 3. QML Architecture
+## QML Interface Architecture
 
-### 3.1 Module Pages
+The user interface is composed of module pages that correspond directly to server business domains. Major modules include:
 
-Each business module has a dedicated QML page:
+- Dashboard
+- CRM
+- Sales
+- Purchasing
+- Manufacturing
+- Warehouse
+- Finance
+- Projects
+- PLM
+- Quality
+- Service
+- HR
+- Logistics
+- Forms
 
-| Module | QML File | Key Features |
-|--------|----------|-------------|
-| Dashboard | `DashboardPage.qml` | KPI cards, charts (bar, pie, area), alerts, activity feed |
-| CRM | `CrmPage.qml` | Accounts, contacts, opportunities, leads tabs |
-| Sales | `SalesPage.qml` | Quotes, orders, invoices, commissions tabs |
-| Purchasing | `PurchasingPage.qml` | POs, suppliers, receipts, asset registry tabs |
-| Manufacturing | `ManufacturingPage.qml` | Work orders, BOMs, operations, MRP tabs |
-| Warehouse | `WarehousePage.qml` | Inventory, locations, transactions, pick lists tabs |
-| Finance | `FinancePage.qml` | GL, AR, AP, banking, currencies, exchange rates tabs |
-| Projects | `ProjectsPage.qml` | Projects, tasks, time tracking, issues tabs |
-| PLM | `PlmPage.qml` | Parts, EBOMs, MBOMs, ECRs tabs |
-| Quality | `QualityPage.qml` | 8D, CAPA, NCR, audits, inspection plans tabs |
-| Service | `ServicePage.qml` | Tickets, RMA, maintenance, service orders tabs |
-| Settings | `SettingsPage.qml` | User profile, security (MFA), preferences |
-| HR | `HrPage.qml` | Employees, departments, positions tabs |
-| Logistics | `LogisticsPage.qml` | Shipments, carriers, fleet, asset registry tabs |
-| Forms | `FormsPage.qml` | Form catalog, submissions, template management tabs |
-| API Reference | `ApiReferencePage.qml` | Interactive API documentation (admin only) |
+Each module page acts as a container for data tables, detail views, and workflow actions.
 
-### 3.2 Reusable Components
+Reusable QML components provide consistent interaction patterns across modules. Key components include:
 
-A library of reusable QML components provides consistent UI patterns:
+- DataTable — paginated searchable grid
+- RecordDetailPage — master/detail entity view
+- FormDialog — create/edit forms
+- AttachmentPanel — document management
+- NotificationPanel — real-time alerts
+- ChartCard — dashboard visualization container
 
-| Component | Purpose |
-|-----------|---------|
-| `DataTable` | Sortable, paginated table with search and column configuration |
-| `RecordDetailPage` | Master-detail view with sections, custom actions, and attachments |
-| `FormDialog` | Modal form for create/edit operations with field validation |
-| `AttachmentPanel` | File upload, download, and delete for any entity type |
-| `SearchBar` | Global search with debounced typeahead and module-badge results |
-| `NotificationPanel` | Real-time notification display with read/dismiss actions |
-| `ChartCard` | Reusable chart wrapper (bar, pie, area variants) |
-| `TabBar` | Module sub-navigation with badge counts |
-| `KpiCard` | Dashboard metric display with trend indicators |
-| `AlertsBanner` | Warning/error notifications across the top of pages |
-
-### 3.3 Resource Management
-
-QML files and assets are compiled into the application binary via Qt's resource system (`qml.qrc`):
-
-- All QML files are listed in `qml.qrc` for compile-time resource embedding
-- Component registration via `qmldir` files enables clean import paths
-- Icons and images are embedded as resources for offline availability
+This component approach ensures interface consistency across the entire ERP surface.
 
 ---
 
-## 4. Data Flow
+## Data Flow Model
 
-### 4.1 API Communication
+All communication between the desktop client and the platform occurs through the server API.
 
-The `ApiClient` singleton handles all server communication:
-
-```
-QML UI → ApiClient (C++) → HTTP Request → Server → HTTP Response → ApiClient → QML UI
-```
-
-Key capabilities:
-- **Authentication** — JWT tokens managed automatically; refresh on 401 responses
-- **Tenant context** — `X-Tenant-ID` header injected on every request
-- **Error handling** — Network errors, 4xx/5xx responses surfaced to QML with structured error objects
-- **File operations** — `uploadAttachment()` and `downloadFile()` for binary data transfer
-- **Pagination** — `?page=`, `?limit=`, `?search=` parameters managed by DataTable
-
-### 4.2 Real-Time Events
-
-The `WebSocketManager` provides live data updates:
+UI interaction follows a predictable pattern:
 
 ```
-Server B2BEventHub → WebSocket → WebSocketManager (C++) → QML Signal → UI Update
+QML Interface → ApiClient → HTTP Request → Server → HTTP Response → UI Update
 ```
 
-- Connects to the server's WebSocket endpoint on port 8081
-- Authenticates with the current JWT
-- Subscribes to tenant-scoped event channels
-- Emits Qt signals that QML components bind to for reactive updates
-- Auto-reconnection on connection loss with exponential backoff
-
-### 4.3 Notification Pipeline
+Server-generated events are delivered via WebSocket:
 
 ```
-Server Event → WebSocket → NotificationManager → In-app Toast / Notification Panel
-                                                → Desktop System Notification (optional)
+Server Event → WebSocketManager → Qt Signal → UI Component
 ```
 
-Notification preferences (which types, email vs in-app) are user-configurable via the Settings page.
+This model eliminates polling and enables immediate UI updates when data changes elsewhere in the system.
 
 ---
 
-## 5. Authentication Flow
+## Authentication Workflow
 
-### 5.1 Login
+Authentication is managed by the AuthManager service.
 
-1. User enters email and password in the login dialog
-2. `AuthManager` sends `POST /api/auth/login`
-3. If MFA is enabled, a TOTP code dialog appears
-4. On success, JWT tokens are stored securely
-5. Main application view loads with module navigation
+Login sequence:
 
-### 5.2 Session Management
+1. User submits credentials
+2. Client calls /api/auth/login
+3. If MFA is required, a TOTP challenge is presented
+4. Access and refresh tokens are stored securely
+5. Main application interface loads
 
-- Access tokens (1-hour lifetime) are refreshed automatically before expiration
-- WebSocket connections re-authenticate on token refresh
-- Session persistence — returning users skip login if the refresh token is valid
+Access tokens are refreshed automatically when approaching expiration. WebSocket connections re-authenticate when token refresh occurs.
 
-### 5.3 Operator Login
-
-For shared workstations (e.g., manufacturing floor), the operator login dialog provides:
-- Quick user switching without full application restart
-- PIN-based authentication for faster operator changes
-- Audit trail maintained per operator
+The client also supports operator login for shared workstations, allowing rapid user switching without restarting the application.
 
 ---
 
-## 6. Desktop-First Development Pattern
+## Desktop-First Development Model
 
-### 6.1 Feature Implementation Sequence
+Feature development across the platform follows a strict sequence:
 
-```
-1. Design → Define data model, API endpoints, and UI interactions
-2. Server → Implement API endpoints and business logic
-3. Desktop → Build the Qt/QML UI as the reference implementation
-4. Web → Port the feature to Next.js, matching desktop behavior
-```
+1. Define server API and data structures
+2. Implement backend functionality
+3. Build the desktop interface
+4. Port the feature to the web client
 
-### 6.2 Parity Tracking
-
-Feature parity between desktop and web is tracked systematically. As of the current version:
-
-- **Full parity** — All 10 business modules have corresponding desktop and web implementations
-- **Desktop-only features** — Operator login, hardware integration (scanners, printers)
-- **Web-only features** — Mobile-responsive layouts, progressive web app capabilities
-
-### 6.3 Component Mapping
-
-Desktop and web components are designed as conceptual pairs:
-
-| Desktop (QML) | Web (React) | Function |
-|---------------|-------------|----------|
-| `DataTable` | `CrudPanel` | List/grid view with CRUD operations |
-| `RecordDetailPage` | `RecordDetailPage` | Master-detail with sections |
-| `FormDialog` | Modal form | Create/edit forms |
-| `AttachmentPanel` | `AttachmentPanel` | File management |
-| `SearchBar` | Sidebar search | Global search |
-| `ChartCard` | `ChartCard` | Dashboard charts |
+This approach ensures that the most capable interface is always the primary implementation. The web client becomes a portability layer rather than the architectural reference.
 
 ---
 
-## 7. Theming and Design
+## Theming System
 
-### 7.1 Theme System
+The application uses a centralized theme manager providing design tokens for:
 
-The `ThemeManager` provides application-wide design tokens:
+- Colors
+- Typography
+- Spacing
+- Component elevation
+- Border radii
 
-| Token Category | Examples |
-|---------------|----------|
-| Colors | Primary (Yggdrasil green), background, surface, text, error, warning |
-| Typography | Font family, sizes (header, body, caption), weights |
-| Spacing | Margins, padding, gap values |
-| Border radius | Card, button, input field rounding |
-| Shadows | Elevation levels for cards and dialogs |
-
-### 7.2 Consistent Styling
-
-All QML components reference `Theme.*` properties rather than hardcoded values:
-
-```qml
-Rectangle {
-    color: Theme.backgroundColor
-    radius: Theme.borderRadius
-
-    Text {
-        color: Theme.textColor
-        font.pixelSize: Theme.bodyFontSize
-    }
-}
-```
-
-This enables future theme switching (light/dark mode) by changing a single `ThemeManager` configuration.
+QML components reference theme properties rather than hardcoded values, allowing global visual changes without rewriting interface code.
 
 ---
 
-## 8. Custom Actions and Workflows
+## Workflow Actions
 
-### 8.1 Record-Level Actions
+ERP operations frequently require entity-specific actions. The desktop client exposes these through contextual action buttons on entity detail pages.
 
-The `RecordDetailPage` component supports custom actions — context-specific operations that appear as buttons in the detail view:
+Examples include:
 
-| Entity | Custom Action | Server Operation |
-|--------|--------------|-----------------|
-| Quotes | Convert to Order | `POST /sales/quotes/:id/convert` |
-| Sales Orders | Create Invoice | `POST /sales/orders/:id/invoice` |
-| Service Orders | Create Invoice | `POST /service/orders/:id/invoice` |
-| Purchase Orders | Create Bill | `POST /purchasing/orders/:id/bill` |
-| Work Orders | Complete Units | `POST /manufacturing/work-orders/:id/complete-units` |
-| Work Orders | View Serial Numbers | `GET /manufacturing/work-orders/:id/serial-numbers` |
-| Projects | Billing Summary | `GET /projects/:id/billing-summary` |
+- Converting quotes to orders
+- Generating invoices
+- Completing work order units
+- Creating purchase bills
 
-### 8.2 Print/PDF Generation
-
-The detail view includes a Print button that downloads server-generated PDFs:
-
-- Quotes, sales orders, invoices — Commercial document templates
-- Purchase orders — Procurement document template
-- Pick lists — Warehouse operation template
-- Work orders — Manufacturing operation template with operations and materials sections
+These actions correspond directly to server endpoints and represent operational transitions in the system's workflow state machine.
 
 ---
 
-## 9. Build and Distribution
+## Build and Distribution
 
-### 9.1 Build Process
+The client is built using CMake and the Qt toolchain.
+
+Typical build procedure:
 
 ```bash
-cd client && mkdir -p build && cd build
+mkdir build
+cd build
 cmake ..
-make -j$(nproc)
-./YggdrasilClient
+make
 ```
 
-CMake configuration:
-- Qt modules: Core, Quick, QuickControls2, Network, WebSockets, Charts
-- `CMAKE_AUTOMOC ON` for automatic Meta-Object Compiler processing
-- Resource compilation via `qt_add_resources`
+Supported platforms:
 
-### 9.2 Platform Targets
+| Platform | Status |
+|----------|--------|
+| Windows | Primary development |
+| Linux | Production environments |
+| macOS | Supported |
 
-| Platform | Compiler | Status |
-|----------|----------|--------|
-| Windows 10/11 | MSVC 2019+ | Primary development platform |
-| Linux (Ubuntu 22.04+) | GCC 10+ | Production deployment |
-| macOS 13+ | Clang 13+ | Supported |
-
-### 9.3 Application Identity
-
-- **Window title** — "Yggdrasil ERP" with version suffix
-- **Taskbar icon** — Yggdrasil logo (multi-resolution ICO)
-- **System tray** — Notification badge for unread alerts
+Qt resource compilation embeds QML files and assets directly into the binary, eliminating runtime file dependency issues.
 
 ---
 
-## 10. Performance Characteristics
+## Performance Characteristics
 
-### 10.1 Startup
+Typical performance profile:
 
-- Application launch to login dialog: < 2 seconds
-- Login to dashboard (including API calls): < 3 seconds on local network
-- QML compilation is cached by Qt for subsequent launches
+- Application launch to login screen: <2 seconds
+- Login to dashboard: ~3 seconds on local network
+- Memory footprint: ~80-120 MB base
 
-### 10.2 Data Handling
+Large datasets are handled through server-side pagination and virtualized table rendering. Real-time updates are delivered through WebSocket events rather than polling.
 
-- DataTable handles 10,000+ rows with virtual scrolling
-- Server-side pagination prevents loading full datasets
-- Debounced search (300ms) prevents excessive API calls during typing
-- WebSocket events update visible data in real-time without polling
+---
 
-### 10.3 Memory
+## Architectural Role
 
-- Base memory usage: ~80-120 MB (including Qt runtime)
-- Per-module memory: ~10-20 MB for loaded QML and cached data
-- Resource-embedded QML files avoid filesystem I/O during navigation
+Within the broader Yggdrasil architecture, the desktop client serves three roles simultaneously:
+
+1. Primary operational interface for enterprise users
+2. Reference implementation for the public API
+3. Validation environment for new platform features
+
+Because it interacts with the server exclusively through public interfaces, the client doubles as a continuously maintained example of correct API usage.
+
+This approach encourages architectural discipline and ensures that platform capabilities remain usable by external integrations as well as internal clients.
 
 ---
 

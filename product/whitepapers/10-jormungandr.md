@@ -1,318 +1,153 @@
-# Jormungandr — Canon Governance & Enforcement Layer White Paper
+---
+title: "Jormungandr — Canon Governance and Enforcement Layer"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-011"
+classification: "Public"
+logo: "mimir_labs_logo.png"
+---
 
-**Mimir Labs Technical Publication**
-**Document Version:** 0.1 (Evolving — Pre-Development)
-**Date:** March 2026
-**Classification:** Public
-**Status:** Planned (YGGDATA-326, 12 stories, all To Do)
+## Overview
+
+Jormungandr is the governance enforcement layer of the Mimir Labs data platform. Named for the World Serpent that encircles Midgard in Norse mythology, it wraps around an organization's data landscape and detects when structures, integrations, or schema changes diverge from the approved canonical model.
+
+Where Ratatosk discovers and proposes canonical meaning, Jormungandr owns and enforces it. Where Ragnarok executes a one-time migration and Bifrost maintains ongoing synchronization, Jormungandr ensures that the semantic foundations underlying those processes remain intact over time.
+
+Jormungandr converts one-time governance extraction engagements into long-term enforcement subscriptions. Without it, the canonical model discovered by Ratatosk decays as systems evolve independently. With it, organizations maintain the semantic discipline that makes migrations, integrations, and operational coherence possible.
 
 ---
 
-## Executive Summary
+## Architectural Role
 
-Jormungandr is a multi-tenant SaaS platform that owns and enforces the canonical enterprise data model ("the canon") established during Ratatosk governance extraction engagements. Named for the World Serpent that encircles Midgard in Norse mythology, Jormungandr wraps around an organization's data landscape, detecting when new structures, integrations, or schema changes diverge from the approved canonical model.
+Jormungandr occupies the final position in the Mimir Labs platform lifecycle.
 
-Jormungandr converts one-time Ratatosk engagements into long-term recurring governance subscriptions while enforcing data discipline across the enterprise stack.
+Ratatosk discovers schema structures, classifies them into business domains, and produces a semantic manifest. Ragnarok consumes that manifest to execute governed data migrations. Bifrost uses the manifest to maintain live synchronization between systems. Jormungandr imports the manifest as the baseline canonical model and continuously validates that enterprise data structures remain compliant.
 
-**This is an evolving document. Jormungandr is not yet implemented. Content reflects the planned architecture as defined in the YGGDATA-326 epic and its child stories.**
+The relationship between Ratatosk and Jormungandr is particularly important. Ratatosk is an engagement-based discovery tool that produces a point-in-time semantic snapshot. Jormungandr transforms that snapshot into a living governance artifact that evolves under controlled versioning while enforcing compliance across the enterprise stack.
 
----
-
-## 1. Platform Position
-
-```
-Ratatosk discovers and proposes canon.
-Jormungandr owns and enforces canon.
-```
-
-| Tool | Function | Relationship to Jormungandr |
-|------|----------|---------------------------|
-| **Ratatosk** | Discovers schema, classifies domains, produces manifest | Jormungandr imports Ratatosk manifests as the baseline canon |
-| **Ragnarok** | Executes one-time data migration | Independent — operates before Jormungandr |
-| **Bifrost** | Persistent live sync between systems | Jormungandr validates the sync routing configuration against canon |
-| **Mimisbrunnr** | Universal semantic reference model (166 tables, 17 domains) | Jormungandr uses Mimisbrunnr as the Rosetta Stone for semantic matching; canon applies to any system |
-
-Ratatosk is an engagement-based discovery tool. Jormungandr is the persistent governance layer that ensures the canonical model stays enforced across the enterprise after the engagement ends.
+Mimisbrunnr serves as the Rosetta Stone for semantic matching within Jormungandr. Canon enforcement applies to any enterprise system, not exclusively to Yggdrasil ERP.
 
 ---
 
-## 2. Core Capabilities
+## Design Principles
 
-1. **Canonical schema storage and versioning** — Import Ratatosk output as baseline, version all changes
-2. **Governance taxonomy editing** — Edit canonical definitions (tables, columns, labels, classifications)
-3. **Controlled vocabulary and synonym management** — Maintain synonym maps for deterministic semantic matching
-4. **Schema validation** — Compare incoming structures against canon, detect drift
-5. **Governance compliance reporting** — Canonical coverage, violations, drift trends over time
-6. **Integration ingestion** — Accept DDL, JSON schema, CSV headers, and API schemas for validation
-7. **Alerting** — Flag unknown data structures for review or rejection
+Jormungandr is governed by constraints that ensure its governance function remains trustworthy and reproducible.
 
-All capabilities operate **without AI dependency**. Matching and classification are deterministic and rule-based.
+All matching, classification, and validation logic is deterministic and rule-based. No probabilistic or AI-driven behavior is introduced into the governance pipeline. This ensures that validation results are reproducible and auditable.
+
+The system operates purely on schema structures and business labels. It does not require access to operational data to perform governance analysis. This allows meaningful validation without exposing sensitive production information.
+
+Canon enforcement is system-agnostic. While Mimisbrunnr provides the reference vocabulary, Jormungandr can validate schemas from any enterprise system against the canonical model. The governance function is independent of the operational platform.
 
 ---
 
-## 3. Planned Architecture
+## Canon Registry
 
-### 3.1 Technology Stack (Planned)
+The canonical schema registry is the foundational data structure within Jormungandr. It stores the authoritative definitions against which all validation is performed.
 
-| Component | Specification |
-|-----------|---------------|
-| Deployment | Multi-tenant SaaS |
-| Database | PostgreSQL with row-level security |
-| Authentication | JWT + API keys |
-| Authorization | RBAC (Governance Admin, Analyst, Viewer) |
-| API | REST with OpenAPI/Swagger documentation |
+The registry contains table-level definitions with business labels, domain assignments, and ownership metadata. Column-level definitions capture data types, semantic labels, classifications, and constraints. Taxonomy groups preserve the domain hierarchy established during Ratatosk discovery. Version history records every change to the canonical model with computed diffs between versions.
 
-### 3.2 Data Model
+All registry data is scoped by tenant with row-level security, ensuring complete isolation between organizations.
 
-#### Canon Registry (YGGDATA-327)
-
-The foundational schema for storing canonical definitions:
-
-| Table | Purpose |
-|-------|---------|
-| `canon_manifests` | Top-level container per organization's canonical schema (name, source engagement, versions) |
-| `canonical_tables` | Table-level definitions with business labels, domain assignments, ownership |
-| `canonical_columns` | Column-level definitions with data type, label, classification, constraints |
-| `taxonomy_groups` | Domain hierarchy from Ratatosk output |
-| `canon_versions` | Version history with diffs between versions |
-| `canon_metadata` | Organization, engagement origin, import context |
-
-All tables scoped by `tenant_id` with row-level security.
-
-### 3.3 Canon Versioning
-
-Every change to the canonical schema creates a new version:
-
-- **Immutable versions** — Previous versions are never modified
-- **Diff computation** — Changes between versions are computed and stored
-- **Rollback** — Can revert to any previous version
-- **Active version** — Only one version is "active" at a time for validation
+Canon versioning follows an immutable model. Previous versions are never modified. Changes create new versions with explicit diffs. Any version can be designated as the active validation target, and rollback to previous versions is supported.
 
 ---
 
-## 4. Ratatosk Manifest Import (YGGDATA-329)
+## Manifest Import
 
-The import pipeline accepts `.ratatosk.json` manifests:
+The import pipeline accepts Ratatosk manifests as the primary mechanism for establishing and updating canonical definitions.
 
-1. **Parse** — Validate manifest structure and completeness
-2. **Conflict detection** — If a canon exists, compare against incoming manifest
-3. **Import modes:**
-   - "Create new canon" — First import establishes version 1
-   - "Merge into existing" — Subsequent engagements produce a diff before merging
-4. **Source tracking** — Record engagement ID, date, facilitator
-5. **Idempotency** — Re-importing the same manifest is a no-op
+On first import, the manifest establishes version one of the organizational canon. Subsequent imports from additional Ratatosk engagements produce a diff against the existing canon before merging. Each import records the source engagement identifier, date, and facilitator for traceability. Re-importing an identical manifest is a no-op, ensuring idempotency.
+
+This pipeline connects the discovery phase of Ratatosk directly to the enforcement phase of Jormungandr, creating a continuous governance lifecycle from initial analysis through ongoing compliance.
 
 ---
 
-## 5. Controlled Vocabulary & Synonyms (YGGDATA-330)
+## Controlled Vocabulary
 
-### 5.1 Synonym Dictionary
+Jormungandr maintains a synonym dictionary that enables deterministic semantic matching between external schemas and canonical definitions.
 
-Maps alternative terms to canonical terms for deterministic semantic matching:
+The dictionary maps alternative terms to their canonical equivalents. Common enterprise variations such as customer identifier, client identifier, and account number all resolve to a single canonical term. Purchase order, procurement order, and buy order all resolve to the canonical purchase order definition.
 
-```
-customer_id = cust_id = client_id = account_number → canonical: "customer_id"
-purchase_order = po = buy_order = procurement_order → canonical: "purchase_order"
-quantity = qty = amount = count → canonical: "quantity"
-```
-
-### 5.2 Features
-
-- **Domain scoping** — Synonyms scoped per taxonomy domain (a term may mean different things in different domains)
-- **Seeded defaults** — Ships with a baseline dictionary of common ERP/manufacturing synonyms (derived from Ratatosk's 50+ synonym groups)
-- **Bulk import** — Import dictionaries from CSV or JSON
-- **Versioned** — Changes versioned alongside canon changes
+Synonyms are scoped per taxonomy domain, acknowledging that a term may carry different meaning in different business contexts. The dictionary ships with a baseline set derived from Ratatosk's synonym groups and can be extended through bulk import or manual editing. Changes to the dictionary are versioned alongside canon changes.
 
 ---
 
-## 6. Schema Validation Engine (YGGDATA-331)
+## Schema Validation
 
-The core value proposition — detecting when data structures diverge from canon.
+The validation engine is the core value proposition of Jormungandr. It detects when data structures diverge from the canonical model.
 
-### 6.1 Validation Process
+Incoming schemas can be submitted in multiple formats including DDL statements, JSON schema definitions, CSV headers, and API schema documents. Each submission is parsed into a normalized table and column structure, then compared against the active canonical schema.
 
-```
-1. Incoming schema submitted (DDL, JSON, CSV headers, API schema)
-2. Parse into normalized table/column structure
-3. Compare against active canonical schema
-4. Classify each element:
-   - Exact match — name and type match canon
-   - Semantic match — name matches via synonym dictionary
-   - Type mismatch — name matches but type differs
-   - Label mismatch — name matches but business label differs
-   - Missing from canon — exists in input but not in canon (drift)
-   - Missing from source — canonical element not in input (coverage gap)
-5. Generate structured validation report
-```
+Each element in the incoming schema is classified as one of several match types. Exact matches occur when both name and type align with canon. Semantic matches occur when the name resolves through the synonym dictionary. Type mismatches indicate name alignment with incompatible data types. Label mismatches indicate structural alignment with differing business semantics. Elements present in the input but absent from canon represent potential drift. Canonical elements missing from the input represent coverage gaps.
 
-### 6.2 Configurable Strictness
-
-Per-tenant policies:
-- Auto-accept semantic matches
-- Reject all unknowns
-- Warn-only mode
-- Custom thresholds per severity level
+Strictness is configurable per tenant. Policies can auto-accept semantic matches, reject all unknowns, operate in warn-only mode, or apply custom thresholds per severity level.
 
 ---
 
-## 7. Semantic Matching Engine (YGGDATA-332)
+## Semantic Matching
 
-Deterministic semantic equivalence detection without AI:
+The matching engine provides deterministic semantic equivalence detection without AI dependency.
 
-### 7.1 Matching Techniques
+Matching employs several complementary techniques. Synonym lookup resolves terms against the controlled vocabulary. Structural similarity analysis uses string distance algorithms and common prefix and suffix detection. Abbreviation expansion converts common shorthand to full canonical terms. Type-aware weighting increases confidence when data types align alongside name matches. Positional heuristics consider column position and surrounding context for additional signal.
 
-| Technique | Description |
-|-----------|-------------|
-| **Synonym lookup** | Resolve against controlled vocabulary |
-| **Structural similarity** | Levenshtein distance, common prefix/suffix |
-| **Abbreviation expansion** | "qty" → "quantity", "desc" → "description" |
-| **Type-aware weighting** | Higher confidence when data types match |
-| **Positional heuristics** | Consider column position and surrounding context |
-
-### 7.2 Confidence Scoring
-
-Each match gets a confidence score:
-- **High** — Synonym match + type match
-- **Medium** — Structural similarity + type match
-- **Low** — Structural similarity only
-
-Low-confidence matches are queued for human review rather than auto-accepted.
+Each match receives a confidence classification. High confidence indicates synonym match combined with type match. Medium confidence indicates structural similarity with type alignment. Low confidence indicates structural similarity alone. Low-confidence matches are queued for human review rather than auto-accepted, preventing governance automation from propagating incorrect assumptions.
 
 ---
 
-## 8. Governance Drift Reporting (YGGDATA-334)
+## Governance Reporting
 
-### 8.1 Report Types
+Jormungandr produces structured reports that make governance posture visible across the organization.
 
-| Report | Content |
-|--------|---------|
-| **Compliance summary** | Percentage matching canon (exact + semantic), broken down by table and domain |
-| **Violation report** | Detailed list: missing tables, unknown columns, type mismatches, label conflicts |
-| **Drift trend** | Validation results over time — is compliance improving or degrading? |
-| **Per-system breakdown** | Compliance per source system when multiple are validated |
+Compliance summaries report the percentage of canonical coverage achieved by validated schemas, broken down by table and domain. Violation reports provide detailed listings of missing tables, unknown columns, type mismatches, and label conflicts. Drift trend reports track validation results over time, revealing whether compliance is improving or degrading. Per-system breakdowns show compliance per source system when multiple schemas are validated.
 
-### 8.2 Severity Classification
+Violations are classified by severity. Critical violations indicate structural failures such as missing required tables or incompatible types on key fields. Warnings indicate semantic mismatches where a field exists but its label or type differs from canon. Informational findings flag new fields outside canon that may represent legitimate extensions.
 
-| Severity | Description | Example |
-|----------|-------------|---------|
-| **Critical** | Structural violations | Missing required table, incompatible type on key field |
-| **Warning** | Semantic mismatches | Field exists but label/type differs from canon |
-| **Info** | New fields outside canon | Unknown column that may be legitimate extension |
-
-### 8.3 Export Formats
-
-- **JSON** — Machine-readable for CI/CD integration
-- **PDF** — Executive summary for governance committees
-- **CSV** — Tabular detail for analyst review
-
-### 8.4 Scheduled Reports
-
-Configurable periodic generation:
-- Weekly governance digest
-- Monthly compliance trend
-- On-demand per validation run
+Reports are available in JSON for machine consumption and CI/CD integration, PDF for executive governance committees, and CSV for analyst review. Scheduled generation supports weekly governance digests, monthly compliance trends, and on-demand reports per validation run.
 
 ---
 
-## 9. Multi-Tenant SaaS Architecture (YGGDATA-337)
+## Multi-Tenant Architecture
 
-### 9.1 Tenant Isolation
+Jormungandr is designed as a multi-tenant SaaS platform with full organizational isolation.
 
-- All data scoped by `tenant_id` with PostgreSQL row-level security
-- Fully independent configuration per tenant
-- No cross-tenant data leakage
+All data is scoped by tenant identifier with PostgreSQL row-level security. Configuration, canonical definitions, synonym dictionaries, and validation history are fully independent per tenant.
 
-### 9.2 Authentication & Authorization
+Authentication uses JWT-based sessions with API key support for programmatic access. Role-based access control defines three operational roles. Governance administrators have full editing authority over canon, synonyms, policies, and users. Analysts can validate schemas, view reports, and review matches. Viewers have read-only access to reports and canonical definitions.
 
-- **JWT-based authentication** with secure login and session management
-- **API key management** — Tenants generate keys for programmatic access (CI/CD)
-- **RBAC roles:**
-
-| Role | Capabilities |
-|------|-------------|
-| **Governance Admin** | Full edit: canon, synonyms, policies, users |
-| **Analyst** | Validate schemas, view reports, review matches |
-| **Viewer** | Read-only access to reports and canon |
-
-### 9.3 Subscription Management
-
-- Track tenant subscription status (active, trial, expired)
-- Feature gating per plan tier
-- Audit logging of all tenant actions
+Subscription management tracks tenant status and supports feature gating per plan tier. All tenant actions are audit-logged.
 
 ---
 
-## 10. REST API (YGGDATA-338)
+## API Surface
 
-### 10.1 Planned Endpoints
+Jormungandr exposes a REST API covering canon management, schema validation, synonym administration, governance reporting, and tenant operations.
 
-| Category | Endpoints |
-|----------|-----------|
-| **Canon** | GET/POST/PUT/DELETE `/api/canon`, versions, diff, import |
-| **Validation** | POST `/api/validate`, GET validations history and reports |
-| **Synonyms** | GET/POST/PUT `/api/synonyms`, bulk import |
-| **Reporting** | GET `/api/reports/compliance`, drift, export (JSON/PDF/CSV) |
-| **Admin** | POST `/api/auth/login`, GET `/api/tenant`, POST `/api/keys` |
+All endpoints require authentication via JWT or API key. Role-based access control is enforced per endpoint. The API follows REST conventions with consistent error responses and auto-generated OpenAPI documentation. Rate limiting protects the service on a per-tenant basis.
 
-### 10.2 API Design
-
-- All endpoints require authentication (JWT or API key)
-- RBAC enforced per endpoint
-- REST conventions with consistent error responses
-- OpenAPI/Swagger spec auto-generated
-- Rate limiting per tenant
+The API is designed to support both interactive governance workflows and automated CI/CD integration, enabling organizations to validate schema changes as part of their deployment pipeline.
 
 ---
 
-## 11. Business Model
+## Business Model
 
-### 11.1 Revenue Path
+Jormungandr represents the recurring revenue component of the Mimir Labs platform.
 
-```
-Ratatosk engagement (one-time fee)
-  → Produces manifest
-  → Manifest imported into Jormungandr
-  → Ongoing governance subscription (recurring revenue)
-```
-
-### 11.2 Value Proposition
-
-Without Jormungandr, the canonical model discovered by Ratatosk decays over time as systems evolve independently. Jormungandr ensures the investment in governance extraction pays ongoing dividends through continuous enforcement, drift detection, and compliance reporting.
+Ratatosk engagements produce a one-time fee and a canonical manifest. That manifest is imported into Jormungandr, establishing an ongoing governance subscription. The value proposition is straightforward: without continuous enforcement, the canonical model decays as systems evolve independently. Jormungandr ensures that the investment in governance extraction pays ongoing dividends through continuous drift detection and compliance reporting.
 
 ---
 
-## 12. Implementation Roadmap
+## Platform Significance
 
-| Story | Title | Status |
-|-------|-------|--------|
-| YGGDATA-327 | Canon registry schema and data model | To Do |
-| YGGDATA-329 | Ratatosk manifest import pipeline | To Do |
-| YGGDATA-330 | Controlled vocabulary and synonym dictionary | To Do |
-| YGGDATA-331 | Schema validation engine | To Do |
-| YGGDATA-332 | Semantic matching engine | To Do |
-| YGGDATA-334 | Governance drift reporting | To Do |
-| YGGDATA-337 | Multi-tenant SaaS architecture and auth | To Do |
-| YGGDATA-338 | REST API | To Do |
+Jormungandr transforms governance from a point-in-time activity into a persistent organizational capability.
 
-### 12.1 Stretch Goals
+Most enterprise governance efforts produce documents that decay as soon as systems change. Jormungandr converts those documents into enforceable policy by maintaining a living canonical model, continuously validating incoming structures against it, and reporting compliance status in actionable terms.
 
-- **Data lineage tracking** — Trace how canonical entities propagate through integrations and downstream systems
-- **Lineage graph** — Maintain a graph of data flow between systems
-- **Violation origin tracking** — Identify where canonical violations originate
-- **CI/CD webhook** — Trigger validation on schema deployment events
+Within the broader Mimir Labs architecture, Jormungandr closes the governance loop. Ratatosk discovers meaning. Ragnarok migrates data into aligned structures. Bifrost maintains synchronization. Jormungandr ensures that the semantic foundations underlying all of these processes remain intact.
 
----
-
-## 13. Technical Constraints
-
-- Must work without AI dependency for core functionality
-- Must operate purely on schema structures and business labels
-- Must accept Ratatosk JSON manifests as input
-- System-agnostic — canon enforcement applies to any enterprise system, not limited to Yggdrasil ERP
-- Deployable as a service layer in the Mimir Labs stack or independently
-- Multi-tenant SaaS architecture with full tenant isolation
+It does not discover meaning. It does not move data. It enforces the canonical truth that makes discovery, migration, and synchronization trustworthy.
 
 ---
 
 *Copyright 2026 Mimir Labs. All rights reserved.*
-*This document will be updated as implementation progresses.*

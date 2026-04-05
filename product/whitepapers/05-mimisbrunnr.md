@@ -1,401 +1,150 @@
-# Yggdrasil ERP — Mimisbrunnr: Data Architecture & Integration Framework
+---
+title: "Yggdrasil Platform — Mimisbrunnr: Canonical Data Architecture and Integration Framework"
+author: "Christopher Gaither"
+date: "March 2026"
+version: "1.0"
+docnumber: "ML-WP-006"
+classification: "Public"
+logo: "mimir_labs_logo.png"
+---
 
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
+## Overview
+
+Mimisbrunnr is the canonical semantic model at the center of the Mimir Labs data platform. Named for the well of wisdom in Norse mythology, it serves as both the authoritative schema definition for the Yggdrasil ERP system and the universal reference vocabulary used by every tool in the platform stack.
+
+The schema itself contains 166 PostgreSQL tables organized across 17 business domains, covering the operational breadth expected of a modern enterprise system. But the architectural significance of Mimisbrunnr extends beyond any single application. It functions as the Rosetta Stone that enables semantic interoperability between systems, tools, and integration layers across the entire Mimir Labs architecture.
+
+This paper describes Mimisbrunnr in two dimensions: as the governed persistence model that underpins Yggdrasil's operational execution, and as the canonical reference framework consumed by Ratatosk, Ragnarok, Bifrost, and Jormungandr.
 
 ---
 
-## Executive Summary
+## The Cardinal Rule
 
-Mimisbrunnr — named for the well of wisdom in Norse mythology — is both the canonical name for Yggdrasil ERP's complete database schema and the integration framework that connects Yggdrasil to external systems. This white paper covers both aspects: the 166-table schema that serves as the single source of truth for all business data, and the event-driven integration architecture that enables real-time communication with external systems, B2B partners, and cross-deployment synchronization.
+One principle governs all interaction with Mimisbrunnr: the canonical schema is authoritative.
 
----
+Target tables and columns are never dropped, renamed, or structurally modified to accommodate external systems. Source elements must adapt to Mimisbrunnr, not the reverse. Type incompatibilities are resolved by transforming source data, not by changing target definitions. Missing required fields in source data generate gap reports, not schema modifications.
 
-## 1. What is Mimisbrunnr?
-
-Mimisbrunnr serves two distinct but interrelated roles within the Yggdrasil ERP ecosystem:
-
-### 1.1 The Canonical Schema
-
-Mimisbrunnr is the authoritative definition of Yggdrasil's data model — 166 PostgreSQL tables organized across 17 domains. It is the single source of truth for:
-
-- Table structures and column definitions
-- Foreign key relationships between modules
-- ENUM types and their valid values
-- Index strategies and performance optimizations
-- Row-level security policies
-- Audit trail infrastructure
-
-**The cardinal rule:** Mimisbrunnr is canonical. Target tables and columns are never dropped or modified to accommodate external systems. Source elements must adapt to Mimisbrunnr, never the reverse.
-
-### 1.2 The Integration Framework
-
-Mimisbrunnr is also the name of the integration subsystem — 7 dedicated tables and a suite of services that enable:
-
-- Event-driven communication via WebSocket and Kafka-compatible protocols
-- Dead letter queue for failed message processing
-- Endpoint registration for external system connections
-- Message transformation and routing
-- Cross-tenant event isolation
+This constraint is not arbitrary. It exists because semantic stability is the precondition for every downstream process in the platform. If the canonical model shifts to accommodate each new integration, it ceases to function as a reference and becomes another moving target in an already fragmented enterprise landscape.
 
 ---
 
-## 2. Schema Architecture
+## Architectural Role
 
-### 2.1 Domain Organization
+Mimisbrunnr occupies a unique position in the Mimir Labs architecture. It is simultaneously a working production schema and a platform-wide semantic reference.
 
-The 166 tables are organized into 17 logical domains:
+Within Yggdrasil, Mimisbrunnr is the database. Every transaction, every status transition, every audit record is persisted against its structures. The server's state machine, route handlers, and query builders all operate directly on Mimisbrunnr tables.
 
-```
-Mimisbrunnr Schema (166 tables)
-├── CRM (12)                    — Accounts, contacts, opportunities, leads
-├── Sales (10)                  — Quotes, orders, invoices, commissions
-├── Purchasing (8)              — Purchase orders, suppliers, receipts
-├── Manufacturing (10)          — Work orders, BOMs, operations, routings
-├── Warehouse (8)               — Inventory, locations, transactions, picking
-├── Finance (12)                — GL, AR, AP, banking, multi-currency
-├── Projects (6)                — Tasks, time tracking, budgets, issues
-├── PLM (8)                     — Parts, EBOMs, MBOMs, ECRs, revisions
-├── Quality (8)                 — 8D, CAPA, NCR, audits, inspection plans
-├── Service (8)                 — Tickets, RMA, warranty, maintenance
-├── HR (6)                      — Employees, departments, time entries
-├── Logistics (4)               — Shipments, carriers, fleet
-├── Integration (7)             — Endpoints, messages, dead letters, transforms
-├── Infrastructure (15)         — Tenants, users, roles, audit, locks, attachments
-├── Workflow (6)                — Templates, instances, steps, approvals
-├── Form Builder (2)            — Templates, submissions
-├── Asset & MRP (9)             — Registry, serialization, MRP engine
-└── Multi-Currency (3)          — Currencies, exchange rates, gain/loss
-```
+Outside Yggdrasil, Mimisbrunnr is a vocabulary. Ratatosk uses it to align discovered enterprise entities with canonical definitions. Ragnarok uses it to validate migration targets and generate type-compatible transformation pipelines. Bifrost uses it to route synchronized data between systems using a shared semantic model. Jormungandr uses it to detect governance drift by comparing incoming schemas against canonical expectations.
 
-### 2.2 Cross-Domain Relationships
-
-Mimisbrunnr's power lies in the relationships between domains. Key relationship chains:
-
-**Order-to-Cash:**
-```
-CRM Account → Quote → Sales Order → Invoice → Payment → GL Entry
-                         ↓
-                    Work Order → Operations → Time Entries
-                         ↓
-                    Pick List → Shipment → Delivery
-```
-
-**Procure-to-Pay:**
-```
-Supplier → Purchase Order → Receipt → Bill → Payment → GL Entry
-                ↓
-           Inventory Transaction → Warehouse Location
-```
-
-**Design-to-Manufacture:**
-```
-PLM Part → EBOM → MBOM → Work Order → Operations → Completed Units
-  ↓                                         ↓
-ECR → Revision                        Serial Numbers → Asset Registry
-```
-
-**Issue-to-Resolution:**
-```
-Service Ticket → NCR → 8D Report → CAPA → Audit Finding
-       ↓                    ↓
-      RMA              Root Cause → Corrective Action
-```
-
-### 2.3 Universal Patterns
-
-Every entity table in Mimisbrunnr follows consistent patterns:
-
-| Pattern | Implementation |
-|---------|---------------|
-| Primary key | `id UUID PRIMARY KEY DEFAULT gen_random_uuid()` |
-| Tenant isolation | `tenant_id UUID NOT NULL REFERENCES tenants(id)` |
-| Timestamps | `created_at TIMESTAMPTZ DEFAULT NOW()`, `updated_at TIMESTAMPTZ DEFAULT NOW()` |
-| Soft delete | `deleted_at TIMESTAMPTZ` (nullable, NULL = active) |
-| Creator tracking | `created_by UUID REFERENCES users(id)` |
-| Status tracking | PostgreSQL ENUM type with StateMachine-enforced transitions |
+This dual role is architecturally significant. The same schema that serves as a production database also serves as the semantic foundation for the entire tool ecosystem. That convergence eliminates the common enterprise problem of maintaining separate canonical models and operational schemas that inevitably drift apart.
 
 ---
 
-## 3. Integration Framework
+## Schema Organization
 
-### 3.1 Integration Tables
+The 166 tables are organized into 17 logical domains that span the operational scope of an enterprise system.
 
-The 7 integration tables form the backbone of external system connectivity:
+Core business domains include customer relationship management, sales operations, purchasing and procurement, manufacturing execution, warehouse and inventory management, financial accounting, project management, product lifecycle management, quality assurance, and service operations. Supporting domains cover human resources, logistics, integration infrastructure, workflow orchestration, form definitions, asset management and MRP planning, and multi-currency accounting.
 
-| Table | Purpose |
-|-------|---------|
-| `integration_endpoints` | Registered external system connections (URL, auth credentials, protocol) |
-| `integration_messages` | Message queue for outbound/inbound payloads (JSONB) |
-| `integration_message_log` | Delivery attempt history with status and error details |
-| `integration_dead_letters` | Failed messages after retry exhaustion, pending manual resolution |
-| `integration_transforms` | Data mapping rules between Mimisbrunnr fields and external schemas |
-| `integration_webhooks` | Registered webhook listeners for event-driven callbacks |
-| `integration_sync_state` | Last-sync timestamps and cursors for incremental synchronization |
+Although the schema is large, its structure follows consistent patterns that make it predictable and legible. Every entity table uses UUID primary keys, includes tenant isolation columns, carries creation and modification timestamps, and supports soft deletion through nullable timestamp fields. Status fields are implemented as PostgreSQL ENUM types that work in conjunction with the server's state machine to enforce valid lifecycle transitions.
 
-### 3.2 Message Lifecycle
-
-```
-1. Event occurs (status change, CRUD operation)
-   ↓
-2. B2BEventHub publishes to WebSocket channels
-   ↓
-3. RedpandaRelay forwards to Kafka-compatible topics
-   ↓
-4. Integration message created in database
-   ↓
-5. Delivery attempted to registered endpoints
-   ↓
-6. Success → message_log entry (delivered)
-   Failure → retry (up to 3 attempts, exponential backoff)
-   ↓
-7. Retry exhaustion → dead_letter entry (pending manual resolution)
-```
-
-### 3.3 Dead Letter Queue
-
-Failed messages are preserved in the `integration_dead_letters` table with:
-
-- Original message payload (JSONB)
-- Error details from each delivery attempt
-- Source event reference
-- Tenant context
-
-Dead letters can be:
-- **Resolved** — Manually marked as handled (via StateMachine: `pending → resolved`)
-- **Retried** — Re-queued for delivery after the underlying issue is fixed
-- **Investigated** — Full context preserved for root cause analysis
+This uniformity is intentional. A schema that serves as both an operational database and a semantic reference must be internally consistent enough that tools can reason about its structure programmatically.
 
 ---
 
-## 4. B2B Event Hub
+## Cross-Domain Relationships
 
-### 4.1 Architecture
+The operational value of Mimisbrunnr lies not in individual tables but in the relationships between domains. These relationships represent real enterprise workflows that span organizational boundaries.
 
-The `B2BEventHub` (implemented in `common/src/B2BEventHub.cpp`) provides real-time event streaming:
+The order-to-cash flow connects customer accounts through quotes, sales orders, invoices, payments, and general ledger entries, while simultaneously triggering work orders, manufacturing operations, pick lists, shipments, and delivery records. The procure-to-pay flow traces from suppliers through purchase orders, receipts, bills, payments, and ledger postings, with parallel inventory transaction and warehouse location updates. The design-to-manufacture flow links PLM parts through engineering and manufacturing bills of materials to work orders, operations, completed units, serial numbers, and asset registries. The issue-to-resolution flow connects service tickets through NCRs, 8D reports, CAPA actions, and audit findings.
 
-```
-Server Event Sources          B2BEventHub              Consumers
-┌─────────────────┐    ┌───────────────────────┐    ┌──────────────────┐
-│ StateMachine     │──→ │                       │──→ │ Desktop Client   │
-│ CRUD Operations  │──→ │  WebSocket Server     │──→ │ Web Application  │
-│ Workflow Engine  │──→ │  Port 8081            │──→ │ External Systems │
-│ Approval Engine  │──→ │                       │──→ │ Redpanda Topics  │
-│ Notification Svc │──→ │  Tenant-scoped        │    └──────────────────┘
-└─────────────────┘    │  channels              │
-                       └───────────────────────┘
-```
-
-### 4.2 Event Schema
-
-All events follow a standardized JSON structure:
-
-```json
-{
-    "type": "state_transition",
-    "table": "crm_sales_orders",
-    "entity_id": "550e8400-e29b-41d4-a716-446655440000",
-    "from_state": "draft",
-    "to_state": "confirmed",
-    "user_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
-    "tenant_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "timestamp": "2026-03-14T15:30:00Z"
-}
-```
-
-### 4.3 Event Types
-
-| Event Type | Source | Content |
-|-----------|--------|---------|
-| `state_transition` | StateMachine | Entity status changes across 23 entity types |
-| `notification` | NotificationService | User-facing alerts and messages |
-| `data_change` | Route handlers | CRUD operations on entity tables |
-| `workflow_event` | WorkflowRoutes | Step completions, instance transitions |
-| `approval_event` | ApprovalRoutes | Approval submissions, decisions |
-
-### 4.4 Tenant Isolation
-
-Events are scoped to tenant-specific WebSocket channels:
-
-- Each tenant has its own channel namespace
-- Clients authenticate with a JWT before subscribing to channels
-- The Event Hub validates tenant membership before delivering events
-- Cross-tenant event leakage is architecturally impossible — the channel routing code checks `tenant_id` before every `send()`
+These cross-domain chains are not merely data relationships. They represent the operational processes that define how an enterprise functions. By encoding them in the schema, Mimisbrunnr makes enterprise workflows structurally explicit rather than implicitly embedded in application logic.
 
 ---
 
-## 5. Redpanda Relay
+## Integration Framework
 
-### 5.1 Purpose
+Mimisbrunnr includes a dedicated integration subsystem consisting of seven tables that form the backbone of external system connectivity.
 
-The `RedpandaRelay` service bridges the internal B2BEventHub to an external Redpanda (Kafka-compatible) message broker, enabling:
+The integration endpoint registry stores connection definitions for external systems, including URLs, authentication credentials, and protocol specifications. The message queue manages outbound and inbound payloads as JSONB documents. A delivery log tracks each attempt to deliver a message, recording success or failure status. The dead letter queue preserves messages that have exhausted retry attempts, making them available for investigation and manual resolution. A transformation table stores data mapping rules between Mimisbrunnr fields and external schemas. Webhook listeners enable event-driven callbacks to registered external systems. A synchronization state table tracks last-sync timestamps and cursors for incremental data exchange.
 
-- **External system integration** — Third-party systems subscribe to Yggdrasil events via Kafka consumer protocol
-- **Event archival** — Persistent event storage beyond the in-memory Event Hub queue
-- **Cross-deployment synchronization** — Multiple Yggdrasil instances share events through a central broker
-- **Analytics pipelines** — Stream processing systems consume events for business intelligence
-
-### 5.2 Configuration
-
-| Setting | Default |
-|---------|---------|
-| Broker address | Configured via `server.conf [Redpanda]` section |
-| Protocol | Kafka wire protocol over TLS |
-| Topic naming | Tenant-scoped: `{tenant_slug}.{event_type}` |
-| Delivery | At-least-once with consumer offset tracking |
-| Retry | 3 attempts with exponential backoff |
-
-### 5.3 Topic Architecture
-
-```
-redpanda/
-├── {tenant-a}.state_transition    — Status changes for Tenant A
-├── {tenant-a}.data_change         — CRUD events for Tenant A
-├── {tenant-a}.workflow_event      — Workflow events for Tenant A
-├── {tenant-b}.state_transition    — Status changes for Tenant B
-├── {tenant-b}.data_change         — CRUD events for Tenant B
-└── ...
-```
-
-Each tenant's events are published to tenant-prefixed topics, maintaining isolation at the message broker level.
+This infrastructure enables three integration patterns. Event-driven push integration delivers real-time notifications to external systems as Yggdrasil events occur. Polling-based pull integration allows external systems to incrementally fetch changed records using timestamp-based delta queries. Batch import enables bulk data loading with idempotency guards and cross-tenant protection.
 
 ---
 
-## 6. Data Migration (Ragnarok)
+## Event Architecture
 
-### 6.1 Overview
+The B2B Event Hub provides real-time event streaming over WebSocket channels. Events include state transitions, data changes, workflow activity, and system notifications.
 
-Ragnarok is Yggdrasil's standalone data migration tool — a Qt 6 C++17 application designed to migrate data from legacy ERP systems into Mimisbrunnr. The tool understands Mimisbrunnr's schema intimately and ensures that all migrated data conforms to its constraints.
+Events are tenant-scoped, authenticated, and emitted from governed application paths rather than from uncontrolled database triggers. The event stream is not an approximation of system activity; it is a structured expression of validated system behavior.
 
-### 6.2 Architecture
+The Redpanda Relay bridges the internal event system to external Kafka-compatible message infrastructure, enabling event archival, cross-deployment synchronization, and downstream analytics pipelines. Topic naming follows a tenant-scoped convention that maintains isolation at the message broker level.
 
-Ragnarok operates as a 4.5-stage wizard:
-
-| Stage | Name | Purpose |
-|-------|------|---------|
-| 0.5 | Taxonomy | Analyze source schema, classify tables into 17 domains using FK graph + column archetypes + name heuristics |
-| 1 | Auto-Mapping | Match source tables/columns to Mimisbrunnr targets using Levenshtein distance + 50+ synonym groups |
-| 2 | Review | Human review and correction of automated mappings |
-| 3 | Gap Analysis | Identify unmapped source elements and missing Mimisbrunnr requirements |
-| 4 | Ingestion | Execute the migration with topological sort, FK resolution, and data validation |
-
-### 6.3 Key Engines
-
-- **TaxonomyEngine** — Classifies source tables into Yggdrasil's 17 domains using FK graph analysis, column archetype detection, and name heuristics
-- **MappingEngine** — Domain-scoped matching with Levenshtein distance + synonym groups (50+ groups covering ERP terminology variants)
-- **TypeCompat** — Normalizes type names across PostgreSQL and SQL Server dialects for compatible type matching
-- **MigrationPlan** — JSON-serializable plan with topological sort for FK-safe insertion order, supporting save/resume for interrupted migrations
-
-### 6.4 Source Tiers
-
-| Tier | Sources | Status |
-|------|---------|--------|
-| A (Direct DB) | PostgreSQL, SQL Server | Implemented |
-| B (File) | CSV, JSON | Stub |
-
-### 6.5 The Cardinal Rule
-
-**Mimisbrunnr is canonical.** During migration:
-- Target tables and columns are never dropped, renamed, or modified
-- Only source elements can be rejected or transformed
-- Type incompatibilities are resolved by transforming source data, not by changing target types
-- Missing required fields in source data generate gap reports, not schema modifications
+This event architecture is significant because it transforms Mimisbrunnr from a passive persistence layer into an observable operational system. External tools and integration partners can subscribe to the event stream without polling the transactional API, creating a clean separation between operational execution and integration consumption.
 
 ---
 
-## 7. Schema Diagram
+## Semantic Reference Function
 
-The complete Mimisbrunnr schema is documented in `docs/mimisbrunnr-schema.md` with:
+When used as a semantic reference by platform tools, Mimisbrunnr provides several capabilities that go beyond a simple schema definition.
 
-- Mermaid ER diagrams for each of the 17 domains
-- Cross-domain relationship maps
-- Migration history (001–033)
-- Table-level documentation with column descriptions
-- State machine diagrams for status-tracked entities
-- Index strategy documentation
+Domain classification establishes contextual boundaries for mapping and validation. The 17-domain taxonomy allows tools like Ratatosk and Ragnarok to scope their operations to relevant business areas, preventing cross-domain ambiguity during schema comparison and data migration.
 
-This living document is updated with each schema migration.
+Type definitions provide a normalization target for heterogeneous source systems. The Type Compatibility layer in Ragnarok, for example, evaluates whether a source column's data type can be safely transformed to match a Mimisbrunnr target column, classifying each mapping as compatible, lossy, or invalid.
 
----
+Relationship structures define the dependency graph used for topological sorting during migration. Ragnarok uses Mimisbrunnr's foreign key relationships to determine safe insertion order, ensuring that parent records exist before child records that reference them.
 
-## 8. Integration Patterns
-
-### 8.1 Event-Driven (Push)
-
-For systems that need real-time awareness of Yggdrasil events:
-
-1. Register a webhook endpoint in `integration_webhooks`
-2. Subscribe to specific event types (e.g., `state_transition` on `crm_sales_orders`)
-3. Yggdrasil pushes events to the registered URL as they occur
-4. Failed deliveries retry with exponential backoff, then dead-letter
-
-### 8.2 Polling (Pull)
-
-For systems that periodically sync data from Yggdrasil:
-
-1. Use the REST API with `?updated_since=` parameter
-2. Track the last sync timestamp in `integration_sync_state`
-3. Incrementally fetch only changed records
-4. The `updated_at` column on all entity tables enables efficient delta queries
-
-### 8.3 Batch Import
-
-For bulk data loading (initial migration, periodic sync from external systems):
-
-1. Prepare data in Mimisbrunnr's expected format
-2. Use the admin data import API with `ON CONFLICT DO NOTHING` for idempotency
-3. Cross-tenant guard prevents accidental cross-contamination
-4. Ragnarok tool provides automated mapping for legacy system migrations
-
-### 8.4 Message Transformation
-
-The `integration_transforms` table stores data mapping rules:
-
-```json
-{
-    "source_field": "CustomerNumber",
-    "target_table": "crm_accounts",
-    "target_column": "external_id",
-    "transform": "TRIM(UPPER(?))"
-}
-```
-
-Transforms are applied automatically during message processing, normalizing external data formats to Mimisbrunnr's conventions.
+Naming conventions provide the baseline vocabulary for synonym-based semantic matching. The controlled vocabulary of 50 or more synonym groups used by Ratatosk and Ragnarok is rooted in Mimisbrunnr's column and table naming conventions.
 
 ---
 
-## 9. Observability
+## Schema Evolution Philosophy
 
-### 9.1 Integration Health
+The long-term stability of the platform depends on disciplined schema evolution. Several guiding principles govern this process.
 
-The integration framework provides visibility into system health:
+Changes are additive whenever possible. New tables, columns, and ENUM values are appended without modifying existing structures. Structural removals, when necessary, are staged across multiple releases to reduce operational risk. ENUM expansions occur by appending values rather than redefining existing definitions.
 
-| Metric | Source |
-|--------|--------|
-| Message throughput | `integration_message_log` — delivery count per time window |
-| Failure rate | `integration_dead_letters` — pending count |
-| Endpoint availability | `integration_endpoints` — last successful connection timestamp |
-| Event latency | B2BEventHub — time from event generation to consumer delivery |
+Migrations are versioned, sequential, and applied automatically during server startup. Each migration is recorded in a tracking table, and rollback scripts exist for controlled recovery. The migration system treats schema evolution as part of the operational contract of the server, not as an ad hoc maintenance activity.
 
-### 9.2 Dead Letter Dashboard
-
-The integration dead letter queue is accessible via:
-- `GET /api/integration/dead-letters` — List pending dead letters
-- `PUT /api/integration/dead-letters/:id/resolve` — Mark as resolved (via StateMachine)
-- Full payload and error history preserved for each failed message
+This discipline ensures that Mimisbrunnr remains stable enough to serve as a canonical reference while evolving to accommodate new operational requirements.
 
 ---
 
-## 10. Design Principles
+## Observability
 
-1. **Schema-first** — The database schema is the authoritative definition. Application code, APIs, and integrations derive from it, not the other way around.
-2. **Tenant-scoped everything** — Every integration message, event, and transform is scoped to a tenant. No shared-state leakage.
-3. **At-least-once delivery** — Events may be delivered more than once; consumers must be idempotent.
-4. **Fail-open for reads, fail-closed for writes** — Read failures return empty results; write failures abort the transaction.
-5. **Dead letters over data loss** — Failed messages are preserved for investigation, never silently dropped.
-6. **Additive schema evolution** — New columns, tables, and ENUM values are added; existing structures are not modified or removed.
+The integration framework provides visibility into system health through multiple channels.
+
+Message throughput is tracked through the delivery log. Failure rates are visible through the dead letter queue. Endpoint availability is monitored through last-successful-connection timestamps. Event latency is measured from generation to consumer delivery.
+
+Dead letters are accessible through dedicated API endpoints that allow investigation, resolution, and re-queuing of failed messages. Full payload and error history are preserved for each failed delivery.
+
+---
+
+## Design Principles
+
+Six principles govern the Mimisbrunnr architecture.
+
+First, the schema is authoritative. Application code, APIs, and integrations derive from it, not the other way around.
+
+Second, tenant isolation is universal. Every integration message, event, and data record is scoped to a tenant. No shared-state leakage is possible.
+
+Third, delivery semantics are at-least-once. Events may be delivered more than once; consumers must be idempotent.
+
+Fourth, the system fails open for reads and closed for writes. Read failures return empty results; write failures abort the transaction.
+
+Fifth, dead letters are preferred over data loss. Failed messages are preserved for investigation, never silently dropped.
+
+Sixth, schema evolution is additive. New structures are added; existing structures are not modified or removed.
+
+---
+
+## Conclusion
+
+Mimisbrunnr is more than a database schema. It is the semantic foundation upon which the entire Mimir Labs platform operates.
+
+As a production database, it provides governed persistence for Yggdrasil's operational execution. As a canonical reference, it provides the shared vocabulary that enables Ratatosk to discover, Ragnarok to migrate, Bifrost to synchronize, and Jormungandr to govern.
+
+That convergence between operational schema and semantic reference is the architectural insight at the heart of the Mimir Labs platform. By making the production data model and the canonical reference model one and the same, Mimisbrunnr eliminates the drift that typically separates enterprise documentation from enterprise reality.
 
 ---
 

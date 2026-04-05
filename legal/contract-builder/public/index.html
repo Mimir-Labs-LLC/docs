@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contract Builder — Mimir Labs</title>
+<style>
+  :root { --brand: #E8841A; --accent: #40B5A0; --bg: #0D0D12; --card: #1a1a22; --border: #2a2a35; --text: #e5e5e5; --muted: #888; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+  h1 { color: var(--brand); font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .tab { padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .card h2 { font-size: 14px; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field input, .field textarea, .field select { width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 13px; font-family: inherit; }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--brand); }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .check-field { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .check-field input[type="checkbox"] { accent-color: var(--brand); width: 16px; height: 16px; }
+  .check-field label { margin-bottom: 0; font-size: 13px; color: var(--text); text-transform: none; letter-spacing: 0; }
+  .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+  .btn { padding: 10px 20px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-primary:hover { background: #F59E3B; }
+  .btn-secondary { background: var(--accent); color: #0D0D12; }
+  .btn-secondary:hover { background: #5CCFBA; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .status { margin-top: 12px; font-size: 12px; padding: 8px 12px; border-radius: 4px; }
+  .status.success { background: #1a3a1a; color: #4ade80; }
+  .status.error { background: #3a1a1a; color: #f87171; }
+  .preview-frame { width: 100%; height: 600px; border: 1px solid var(--border); border-radius: 4px; background: white; margin-top: 12px; }
+  .hidden { display: none; }
+  .source-row { display: grid; grid-template-columns: 2fr 2fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .source-row input, .source-row select { font-size: 12px; padding: 6px 8px; }
+  .fee-row { display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .fee-row input { font-size: 12px; padding: 6px 8px; }
+  .fee-row span { font-size: 12px; color: var(--muted); }
+  #boldsign-section { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Contract Builder</h1>
+  <p class="subtitle">Mimir Labs — Generate, preview, and send contracts for signature</p>
+
+  <div class="tabs">
+    <div class="tab active" data-doc="dpa">DPA</div>
+    <div class="tab" data-doc="msa">MSA</div>
+    <div class="tab" data-doc="sow">SOW</div>
+  </div>
+
+  <!-- ══════ COMMON FIELDS ══════ -->
+  <div class="card">
+    <h2>Parties</h2>
+    <div class="row">
+      <div class="field"><label>Agreement / SOW Number</label><input id="agreementNumber" placeholder="2026-0001"></div>
+      <div class="field"><label>Effective Date</label><input id="effectiveDate" type="date"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>Client Legal Name</label><input id="clientName" placeholder="Acme Manufacturing, Inc."></div>
+      <div class="field"><label>Client Address</label><input id="clientAddress" placeholder="123 Industrial Blvd, City, ST 12345"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>Signer Name</label><input id="signerName" placeholder="Jane Smith"></div>
+      <div class="field"><label>Signer Title</label><input id="signerTitle" placeholder="VP Operations"></div>
+    </div>
+  </div>
+
+  <!-- ══════ DPA-SPECIFIC ══════ -->
+  <div id="dpa-fields">
+    <div class="card">
+      <h2>Services Engaged</h2>
+      <div class="check-field"><input type="checkbox" id="svcRatatosk"><label for="svcRatatosk">Ratatosk — Governance Workshop</label></div>
+      <div class="check-field"><input type="checkbox" id="svcRagnarok"><label for="svcRagnarok">Ragnarok — Data Migration</label></div>
+      <div class="check-field"><input type="checkbox" id="svcBifrost"><label for="svcBifrost">Bifrost — Live Data Bridge</label></div>
+      <div class="check-field"><input type="checkbox" id="svcJormungandr"><label for="svcJormungandr">Jormungandr — Canon Governance</label></div>
+      <div class="check-field"><input type="checkbox" id="svcYggdrasil"><label for="svcYggdrasil">Yggdrasil ERP</label></div>
+    </div>
+    <div class="card">
+      <h2>Personal Data Categories</h2>
+      <div class="check-field"><input type="checkbox" id="dataEmployees"><label for="dataEmployees">Employee names and contact info</label></div>
+      <div class="check-field"><input type="checkbox" id="dataCustomers"><label for="dataCustomers">Customer names and contact info</label></div>
+      <div class="check-field"><input type="checkbox" id="dataSuppliers"><label for="dataSuppliers">Supplier names and contact info</label></div>
+      <div class="check-field"><input type="checkbox" id="dataFinancial"><label for="dataFinancial">Financial records</label></div>
+      <div class="check-field"><input type="checkbox" id="dataManufacturing"><label for="dataManufacturing">Manufacturing and production data</label></div>
+      <div class="check-field"><input type="checkbox" id="dataQuality"><label for="dataQuality">Quality and compliance records</label></div>
+      <div class="field"><label>Other</label><input id="dataOther" placeholder="e.g., Healthcare records, ITAR-controlled data"></div>
+    </div>
+  </div>
+
+  <!-- ══════ MSA-SPECIFIC ══════ -->
+  <div id="msa-fields" class="hidden">
+    <div class="card">
+      <h2>MSA Notes</h2>
+      <p style="color: var(--muted); font-size: 12px;">The MSA uses standard terms. Fill in the Parties section above and generate. Service-specific details are handled in individual SOWs.</p>
+    </div>
+  </div>
+
+  <!-- ══════ SOW-SPECIFIC ══════ -->
+  <div id="sow-fields" class="hidden">
+    <div class="card">
+      <h2>Engagement Type</h2>
+      <div class="row">
+        <div class="field"><label>MSA Reference Number</label><input id="msaNumber" placeholder="2026-0001"></div>
+        <div class="field"><label>SOW Number</label><input id="sowNumber" placeholder="2026-0001"></div>
+      </div>
+      <div class="check-field"><input type="checkbox" id="engRatatosk"><label for="engRatatosk">Ratatosk — Governance Workshop</label></div>
+      <div class="check-field"><input type="checkbox" id="engRagnarok"><label for="engRagnarok">Ragnarok — Data Migration</label></div>
+      <div class="check-field"><input type="checkbox" id="engBifrost"><label for="engBifrost">Bifrost — Integration Deployment</label></div>
+      <div class="check-field"><input type="checkbox" id="engJormungandr"><label for="engJormungandr">Jormungandr — Canon Governance</label></div>
+      <div class="check-field"><input type="checkbox" id="engYggdrasil"><label for="engYggdrasil">Yggdrasil ERP — Implementation</label></div>
+      <div class="check-field"><input type="checkbox" id="engCustom"><label for="engCustom">Custom Professional Services</label></div>
+      <div class="field"><label>Custom Description</label><input id="engCustomDesc" placeholder="If custom, describe here"></div>
+    </div>
+
+    <div class="card">
+      <h2>Client Details</h2>
+      <div class="row">
+        <div class="field"><label>Primary Contact</label><input id="contactName" placeholder="Jane Smith"></div>
+        <div class="field"><label>Contact Email</label><input id="contactEmail" placeholder="jane@acme.com"></div>
+      </div>
+      <div class="row-3">
+        <div class="field"><label>Contact Phone</label><input id="contactPhone" placeholder="(555) 123-4567"></div>
+        <div class="field"><label>Industry</label><input id="industry" placeholder="Manufacturing"></div>
+        <div class="field"><label>Employees</label><input id="employees" placeholder="250"></div>
+      </div>
+      <div class="field"><label>Sites</label><input id="sites" placeholder="2"></div>
+    </div>
+
+    <div class="card">
+      <h2>Scope</h2>
+      <div class="field"><label>Objectives</label><textarea id="objectives" placeholder="Describe engagement objectives..."></textarea></div>
+      <div class="field"><label>Out of Scope</label><textarea id="outOfScope" placeholder="Describe exclusions..."></textarea></div>
+    </div>
+
+    <div class="card">
+      <h2>Timeline</h2>
+      <div class="row">
+        <div class="field"><label>Scoping Start</label><input id="scopingStart" type="date"></div>
+        <div class="field"><label>Scoping End</label><input id="scopingEnd" type="date"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Execution Start</label><input id="executionStart" type="date"></div>
+        <div class="field"><label>Execution End</label><input id="executionEnd" type="date"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Delivery Start</label><input id="deliveryStart" type="date"></div>
+        <div class="field"><label>Delivery End</label><input id="deliveryEnd" type="date"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Review Start</label><input id="reviewStart" type="date"></div>
+        <div class="field"><label>Review End</label><input id="reviewEnd" type="date"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Fees</h2>
+      <div class="row-3">
+        <div class="field"><label>Deposit</label><input id="feeDeposit" placeholder="$2,500"></div>
+        <div class="field"><label>Pre-Engagement</label><input id="feePreEngagement" placeholder="$2,500"></div>
+        <div class="field"><label>Balance</label><input id="feeBalance" placeholder="$4,500"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Total</label><input id="feeTotal" placeholder="$9,500"></div>
+        <div class="field"><label>Acceptance Period (days)</label><input id="acceptanceDays" placeholder="14"></div>
+      </div>
+      <div class="check-field"><input type="checkbox" id="migrationCredit"><label for="migrationCredit">Include migration credit clause (50% of Ratatosk fees toward Ragnarok within 12 months)</label></div>
+      <div class="check-field"><input type="checkbox" id="hasSignedMSA"><label for="hasSignedMSA">MSA executed</label></div>
+      <div class="check-field"><input type="checkbox" id="hasSignedDPA"><label for="hasSignedDPA">DPA executed</label></div>
+      <div class="check-field"><input type="checkbox" id="hasSignedMNDA"><label for="hasSignedMNDA">MNDA executed</label></div>
+    </div>
+  </div>
+
+  <!-- ══════ ACTIONS ══════ -->
+  <div class="actions">
+    <button class="btn btn-outline" onclick="preview()">Preview</button>
+    <button class="btn btn-primary" onclick="generatePdf()">Generate PDF</button>
+    <button class="btn btn-secondary" onclick="toggleBoldSign()">Send for Signature</button>
+  </div>
+
+  <div id="boldsign-section" class="hidden">
+    <div class="card">
+      <h2>Send to BoldSign</h2>
+      <div class="row">
+        <div class="field"><label>Signer Name</label><input id="bsSignerName" placeholder="Jane Smith"></div>
+        <div class="field"><label>Signer Email</label><input id="bsSignerEmail" placeholder="jane@acme.com"></div>
+      </div>
+      <div class="field"><label>Document Title</label><input id="bsTitle" placeholder="Mimir Labs — DPA"></div>
+      <button class="btn btn-secondary" onclick="sendBoldSign()" id="bsSendBtn">Send</button>
+    </div>
+  </div>
+
+  <div id="status" class="hidden"></div>
+  <iframe id="preview-frame" class="preview-frame hidden"></iframe>
+</div>
+
+<script>
+  let currentDoc = "dpa";
+  let lastPdfPath = null;
+
+  // Tab switching
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentDoc = tab.dataset.doc;
+      document.getElementById("dpa-fields").classList.toggle("hidden", currentDoc !== "dpa");
+      document.getElementById("msa-fields").classList.toggle("hidden", currentDoc !== "msa");
+      document.getElementById("sow-fields").classList.toggle("hidden", currentDoc !== "sow");
+    });
+  });
+
+  function getFields() {
+    const f = {};
+    document.querySelectorAll("input, textarea, select").forEach(el => {
+      if (el.type === "checkbox") f[el.id] = el.checked;
+      else f[el.id] = el.value;
+    });
+    return f;
+  }
+
+  function showStatus(msg, type) {
+    const el = document.getElementById("status");
+    el.textContent = msg;
+    el.className = `status ${type}`;
+    el.classList.remove("hidden");
+    setTimeout(() => el.classList.add("hidden"), 5000);
+  }
+
+  async function preview() {
+    try {
+      const res = await fetch("/api/preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ documentType: currentDoc, fields: getFields() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      const frame = document.getElementById("preview-frame");
+      frame.classList.remove("hidden");
+      frame.srcdoc = data.html;
+    } catch (e) {
+      showStatus(e.message, "error");
+    }
+  }
+
+  async function generatePdf() {
+    try {
+      showStatus("Generating PDF...", "success");
+      const res = await fetch("/api/generate-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ documentType: currentDoc, fields: getFields() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      lastPdfPath = data.path;
+      showStatus(`PDF saved: ${data.filename}`, "success");
+    } catch (e) {
+      showStatus(e.message, "error");
+    }
+  }
+
+  function toggleBoldSign() {
+    document.getElementById("boldsign-section").classList.toggle("hidden");
+    // Pre-fill from form
+    const fields = getFields();
+    document.getElementById("bsSignerName").value = fields.signerName || fields.contactName || "";
+    document.getElementById("bsSignerEmail").value = fields.contactEmail || "";
+    const titles = { dpa: "Data Processing Agreement", msa: "Master Services Agreement", sow: "Statement of Work" };
+    document.getElementById("bsTitle").value = `Mimir Labs — ${titles[currentDoc]} — ${fields.clientName || "Client"}`;
+  }
+
+  async function sendBoldSign() {
+    if (!lastPdfPath) {
+      showStatus("Generate a PDF first", "error");
+      return;
+    }
+    try {
+      showStatus("Sending to BoldSign...", "success");
+      const res = await fetch("/api/send-boldsign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdfPath: lastPdfPath,
+          signerName: document.getElementById("bsSignerName").value,
+          signerEmail: document.getElementById("bsSignerEmail").value,
+          documentTitle: document.getElementById("bsTitle").value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      showStatus(`Sent for signature! Document ID: ${data.documentId}`, "success");
+    } catch (e) {
+      showStatus(e.message, "error");
+    }
+  }
+</script>
+</body>
+</html>
