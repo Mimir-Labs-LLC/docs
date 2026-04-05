@@ -33,9 +33,15 @@ That lock-in is our opportunity.
 
 Six products, one platform.
 
-**Yggdrasil ERP** is the manufacturing platform — ten integrated modules, one shared data model, zero custom fields. The data model doesn't drift because there's nothing to customize. This is the architectural moat.
+**Yggdrasil ERP** is the manufacturing platform — ten integrated modules, one shared data model, zero custom fields. The data model doesn't drift because there's nothing to customize.
 
-It also includes a real-time B2B Event Hub. A purchase order in one tenant becomes a sales order in the supplier's tenant — instantly. This creates a network effect: every manufacturer on the platform makes the platform more valuable to every other manufacturer. Each customer pulls their trading partners onto the system.
+This constraint unlocks something no other ERP can offer: a real-time B2B Event Hub. A purchase order in one tenant becomes a sales order in the supplier's tenant — with zero translation — because every tenant runs the identical schema. No EDI. No middleware. No mapping tables.
+
+No incumbent can replicate this. SAP, Epicor, NetSuite — they all allow custom fields. That means no two installations have the same schema, which means cross-tenant data exchange always requires a translation layer. They can't remove customization without destroying their installed base. We started without it, which means we're the only platform where the network effect is architecturally possible.
+
+Every manufacturer on the platform makes the platform more valuable to every other manufacturer. Each customer pulls their trading partners onto the system. The switching cost compounds with every connection.
+
+And "zero custom fields" doesn't mean the model is frozen. When a data point proves its value across the ecosystem, it becomes canonical — every tenant gets it. When a customer needs something specific to their operation, it lives in a research sidecar: observable, exportable, but isolated from the canonical schema. The canon evolves through governance, not individual customization.
 
 **Ratatosk** and **Ragnarok** are our go-to-market wedge. Ratatosk is a one-day data governance workshop — $9,500 — that gives manufacturers clarity about their existing data landscape. When that workshop reveals the mess in their legacy system, Ragnarok provides the governed migration path. These services generate revenue today while building the pipeline for ERP subscriptions.
 

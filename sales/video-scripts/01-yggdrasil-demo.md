@@ -52,15 +52,23 @@ Notice what's not here: no custom fields tab, no "user-defined fields" section, 
 
 This is what makes the data trustworthy year after year. There's nothing to drift.
 
-### B2B Event Hub & Network Effects (45 sec)
+Now, that doesn't mean the data model is frozen. Enterprise data evolves — new compliance requirements, new industry metrics, new operational needs. When a data point proves valuable across the manufacturing ecosystem, it becomes a first-class canonical field. Every tenant gets it simultaneously, with validation, reporting, and API support built in.
+
+If your operation needs to track something specific — a pilot metric, an internal classification — it lives in a research sidecar: visible to you, exportable, but structurally isolated from the canonical model. It can't break cross-tenant compatibility, and it can't degrade data trust. If it proves its value across multiple customers, it graduates into the canon. If it doesn't, it stays contained.
+
+The model evolves through governance, not through individual customization. That's how you get both stability and adaptability.
+
+### B2B Event Hub & Network Effects (60 sec)
 
 [Show the B2B event hub or describe with a diagram]
 
-Yggdrasil ERP includes a real-time B2B Event Hub. When a purchase order is created in one tenant, it becomes a sales order in the supplier's tenant — automatically, in real-time, with full traceability. No EDI translation. No batch file exchange. Just structured event propagation across organizational boundaries.
+Yggdrasil ERP includes a real-time B2B Event Hub. When a purchase order is created in one tenant, it becomes a sales order in the supplier's tenant — automatically, in real-time, with full traceability. No EDI translation. No batch file exchange. No middleware. Just structured event propagation across organizational boundaries.
 
-Here's why this matters beyond convenience: every customer that joins the platform makes the platform more valuable to every other customer. When your supplier is on Yggdrasil ERP, your purchase orders flow directly into their sales queue. When your customer is on Yggdrasil ERP, their orders flow directly into your production schedule. Each new tenant reduces manual data entry for everyone they trade with.
+This is only possible because of the zero-customization architecture. Every tenant runs the identical schema. That means a purchase order in your tenant has the exact same structure as a sales order in your supplier's tenant. There's nothing to translate.
 
-This is a network effect. The more manufacturers on the platform, the more valuable each connection becomes — and the harder it is to leave.
+Other ERPs can't do this. When two Epicor customers try to exchange data, they need EDI or a middleware platform to translate between their customized schemas. When two SAP installations connect, it's a consulting engagement. The customization that vendors sell as "flexibility" is exactly what makes seamless cross-tenant data flow impossible.
+
+Here's why this matters to your operation: every trading partner on the platform eliminates manual data entry for that relationship. Your supplier on Yggdrasil ERP means your purchase orders flow directly into their production queue. Your customer on Yggdrasil ERP means their orders flow directly into your shipping schedule. The more manufacturers on the platform, the more valuable each connection becomes.
 
 ### Closing (15 sec)
 

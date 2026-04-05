@@ -33,21 +33,33 @@ Every record flows through a governed state machine. The constraint engine evalu
 
 Full audit trail on every change. Not optional, not configurable — structural.
 
-### The Moat (30 sec)
+### The Moat (60 sec)
 
 [Back to founder or slide]
 
-The moat isn't features — competitors have more features. The moat is the data model. Once a manufacturer runs on Yggdrasil for a year, their data is clean, their reports are trustworthy, and their audit trail is complete. Going back to a system that allows custom fields would mean reintroducing the entropy they just eliminated.
+The moat isn't features — competitors have more features. The moat is the constraint.
 
-The switching cost isn't contractual. It's architectural.
+Yggdrasil ERP has zero custom fields. Every tenant runs the identical schema. That means a purchase order in Tenant A can become a sales order in Tenant B with zero translation — because the data structures are structurally identical. This is the B2B Event Hub: real-time, cross-tenant supply chain propagation with no EDI, no middleware, no mapping tables.
+
+No other ERP architecture can do this. SAP customers have diverged schemas after five years of customization — connecting two SAP tenants requires MuleSoft and a consulting engagement. NetSuite allows custom fields and custom objects — the platform can't guarantee structural compatibility between tenants. Odoo allows Studio customizations. Even industry standards like OAGIS are interchange formats, not operational schemas — every ERP translates at the boundary, and that translation is where integrity dies.
+
+The zero-customization constraint is the *prerequisite* for the network effect, not a side effect. And here's why no incumbent can copy it: every major ERP vendor has millions of customers with billions of custom fields. They cannot retroactively remove customization without destroying their installed base. They are architecturally locked out of building what we've built.
+
+Now — "zero custom fields" sounds rigid. It isn't. Enterprise data evolves. The question is *how*.
+
+When a data point proves valuable across the manufacturing ecosystem — a new compliance requirement, a supply chain metric, an industry-standard classification — it becomes a first-class field in the canonical schema. Every tenant gets it simultaneously. It's validated, indexed, API-accessible, and reportable from day one.
+
+When a customer needs to track something specific to their operation — an internal classification, a pilot metric, an experimental workflow attribute — it lives in a one-way sidecar: observable, exportable, but structurally isolated from the canonical model. We call these research fields. They don't participate in cross-tenant propagation, they don't affect core validation, and they can't break anyone else's schema. If a research field proves its value across multiple customers, it graduates into the canon. If it doesn't, it stays contained.
+
+The canon evolves. It just evolves through governance, not through individual customization.
 
 ### The Network Effect (30 sec)
 
-[Show B2B Event Hub diagram or brief screen recording]
+[Show B2B Event Hub diagram]
 
-Yggdrasil ERP includes a real-time B2B Event Hub. A purchase order in one tenant becomes a sales order in the supplier's tenant — instantly, with full traceability. No EDI. No re-keying.
+Every manufacturer on the platform makes the platform more valuable to every other manufacturer. Your supplier is on Yggdrasil ERP — your purchase orders flow directly into their sales queue. Your customer is on Yggdrasil ERP — their orders flow directly into your production schedule. Each new tenant reduces manual data entry for everyone they trade with.
 
-This creates a network effect. Every manufacturer on the platform reduces manual data entry for every trading partner on the platform. Each customer becomes an evangelist who pulls their suppliers and customers onto the system. The value of Yggdrasil ERP increases with the number of connected tenants — which is the strongest possible retention mechanism.
+The switching cost compounds with every trading partner connection. This isn't contractual lock-in — it's operational dependency. Leaving means re-introducing EDI translation, batch reconciliation, and manual data entry for every trading relationship on the platform.
 
 ### The Numbers (20 sec)
 

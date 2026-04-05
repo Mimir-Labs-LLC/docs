@@ -24,7 +24,7 @@ Mimir Labs exists to build the real thing — the systems those workarounds were
 
 We build six products. They work together as a platform, but each one solves a specific problem.
 
-**Yggdrasil ERP** is our manufacturing platform. Ten integrated modules, one shared data model, zero custom fields. The data is trustworthy in year five for the same reason it's trustworthy in year one — the model doesn't drift.
+**Yggdrasil ERP** is our manufacturing platform. Ten integrated modules, one shared data model, zero custom fields. The data is trustworthy in year five for the same reason it's trustworthy in year one — the model doesn't drift. And because every tenant runs the identical schema, we can do something no other ERP can: real-time B2B event propagation. A purchase order in your tenant becomes a sales order in your supplier's tenant — with zero translation. No EDI. No middleware. The model still evolves — meaningful data becomes canonical across all tenants, and customer-specific data lives in isolated research sidecars until it proves its value.
 
 **Ratatosk** is a data governance service. Before you migrate, before you integrate, before you do anything — you need to understand your data landscape. Ratatosk gives you that understanding in a one-day workshop.
 
