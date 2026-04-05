@@ -22,6 +22,8 @@ I started writing VBA workarounds to bridge the gaps — macros to reconcile inv
 
 Mimir Labs exists to build the real thing — the systems those workarounds were trying to be.
 
+And honestly, I still find it hard to believe nobody else is taking this approach. The fix isn't complicated. Stop letting every customer fork the data model. That's it. Everything else — the trustworthy reports, the real-time supply chain, the audit trail that actually means something — follows from that one decision.
+
 [Brief pause]
 
 We build six products. They work together as a platform, but each one solves a specific problem.
