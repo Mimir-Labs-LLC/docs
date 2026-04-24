@@ -1,3 +1,13 @@
+---
+title: "Bifrost — Live Data Bridge"
+author: "Christopher Gaither"
+date: "April 2026"
+version: "1.1"
+docnumber: "ML-WP-010"
+classification: "Public"
+logo: "mimir_labs_logo.png"
+---
+
 [# Bifrost — Live Data Bridge White Paper
 
 **Mimir Labs Technical Publication**
@@ -12,7 +22,7 @@
 
 Bifrost is a standalone, persistent background service that maintains live data synchronization between multiple enterprise systems. It supports three sync modes — bidirectional, mirror (digital twin), and unidirectional (pilot) — enabling a progressive customer lifecycle from proof-of-concept to full production.
 
-Bifrost uses the Mimisbrunnr semantic model as its Rosetta Stone — a universal reference schema of 166 tables across 17 business domains that provides the shared vocabulary for routing and translating data between systems. While Yggdrasil ERP is the default hub, Bifrost is system-agnostic: it can synchronize data between any combination of connected systems (Salesforce, Business Central, Smartsheet, PostgreSQL, etc.) using Mimisbrunnr as the semantic mediation layer.
+Bifrost uses the Mimisbrunnr semantic model as its Rosetta Stone — a universal reference schema of 300+ tables across 17 business domains that provides the shared vocabulary for routing and translating data between systems. While Yggdrasil ERP is the default hub, Bifrost is system-agnostic: it can synchronize data between any combination of connected systems (Salesforce, Business Central, Smartsheet, PostgreSQL, etc.) using Mimisbrunnr as the semantic mediation layer.
 
 Bifrost is the third and final tool in the Mimir Labs data platform trilogy. Where Ratatosk discovers and Ragnarok migrates, Bifrost keeps systems in continuous harmony.
 

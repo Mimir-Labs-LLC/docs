@@ -1,7 +1,7 @@
 ---
 title: "Jormungandr — Canon Governance and Enforcement Layer"
 author: "Christopher Gaither"
-date: "March 2026"
+date: "April 2026"
 version: "1.0"
 docnumber: "ML-WP-011"
 classification: "Public"

@@ -1,150 +1,98 @@
 ---
-title: "Yggdrasil Platform — Mimisbrunnr: Canonical Data Architecture and Integration Framework"
+title: "Mimisbrunnr — A Canonical Data Model That Doesn't Move"
 author: "Christopher Gaither"
-date: "March 2026"
-version: "1.0"
+date: "April 2026"
+version: "1.1"
 docnumber: "ML-WP-006"
 classification: "Public"
 logo: "mimir_labs_logo.png"
 ---
 
-## Overview
+## Why This Matters
 
-Mimisbrunnr is the canonical semantic model at the center of the Mimir Labs data platform. Named for the well of wisdom in Norse mythology, it serves as both the authoritative schema definition for the Yggdrasil ERP system and the universal reference vocabulary used by every tool in the platform stack.
+Every enterprise eventually pays the same tax. A "customer" in the CRM is not the same record as a "customer" in the ERP, which is not the same record as a "customer" in finance's reporting tool. A "part" in engineering means something subtly different than the "part" purchasing buys, which is not quite the same thing manufacturing builds.
 
-The schema itself contains 166 PostgreSQL tables organized across 17 business domains, covering the operational breadth expected of a modern enterprise system. But the architectural significance of Mimisbrunnr extends beyond any single application. It functions as the Rosetta Stone that enables semantic interoperability between systems, tools, and integration layers across the entire Mimir Labs architecture.
+The systems describing the business have never agreed on what the words mean. Every integration, every report, every migration spends most of its time translating between dialects. When something goes wrong — a duplicate order, a misposted invoice, a recall traced to the wrong assembly — the diagnosis is almost always a vocabulary problem dressed up as a data quality problem.
 
-This paper describes Mimisbrunnr in two dimensions: as the governed persistence model that underpins Yggdrasil's operational execution, and as the canonical reference framework consumed by Ratatosk, Ragnarok, Bifrost, and Jormungandr.
+Mimisbrunnr is what we built to fix this. It is a shared semantic reference model: a fixed vocabulary that every Mimir Labs tool, and every system Mimir Labs touches, agrees on.
+
+This paper explains what Mimisbrunnr is, why we refuse to let customers change it, and what that buys an organization that adopts it.
+
+---
+
+## What Mimisbrunnr Is
+
+Mimisbrunnr is a database schema. More than three hundred tables, organized into seventeen business domains that cover the operational scope of a modern enterprise: customer relationships, sales, purchasing, manufacturing, warehouse, finance, projects, product lifecycle, quality, service, HR, logistics, integration, scheduling, fleet, asset and MRP, and the workflow substrate underneath them all.
+
+Every table has a defined meaning. Every column has a defined meaning. Every relationship between tables has a defined meaning. Those meanings do not change per customer, per industry, or per deployment.
+
+That is the entire feature.
+
+Inside Yggdrasil ERP, Mimisbrunnr is the production database. Every transaction lives there. Outside Yggdrasil, Mimisbrunnr is the vocabulary that the rest of the Mimir Labs platform — Ratatosk for discovery, Ragnarok for migration, Bifrost for synchronization, Jormungandr for governance — uses to describe enterprise data, regardless of what systems are actually involved.
 
 ---
 
 ## The Cardinal Rule
 
-One principle governs all interaction with Mimisbrunnr: the canonical schema is authoritative.
+The schema is authoritative. We do not change it for customers.
 
-Target tables and columns are never dropped, renamed, or structurally modified to accommodate external systems. Source elements must adapt to Mimisbrunnr, not the reverse. Type incompatibilities are resolved by transforming source data, not by changing target definitions. Missing required fields in source data generate gap reports, not schema modifications.
+Most enterprise software treats this as a limitation to be sold around. SAP has customizing tables. Oracle has flexfields. Salesforce has custom objects. Microsoft Dynamics has option sets. The ability to add fields, tables, and relationships is marketed as flexibility and sold as value.
 
-This constraint is not arbitrary. It exists because semantic stability is the precondition for every downstream process in the platform. If the canonical model shifts to accommodate each new integration, it ceases to function as a reference and becomes another moving target in an already fragmented enterprise landscape.
+We do not permit it. Mimisbrunnr does not have customer-specific extensions. It does not accept new tables submitted by customers. It does not grow a new column when a customer asks. The vocabulary is fixed, and adapts only when Mimir Labs releases a new version.
 
----
+This sounds like a limitation. It is the opposite. Every existing platform that lets customers extend its schema has paid for that flexibility with a permanent integration tax — every other system on the network has to learn each customer's bespoke dialect. Mimisbrunnr trades the appearance of flexibility for the reality of interoperability. Two organizations on Mimisbrunnr can talk to each other without writing a translation layer. An organization on Mimisbrunnr can connect to a partner system through Bifrost without having to retrain its integration logic for every customer.
 
-## Architectural Role
-
-Mimisbrunnr occupies a unique position in the Mimir Labs architecture. It is simultaneously a working production schema and a platform-wide semantic reference.
-
-Within Yggdrasil, Mimisbrunnr is the database. Every transaction, every status transition, every audit record is persisted against its structures. The server's state machine, route handlers, and query builders all operate directly on Mimisbrunnr tables.
-
-Outside Yggdrasil, Mimisbrunnr is a vocabulary. Ratatosk uses it to align discovered enterprise entities with canonical definitions. Ragnarok uses it to validate migration targets and generate type-compatible transformation pipelines. Bifrost uses it to route synchronized data between systems using a shared semantic model. Jormungandr uses it to detect governance drift by comparing incoming schemas against canonical expectations.
-
-This dual role is architecturally significant. The same schema that serves as a production database also serves as the semantic foundation for the entire tool ecosystem. That convergence eliminates the common enterprise problem of maintaining separate canonical models and operational schemas that inevitably drift apart.
+When a customer needs flexibility, they get it through configuration, classification tags, custom field values inside known fields, and JSONB payloads in well-defined extension points — not through schema mutation. The shape of the model stays still. What goes in it varies as much as the business needs.
 
 ---
 
-## Schema Organization
+## What Customers Get From a Fixed Vocabulary
 
-The 166 tables are organized into 17 logical domains that span the operational scope of an enterprise system.
+**Migrations stop being open-ended projects.** When the target schema is fixed and well-defined, migration becomes a mapping exercise rather than a discovery exercise. Ratatosk and Ragnarok can reason about it programmatically because there's a known thing to map *to*.
 
-Core business domains include customer relationship management, sales operations, purchasing and procurement, manufacturing execution, warehouse and inventory management, financial accounting, project management, product lifecycle management, quality assurance, and service operations. Supporting domains cover human resources, logistics, integration infrastructure, workflow orchestration, form definitions, asset management and MRP planning, and multi-currency accounting.
+**Integrations stop drifting.** External systems connected through Bifrost speak Mimisbrunnr at the boundary. Each integration is built once against a stable target, not rebuilt every time a customer's local schema evolves.
 
-Although the schema is large, its structure follows consistent patterns that make it predictable and legible. Every entity table uses UUID primary keys, includes tenant isolation columns, carries creation and modification timestamps, and supports soft deletion through nullable timestamp fields. Status fields are implemented as PostgreSQL ENUM types that work in conjunction with the server's state machine to enforce valid lifecycle transitions.
+**Reports agree across systems.** When the same business concept has the same name everywhere, the same number can be derived from anywhere. "Customer revenue this quarter" returns the same answer from the operational database, the analytics layer, and the integration partner.
 
-This uniformity is intentional. A schema that serves as both an operational database and a semantic reference must be internally consistent enough that tools can reason about its structure programmatically.
+**AI has somewhere stable to stand.** A language model writing a query against Mimisbrunnr is writing against a vocabulary that doesn't change under it. The same prompt produces the same query in every customer environment. Agent automation built on Mimisbrunnr is portable in a way that agent automation built on per-customer schema simply isn't.
 
----
-
-## Cross-Domain Relationships
-
-The operational value of Mimisbrunnr lies not in individual tables but in the relationships between domains. These relationships represent real enterprise workflows that span organizational boundaries.
-
-The order-to-cash flow connects customer accounts through quotes, sales orders, invoices, payments, and general ledger entries, while simultaneously triggering work orders, manufacturing operations, pick lists, shipments, and delivery records. The procure-to-pay flow traces from suppliers through purchase orders, receipts, bills, payments, and ledger postings, with parallel inventory transaction and warehouse location updates. The design-to-manufacture flow links PLM parts through engineering and manufacturing bills of materials to work orders, operations, completed units, serial numbers, and asset registries. The issue-to-resolution flow connects service tickets through NCRs, 8D reports, CAPA actions, and audit findings.
-
-These cross-domain chains are not merely data relationships. They represent the operational processes that define how an enterprise functions. By encoding them in the schema, Mimisbrunnr makes enterprise workflows structurally explicit rather than implicitly embedded in application logic.
+**Audit and compliance get easier.** Regulators ask questions in business vocabulary. A schema whose tables are named for business concepts can answer those questions directly, without a custom query for each customer's local naming.
 
 ---
 
-## Integration Framework
+## How the Rest of the Platform Uses It
 
-Mimisbrunnr includes a dedicated integration subsystem consisting of seven tables that form the backbone of external system connectivity.
+Mimisbrunnr is what makes the rest of the Mimir Labs tool suite possible.
 
-The integration endpoint registry stores connection definitions for external systems, including URLs, authentication credentials, and protocol specifications. The message queue manages outbound and inbound payloads as JSONB documents. A delivery log tracks each attempt to deliver a message, recording success or failure status. The dead letter queue preserves messages that have exhausted retry attempts, making them available for investigation and manual resolution. A transformation table stores data mapping rules between Mimisbrunnr fields and external schemas. Webhook listeners enable event-driven callbacks to registered external systems. A synchronization state table tracks last-sync timestamps and cursors for incremental data exchange.
+**Ratatosk** uses it as the target dictionary when discovering and classifying enterprise data. A column named `cust_no` in someone's legacy system gets recognized as a customer identifier because Ratatosk knows what "customer" means in Mimisbrunnr. Operators confirm or override the suggestion; the result is a manifest that describes the source system in canonical terms.
 
-This infrastructure enables three integration patterns. Event-driven push integration delivers real-time notifications to external systems as Yggdrasil events occur. Polling-based pull integration allows external systems to incrementally fetch changed records using timestamp-based delta queries. Batch import enables bulk data loading with idempotency guards and cross-tenant protection.
+**Ragnarok** uses it as the target schema for migrations. Foreign-key relationships in Mimisbrunnr define the safe insertion order. Type definitions in Mimisbrunnr define what transformations are needed to land source data cleanly. The migration plan is a function of the source and the canonical target, not a hand-written script.
 
----
+**Bifrost** uses it as the lingua franca for cross-system synchronization. Every connector translates its source system into Mimisbrunnr terms at the edge. Once data is in Mimisbrunnr vocabulary, it can be routed to any other connected system without per-pair translation logic.
 
-## Event Architecture
+**Jormungandr** uses it as the compliance baseline. A customer's environment can be continuously validated against the canonical model — not just at migration time, but as an ongoing governance subscription that flags drift the moment it appears.
 
-The B2B Event Hub provides real-time event streaming over WebSocket channels. Events include state transitions, data changes, workflow activity, and system notifications.
-
-Events are tenant-scoped, authenticated, and emitted from governed application paths rather than from uncontrolled database triggers. The event stream is not an approximation of system activity; it is a structured expression of validated system behavior.
-
-The Redpanda Relay bridges the internal event system to external Kafka-compatible message infrastructure, enabling event archival, cross-deployment synchronization, and downstream analytics pipelines. Topic naming follows a tenant-scoped convention that maintains isolation at the message broker level.
-
-This event architecture is significant because it transforms Mimisbrunnr from a passive persistence layer into an observable operational system. External tools and integration partners can subscribe to the event stream without polling the transactional API, creating a clean separation between operational execution and integration consumption.
+Each of these tools works against any enterprise system. Mimisbrunnr is the shared vocabulary that makes them coherent across the suite.
 
 ---
 
-## Semantic Reference Function
+## Built for Enterprise Reality
 
-When used as a semantic reference by platform tools, Mimisbrunnr provides several capabilities that go beyond a simple schema definition.
+Mimisbrunnr is not an academic data model. It evolved from real operational use inside Yggdrasil ERP and continues to evolve through real engagement experience. New capabilities — agent-driven execution, advanced production scheduling, sanctioned shop-floor exception MBOMs, dimension-tagged GL postings, demo provisioning — have entered the model under a strict additive-only discipline. Existing structures are not modified or removed; new ones are appended.
 
-Domain classification establishes contextual boundaries for mapping and validation. The 17-domain taxonomy allows tools like Ratatosk and Ragnarok to scope their operations to relevant business areas, preventing cross-domain ambiguity during schema comparison and data migration.
-
-Type definitions provide a normalization target for heterogeneous source systems. The Type Compatibility layer in Ragnarok, for example, evaluates whether a source column's data type can be safely transformed to match a Mimisbrunnr target column, classifying each mapping as compatible, lossy, or invalid.
-
-Relationship structures define the dependency graph used for topological sorting during migration. Ragnarok uses Mimisbrunnr's foreign key relationships to determine safe insertion order, ensuring that parent records exist before child records that reference them.
-
-Naming conventions provide the baseline vocabulary for synonym-based semantic matching. The controlled vocabulary of 50 or more synonym groups used by Ratatosk and Ragnarok is rooted in Mimisbrunnr's column and table naming conventions.
+The result is a vocabulary that is large enough to express what an enterprise actually does, stable enough to act as a reference for every tool in the platform, and structured enough that automation — both deterministic tooling and AI agents — can reason about it without brittleness.
 
 ---
 
-## Schema Evolution Philosophy
+## What This Means For You
 
-The long-term stability of the platform depends on disciplined schema evolution. Several guiding principles govern this process.
+If you are evaluating an ERP, Mimisbrunnr is the reason Yggdrasil's integration story is qualitatively different from its competitors'. Adopting Yggdrasil means adopting a vocabulary that the rest of your stack — partners, suppliers, analytics, AI tooling — can also speak.
 
-Changes are additive whenever possible. New tables, columns, and ENUM values are appended without modifying existing structures. Structural removals, when necessary, are staged across multiple releases to reduce operational risk. ENUM expansions occur by appending values rather than redefining existing definitions.
+If you are evaluating data tooling — discovery, migration, synchronization, governance — Mimisbrunnr is the reason Mimir Labs' tools work on systems we did not build. You can use Ratatosk on your existing SAP, NetSuite, or Dynamics environment. You can migrate to a schema that isn't ours. The tools deliver value regardless of whether you ever adopt Yggdrasil itself.
 
-Migrations are versioned, sequential, and applied automatically during server startup. Each migration is recorded in a tracking table, and rollback scripts exist for controlled recovery. The migration system treats schema evolution as part of the operational contract of the server, not as an ad hoc maintenance activity.
+If you are evaluating an AI strategy for your enterprise data, Mimisbrunnr is the foundation that makes agent automation reliable. A model that knows Mimisbrunnr knows what it is reading, in every environment Mimir Labs touches.
 
-This discipline ensures that Mimisbrunnr remains stable enough to serve as a canonical reference while evolving to accommodate new operational requirements.
-
----
-
-## Observability
-
-The integration framework provides visibility into system health through multiple channels.
-
-Message throughput is tracked through the delivery log. Failure rates are visible through the dead letter queue. Endpoint availability is monitored through last-successful-connection timestamps. Event latency is measured from generation to consumer delivery.
-
-Dead letters are accessible through dedicated API endpoints that allow investigation, resolution, and re-queuing of failed messages. Full payload and error history are preserved for each failed delivery.
-
----
-
-## Design Principles
-
-Six principles govern the Mimisbrunnr architecture.
-
-First, the schema is authoritative. Application code, APIs, and integrations derive from it, not the other way around.
-
-Second, tenant isolation is universal. Every integration message, event, and data record is scoped to a tenant. No shared-state leakage is possible.
-
-Third, delivery semantics are at-least-once. Events may be delivered more than once; consumers must be idempotent.
-
-Fourth, the system fails open for reads and closed for writes. Read failures return empty results; write failures abort the transaction.
-
-Fifth, dead letters are preferred over data loss. Failed messages are preserved for investigation, never silently dropped.
-
-Sixth, schema evolution is additive. New structures are added; existing structures are not modified or removed.
-
----
-
-## Conclusion
-
-Mimisbrunnr is more than a database schema. It is the semantic foundation upon which the entire Mimir Labs platform operates.
-
-As a production database, it provides governed persistence for Yggdrasil's operational execution. As a canonical reference, it provides the shared vocabulary that enables Ratatosk to discover, Ragnarok to migrate, Bifrost to synchronize, and Jormungandr to govern.
-
-That convergence between operational schema and semantic reference is the architectural insight at the heart of the Mimir Labs platform. By making the production data model and the canonical reference model one and the same, Mimisbrunnr eliminates the drift that typically separates enterprise documentation from enterprise reality.
+A canonical data model that never moves is unusual. It is also the only thing that makes enterprise data interoperability tractable. We built one. We will not let anyone change it. And that is exactly why it works.
 
 ---
 

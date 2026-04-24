@@ -1,7 +1,7 @@
 ---
 title: "Norn — Contract Intelligence for the Rest of Us"
 author: "Christopher Gaither"
-date: "March 2026"
+date: "April 2026"
 version: "1.0"
 docnumber: "ML-WP-013"
 classification: "Public"

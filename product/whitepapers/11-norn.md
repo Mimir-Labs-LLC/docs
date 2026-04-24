@@ -1,7 +1,7 @@
 ---
 title: "Norn — Contract Document Intelligence Architecture"
 author: "Christopher Gaither"
-date: "March 2026"
+date: "April 2026"
 version: "1.0"
 docnumber: "ML-WP-012"
 classification: "Public"

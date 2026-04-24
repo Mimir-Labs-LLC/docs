@@ -1,216 +1,147 @@
 ---
-title: "Yggdrasil ERP — Platform Overview"
+title: "Yggdrasil ERP — An Enterprise System Designed to Govern Itself"
 author: "Christopher Gaither"
-date: "March 2026"
-version: "1.0"
+date: "April 2026"
+version: "1.1"
 docnumber: "ML-WP-001"
 classification: "Public"
 logo: "mimir_labs_logo.png"
 ---
 
-## Executive Summary
+## Why This Matters
 
-Yggdrasil ERP is a governance-native enterprise resource planning platform designed for manufacturing and B2B environments. It provides integrated management of customer relationships, sales operations, purchasing, manufacturing execution, warehouse logistics, financial accounting, project management, product lifecycle management, quality assurance, and service operations within a single multi-tenant system.
+The standard enterprise ERP narrative is twenty years old. A vendor sells a flexible platform. A consultancy spends two years configuring it. The customer goes live, discovers the customizations have created an integration island that nothing else speaks to, and pays a permanent tax to maintain it. Five years later, the platform is too entangled to replace, too expensive to keep, and too important to fail. The cycle restarts with a new vendor.
 
-The platform is not a collection of loosely coupled services assembled around a database. It is a coordinated execution environment in which business state is governed by explicit rules, every meaningful transition is observable, and operational data remains trustworthy across organizational boundaries.
+The cost of this cycle is not the license fee. It is the operational opacity that builds up underneath. Audit trails are partial. State transitions are informal. Data ownership is unclear. Reports drift between systems. AI tools cannot be trusted because the data they read does not mean what it says.
 
-Yggdrasil is built by Mimir Labs as part of a broader data architecture stack that includes semantic discovery, data migration, live synchronization, and governance enforcement tools. This paper provides an architectural overview of the platform: its design philosophy, operational architecture, business modules, client interfaces, and relationship to the wider Mimir Labs ecosystem.
+Yggdrasil is built on the conviction that none of this is necessary. Governance properties — audit, isolation, lifecycle control, observability, canonical semantics — can be architectural, not bolted-on. An ERP that bakes them in from the first table is qualitatively different from one that adds them as features.
 
----
-
-## 1. Design Philosophy
-
-Enterprise software typically evolves by accretion. Modules are added, integrations are layered on, and operational discipline is delegated to the users who must navigate the resulting complexity. Over time, the system becomes a collection of capabilities without a coherent operational posture.
-
-Yggdrasil takes a different approach. The platform is designed around five architectural principles that govern every layer of the system.
-
-**Deterministic execution.** Business operations produce predictable outcomes. State transitions follow explicit rules enforced by a central state machine. Request handling, memory behavior, and service initialization are designed for consistency under sustained enterprise workloads.
-
-**Governed boundaries.** Security, authorization, and tenant isolation are architectural properties, not application conventions. Every request passes through a centralized middleware pipeline that validates identity, resolves tenant context, and enforces permissions before business logic executes. Unrecognized or insufficiently described routes fail closed.
-
-**Observable operations.** Every consequential mutation is captured in a structured audit trail and emitted into a real-time event stream. The system is designed not merely to process transactions, but to produce an operational history that supports compliance, integration, and post-hoc analysis.
-
-**Canonical semantics.** The database schema is the authoritative definition of enterprise meaning. Application code, APIs, and integrations derive from it. External systems adapt to the canonical model, not the reverse.
-
-**Practical deployability.** The system is designed to run in production with a small operational surface. Health endpoints, structured logging, graceful shutdown, and containerized deployment keep operational complexity proportional to business complexity.
-
-These principles are not aspirational guidelines. They are enforced in code, tested in CI, and observable in production behavior.
+This paper describes what that looks like in practice.
 
 ---
 
-## 2. Architecture Overview
+## What Yggdrasil Is
 
-Yggdrasil consists of four primary components that share a single canonical data model.
+Yggdrasil ERP is a multi-tenant enterprise resource planning platform built for manufacturing and B2B operations. It covers the ten functional modules an industrial enterprise needs — CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, Product Lifecycle Management, Quality, and Service — as one coordinated system rather than a federation of point solutions.
 
-### Server
+The module set is fixed. There are no customer-defined modules and no schema extensions. That constraint is the point: the platform is a coherent execution environment in which business state is governed by explicit rules, not a configuration kit that can be assembled into something incoherent.
 
-The application server is implemented in C++17 on Qt 6. It provides RESTful HTTP and WebSocket interfaces, coordinates authentication, enforces authorization, manages state transitions, captures audit trails, and emits real-time events. The server supports both headless production deployment and operator-attended diagnostic modes.
+Yggdrasil ships in three forms that share a single canonical data model:
 
-The server registers over 400 API endpoints across 31 route modules. Every endpoint inherits the same security envelope: CORS handling, rate limiting, JWT validation, tenant resolution, and role-based access control. No endpoint operates outside this governed boundary.
+- **A web application** for browser-based access, including self-service portals, onboarding, and a demo environment that provisions an isolated tenant on demand
+- **A native desktop client** for the operational environments — manufacturing floors, warehouses, finance departments — where browser interaction is too slow or too thin
+- **A backend server** that handles the work, exposes the API, emits the events, and enforces the rules
 
-### Desktop Client
-
-The desktop client is a native Qt 6 application built with C++17 and QML. It serves as the reference user interface implementation for the platform. All features are designed and validated in the desktop client before being reproduced in the web interface.
-
-The desktop-first development model ensures that the platform remains suitable for operational environments where browser constraints are limiting: manufacturing floors, warehouses, service desks, and finance departments where operators interact with ERP systems continuously throughout the workday.
-
-### Web Application
-
-The web application provides browser-based access using Next.js, React, and TypeScript. It communicates exclusively through the same public REST and WebSocket interfaces used by the desktop client, ensuring that the web interface cannot diverge from the platform's governed API surface.
-
-The web application also exposes portal interfaces for account management, onboarding, documentation, and support interactions.
-
-### Database
-
-The database layer is implemented on PostgreSQL. It contains 166 tables organized across 17 business domains, with row-level security enforcing tenant isolation at the database level. The schema uses UUID primary keys, PostgreSQL ENUM types for lifecycle states, JSONB columns for flexible structures, and a sequential migration system that evolves the schema under version control.
-
-The schema is known as Mimisbrunnr, and it serves a dual purpose: as the operational persistence layer for Yggdrasil, and as the canonical semantic reference model consumed by every other tool in the Mimir Labs ecosystem.
+All three speak the same canonical schema. Whatever you do in one is immediately visible in the others.
 
 ---
 
-## 3. Business Modules
+## Ten Modules, One System
 
-Yggdrasil provides ten integrated business modules that cover the operational scope of a manufacturing and B2B enterprise.
+**Customer Relationship Management.** Accounts, contacts, opportunities, leads. The starting point for every order-to-cash flow.
 
-**Customer Relationship Management.** Accounts, contacts, opportunities, leads, and pipeline management. CRM entities serve as the starting point for the order-to-cash flow, linking customer records to quotes, orders, and invoices downstream.
+**Sales.** Quotes, orders, invoices, payments, commissions. Every document moves through governed lifecycle stages, not arbitrary status edits.
 
-**Sales.** Quotes, sales orders, invoices, payments, and commission tracking. Sales operations are governed by the state machine, ensuring that documents progress through defined lifecycle stages and that financial implications are captured at each transition.
+**Purchasing.** Purchase orders, suppliers, receipts, bills, three-way matching. Asset registry lives here so capitalization, ownership history, and warranty all flow from acquisition.
 
-**Purchasing.** Purchase orders, suppliers, receipts, bills, and three-way matching. The purchasing module connects upstream to inventory requirements and downstream to accounts payable, creating a traceable procure-to-pay flow.
+**Manufacturing.** Work orders, bills of materials, shop floor operations, routings, OEE tracking. Sanctioned shop-floor deviations become scoped, temporary derivatives of the released MBOM rather than ad hoc edits to the engineering record.
 
-**Manufacturing.** Work orders, bills of materials, shop floor operations, routings, and OEE tracking. Manufacturing execution is tightly integrated with PLM for engineering data, warehouse for material consumption, and quality for inspection and nonconformance reporting.
+**Warehouse.** Inventory, locations, transactions, picking, cycle counts. Real-time visibility, directed putaway and picking.
 
-**Warehouse.** Inventory management, warehouse locations, stock transactions, picking, and cycle counts. The warehouse module maintains real-time inventory visibility across locations and supports directed putaway and picking operations.
+**Finance.** General ledger, AR, AP, banking, multi-currency, journals. GL postings carry orthogonal dimension tags — department, project, asset, customer — so the chart of accounts stays stable while reporting can slice along any analytic axis.
 
-**Finance.** General ledger, accounts receivable, accounts payable, banking, multi-currency accounting, and journal entries. Financial transactions are subject to state machine governance, ensuring that journal entries progress through draft, posted, and reconciled states under controlled conditions.
+**Projects.** Tasks, time entries, budgets, billing. Engineering work orders, service tickets, and time entries roll up into project cost and revenue.
 
-**Projects.** Project management, task tracking, time entries, budgets, and billing. The projects module supports both internal operations and billable client engagements, with time entries linked to financial and HR systems.
+**Product Lifecycle Management.** Item masters, engineering and manufacturing BOMs, engineering change requests, revisions. A controlled ECR/ECO/ECN flow connects design intent to production reality.
 
-**Product Lifecycle Management.** Parts, engineering bills of materials, manufacturing bills of materials, engineering change requests, revisions, and materials management. PLM provides the engineering foundation that feeds manufacturing execution, connecting design intent to production reality.
+**Quality.** 8D reports, CAPA actions, NCRs, audits, inspection plans. Inspection failures generate NCRs automatically.
 
-**Quality.** 8D reports, CAPA actions, nonconformance reports, audit management, and inspection plans. Quality operations are integrated with manufacturing and service modules, enabling automatic NCR generation when inspection failures occur.
+**Service.** Service tickets, RMAs, warranty, maintenance orders. Field work bills back through projects so cost, parts, and customer invoicing remain linked.
 
-**Service.** Service tickets, RMA processing, warranty tracking, and maintenance orders. The service module supports both reactive incident management and proactive maintenance scheduling, with asset lifecycle tracking across customer deployments.
-
-These modules are not independent applications. They share a common data model, a common state machine, a common audit infrastructure, and a common security envelope. Cross-module workflows such as order-to-cash, procure-to-pay, design-to-manufacture, and issue-to-resolution operate as continuous data flows rather than manual handoffs between disconnected systems.
+These are not independent applications stitched together. They share a canonical data model, a single state machine, a single audit trail, a single security envelope. Order-to-cash, procure-to-pay, design-to-manufacture, and issue-to-resolution are continuous data flows, not handoffs between disconnected systems.
 
 ---
 
-## 4. Multi-Tenancy
+## What "Governance-Native" Actually Means
 
-Yggdrasil is designed for multi-tenant operation. Multiple organizations share a single application environment while maintaining strict data isolation.
+Most ERP platforms advertise governance as a feature. In Yggdrasil, governance is the architecture.
 
-Tenant isolation operates at multiple layers. At the application level, every API request is scoped to a tenant context derived from the authenticated session. At the database level, PostgreSQL row-level security policies ensure that queries cannot return records belonging to other tenants, even if application code fails to apply appropriate filtering. At the event level, real-time WebSocket channels and integration messages are scoped to tenant-specific streams.
+**Audit by default.** Every consequential change — every status transition, every edit to a governed field, every action an automation took on someone's behalf — lands in a structured audit trail with full deltas, the user who acted, and a timestamp. Nothing has to be wired up; it happens because every write goes through a single audited path.
 
-This layered approach ensures that tenant boundaries remain intact even in the presence of application-level defects. A single programming error cannot compromise organizational data isolation because the database enforces its own independent boundary.
+**Tenant isolation enforced by the database.** Multi-tenancy is not a query convention. The database itself enforces row-level isolation, so a programming mistake in the application layer cannot leak data between organizations.
 
----
+**Lifecycle states governed by a state machine.** Quotes, orders, invoices, work orders, NCRs, ECRs — every governed document has a defined transition graph. Moves outside the graph are rejected. When a valid transition occurs, the status update, the audit entry, and the real-time event are committed together.
 
-## 5. State Machine Governance
+**Observability built in.** Every meaningful change emits a real-time event over the platform's event hub, available to clients, integration partners, and downstream analytics. There is no polling, no batch reconciliation, no nightly extract. Significant activity is visible the moment it happens.
 
-The state machine engine is the most architecturally significant service in the platform. It enforces valid lifecycle transitions across 23 entity types spanning all business modules.
+**Canonical semantics.** The database schema is the authoritative definition of enterprise meaning. Application code, APIs, and integrations derive from it. External systems adapt to the canonical model, not the other way around. The schema is called Mimisbrunnr; it is the same vocabulary the rest of the Mimir Labs platform uses.
 
-Rather than allowing business objects to move through lifecycles by arbitrary field mutation, the state machine defines a transition graph for each governed entity type. Transitions that fall outside the allowed graph are rejected. When a valid transition occurs, the server performs the status update, audit capture, and event emission atomically within a single transaction.
-
-This design ensures that the operational record, the audit history, and the real-time event stream remain synchronized. A state change is not merely a database update. It is a governed transition with traceable consequences.
-
-The state machine covers sales quotes, orders, and invoices; purchase orders and bills; work orders and operations; PLM parts and engineering change requests; quality reports across all types; service tickets, RMAs, and maintenance orders; journal entries and financial documents; workflow instances and approval requests; form templates and submissions; and integration dead letters.
-
-This breadth of coverage means that the lifecycle of virtually every business document in the system is explicitly governed rather than informally managed.
+These properties are not optional configurations. A new feature shipped into Yggdrasil inherits them automatically because the platform makes it impossible to do otherwise.
 
 ---
 
-## 6. Security Architecture
+## AI Without Losing Control
 
-Security in Yggdrasil is treated as an architectural property rather than an operational afterthought.
+Most enterprise software is currently bolting AI onto systems that were never designed to host it. Agents are given write access to live business data with the same trust posture as a human user. When something goes wrong, there is no record of why the agent acted, no proposal that an operator could have rejected, no boundary that prevented the mistake.
 
-Authentication uses PBKDF2-based password hashing with multi-factor support through TOTP. Progressive account lockout prevents brute-force attacks. Session management uses short-lived access tokens and longer-lived refresh tokens delivered through secure HTTP-only cookies.
+Yggdrasil treats agents as first-class participants — but governed by the same architecture that governs human users.
 
-Authorization is enforced centrally through middleware that intercepts every API request. A role hierarchy ranging from system administrators to read-only users determines what actions each user may perform. Newly introduced endpoints automatically inherit the same security checks.
+Agents may classify, draft, summarize, or pre-fill, but they cannot independently mutate governed state. Consequential actions arrive as proposals that an operator must explicitly accept, reject, or modify. Every agent action — the tool called, the inputs, the output — lands in the same audit trail that captures human edits. Webhook integrations and external automations route through the same proposal-and-disposition substrate. The result is structural human-in-the-loop, not opt-in.
 
-Input validation protects against injection attacks through parameterized queries, strict schema validation, and path traversal prevention. Sensitive configuration and credentials are encrypted at rest using authenticated encryption.
-
-The platform maintains a comprehensive audit trail that captures every meaningful data mutation, lifecycle transition, and security-relevant event. This audit infrastructure supports both operational accountability and compliance requirements.
+This applies equally to AI assistants embedded in Yggdrasil itself and to those orchestrated by adjacent tools like Ratatosk's governance chatbot. The platform's posture is consistent: AI participates, but never silently.
 
 ---
 
-## 7. Real-Time Event Architecture
+## Multi-Tenant by Architecture, Not Convention
 
-Yggdrasil includes a real-time event system that makes operational activity observable to clients, integration partners, and downstream processing systems.
+Yggdrasil runs many organizations on a single deployment. Each tenant is isolated at every layer:
 
-The B2B Event Hub provides WebSocket-based event streaming with tenant-scoped channels. Events include state transitions, data changes, workflow activity, and system notifications. Events are emitted from governed application paths rather than from uncontrolled database triggers, ensuring that the event stream represents validated system behavior.
+- The application scopes every request to a tenant context derived from the authenticated session
+- The database enforces row-level security so that even a buggy query cannot return another tenant's data
+- Real-time event channels and integration messages are scoped to tenant-specific streams
+- Configuration, branding, user roles, and audit history are all tenant-local
 
-The Redpanda Relay bridges the internal event system to external Kafka-compatible message infrastructure. This enables event archival, cross-deployment synchronization, and integration with analytics pipelines and external systems.
-
-Together, these components create an observable operational environment in which significant system activity is visible in real time without requiring polling or batch reconciliation.
-
----
-
-## 8. The Mimir Labs Platform
-
-Yggdrasil ERP does not exist in isolation. It is the operational execution layer within a broader data architecture stack developed by Mimir Labs.
-
-### Mimisbrunnr
-
-The canonical semantic model. Mimisbrunnr is both Yggdrasil's production database schema and the universal reference vocabulary used by every tool in the platform. Its 166 tables across 17 domains define the shared meaning that enables semantic interoperability across the entire ecosystem.
-
-### Ratatosk
-
-The semantic discovery tool. Ratatosk analyzes existing enterprise systems, classifies their data structures into business domains, and produces a machine-readable manifest describing the semantic meaning of enterprise data. This manifest becomes the foundation for migration, synchronization, and governance activities.
-
-### Ragnarok
-
-The data migration engine. Ragnarok consumes Ratatosk manifests and executes deterministic, air-gapped data migrations between enterprise systems. It operates as a standalone desktop application with a staged wizard that enforces structure and traceability throughout the migration process.
-
-### Bifrost
-
-The live data bridge. Bifrost maintains persistent synchronization between enterprise systems, supporting mirror, unidirectional, and bidirectional sync modes. It converts a one-time migration outcome into a sustained operational state, ensuring that once systems are aligned, they remain aligned.
-
-### Jormungandr
-
-The governance enforcement layer. Jormungandr imports canonical models produced by Ratatosk and continuously validates that enterprise data structures remain compliant. It converts one-time governance extraction engagements into long-term enforcement subscriptions.
-
-### Platform Lifecycle
-
-These tools operate in a defined sequence that addresses the full lifecycle of enterprise data management.
-
-Ratatosk discovers and formalizes meaning. Ragnarok migrates data into aligned structures. Yggdrasil operationalizes governed enterprise state. Bifrost maintains alignment across systems over time. Jormungandr enforces the canonical model that underlies the entire process.
-
-Each tool is system-agnostic. While Yggdrasil is the default operational target, the semantic model defined by Mimisbrunnr can be applied to any compatible enterprise system. The tools communicate through structured manifests and canonical definitions rather than through direct coupling to a specific ERP implementation.
+This makes Yggdrasil suitable for both single-tenant deployments (one organization, dedicated environment) and shared multi-tenant operation (many organizations, one platform, strict separation). The same code path serves both.
 
 ---
 
-## 9. Deployment and Operations
+## Where Yggdrasil Fits in the Mimir Labs Platform
 
-Yggdrasil is designed for practical deployment in production environments.
+Yggdrasil is one piece of a larger architecture. The same canonical model that drives the ERP also drives a suite of system-agnostic tools that operate on enterprise data more broadly:
 
-The server supports both headless daemon operation for production and GUI-attended mode for development and diagnostics. Health endpoints report runtime and dependency status. Structured JSON logging with automatic rotation provides operational visibility. Graceful shutdown ensures that active requests, event buffers, and database connections are drained cleanly.
+**Mimisbrunnr** is the canonical model. Yggdrasil's database schema and the universal vocabulary the rest of the platform speaks. More than three hundred tables across seventeen domains, fixed by design.
 
-Production deployments use containerized orchestration with TLS termination at the network edge. The deployment model assumes an internet-shielded host with no application ports exposed directly to the public internet.
+**Ratatosk** discovers what data in your existing systems means. Connects to ERPs, warehouse systems, CRMs, even VBA-driven Excel workbooks. Produces a structured, human-authoritative manifest of enterprise meaning.
 
-The CI/CD pipeline performs linting, type checking, unit testing, schema validation, and production build verification across all three application components before deployment. Server and client builds are compiled in Docker containers for reproducibility.
+**Ragnarok** migrates data into a target schema using Ratatosk manifests. Deterministic, air-gapped, system-agnostic.
 
----
+**Bifrost** maintains live synchronization between enterprise systems once they are aligned. Mirror, unidirectional, or bidirectional sync.
 
-## 10. Why Governance-Native
+**Jormungandr** turns governance into an ongoing subscription, continuously validating that enterprise data structures remain compliant.
 
-The term governance-native describes a system in which governance properties are embedded in the architecture rather than bolted on after the fact.
-
-Most enterprise systems evolve governance capabilities reactively. Audit logging is added when compliance requirements emerge. Access controls are tightened after security incidents. State validation is introduced when data quality degrades. These retroactive additions create a system that has governance features but is not governed by design.
-
-Yggdrasil inverts this pattern. Tenant isolation is enforced at the database level from the first table. State transitions are governed by a central state machine from the first entity type. Audit logging captures every mutation from the first write operation. Authorization is enforced centrally from the first endpoint. Event emission is structured from the first status change.
-
-This approach does not eliminate operational complexity. It makes operational complexity visible, traceable, and enforceable. The difference matters most in environments where data trustworthiness is not optional: manufacturing, finance, quality, and regulated industries where the cost of ungoverned operations is measured in compliance failures, audit findings, and operational breakdowns.
+The tools are independently useful. You can run Ratatosk on your existing SAP environment without ever adopting Yggdrasil. You can use Bifrost to keep two existing systems in sync. The Mimir Labs platform is not a sales funnel that ends in Yggdrasil; it is a coherent set of tools for organizations that take their data architecture seriously, and Yggdrasil happens to be the operational execution layer when one is needed.
 
 ---
 
-## Conclusion
+## Built for Production
 
-Yggdrasil ERP is not a feature checklist assembled into an application. It is a governed execution environment designed to maintain coherent enterprise state across operational domains, organizational boundaries, and system integrations.
+Yggdrasil is engineered for real deployment, not for demos. The server runs as a hardened daemon with health endpoints, structured logging, graceful shutdown, and containerized orchestration. Production deployments sit behind a tunneling layer that handles certificate management and traffic absorption; no application port faces the public internet directly.
 
-Its architectural significance lies in the convergence of centralized security, explicit state governance, structured audit capture, observable event emission, and canonical data semantics into a single coordinated platform. These properties allow Yggdrasil to support not only transactional throughput but also the operational discipline that manufacturing and B2B enterprises require.
+The CI pipeline runs lint, type-check, unit tests, schema validation, and full production builds across every component before any deployment. A self-service demo environment exercises the full deployment path on every nightly reset, so the production code path is the same one customers see when they evaluate the platform.
 
-Within the broader Mimir Labs architecture, Yggdrasil serves as the point where canonical meaning becomes executable business state. It is the layer where governed semantics meet governed operations, and where the principles defined across the platform stack become operational reality.
+Operational complexity is proportional to business complexity. The system stays small where it can stay small, so the parts that have to be sophisticated can be.
+
+---
+
+## Why This Matters Again
+
+Enterprise ERP buyers have been promised governance for two decades and have, mostly, received features bolted onto systems that fundamentally do not enforce it. The result is the operational opacity every ERP veteran recognizes: audits that take weeks to assemble, integrations that fail in non-obvious ways, AI tools that cannot be trusted on the company's own data, migrations that uncover problems no one knew existed.
+
+Yggdrasil is built differently. Tenant isolation is enforced at the database. State transitions go through a single state machine. Audit captures every consequential change. AI participation is gated by the same proposal-and-disposition substrate that gates any consequential change. Canonical semantics make every integration speak the same language at the boundary.
+
+These choices are not neutral. They reflect a particular conviction about what enterprise software is supposed to do: maintain coherent, trustworthy, observable state across operational domains and over time. If that conviction matches the way you want to run your business, Yggdrasil is built for you.
+
+If it does not, there are many other ERPs.
 
 ---
 

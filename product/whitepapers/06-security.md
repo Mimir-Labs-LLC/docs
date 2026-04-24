@@ -1,10 +1,11 @@
-# Yggdrasil ERP — Security Architecture White Paper
-
-**Mimir Labs Technical Publication**
-**Document Version:** 1.0
-**Date:** March 2026
-**Classification:** Public
-
+---
+title: "Yggdrasil ERP — Security Architecture"
+author: "Christopher Gaither"
+date: "April 2026"
+version: "1.1"
+docnumber: "ML-WP-007"
+classification: "Public"
+logo: "mimir_labs_logo.png"
 ---
 
 ## Executive Summary

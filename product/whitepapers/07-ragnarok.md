@@ -1,7 +1,7 @@
 ---
 title: "Yggdrasil Platform — Ragnarok Data Migration Architecture"
 author: "Christopher Gaither"
-date: "March 2026"
+date: "April 2026"
 version: "1.0"
 docnumber: "ML-WP-008"
 classification: "Public"
