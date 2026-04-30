@@ -52,9 +52,9 @@ Each a "Party" and collectively the "Parties."
 
 ## RECITALS
 
-**WHEREAS**, Provider has developed and operates Yggdrasil ERP, a multi-tenant enterprise resource planning platform delivered as a hosted software service; and
+**WHEREAS**, Provider has developed and operates Yggdrasil ERP, a multi-tenant enterprise resource planning platform delivered as a hybrid software service consisting of (a) a locally installed desktop server application that runs on Client's premises, (b) a centrally hosted PostgreSQL database and supporting infrastructure, and (c) a web-based management portal (collectively, the "Platform"); and
 
-**WHEREAS**, Client desires to subscribe to and use the Yggdrasil ERP platform subject to the terms and conditions set forth herein;
+**WHEREAS**, Client desires to subscribe to and use the Yggdrasil ERP Platform subject to the terms and conditions set forth herein;
 
 **NOW, THEREFORE**, in consideration of the mutual covenants contained herein and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the Parties agree as follows:
 
@@ -62,9 +62,9 @@ Each a "Party" and collectively the "Parties."
 
 ## ARTICLE I -- DEFINITIONS
 
-**1.1** "Authorized Users" means employees, contractors, or agents of Client who are authorized by Client to access and use the Service under this Agreement.
+**1.1** "Authorized Users" means employees, contractors, or agents of Client who are authorized by Client to access and use the Service under this Agreement. Authorized Users are unlimited under all pricing tiers.
 
-**1.2** "Business Module" means a discrete functional area of the Service (e.g., CRM, Sales, Manufacturing), as enumerated in Schedule A.
+**1.2** "Business Module" means a discrete functional area of the Service (e.g., CRM, Sales, Manufacturing). All Business Modules are included in every subscription tier.
 
 **1.3** "Client Data" means all data, information, and materials submitted, uploaded, or otherwise transmitted to the Service by or on behalf of Client or its Authorized Users.
 
@@ -76,33 +76,49 @@ Each a "Party" and collectively the "Parties."
 
 **1.7** "Intellectual Property Rights" means all patents, copyrights, trademarks, trade secrets, and any other proprietary rights recognized under applicable law.
 
-**1.8** "Service" means the Yggdrasil ERP platform, including all software, infrastructure, APIs, updates, and Documentation made available by Provider to Client under this Agreement.
+**1.8** "Desktop Server" means the locally installed C++ server application that runs on Client's premises and connects to the centrally hosted database through Provider's secure tunnel infrastructure.
 
-**1.9** "Service Level Agreement" or "SLA" means the uptime, support, and performance commitments set forth in Schedule B.
+**1.9** "Desktop Client" means the Qt-based desktop application distributed by Provider that connects to the Desktop Server for local access to the Service.
 
-**1.10** "Subscription Fee" means the recurring fee payable by Client for access to the Service, as set forth in Schedule C.
+**1.10** "Web Portal" means the web-based interface hosted by Provider that provides remote access to the Service.
 
-**1.11** "Subscription Term" means the initial and any renewal periods of this Agreement, as set forth in Schedule C.
+**1.11** "Service" means the Yggdrasil ERP platform, including the Desktop Server, the Desktop Client, the Web Portal, all APIs (REST and WebSocket), centrally hosted database infrastructure, secure tunnel connectivity, updates, and Documentation made available by Provider to Client under this Agreement.
 
-**1.12** "Tenant" means Client's isolated instance within the multi-tenant architecture, identified by a unique tenant_id.
+**1.12** "Service Level Agreement" or "SLA" means the uptime, support, and performance commitments set forth in Schedule B.
+
+**1.13** "Subscription Fee" means the recurring fee payable by Client for access to the Service, as set forth in Schedule C.
+
+**1.14** "Subscription Term" means the initial and any renewal periods of this Agreement, as set forth in Schedule C.
+
+**1.15** "Tenant" means Client's isolated instance within the multi-tenant architecture, identified by a unique tenant_id.
 
 ---
 
 ## ARTICLE II -- GRANT OF LICENSE AND ACCESS
 
-**2.1 License Grant.** Subject to the terms of this Agreement and payment of all applicable Fees, Provider hereby grants to Client a non-exclusive, non-transferable, non-sublicensable, revocable right to access and use the Service during the Subscription Term solely for Client's internal business operations.
+**2.1 License Grant.** Subject to the terms of this Agreement and payment of all applicable Fees, Provider hereby grants to Client a non-exclusive, non-transferable, non-sublicensable, revocable right to: (a) install and operate the Desktop Server on Client's premises; (b) install and use the Desktop Client on workstations used by Authorized Users; (c) access and use the Web Portal; and (d) access the Service's REST and WebSocket APIs for integration with Client's internal systems — in each case during the Subscription Term and solely for Client's internal business operations.
 
-**2.2 Authorized Users.** Client may permit up to {{text|1|*|Number of users|max_users}} Authorized Users to access the Service. Additional user seats may be purchased in accordance with the pricing terms in Schedule A.
+**2.2 Unlimited Authorized Users.** Client may permit an unlimited number of Authorized Users to access the Service. There are no per-user fees or seat limits under any subscription tier.
 
-**2.3 Tenant Isolation.** Provider shall maintain logical separation of Client Data from that of other tenants. Client's Tenant shall be identified by a unique tenant_id, and all database queries, API calls, and service operations shall be scoped to Client's Tenant.
+**2.3 All Modules Included.** Client's subscription includes access to all Business Modules as enumerated in Schedule A. Provider does not offer per-module pricing or module restrictions.
 
-**2.4 Restrictions.** Client shall not, and shall not permit any third party to: (a) sublicense, sell, lease, or otherwise transfer access to the Service; (b) reverse engineer, decompile, or disassemble any portion of the Service; (c) use the Service to build a competing product or service; (d) circumvent or disable any security features; (e) introduce any malicious code; or (f) exceed the usage limits specified herein.
+**2.4 Tenant Isolation.** Provider shall maintain logical separation of Client Data from that of other tenants. Client's Tenant shall be identified by a unique tenant_id, and all database queries, API calls, and service operations shall be scoped to Client's Tenant.
+
+**2.5 No Customization.** The Service operates a single, deterministic data model shared by all tenants. Provider does not offer custom fields, bespoke logic, or per-tenant code paths. If a data point is useful enough to be universal, it becomes part of the shared platform for all tenants.
+
+**2.6 Restrictions.** Client shall not, and shall not permit any third party to: (a) sublicense, sell, lease, or otherwise transfer access to the Service; (b) reverse engineer, decompile, or disassemble any portion of the Service; (c) use the Service to build a competing product or service; (d) circumvent or disable any security features; (e) introduce any malicious code; or (f) exceed the usage limits specified herein.
+
+**2.7 Third-Party Integration Connectors.** Provider may offer bidirectional data synchronization connectors for third-party ERP and business systems (e.g., Microsoft Dynamics 365 Business Central, Oracle NetSuite, SAP S/4HANA, Acumatica, Sage Intacct, QuickBooks Online, Salesforce CRM). Use of integration connectors is subject to: (a) Client maintaining valid credentials and licenses for the applicable third-party system; (b) Provider bearing no liability for data loss, corruption, or service disruption caused by third-party system outages, API changes, or authentication failures; and (c) Client acknowledging that connector availability, sync frequency, and supported entity types may vary by third-party platform and are described in the Documentation.
+
+**2.8 API Usage.** Client's use of Provider's REST and WebSocket APIs is subject to the rate limits and fair-use policies described in the Documentation. Provider reserves the right to throttle or temporarily suspend API access if Client's usage materially degrades the Service for other tenants, provided Provider gives Client reasonable notice and an opportunity to adjust usage patterns.
+
+**2.9 Software Updates.** Provider shall release updates, patches, and new versions of the Service from time to time. (a) **Centrally hosted components** (database, Web Portal, infrastructure) shall be updated by Provider during scheduled maintenance windows. (b) **Locally installed components** (Desktop Server, Desktop Client) shall be updated by Client following Provider's published release notes and upgrade instructions. Provider shall provide at least seven (7) days' advance notice before requiring a client-side update. (c) Provider shall maintain backward compatibility for at least one (1) prior minor version. Client acknowledges that running unsupported versions of locally installed components may result in degraded functionality or loss of access.
 
 ---
 
 ## ARTICLE III -- IMPLEMENTATION AND ONBOARDING
 
-**3.1 Implementation.** Provider shall perform the implementation services described in Schedule B, including environment provisioning, data migration assistance, and initial configuration of selected Business Modules.
+**3.1 Implementation.** Provider shall perform the implementation services described in Schedule B, including: (a) provisioning Client's Tenant in the centrally hosted database; (b) configuring secure tunnel connectivity between Client's premises and Provider's infrastructure; (c) installation and configuration of the Desktop Server and Desktop Client on Client's designated hardware; (d) data migration assistance; and (e) initial configuration of Business Modules.
 
 **3.2 Client Cooperation.** Client shall provide Provider with timely access to personnel, data, systems, and information reasonably required for implementation. Delays caused by Client's failure to cooperate may extend the Implementation Period and may result in additional fees.
 
@@ -159,7 +175,17 @@ Each a "Party" and collectively the "Parties."
 
 **6.5 Data Portability.** Upon written request, Provider shall make Client Data available for export in a standard machine-readable format (CSV, JSON, or SQL dump) within thirty (30) days. Upon termination, Provider shall make Client Data available for export for a period of ninety (90) days, after which Provider may delete Client Data in accordance with its data retention policies.
 
-**6.6 Anonymized Data.** Provider may aggregate and anonymize Client Data such that it no longer identifies Client or any individual, and may use such anonymized data for product improvement, benchmarking, and analytical purposes.
+**6.6 Anonymized Data and Data Dividend Program.**
+
+**(a) Anonymization.** Provider may aggregate and anonymize Client Data such that it no longer identifies Client or any individual, using industry-standard techniques including but not limited to: identifier removal, cohort thresholding, outlier suppression, differential privacy noise injection, k-anonymization, and temporal jittering. Provider shall not publish or distribute any dataset with fewer than five (5) contributing tenants per cohort.
+
+**(b) Permitted Uses.** Provider may use anonymized data for product improvement, internal benchmarking, and analytical purposes. Provider may also distribute anonymized, aggregated macro-level industry signals through data marketplace platforms and secure data exchange mechanisms (the "Data Dividend Program").
+
+**(c) Opt-In/Opt-Out.** Participation in the Data Dividend Program is voluntary. Client may opt in or opt out at any time through the Provider's Trust Center interface or by written notice to Provider. Opting out does not affect Client's access to or use of the Service.
+
+**(d) Revenue Sharing.** If Client participates in the Data Dividend Program, Client shall receive a revenue share as specified in Schedule C or as otherwise agreed in writing by the Parties. Revenue share percentages and payment terms shall be documented in a separate Data Dividend Addendum executed by both Parties prior to Client's enrollment.
+
+**(e) Compliance.** Provider shall maintain SOC 2 Type I (or equivalent) compliance documentation covering the anonymization pipeline and data distribution architecture. Provider shall make audit reports available to participating Clients upon reasonable request.
 
 ---
 
@@ -205,7 +231,7 @@ Each a "Party" and collectively the "Parties."
 
 **10.2 Exclusion of Consequential Damages.** IN NO EVENT SHALL EITHER PARTY BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, REVENUE, DATA, OR BUSINESS OPPORTUNITY, REGARDLESS OF THE CAUSE OF ACTION OR THEORY OF LIABILITY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
-**10.3 Exceptions.** The limitations in Sections 10.1 and 10.2 shall not apply to: (a) Client's breach of Section 2.4 (Restrictions); (b) either Party's breach of Article VIII (Confidentiality); (c) Provider's breach of Section 6.3 (Data Protection); or (d) either Party's indemnification obligations under Article XI.
+**10.3 Exceptions.** The limitations in Sections 10.1 and 10.2 shall not apply to: (a) Client's breach of Section 2.6 (Restrictions); (b) either Party's breach of Article VIII (Confidentiality); (c) Provider's breach of Section 6.3 (Data Protection); or (d) either Party's indemnification obligations under Article XI.
 
 ---
 
@@ -259,44 +285,63 @@ Each a "Party" and collectively the "Parties."
 
 ---
 
-## SCHEDULE A -- SELECTED MODULES AND PRICING
+## SCHEDULE A -- PLATFORM AND PRICING WORKSHEET
 
-### Section 1 -- Pricing Model
+### Section 1 -- Annual License Pricing Formula
 
-Select one:
+The recurring annual subscription fee is computed from the published Yggdrasil pricing formula:
 
-{{@pricing_standard|1}} **Standard Pricing** -- Per-user, per-module monthly subscription at Provider's published rates.
+```
+Annual License = $30,000 + ($10,000 × Footprint Score)
+```
 
-{{@pricing_introductory|1}} **Introductory Pricing** -- Discounted early-adopter rates locked for the initial Subscription Term.
+The Footprint Score is the sum of seven verifiable inputs that describe the operational scope brought under the platform's governance. The current values are recorded in this Schedule and may be revised at renewal upon mutual agreement.
 
-### Section 2 -- Module Selection
+#### Footprint Score Worksheet
 
-**Option A: Bundle Tier** (select one):
+| Input | Customer value | Points |
+|-------|----------------|--------|
+| Physical sites under governance (1 point each, 1st included) | {{text\|1\|*\|Site count\|fp_sites_count}} | {{text\|1\|*\|Site points\|fp_sites_points}} |
+| Legal entities under governance (1 point per entity beyond 1st) | {{text\|1\|*\|Entity count\|fp_entities_count}} | {{text\|1\|*\|Entity points\|fp_entities_points}} |
+| Integrated systems (first 3 included; +1 per system 4-8; +1 per pair thereafter) | {{text\|1\|*\|Integrations\|fp_integrations_count}} | {{text\|1\|*\|Integration points\|fp_integrations_points}} |
+| Annual governed transitions tier (<50K=0 / 50K-500K=2 / 500K-2M=4 / 2M-10M=7 / 10M+=10+) | {{text\|1\|*\|Transitions tier\|fp_transitions_label}} | {{text\|1\|*\|Transitions points\|fp_transitions_points}} |
+| Compliance posture (Ordinary=0 / ISO=2 / CMMC L2=3 / FDA, CMMC L3, aerospace=4) | {{text\|1\|*\|Compliance posture\|fp_compliance_label}} | {{text\|1\|*\|Compliance points\|fp_compliance_points}} |
+| SLA tier (Standard=0 / Critical=2 / Mission-Critical=4) | {{text\|1\|*\|SLA tier\|fp_sla_label}} | {{text\|1\|*\|SLA points\|fp_sla_points}} |
+| Audit retention depth (3y=0 / 7y=1 / 10y=2 / Indefinite=3) | {{text\|1\|*\|Retention\|fp_retention_label}} | {{text\|1\|*\|Retention points\|fp_retention_points}} |
+| **Footprint Score (sum of points)** | | **{{text\|1\|*\|Footprint score\|fp_score}}** |
 
-{{@tier_starter|1}} **Starter** -- Up to 3 modules, 10 users, community support.
-{{@tier_professional|1}} **Professional** -- Up to 6 modules, 50 users, priority support.
-{{@tier_enterprise|1}} **Enterprise** -- All 10 modules, unlimited users, dedicated support + CSM.
+#### Computed Annual Subscription
 
-**Option B: A La Carte** (select all that apply):
+| Component | Amount |
+|-----------|--------|
+| Base Platform Fee | $30,000 |
+| Footprint Score Multiplier ($10,000 × Footprint Score) | ${{text\|1\|*\|Footprint multiplier amount\|fp_multiplier_amount}} |
+| **Annual Subscription Fee** | **${{text\|1\|*\|Annual subscription amount\|annual_subscription_amount}}** |
 
-{{@mod_crm|1}} CRM -- Accounts, Contacts, Opportunities
-{{@mod_sales|1}} Sales -- Quotes, Orders, Invoices, Commissions
-{{@mod_purchasing|1}} Purchasing -- Purchase Orders, Suppliers, Receipts
-{{@mod_manufacturing|1}} Manufacturing -- Work Orders, BOMs, Shop Floor, OEE
-{{@mod_warehouse|1}} Warehouse -- Inventory, Locations, Transactions, Picking
-{{@mod_finance|1}} Finance -- General Ledger, AR, AP, Banking
-{{@mod_projects|1}} Projects -- Tasks, Time Tracking, Budgets
-{{@mod_plm|1}} PLM -- Parts, BOMs, ECRs, Revisions
-{{@mod_quality|1}} Quality -- 8D Reports, CAPA, NCR, Audits
-{{@mod_service|1}} Service -- Tickets, RMA, Warranty, Maintenance
+#### Pricing Band (descriptive)
 
-### Section 3 -- Per-User / Per-Module Rate
+The above Annual Subscription falls in band {{text\|1\|*\|Pricing band\|pricing_band}} (one of: Compliance Core / Operational Core / Regulated Enterprise / Portfolio-Strategic).
 
-Base rate per user per module per month: ${{text|1|*|Per-user rate|per_user_rate}}
+### Section 2 -- Included Modules
 
-Effective bundle discount (if applicable): {{text|1| |Bundle discount %|bundle_discount_pct}}%
+All Business Modules are included at every pricing tier. No module restrictions apply.
 
-Additional user seats (above included allocation): ${{text|1|*|Additional seat rate|additional_seat_rate}} per user per month.
+| Module | Description |
+|--------|-------------|
+| CRM | Accounts, Contacts, Opportunities, Leads |
+| Sales | Quotes, Orders, Invoices, Commissions |
+| Purchasing | Purchase Orders, Suppliers, Receipts |
+| Manufacturing | Work Orders, BOMs, Shop Floor, OEE |
+| Warehouse | Inventory, Locations, Transactions, Picking |
+| Finance | General Ledger, AR, AP, Banking |
+| Projects | Tasks, Time Tracking, Budgets |
+| PLM | Parts, BOMs, ECRs, Revisions |
+| Quality | 8D Reports, CAPA, NCR, Audits |
+| Service | Tickets, RMA, Warranty, Maintenance |
+
+### Section 3 -- Users
+
+Authorized Users are **unlimited** at all pricing tiers. No per-user fees, no seat limits.
 
 ---
 
@@ -341,7 +386,7 @@ Select one:
 
 Select one:
 
-{{@golive_standard|1}} **Standard** -- All selected modules configured, data migrated, UAT signed off, and minimum 2 training sessions completed.
+{{@golive_standard|1}} **Standard** -- All modules configured, data migrated, UAT signed off, and minimum 2 training sessions completed.
 
 {{@golive_extended|1}} **Extended** -- Standard criteria plus parallel-run period of {{text|1| |Parallel run days|parallel_run_days}} business days.
 
@@ -388,18 +433,65 @@ Select one:
 
 Select one:
 
-{{@bill_monthly|1}} **Monthly** -- Subscription fees invoiced on the 1st of each month.
-{{@bill_quarterly|1}} **Quarterly** -- Subscription fees invoiced on the 1st of each calendar quarter with {{text|1| |Quarterly discount %|quarterly_discount_pct}}% discount.
-{{@bill_annual|1}} **Annual** -- Subscription fees invoiced on the anniversary of the Effective Date with {{text|1| |Annual discount %|annual_discount_pct}}% discount.
+{{@bill_annual|1}} **Annual** -- Subscription fee invoiced on the anniversary of the Effective Date.
+{{@bill_semi_annual|1}} **Semi-Annual** -- Subscription fee invoiced every 6 months with {{text|1| |Semi-annual surcharge %|semi_annual_surcharge_pct}}% surcharge.
 
 ### Section 4 -- Total Contract Value Summary
 
 | Line Item | Amount |
 |-----------|--------|
-| Implementation Fee | ${{text|1|*|Total impl fee|total_impl_fee}} |
-| Monthly Subscription Fee (estimated) | ${{text|1|*|Monthly sub fee|monthly_sub_fee}} |
-| Annual Subscription Fee (estimated) | ${{text|1|*|Annual sub fee|annual_sub_fee}} |
+| Pricing Band | {{text|1|*|Pricing band|pricing_band_summary}} |
+| Footprint Score | {{text|1|*|Footprint score summary|footprint_score_summary}} |
+| Annual Subscription Fee | ${{text|1|*|Annual sub fee|annual_sub_fee}} |
+| Activation Fee | ${{text|1|*|Total activation fee|total_impl_fee}} |
+| Annual Audit Authority Fees (Schedule D) | ${{text|1|*|Audit authority annual|audit_authority_annual_total}} |
 | Total Contract Value (initial term) | ${{text|1|*|Total contract value|total_contract_value}} |
+
+---
+
+## SCHEDULE D -- AUDIT AUTHORITY (OPTIONAL)
+
+### Section 1 -- Designation
+
+Audit Authority designates Yggdrasil as the contractually warranted system of record for one or more named compliance regimes. For each designated regime, Provider commits to audit-readiness and accepts capped warranty exposure for audit-finding remediation costs traceable to a Yggdrasil failure.
+
+This Schedule applies only if Client elects one or more Audit Authority designations below. If no boxes are selected, this Schedule is inoperative and no Audit Authority fees apply.
+
+### Section 2 -- Designated Regimes
+
+Select all that apply (each requires Provider engineering and legal sign-off prior to designation):
+
+{{@aa_iso_9001|1}} **ISO 9001** -- Quality management
+{{@aa_as9100|1}} **AS9100** -- Aerospace quality management
+{{@aa_iso_13485|1}} **ISO 13485** -- Medical devices quality management
+{{@aa_itar|1}} **ITAR** -- International Traffic in Arms Regulations
+{{@aa_fda_part11|1}} **FDA 21 CFR Part 11** -- Electronic records & signatures
+{{@aa_cmmc_l2|1}} **CMMC L2** -- Cybersecurity Maturity Model Certification Level 2
+{{@aa_cmmc_l3|1}} **CMMC L3** -- Cybersecurity Maturity Model Certification Level 3
+{{@aa_soc2|1}} **SOC 2** -- Service Organization Control 2
+{{@aa_sox|1}} **SOX** -- Sarbanes-Oxley
+{{@aa_hipaa|1}} **HIPAA** -- Health Insurance Portability and Accountability Act
+
+**Total designated regimes:** {{text|1| |Total regimes|aa_total_regimes}}
+
+### Section 3 -- Pricing
+
+| Designation | Annual Fee | Warranty Cap |
+|---|---|---|
+| 1st designated regime | Included if Footprint Score ≥ 10; otherwise $15K / yr | $50K |
+| 2nd – 3rd designated regime, each | $15,000 / yr | +$50,000 each |
+| 4th and subsequent designated regimes, each | $25,000 / yr | +$100,000 each |
+
+**Computed Audit Authority annual fee:** ${{text|1|*|Audit authority annual fee|audit_authority_annual_fee}}
+**Aggregate warranty cap:** ${{text|1|*|Audit authority warranty cap|audit_authority_warranty_cap}}
+
+### Section 4 -- Warranty Scope
+
+Provider's warranty under this Schedule covers Client's reasonable, documented remediation costs for an audit finding directly traceable to a failure in Yggdrasil's audit log, governed state engine, retention policy, or related Provider-controlled audit infrastructure, up to the applicable warranty cap. The warranty does not cover findings arising from Client-controlled processes, third-party systems outside Yggdrasil's governance boundary, or Client errors in regime designation or scope definition.
+
+Claims under this Schedule must be submitted within sixty (60) days of audit finding issuance, accompanied by the auditor's written finding and a reasonable description of the Yggdrasil failure alleged. Provider shall investigate and, if the claim is verified, remit the covered remediation cost within thirty (30) days of verification.
+
+The warranty cap is reset annually on the anniversary of the Effective Date.
 
 ---
 
@@ -445,116 +537,6 @@ Select one:
 {
   "useTextTags": true,
   "textTagDefinitions": [
-    {
-      "definitionId": "pricing_standard",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "pricing_model",
-      "isRequired": true,
-      "fieldId": "pricing_standard"
-    },
-    {
-      "definitionId": "pricing_introductory",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "pricing_model",
-      "isRequired": true,
-      "fieldId": "pricing_introductory"
-    },
-    {
-      "definitionId": "tier_starter",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "bundle_tier",
-      "isRequired": false,
-      "fieldId": "tier_starter"
-    },
-    {
-      "definitionId": "tier_professional",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "bundle_tier",
-      "isRequired": false,
-      "fieldId": "tier_professional"
-    },
-    {
-      "definitionId": "tier_enterprise",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "bundle_tier",
-      "isRequired": false,
-      "fieldId": "tier_enterprise"
-    },
-    {
-      "definitionId": "mod_crm",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_crm"
-    },
-    {
-      "definitionId": "mod_sales",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_sales"
-    },
-    {
-      "definitionId": "mod_purchasing",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_purchasing"
-    },
-    {
-      "definitionId": "mod_manufacturing",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_manufacturing"
-    },
-    {
-      "definitionId": "mod_warehouse",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_warehouse"
-    },
-    {
-      "definitionId": "mod_finance",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_finance"
-    },
-    {
-      "definitionId": "mod_projects",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_projects"
-    },
-    {
-      "definitionId": "mod_plm",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_plm"
-    },
-    {
-      "definitionId": "mod_quality",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_quality"
-    },
-    {
-      "definitionId": "mod_service",
-      "type": "CheckBox",
-      "size": { "width": 15, "height": 15 },
-      "isRequired": false,
-      "fieldId": "mod_service"
-    },
     {
       "definitionId": "impl_standard",
       "type": "RadioButton",
@@ -748,28 +730,90 @@ Select one:
       "fieldId": "pay_custom"
     },
     {
-      "definitionId": "bill_monthly",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "billing_freq",
-      "isRequired": true,
-      "fieldId": "bill_monthly"
-    },
-    {
-      "definitionId": "bill_quarterly",
-      "type": "RadioButton",
-      "size": { "width": 15, "height": 15 },
-      "groupName": "billing_freq",
-      "isRequired": true,
-      "fieldId": "bill_quarterly"
-    },
-    {
       "definitionId": "bill_annual",
       "type": "RadioButton",
       "size": { "width": 15, "height": 15 },
       "groupName": "billing_freq",
       "isRequired": true,
       "fieldId": "bill_annual"
+    },
+    {
+      "definitionId": "bill_semi_annual",
+      "type": "RadioButton",
+      "size": { "width": 15, "height": 15 },
+      "groupName": "billing_freq",
+      "isRequired": true,
+      "fieldId": "bill_semi_annual"
+    },
+    {
+      "definitionId": "aa_iso_9001",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_iso_9001"
+    },
+    {
+      "definitionId": "aa_as9100",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_as9100"
+    },
+    {
+      "definitionId": "aa_iso_13485",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_iso_13485"
+    },
+    {
+      "definitionId": "aa_itar",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_itar"
+    },
+    {
+      "definitionId": "aa_fda_part11",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_fda_part11"
+    },
+    {
+      "definitionId": "aa_cmmc_l2",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_cmmc_l2"
+    },
+    {
+      "definitionId": "aa_cmmc_l3",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_cmmc_l3"
+    },
+    {
+      "definitionId": "aa_soc2",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_soc2"
+    },
+    {
+      "definitionId": "aa_sox",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_sox"
+    },
+    {
+      "definitionId": "aa_hipaa",
+      "type": "CheckBox",
+      "size": { "width": 15, "height": 15 },
+      "isRequired": false,
+      "fieldId": "aa_hipaa"
     }
   ]
 }
@@ -784,30 +828,15 @@ Select one:
 | `provider_address` | text | 1 | Yes | -- | Provider mailing address |
 | `client_company_name` | text | 2 | Yes | -- | Client legal entity name |
 | `client_address` | text | 2 | Yes | -- | Client mailing address |
-| `max_users` | text | 1 | Yes | -- | Maximum authorized users |
 | `training_hours` | text | 1 | Yes | -- | Included training hours |
 | `max_fee_increase_pct` | text | 1 | Yes | -- | Maximum annual fee increase % |
 | `data_region` | text | 1 | Yes | -- | Data center region(s) |
 | `governing_law_state` | text | 1 | Yes | -- | Governing law jurisdiction |
 | `arbitration_location` | text | 1 | Yes | -- | Arbitration venue |
-| `per_user_rate` | text | 1 | Yes | -- | Per-user per-module monthly rate |
-| `additional_seat_rate` | text | 1 | Yes | -- | Additional seat rate |
-| `bundle_discount_pct` | text | 1 | No | -- | Bundle discount percentage |
-| `pricing_standard` | radio | 1 | Yes | pricing_model | Standard pricing |
-| `pricing_introductory` | radio | 1 | Yes | pricing_model | Introductory pricing |
-| `tier_starter` | radio | 1 | No | bundle_tier | Starter bundle |
-| `tier_professional` | radio | 1 | No | bundle_tier | Professional bundle |
-| `tier_enterprise` | radio | 1 | No | bundle_tier | Enterprise bundle |
-| `mod_crm` | checkbox | 1 | No | -- | CRM module |
-| `mod_sales` | checkbox | 1 | No | -- | Sales module |
-| `mod_purchasing` | checkbox | 1 | No | -- | Purchasing module |
-| `mod_manufacturing` | checkbox | 1 | No | -- | Manufacturing module |
-| `mod_warehouse` | checkbox | 1 | No | -- | Warehouse module |
-| `mod_finance` | checkbox | 1 | No | -- | Finance module |
-| `mod_projects` | checkbox | 1 | No | -- | Projects module |
-| `mod_plm` | checkbox | 1 | No | -- | PLM module |
-| `mod_quality` | checkbox | 1 | No | -- | Quality module |
-| `mod_service` | checkbox | 1 | No | -- | Service module |
+| `annual_subscription_amount` | text | 1 | Yes | -- | Annual subscription fee |
+| `tier_single_site` | radio | 1 | Yes | complexity_tier | Single-Site tier |
+| `tier_multi_site` | radio | 1 | Yes | complexity_tier | Multi-Site / Regulated tier |
+| `tier_high_complexity` | radio | 1 | Yes | complexity_tier | High-Complexity tier |
 | `impl_standard` | radio | 1 | Yes | impl_window | 90-day implementation |
 | `impl_extended` | radio | 1 | Yes | impl_window | 180-day implementation |
 | `impl_custom` | radio | 1 | Yes | impl_window | Custom implementation |
@@ -843,14 +872,12 @@ Select one:
 | `milestone_2_pct` | text | 1 | No | -- | Milestone 2 percentage |
 | `milestone_3_pct` | text | 1 | No | -- | Milestone 3 percentage |
 | `milestone_4_pct` | text | 1 | No | -- | Milestone 4 percentage |
-| `bill_monthly` | radio | 1 | Yes | billing_freq | Monthly billing |
-| `bill_quarterly` | radio | 1 | Yes | billing_freq | Quarterly billing |
 | `bill_annual` | radio | 1 | Yes | billing_freq | Annual billing |
-| `quarterly_discount_pct` | text | 1 | No | -- | Quarterly billing discount % |
-| `annual_discount_pct` | text | 1 | No | -- | Annual billing discount % |
+| `bill_semi_annual` | radio | 1 | Yes | billing_freq | Semi-annual billing |
+| `semi_annual_surcharge_pct` | text | 1 | No | -- | Semi-annual surcharge % |
+| `tier_name` | text | 1 | Yes | -- | Selected tier name |
 | `total_impl_fee` | text | 1 | Yes | -- | Total implementation fee |
-| `monthly_sub_fee` | text | 1 | Yes | -- | Estimated monthly sub fee |
-| `annual_sub_fee` | text | 1 | Yes | -- | Estimated annual sub fee |
+| `annual_sub_fee` | text | 1 | Yes | -- | Annual subscription fee |
 | `total_contract_value` | text | 1 | Yes | -- | Total initial term value |
 | `provider_signature` | sign | 1 | Yes | -- | Provider signature |
 | `provider_signatory_name` | text | 1 | Yes | -- | Provider signatory name |

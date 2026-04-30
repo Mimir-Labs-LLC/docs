@@ -167,7 +167,7 @@ Yggdrasil targets the gap between lightweight SMB tools and expensive enterprise
 
 | | Yggdrasil | Epicor Kinetic | SAP S/4HANA | Odoo Enterprise |
 |---|---|---|---|---|
-| **Year 1 TCO** | $15,600-$82,600 | $150K-$500K | $500K-$5M+ | $10K-$40K |
+| **Year 1 TCO** | $70K-$325K | $150K-$500K | $500K-$5M+ | $10K-$40K |
 | **Go-Live** | 90 days | 6-12 months | 12-24 months | 1-3 months |
 | **Integrated PLM** | Native | Third-party | Third-party | Basic |
 | **B2B Event Mesh** | Built-in | No | No | No |
@@ -227,24 +227,38 @@ Yggdrasil targets the gap between lightweight SMB tools and expensive enterprise
 1. **Recurring Subscriptions** — Monthly/quarterly/annual per-tenant SaaS fees
 2. **Implementation Fees** — One-time onboarding covering discovery, migration, training, and 30-day go-live support
 
-### Pricing Tiers
+### Pricing Formula
 
-| Tier | Modules | Monthly | Annual | Impl Fee | First-Year Total |
-|---|---|---|---|---|---|
-| **Starter** | Any 3 | $800 | $9,600 | $6,000 | **$15,600** |
-| **Professional** | Any 6 | $1,900 | $22,800 | $14,000 | **$36,800** |
-| **Enterprise** | All 10 | $4,800 | $57,600 | $25,000 | **$82,600** |
+Pricing is by **governed operating footprint** — not per module, not per seat. All ten Business Modules included at every tier; unlimited users.
 
-- Additional seats: $10/user/month beyond tier allocation
-- Billing discounts: Quarterly (3%), Annual (8%)
-- No per-user licensing at the base tier level
+**Annual License = $30,000 + ($10,000 × Footprint Score)**
+
+The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth. The customer can verify and reproduce the math themselves; the calculator at [mimirlabs.net/pricing](https://mimirlabs.net/pricing) shows the decomposition live.
+
+| Footprint Score | Annual License | Band | Profile |
+|---|---|---|---|
+| 1 – 4 | $40K – $70K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
+| 5 – 11 | $80K – $140K | **Operational Core** | Single-site or small multi-site, full operational running |
+| 12 – 26 | $150K – $290K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
+| 27+ | $300K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
+
+**Activation:** $25K – $75K standard, $75K – $200K+ migration-heavy. Covers canonical model setup, governance design, migration planning, validation. Ratatosk and Ragnarok engagements paid prior credit 1:1 against activation.
+
+**Audit Authority (optional):** Each designation makes Yggdrasil the contractually warranted system of record for one named compliance regime. $15K – $25K / yr per designation, with capped warranty exposure ($50K – $100K per regime). Eligible: ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA.
+
+**Pilot Track:** $35K fixed for 120 days ($15K activation + $5K/mo × 4). 33% conversion credit toward first annual license if signed within 90 days of pilot end.
+
+**Discounts:** Quarterly billing (3%), Annual billing (8%). Validation Cohort members receive locked-in cohort pricing for the life of the subscription.
 
 ### Pricing Rationale
 
-- **Enterprise at ~$83K Year 1** is 10-50% of incumbent TCO (Epicor, Infor, Syspro)
-- **Implementation fees** are front-loaded to accelerate cash flow and ensure adoption
-- **Lower recurring costs** make renewals frictionless after implementation investment is amortized
-- Revenue mix naturally shifts toward recurring: 56% Year 1 to 79% by Year 5
+- **Mathematically honest.** Every dollar of price maps to a verifiable customer input. No inflated tiers, no hidden levers.
+- **Defensible in procurement.** A CFO can take the formula apart and reproduce it. The calculator shows the math live.
+- **Architecturally consistent.** Pricing logic mirrors what Yggdrasil actually charges Mimir Labs to deliver — more sites, integrations, throughput, SLA all carry real engineering cost.
+- **No perverse incentives.** Per-seat pricing punishes inclusion. Per-module pricing fragments the customer's view of an integrated platform. We do neither.
+- **Audit liability internalized.** When customers pay for Audit Authority, Mimir Labs takes on capped remediation exposure. We charge for the value we stand behind.
+- **Yggdrasil first-year typically $70K – $325K** (single-site Compliance through multi-site Regulated Enterprise) — 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for.
+- Revenue mix naturally shifts toward recurring as the install base grows.
 
 ### Infrastructure Economics
 

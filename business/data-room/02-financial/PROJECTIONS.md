@@ -6,19 +6,26 @@
 
 ## Market Positioning
 
-Yggdrasil targets a gap in the manufacturing ERP market: companies too large for horizontal tools (Odoo, Zoho) but priced out of or underserved by legacy incumbents (Epicor, Infor, Syspro). Our modular architecture lets customers start with 3 modules and expand as they grow, while our modern tech stack (C++/Qt desktop, Next.js web, PostgreSQL) delivers a faster, more intuitive experience than aging on-premise solutions.
+Yggdrasil targets a gap in the manufacturing ERP market: companies too large for horizontal tools (Odoo, Zoho) but priced out of or underserved by legacy incumbents (Epicor, Infor, Syspro). All ten Business Modules are included in every subscription — the platform operates as one integrated system, not a bundle of optional add-ons — and our modern tech stack (C++/Qt desktop, Next.js web, PostgreSQL) delivers a faster, more intuitive experience than aging on-premise solutions.
 
 ## Pricing
 
-Revenue is split across two streams: one-time implementation fees paid at onboarding and recurring monthly subscriptions.
+Revenue is split across three components: one-time activation fees paid at onboarding, recurring annual subscriptions sized by **governed operating footprint**, and optional Audit Authority designations. **Not per module. Not per seat.** All ten Business Modules included at every tier; unlimited users.
 
-| Tier | Recurring | Impl Fee | First-Year Total | Includes |
-|------|-----------|----------|------------------|----------|
-| **Starter** (3 modules) | $9,600/yr | $6,000 | $15,600 | 5 seats, standard support |
-| **Professional** (6 modules) | $22,800/yr | $14,000 | $36,800 | 15 seats, priority support |
-| **Enterprise** (all 10 modules) | $57,600/yr | $25,000 | $82,600 | Unlimited seats, dedicated CSM |
+**Annual License = $30,000 + ($10,000 × Footprint Score)**
 
-Implementation fees cover discovery, data migration, integration setup, user training, and 30 days of go-live support. Recurring pricing is positioned at 10–40% of incumbent TCO, with renewals becoming increasingly compelling as the implementation investment is amortized.
+The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth.
+
+| Footprint Score | Annual License | Activation | Band |
+|---|---|---|---|
+| 1 – 4 | $40K – $70K | $25K – $40K | Compliance Core |
+| 5 – 11 | $80K – $140K | $30K – $60K | Operational Core |
+| 12 – 26 | $150K – $290K | $50K – $100K | Regulated Enterprise |
+| 27+ | $300K+ | $100K – $200K+ | Portfolio / Strategic |
+
+Activation covers canonical model setup, governance design, migration planning, validation. Recurring pricing is positioned at 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for, with renewals becoming increasingly compelling as the activation investment is amortized.
+
+> **Note (April 2026):** The per-tenant ARPA assumptions used in the projections below predate the move to Footprint-Score pricing and require re-modeling. The customer-count funnel (new tenants, churn) remains valid; the revenue figures derived from the prior $1,200 – $4,800 / mo blended ARPA do not. Even at the Compliance Core floor, blended ARPA is $3,300+/mo.
 
 ## Key Assumptions
 

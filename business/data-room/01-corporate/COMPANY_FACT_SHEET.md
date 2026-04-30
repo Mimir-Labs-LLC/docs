@@ -40,13 +40,20 @@
 
 ## Pricing
 
-| Tier | Modules | Monthly | Annual | Impl Fee | Year 1 |
-|---|---|---|---|---|---|
-| Starter | Any 3 | $800 | $9,600 | $6,000 | $15,600 |
-| Professional | Any 6 | $1,900 | $22,800 | $14,000 | $36,800 |
-| Enterprise | All 10 | $4,800 | $57,600 | $25,000 | $82,600 |
+Licensed by **governed operating footprint**. All ten modules included at every tier. Unlimited users at every tier. No per-seat fees, no per-module SKUs.
 
-**Positioning:** 10-50% of incumbent TCO. No per-user licensing.
+**Annual License = $30,000 + ($10,000 × Footprint Score)**
+
+| Footprint Score | Annual License | Band |
+|---|---|---|
+| 1 – 4 | $40K – $70K | Compliance Core |
+| 5 – 11 | $80K – $140K | Operational Core |
+| 12 – 26 | $150K – $290K | Regulated Enterprise |
+| 27+ | $300K+ | Portfolio / Strategic |
+
+Activation: $25K – $75K (standard), $75K – $200K+ (migration-heavy). Optional Audit Authority designation pairs price with capped warranty exposure. 120-day Pilot: $35K fixed.
+
+**Positioning:** 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for. Calculator: [mimirlabs.net/pricing](https://mimirlabs.net/pricing).
 
 ## 5-Year Financial Snapshot
 

@@ -34,13 +34,22 @@ The $10B+ global manufacturing ERP market is growing at 8-10% CAGR, yet mid-mark
 
 ## Business Model
 
-| Tier | Annual | Implementation | Year 1 Total |
-|---|---|---|---|
-| Starter (3 modules) | $9,600 | $6,000 | $15,600 |
-| Professional (6 modules) | $22,800 | $14,000 | $36,800 |
-| Enterprise (all 10) | $57,600 | $25,000 | $82,600 |
+Pricing is by **governed operating footprint** — the portion of the enterprise brought under deterministic state, canonical data governance, and audit-ready operational control. **Not per seat. Not per module.** All ten Business Modules included at every tier; unlimited users.
 
-No per-user licensing. Flat-rate pricing by tier.
+**Annual License = $30,000 + ($10,000 × Footprint Score)**
+
+The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth. The formula produces these descriptive bands:
+
+| Footprint Score | Annual License | Band | Profile |
+|---|---|---|---|
+| 1 – 4 | $40K – $70K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
+| 5 – 11 | $80K – $140K | **Operational Core** | Single-site or small multi-site, full operational running |
+| 12 – 26 | $150K – $290K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
+| 27+ | $300K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
+
+One-time **Activation** ($25K – $75K standard, up to $200K+ for migration-heavy deployments) covers canonical model setup, governance design, migration planning, and validation. Optional **Audit Authority** designation makes Yggdrasil the contractually warranted system of record for one or more compliance regimes, with capped remediation cover. **120-day Pilot:** $35K fixed, 33% credit against first annual license on conversion.
+
+See [PRICING.md](../business/PRICING.md) for the full formula, worked examples, and calculator link.
 
 ## Financial Projections
 

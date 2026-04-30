@@ -67,20 +67,24 @@ See [product/ROADMAP.md](../product/ROADMAP.md) for the full development roadmap
 
 ## Business Model
 
-Revenue comes from two streams:
+Revenue comes from three components:
 
-1. **Recurring subscriptions** -- Monthly per-tenant fees based on module count
-2. **Implementation fees** -- One-time onboarding fees covering discovery, data migration, integration setup, training, and 30-day go-live support
+1. **Annual License** -- `$30,000 + ($10,000 × Footprint Score)`. Pricing by governed operating footprint, not by module, not by seat. All ten modules included; unlimited users.
+2. **Activation Fee** -- one-time, $25K – $75K standard (up to $200K+ migration-heavy). Covers canonical model setup, governance design, migration planning, validation.
+3. **Optional Audit Authority** -- $15K – $25K / yr per warranted compliance regime, with capped remediation exposure.
 
-| Tier | Modules | Monthly | Annual | Impl Fee | First-Year Total |
-|------|---------|---------|--------|----------|------------------|
-| Starter | Any 3 | $800 | $9,600 | $6,000 | $15,600 |
-| Professional | Any 6 | $1,900 | $22,800 | $14,000 | $36,800 |
-| Enterprise | All 10 | $4,800 | $57,600 | $25,000 | $82,600 |
+| Footprint Score | Annual License | Band |
+|---|---|---|
+| 1 – 4 | $40K – $70K | Compliance Core |
+| 5 – 11 | $80K – $140K | Operational Core |
+| 12 – 26 | $150K – $290K | Regulated Enterprise |
+| 27+ | $300K+ | Portfolio / Strategic |
 
-This positions Yggdrasil at 10-50% of incumbent TCO (Epicor, Infor, Syspro).
+120-day Pilot Track: $35K fixed, 33% credit on conversion. Quarterly (3%) / Annual (8%) billing discounts.
 
-See [business/PRICING.md](../business/PRICING.md) and [business/PROJECTIONS.md](../business/PROJECTIONS.md) for details.
+This positions Yggdrasil at 30 – 70% of incumbent TCO (Epicor, Infor, Syspro) when consultants, customizations, and integration maintenance are accounted for.
+
+See [business/PRICING.md](../business/PRICING.md) for the full formula and [business/PROJECTIONS.md](../business/PROJECTIONS.md) for revenue projections.
 
 ---
 
