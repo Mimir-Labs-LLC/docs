@@ -1,165 +1,164 @@
-# Yggdrasil ERP - Product Roadmap
+# Yggdrasil ERP — Product Roadmap
 
-## Phase 0: Foundation (Complete)
-Goal: Core architecture, database, and module APIs
+**Last updated:** 2026-03-02
+**Current version:** 0.4.5a
+**Production readiness:** ~90% (build/run) | ~75% (sell/use)
 
-### Database & Schema
-- [x] PostgreSQL database schema (108 tables, 6 views, 150+ indexes)
-- [x] Multi-tenant architecture with tenant_id isolation on all tables
-- [x] Audit trail timestamps (created_at, updated_at) on all entity tables
-- [x] Foundation seed data (tenant config, 10 RBAC roles, permissions catalog, tenant settings)
+---
 
-### C++ Backend Server
-- [x] Qt 6 HTTP server on port 8080 with thread pool
-- [x] WebSocket server on port 8081 for real-time events
-- [x] JWT authentication with password hashing and session management
-- [x] Role-Based Access Control (10 default roles, permissions catalog)
-- [x] In-memory cache with TTL and pattern invalidation (CacheManager)
-- [x] Structured JSON logging with file rotation (Logger)
-- [x] Performance metrics collection (MetricsCollector)
-- [x] Per-endpoint rate limiting (RateLimiter)
-- [x] Input validation framework (Validator)
-- [x] B2B event hub with WebSocket streaming and federation (Redis/Redpanda)
-- [x] Runtime configuration via server.conf
+## Completed
 
-### Business Module APIs (152+ endpoints)
-- [x] Dashboard API (KPIs, activity feed, alerts, metrics)
-- [x] CRM module API (entities, contacts, opportunities, leads)
-- [x] Sales module API (quotes, orders, invoices)
-- [x] Purchasing module API (orders, suppliers, receipts)
-- [x] Manufacturing module API (work centers, operations, work orders, shop floor, OEE)
-- [x] Warehouse module API (inventory, transactions, cycle counts, pick lists with line items)
-- [x] Finance module API (GL accounts, journal entries, invoices, payments)
-- [x] Projects module API (projects, tasks, time entries)
-- [x] PLM module API (parts, EBOMs, MBOMs, routings, ECOs, materials, engineering reports)
-- [x] Quality module API (8D reports, CAPAs, NCRs, audits)
-- [x] Service module API (tickets, RMA, warranty)
-- [x] HR module API (employees, departments, positions, compensation, payroll, benefits, leave, reviews, training, garnishments, direct deposits)
-- [x] Workflow engine API (templates, steps, transitions, instances, step progress)
-- [x] Admin module API (users, roles, permissions, settings, tenant management)
-- [x] Data management APIs (export, import, backup, purge, reset)
+### Foundation (Oct 2025 – Feb 2026)
 
-### PLM Advanced Features
-- [x] Engineering BOM with option groups and choices
-- [x] EBOM revision management and release workflow (draft/released/obsolete)
-- [x] Manufacturing BOM generation from EBOM with option selections
-- [x] Part number articulation system (definitions, values, auto-generation)
-- [x] Engineering change orders (ECOs)
-- [x] Engineering report with severity tracking and resolution
-- [x] Part search with type-ahead
+Core architecture, database schema, all 10 business module APIs, Qt desktop client, Next.js web app scaffold, CI/CD pipeline.
 
-### Qt Desktop Client Foundation
-- [x] QML application scaffold with singleton services
-- [x] AuthManager with JWT handling and persistent credentials
-- [x] ApiClient wrapper with GET/POST/PUT/DELETE
-- [x] WebSocketClient for real-time events
-- [x] ThemeManager with dark/light mode and custom palette
+- 150+ table PostgreSQL schema with multi-tenant isolation
+- 527+ REST API endpoints (319 operations) across 10 modules
+- C++17/Qt 6 HTTP server with WebSocket real-time events
+- Qt 6 QML desktop client with full module UI
+- Next.js 15 web application with full module coverage
+- B2B event federation via Redpanda with Cloudflare tunnel infrastructure
+- Workflow engine with configurable templates, steps, transitions
+- Build verification and 7-job CI/CD pipeline (GitHub Actions)
 
-### Next.js Web Application Foundation
-- [x] Next.js 15 App Router with TypeScript strict mode
-- [x] Tailwind CSS with custom yggdrasil color palette
-- [x] Sidebar navigation with module grouping
-- [x] Zustand state management and React Query data fetching
-- [x] Axios-based API client layer (admin, hr, plm, workflow)
-- [x] TypeScript type definitions for Admin, HR, PLM, Workflow modules
-- [x] Admin module fully connected (Users, Roles, Permissions, Settings — full CRUD)
-- [x] HR module components (EmployeeTable, PayrollTable, PerformanceTable)
-- [x] PLM module components (EbomPanel, MbomPanel, EngineeringReportPanel)
-- [x] Module stub pages for all 13 modules (CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, Admin, HR, Workflows)
+### Stabilization (Feb – Mar 2026)
 
-### Build & Tooling
-- [x] CMake build system for server and client
-- [x] Build verification script (verify_build.sh)
-- [x] Database seed scripts (seed_all.sh, seed_cleanup.sh)
+Production-grade security hardening, data integrity, and operational tooling.
 
-## Phase 1: Stabilization (Current - Q2 2026)
-Goal: Production-ready alpha release
+- JWT authentication with Argon2id hashing, TOTP MFA (RFC 6238), progressive lockout, password history
+- Endpoint-level RBAC enforcement (enforceRbac middleware, fail-closed)
+- PostgreSQL Row-Level Security on all tenant-scoped tables
+- Immutable audit trail with DB triggers and admin viewer (filters, pagination)
+- OpenAPI 3.0.3 spec with strict data contracts (additionalProperties:false on all Create schemas)
+- StrictJsonParser — no type coercion, flat rejection errors
+- Server-side search (?search= on all CRUD list endpoints)
+- 24 cross-module relationship traversal endpoints
+- Swagger UI at /api/docs (235 paths, 319 operations, 301 component schemas)
+- httpOnly cookie auth for web app (YGGDATA-265)
+- Per-line partial receiving for purchasing (YGGDATA-273)
+- Data correction workflows — all 10 correction paths (YGGDATA-142)
+- Task dependencies + budget tracking (YGGDATA-45)
+- WO operations/materials + clock-in/clock-out (YGGDATA-274)
+- Bulk operations — multi-select, bulk delete, CSV export (YGGDATA-275)
+- PDF generation — 5 document types (PO, Invoice, Quote, Pick List, Work Order)
+- Excel/CSV export from CrudPanel
+- Email service (SMTP with STARTTLS/AUTH LOGIN)
+- In-app notification system (WebSocket + email, user preferences)
+- MRP engine — demand calculation, planned orders, exceptions, confirmation
+- Quality inspection plans with auto-NCR on failure
+- Standard forms catalog — template builder, form filler, submission lifecycle
+- Health endpoint with DB connectivity probe
+- Backup/restore admin endpoints
+- Migration runner with rollback support (.down.sql)
+- k6 load testing suite (smoke/load/stress/soak profiles)
+- Desktop ↔ Web parity audit — reduced feature gap from ~22 to ~12
+- 10 SOC 2 policy documents (all effective 2026-03-01)
 
-- [ ] Comprehensive automated test suite (unit + integration tests) — *in progress: story-driven integration framework built with 9 foundation stories, reporter with JSON + text output; unit tests not yet started*
-- [ ] CI/CD pipeline with GitHub Actions
-- [x] JWT token refresh mechanism
-- [x] Auto-login from persisted credentials (Qt client AuthManager)
-- [ ] Fix all null-width GUI layout issues
-- [ ] Convert remaining text fields to proper dropdowns
-- [ ] Ensure cross-module data linkage (e.g., CRM entities → Sales orders → Invoices) — *in progress: PLM EBOM→MBOM linkage complete, CRM entity→contact→opportunity linkage complete; other cross-module links pending*
-- [ ] Form field validation (required fields, format checking) — *in progress: server-side Validator utility exists; client-side form validation not yet implemented*
+---
+
+## Current — Cohort Readiness
+
+Goal: Everything needed for first validation cohort customers to run real manufacturing operations.
+
+### Platform Completeness
+- [ ] Remaining desktop ↔ web parity items (~12 gaps)
 - [ ] Error boundary for 401/session expiry with auto-redirect to login
-- [ ] Data table pagination for large result sets
-- [ ] Search and filter functionality on all data tables — *in progress: PLM part search with type-ahead implemented; other modules pending*
-- [ ] API endpoint documentation (auto-generated)
-- [ ] SSL/TLS configuration guide
-- [ ] Database migration tooling — *in progress: migrations directory exists with 001_b2b_realtime.sql; automated migration runner not yet built*
-
-## Phase 2: Feature Completion (Q2-Q3 2026)
-Goal: Full feature parity with mid-market competitors
-
-- [ ] Next.js web application connected to backend APIs — *in progress: Admin module fully connected; API client layer exists for HR, PLM, Workflow; remaining modules are stub pages*
+- [ ] Form field validation (client-side Zod schemas)
 - [ ] Gantt chart implementation for Projects module
-- [ ] OEE trend charts for Manufacturing — *in progress: OEE API endpoint exists (GET /api/manufacturing/oee); charting UI not yet built*
-- [ ] Financial report generation (Balance Sheet, Income Statement, Cash Flow, etc.)
-- [ ] Data export (CSV, PDF) across all modules — *in progress: tenant-wide JSON export exists (POST /api/admin/data/export); per-module CSV/PDF not yet built*
-- [ ] Document/file attachment support on records
-- [x] Logistics/Shipping module with live carrier integration — *complete: shipment CRUD, carrier CRUD, tracking events, labels, packing lists, packages, warehouses, return shipments; live UPS/FedEx/USPS API integration (rate shopping, label generation, tracking, void) with tenant-isolated credentials, OAuth token caching, and API audit log; web UI with carrier settings panel*
-- [ ] Project milestones, dependencies, and budget tracking — *in progress: database tables exist (pm_milestones, pm_task_dependencies, pm_budget_items); API endpoints and UI pending*
-- [ ] Quality inspection plans and results workflow — *in progress: database tables exist (quality_inspection_plans, quality_inspection_characteristics, quality_inspection_results); API endpoints and UI pending*
-- [ ] Sales commission tracking
-- [ ] Email notification integration
-- [ ] Audit trail viewer in desktop client — *in progress: structured audit logging implemented in Logger; viewer UI not yet built*
-- [ ] Print-ready forms (POs, Invoices, Quotes, Pick Lists)
+- [ ] OEE trend charts for Manufacturing
+- [ ] Financial report generation (Balance Sheet, Income Statement, Cash Flow)
 
-## Phase 3: Production Hardening (Q3-Q4 2026)
-Goal: Production deployment readiness
+### Security & Compliance
+- [ ] Secrets vault integration — HashiCorp Vault (YGGDATA-264)
+- [ ] Field-level encryption for PII (pgcrypto or app-layer AES)
+- [ ] JWT secret rotation with dual-key grace window
+- [ ] Backup encryption at rest (AES-256)
+- [ ] SOC 2 Type I readiness (Phase 3 of SOC2_ROADMAP.md)
 
-- [ ] Security audit and penetration testing
-- [ ] SOC 2 Type I compliance preparation
-- [ ] Load testing and performance optimization
-- [ ] Database query optimization and index tuning — *in progress: 150+ indexes defined in schema; query-level tuning not yet performed*
-- [ ] Docker containerization with docker-compose
-- [ ] Kubernetes deployment manifests
-- [ ] Automated backup and disaster recovery — *in progress: tenant backup API exists (POST /api/admin/data/backup); automated scheduling and off-site storage not yet built*
-- [ ] Monitoring and alerting (Prometheus/Grafana) — *in progress: MetricsCollector with counters and durations exists at GET /metrics; Prometheus/Grafana integration pending*
-- [ ] Rate limiting tuning and DDoS protection — *in progress: per-endpoint rate limiter implemented (100 req/60s default, 5 req/60s login); DDoS-specific hardening pending*
-- [ ] Multi-region database replication
-- [ ] Zero-downtime deployment strategy
-
-## Phase 4: Market Entry (Q4 2026 - Q1 2027)
-Goal: First paying customers
-
-- [ ] Marketing website and product landing page
-- [ ] Demo environment with sample data — *in progress: foundation seed data and integration test data provide sample dataset; dedicated demo environment not yet provisioned*
-- [ ] Customer onboarding workflow — *in progress: workflow engine with templates/instances exists; customer-facing onboarding flow not yet configured*
+### Operations
+- [ ] Automated backup scheduling with off-site copy
 - [ ] Tenant provisioning automation
+- [ ] Demo environment with sample data
+- [ ] Customer onboarding workflow
+
+---
+
+## Next — Production Hardening
+
+Goal: Production deployment readiness and first paying customers.
+
+### Infrastructure
+- [ ] Docker containerization with docker-compose for tenant deployment
+- [ ] Zero-downtime deployment strategy
+- [ ] Database query optimization and index tuning
+- [ ] Centralized log aggregation (ELK or equivalent)
+- [ ] Automated alerting (failed logins, cross-tenant attempts, backup failures)
+- [ ] Monitoring integration (Prometheus/Grafana)
+
+### Security
+- [ ] Security audit and penetration testing (third-party)
+- [ ] SAST in CI pipeline
+- [ ] Dependency scanning and SBOM generation
+
+### Go-to-Market
+- [ ] Marketing website connected to production (mimirlabs.net already live)
 - [ ] In-app help and documentation
-- [ ] Video tutorials and training materials
-- [ ] Support ticket system for customers
-- [ ] Pricing tiers and billing integration
-- [ ] Trial/freemium tier
-- [ ] Partner program for implementation consultants
+- [ ] Training materials
+- [ ] Implementation playbooks (standardized onboarding)
 
-## Phase 5: Growth (2027+)
-Goal: Market expansion and feature leadership
+---
 
+## Future
+
+Items on the long-term roadmap. Prioritized by customer demand from the validation cohort.
+
+### Platform Expansion
 - [ ] Mobile application (iOS/Android)
 - [ ] Multi-currency with real-time exchange rates
 - [ ] Multi-language / internationalization (i18n)
+- [ ] Barcode/RFID scanning integration for warehouse
+- [ ] EDI integration (X12/EDIFACT)
+- [ ] Advanced analytics and BI dashboards
+
+### Intelligence
 - [ ] AI-powered demand forecasting
 - [ ] Predictive maintenance integration (IoT)
-- [ ] EDI integration (X12/EDIFACT)
-- [ ] Marketplace for custom modules/plugins
-- [ ] API marketplace for third-party integrations
-- [ ] Advanced analytics and BI dashboards
-- [ ] Customer self-service portal
-- [ ] Barcode/RFID scanning integration for warehouse
+- [ ] Anomaly detection in quality and inventory data
+
+### Anonymized Data Trends (Data Dividend Program)
+- [ ] Shadow database DMZ with one-way push (YGGDATA-210)
+- [ ] Anonymization pipeline — PII stripping, identifier removal (YGGDATA-211)
+- [ ] Cohort thresholding + niche market merge (YGGDATA-212)
+- [ ] Outlier suppression (YGGDATA-213)
+- [ ] Differential privacy noise injection (YGGDATA-214)
+- [ ] K-anonymization binning (YGGDATA-215)
+- [ ] Temporal jittering (7–14 day broadcast delay) (YGGDATA-216)
+- [ ] Macro-signal aggregation (YGGDATA-217)
+- [ ] Secure data exchange gateway (YGGDATA-218–222)
+- [ ] Trust Center UI — opt-in/opt-out (YGGDATA-224)
+- [ ] Data Dividend revenue sharing and addendum framework (YGGDATA-223)
+
+### Integrations
+- [ ] Microsoft Dynamics 365 Business Central connector (YGGDATA-228)
+- [ ] Oracle NetSuite connector (YGGDATA-229)
+- [ ] Acumatica Cloud ERP connector (YGGDATA-230)
+- [ ] SAP S/4HANA & Business One connector (YGGDATA-231)
+- [ ] Sage Intacct connector (YGGDATA-232)
+- [ ] QuickBooks Online connector (YGGDATA-233)
+- [ ] Salesforce CRM connector (YGGDATA-234)
+
+---
 
 ## Key Milestones
 
-| Milestone | Target Date | Status |
-|-----------|-------------|--------|
-| Alpha release (current state) | Feb 2026 | Done |
-| Automated test coverage > 60% | Q2 2026 | In progress |
-| Web app connected to backend | Q2 2026 | In progress |
-| First internal production deployment | Q3 2026 | Not started |
-| Security audit complete | Q4 2026 | Not started |
-| Beta release | Q4 2026 | Not started |
-| First paying customer | Q1 2027 | Not started |
-| 10 paying customers | Q2 2027 | Not started |
+| Milestone | Target | Status |
+|-----------|--------|--------|
+| Alpha release (v0.2.0a) | Feb 2026 | Done |
+| Security hardening complete | Mar 2026 | Done |
+| OpenAPI spec + Data DMZ | Mar 2026 | Done |
+| SOC 2 policies complete | Mar 2026 | Done |
+| Cohort readiness | Q2 2026 | In progress |
+| SOC 2 Type I readiness | Q2 2026 | In progress |
+| Production hardening complete | Q2-Q3 2026 | Not started |
+| First validation cohort customer | Q3 2026 | Not started |
+| General availability | Q4 2026 | Not started |

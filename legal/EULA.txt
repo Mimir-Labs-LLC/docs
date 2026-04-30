@@ -1,7 +1,7 @@
-I. Yggdrasil End-User License Agreement (EULA)
+I. Yggdrasil ERP End-User License Agreement (EULA)
 
 1. License Grant and Scope
-Mimir Labs ("Licensor") grants a limited, non-exclusive, non-transferable license to the specific version of the Yggdrasil software ("Software") for which fees have been paid. This license covers the executable binary, internal logic, and the proprietary PostgreSQL schema. Use is restricted to internal business operations; providing commercial hosting or third-party IT services using the Software is prohibited without supplemental agreement.
+Mimir Labs ("Licensor") grants a limited, non-exclusive, non-transferable license to the specific version of the Yggdrasil ERP software ("Software") for which fees have been paid. This license covers the executable binary, internal logic, and the proprietary PostgreSQL schema. Use is restricted to internal business operations; providing commercial hosting or third-party IT services using the Software is prohibited without supplemental agreement.
 2. Intellectual Property and Restrictions
 The Software, including its source code, logic, database design, and proprietary algorithms, is the exclusive intellectual property of Mimir Labs. You shall not:
 Decompile, disassemble, or reverse engineer any part of the Software.

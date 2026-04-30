@@ -1,5 +1,5 @@
 1. Multi-Tenant Infrastructure and Isolation
-Yggdrasil Cloud is a shared multi-tenant environment. While customers share a common infrastructure to lower costs, Mimir Labs implements logical data level isolation. Each tenant’s data is isolated and invisible to other tenants via unique Tenant IDs and row-level security.
+Yggdrasil ERP Cloud is a shared multi-tenant environment. While customers share a common infrastructure to lower costs, Mimir Labs implements logical data level isolation. Each tenant’s data is isolated and invisible to other tenants via unique Tenant IDs and row-level security.
 2. Federated B2B Event Broker
 By opting into B2B interactions, you authorize the cross-tenant transmission of specific transaction data (e.g., PO/SO status). You are solely responsible for ensuring the accuracy of data sent to partners and for maintaining your own internal compliance regarding these third-party relationships.
 3. "Noisy Neighbor" and Performance Management
