@@ -96,18 +96,23 @@ Bifrost is a later-stage product. Customers arrive after migration (Ragnarok) wh
 
 ## Revenue — Yggdrasil ERP
 
+Refactored April 2026 under Footprint Score pricing (`Annual License = $30K + $10K × Footprint Score`, bands $40K – $300K+/yr) with humble assumptions on customer count and tier mix. Detailed breakdown in [data-room/02-financial/PROJECTIONS.md](data-room/02-financial/PROJECTIONS.md).
+
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| New tenants | 0 | 5 | 15 | 35 | 60 |
-| Churned | 0 | 0 | 2 | 4 | 7 |
-| **Active tenants (EOY)** | **0** | **5** | **18** | **49** | **102** |
-| Blended MRR/tenant | $0 | $1,200 | $1,600 | $2,000 | $2,400 |
-| **ERP ARR** | **$0** | **$72K** | **$346K** | **$1.18M** | **$2.94M** |
-| Implementation revenue | $0 | $55K | $180K | $490K | $900K |
+| Pilots sold (Pilot Track, $35K each) | 3 | 8 | 14 | 25 | 40 |
+| Pilot → paid conversions | 1 | 4 | 8 | 15 | 25 |
+| **Active paid tenants (EOY)** | **1** | **5** | **13** | **28** | **53** |
+| Mix (CC / OC / RE / Strategic) | 1/0/0/0 | 4/1/0/0 | 9/3/1/0 | 17/8/3/0 | 29/18/5/1 |
+| | | | | | |
+| Pilot revenue | $105K | $280K | $490K | $875K | $1.40M |
+| Activation revenue (front-loaded) | $30K | $140K | $325K | $640K | $1.16M |
+| Subscription revenue (net of pilot credit) | $14K | $129K | $533K | $1.43M | $3.16M |
+| Audit Authority revenue (30% attach from Y3) | $0 | $0 | $70K | $151K | $286K |
+| **Total Yggdrasil revenue** | **$149K** | **$549K** | **$1.42M** | **$3.09M** | **$6.01M** |
+| **Recurring ARR (EOY, sub + AA)** | **$50K** | **$300K** | **$1.02M** | **$2.40M** | **$4.94M** |
 
-ERP sales begin in Year 2 after platform credibility is established through Norn, Ratatosk, and Ragnarok. Implementation revenue is front-loaded per customer.
-
-> **Note (April 2026):** The per-tenant MRR/ARR figures in this section predate the move to **Footprint-Score pricing** (`$30K + $10K × score`, with bands $40K – $300K+/yr). Under the current formula the blended ARPA is materially higher even at the Compliance Core floor ($3,300+/mo). This section requires a re-model under the new pricing assumptions; the headcount/funnel figures (new tenants, churn) remain valid as a forecast of customer count.
+Yggdrasil sales begin Year 1 with a single Compliance Core tenant after pilot validation. Pilot revenue itself is positive-margin and funds the funnel during the validation phase. Tier mix shifts toward higher-value tenants as platform credibility builds and PE / regulated accounts close in Years 3-5.
 
 ## Total Revenue — Consolidated
 
@@ -117,18 +122,17 @@ ERP sales begin in Year 2 after platform credibility is established through Norn
 | Ratatosk services | $32K | $114K | $308K | $600K | $975K |
 | Ragnarok services | $20K | $168K | $560K | $1.20M | $2.16M |
 | Bifrost SaaS | $0 | $90K | $403K | $1.19M | $2.69M |
-| Yggdrasil SaaS | $0 | $72K | $346K | $1.18M | $2.94M |
-| Yggdrasil impl | $0 | $55K | $180K | $490K | $900K |
-| **Total revenue** | **$92K** | **$721K** | **$2.73M** | **$7.25M** | **$15.4M** |
-| *Recurring ARR* | *$40K* | *$384K* | *$1.68M* | *$4.96M* | *$11.4M* |
-| *Recurring %* | *43%* | *53%* | *62%* | *68%* | *74%* |
+| Yggdrasil (pilot + activation + sub + AA) | $149K | $549K | $1.42M | $3.09M | $6.01M |
+| **Total revenue** | **$241K** | **$1.14M** | **$3.62M** | **$8.67M** | **$17.6M** |
+| *Recurring ARR (Norn + Bifrost + Yggdrasil sub + AA)* | *$90K* | *$612K* | *$2.36M* | *$6.18M* | *$13.4M* |
+| *Recurring %* | *37%* | *54%* | *65%* | *71%* | *76%* |
 
 ## Revenue Mix Shift
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| SaaS (Norn + Bifrost + ERP) | 43% | 53% | 62% | 68% | 74% |
-| Services (Ratatosk + Ragnarok + Impl) | 57% | 47% | 38% | 32% | 26% |
+| Recurring SaaS (Norn + Bifrost + Yggdrasil sub + AA) | 37% | 54% | 65% | 71% | 76% |
+| Services + activation + pilot (Ratatosk + Ragnarok + Yggdrasil pilot/activation) | 63% | 46% | 35% | 29% | 24% |
 
 The business starts services-heavy (governance and migration consulting) and shifts to SaaS-dominant as the installed base grows. By Year 5, recurring revenue is 74% of total — a healthy, predictable foundation.
 
