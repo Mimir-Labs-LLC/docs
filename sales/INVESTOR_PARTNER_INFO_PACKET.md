@@ -233,7 +233,7 @@ Pricing is by **governed operating footprint** — not per module, not per seat.
 
 **Annual License = $30,000 + ($10,000 × Footprint Score)**
 
-The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth. The customer can verify and reproduce the math themselves; the calculator at [mimirlabs.net/yggdrasil#pricing](https://mimirlabs.net/yggdrasil#pricing) shows the decomposition live.
+The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth. The customer can verify and reproduce the math themselves; the calculator at [mimirlabs.net/pricing](https://mimirlabs.net/pricing) shows the decomposition live.
 
 | Footprint Score | Annual License | Band | Profile |
 |---|---|---|---|
