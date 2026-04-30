@@ -53,7 +53,7 @@ Licensed by **governed operating footprint**. All ten modules included at every 
 
 Activation: $25K – $75K (standard), $75K – $200K+ (migration-heavy). Optional Audit Authority designation pairs price with capped warranty exposure. 120-day Pilot: $35K fixed.
 
-**Positioning:** 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for. Calculator: [mimirlabs.net/pricing](https://mimirlabs.net/pricing).
+**Positioning:** 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for. Calculator: [mimirlabs.net/yggdrasil#pricing](https://mimirlabs.net/yggdrasil#pricing).
 
 ## 5-Year Financial Snapshot
 

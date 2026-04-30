@@ -138,4 +138,4 @@ Every tenant runs the same data model, the same validation rules, the same API c
 
 ---
 
-*Pricing model effective April 2026. Calculator available at [mimirlabs.net/pricing](https://mimirlabs.net/pricing).*
+*Pricing model effective April 2026. Calculator available at [mimirlabs.net/yggdrasil#pricing](https://mimirlabs.net/yggdrasil#pricing).*
