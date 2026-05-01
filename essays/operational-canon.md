@@ -2,8 +2,6 @@
 
 *I built Mimir Labs because I believe enterprise software has the wrong purpose. Its job is to maintain the **operational canon** — the authoritative, adjudicated record of how the business is actually operating, against which every department, system, and decision can be checked. Every architectural and commercial choice that follows from that belief — and there are several — is downstream of it.*
 
-*Foundational essay. Referenced by [Where ERP Actually Breaks](where-erp-actually-breaks.md), [No AI Will Fix Your Broken Data Layer](no-ai-will-fix-your-broken-data-layer.md), and [Glass Machines](glass-machines.md).*
-
 ---
 
 ## The wrong question
@@ -97,13 +95,41 @@ These rejections are coherent because they all serve the same purpose. None of t
 
 ---
 
+## Where we don't yet meet the standard
+
+The architecture above describes what the platform is built to do. Some of those claims are presently true. Several are aspirational in degree, even where they are correctly implemented in design. An honest version of this essay has to name the gaps, because the standard the operational canon sets is harder than any current ERP fully delivers — including ours.
+
+**No production customers.** The platform has been built with this purpose in mind. It has not yet been operated at sustained production scale by a real customer. The architectural claims survive scrutiny on paper and in the validation cohort being assembled; they have not yet survived a year of a real organization writing to them daily. Until they do, every claim above carries an implicit "in design" qualifier.
+
+**Audit enforcement is convention, not yet database-level.** The Repository layer is the only path *by application discipline*. A developer with direct PostgreSQL write privileges could bypass it. Database-level audit triggers — the structural enforcement that would make the audit guarantee true regardless of caller — are on the roadmap, not in production. Today the canon's audit posture rests on application convention plus the fact that no one has reason to write outside the Repository. That is sufficient; it is not yet structural.
+
+**State-engine coverage is broad but not universal.** The constraint engine governs the major lifecycle transitions — order confirmation, work-order release, invoice posting, NCR opening, and the document-status changes that matter to compliance. Some operational mutations (configuration updates, tenant settings changes, certain master-data edits) still happen by direct field update without traversing the state engine. Closing those gaps is incremental and ongoing.
+
+**Cross-tenant canon is event-coherent, not single-instance.** Within a Yggdrasil tenant, the canon lives in one database. *Across* tenants, the canon lives in the shared semantic vocabulary plus the event coherence the B2B Event Hub provides. That is meaningfully better than vendor-mediated EDI or partner-by-partner integration, but it is not a literally shared physical canon. Two tenants who disagree about a shipment's state will discover the disagreement, but the discovery happens through event reconciliation, not by reading the same row.
+
+**The general-ledger posting framework is incomplete.** The finance module has accounts, AR, AP, banking, and explicit endpoints wiring operational events to invoices and bills. It does not yet have a generalized posting framework — automated journal entries by configurable mappings, intercompany handling, multi-currency settlement at scale. For a customer above roughly $50M in revenue with serious finance complexity, the canon claim is currently incomplete in finance. This is the single most credible objection to Yggdrasil at the mid-enterprise tier and the path to closing it is years of work.
+
+**Jormungandr is designed; not yet enforcing production canon at scale.** The product exists in plan and in partial implementation. The full canon-enforcement role described above is what Jormungandr is *built* to do — it is not yet what Jormungandr is *doing* in production deployments. Today the canon's structural integrity rests primarily on Mimisbrunnr being the schema everyone runs and Yggdrasil controlling all writes through the Repository. Jormungandr's role becomes load-bearing when the platform validates against external systems that don't share our discipline; that scenario is on the near roadmap, not in current operation.
+
+**The Audit Authority warranty is structurally novel and not yet underwritten by experience.** The pricing tier exists in the contract template and in the published pricing surface. We have not yet engaged a customer at this tier, have not finalized which regimes we can credibly stand behind in operational detail, and have no formal insurance backstop should a claim arrive within the warranty period. The first customer to elect Audit Authority will be doing pioneering work alongside us, and we have priced accordingly. The warranty is real; the operational machinery for honoring it is in development.
+
+**Mimir Labs is small.** As of this essay, the company is one founder, building with leverage from AI-augmented development. The canon-maintenance discipline scales with the team that maintains it. The architecture is designed to require a smaller maintenance team than mainstream ERPs, but "smaller" is not "one." Hiring is on the immediate roadmap; until it happens, the bus factor is real and worth pricing into the procurement decision.
+
+These are not arguments against what we are doing. They are arguments for procurement honesty. The standard the operational canon sets is harder than any current ERP fully delivers, including this one. We make architectural choices that move toward the standard. We are not claiming to have arrived.
+
+---
+
 ## The founding decision
 
-I worked in manufacturing operations for fifteen years before I wrote a line of code for this company. The question I came back to, repeatedly, in environments running every major ERP vendor, was: *why are we — the operators — the last people to know what the system says about the operation we're running?*
+I worked in manufacturing operations for fifteen years before I wrote a line of code for this company. The frustration that came back, in environments running every major ERP vendor, was almost never that the system was *wrong* in some abstract sense. It was that the system *couldn't represent what was actually happening* — and so the operators around it had two choices, both bad.
 
-The system was always slightly wrong, slightly stale, slightly disagreed-with by the next system over, and we were always the ones discovering the disagreement when it mattered. The "system of record" was always the system of record about something that had already happened, in a frame the auditors approved of, in a format that made the dashboards readable on Tuesday morning. The conclusions were defensible. The current state was approximate. The two were not the same thing, and the system did not seem to know that.
+Choice one: fudge the entry. The system needed a status, a quantity, a timestamp, a part number. The actual situation didn't fit any of the available values, but production had to keep moving, so somebody picked the closest legal answer and typed it in. The system was now wrong on purpose, and the people who knew it was wrong were the ones doing the typing. The audit log captured the fudge with the same fidelity it captured everything else.
 
-That isn't an ERP problem. That's an enterprise-software problem. The whole category was built to solve a different question than the one operators actually need answered.
+Choice two: work around the system entirely. Pull the data out into a spreadsheet, a side database, a custom app, a shared whiteboard, somebody's notebook. Do the actual work there, in a representation that fit the situation. Feed back into the official system whatever subset would survive a sanity check. The "system of record" was now a record of what the spreadsheet had finished agreeing with — which made the spreadsheet the real system of record, and made the ERP a recording mechanism for decisions that had already been made elsewhere.
+
+In every shop I worked in, the operational canon — the thing the business actually ran on — was somewhere other than the ERP. It was distributed across the workarounds, defended by the operators who maintained them, and invisible to the executives reading the dashboards. The dashboards were not lying. They were faithfully reflecting a system that had stopped being the operational record years before anyone admitted it.
+
+That isn't an ERP problem. That's an enterprise-software problem. The whole category was built around a model of the business that was rigid enough to require workarounds, and once the workarounds existed, the canon migrated out of the system. The system kept running. The canon was elsewhere.
 
 So: Mimir Labs exists to build software that maintains the operational canon. *What is actually happening right now? Can the organization act on it?* The architecture we ship, the products we put in front of customers, the pricing we charge, the warranties we accept — they are all attempts to be honest about that purpose, and to refuse the choices that would erode it.
 
@@ -117,4 +143,4 @@ If you only take one thing away from anything we publish, take this: enterprise 
 
 ---
 
-*April 2026. Foundational essay. **Operational canon** is the canonical phrase Mimir Labs uses to describe what enterprise software is for: the authoritative, adjudicated record of operational state, against which every department and every system can be checked. The phrase is deliberately distinct from "source of truth" / "system of record" — those describe a place data is kept; canon describes a thing that is maintained, defended, and held to. Subsequent essays in the series ([Where ERP Actually Breaks](where-erp-actually-breaks.md), [No AI Will Fix Your Broken Data Layer](no-ai-will-fix-your-broken-data-layer.md), [Glass Machines](glass-machines.md)) point back here for the why.*
+*April 2026. **Operational canon** is the phrase Mimir Labs uses to describe what enterprise software is for: the authoritative, adjudicated record of operational state, against which every department and every system can be checked. The phrase is deliberately distinct from "source of truth" / "system of record" — those describe a place data is kept; canon describes a thing that is maintained, defended, and held to.*
