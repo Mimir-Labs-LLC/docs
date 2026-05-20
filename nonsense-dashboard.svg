@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <style>
+      .title { font-size: 22px; font-weight: 700; fill: #1a1a1a; }
+      .subtitle { font-size: 11px; fill: #888; }
+      .card-bg { fill: #ffffff; stroke: #e0e0e0; rx: 8; }
+      .kpi-label { font-size: 9px; fill: #888; text-transform: uppercase; letter-spacing: 1px; }
+      .kpi-value { font-size: 28px; font-weight: 700; }
+      .kpi-delta { font-size: 10px; font-weight: 600; }
+      .axis-label { font-size: 9px; fill: #aaa; }
+      .chart-label { font-size: 10px; fill: #555; }
+      .bar { rx: 3; }
+      .footnote { font-size: 8px; fill: #bbb; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="700" fill="#f4f4f5"/>
+
+  <!-- Header -->
+  <text x="30" y="38" class="title">Q3 Executive Dashboard</text>
+  <text x="30" y="55" class="subtitle">Data as of: Yesterday (Pending)</text>
+  <text x="750" y="38" class="subtitle">Confidence Level: Vibes-Based</text>
+  <text x="750" y="52" class="subtitle">Prepared by: Someone (Probably)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- KPI ROW — all contradictory -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- KPI 1: Revenue that's negative but trending up -->
+  <rect x="30" y="75" width="220" height="90" class="card-bg"/>
+  <text x="45" y="97" class="kpi-label">REVENUE (ESTIMATED)</text>
+  <text x="45" y="132" class="kpi-value" fill="#ef4444">-$4.2M</text>
+  <text x="175" y="132" class="kpi-delta" fill="#10b981">&#9650; 340%</text>
+  <text x="45" y="152" class="footnote">Up significantly from -$12M</text>
+
+  <!-- KPI 2: Customer satisfaction over 100% -->
+  <rect x="270" y="75" width="220" height="90" class="card-bg"/>
+  <text x="285" y="97" class="kpi-label">CUSTOMER SATISFACTION</text>
+  <text x="285" y="132" class="kpi-value" fill="#6366f1">138%</text>
+  <text x="405" y="132" class="kpi-delta" fill="#ef4444">&#9660; 2pts</text>
+  <text x="285" y="152" class="footnote">Down from 140% (concerning)</text>
+
+  <!-- KPI 3: Employees in fractions -->
+  <rect x="510" y="75" width="220" height="90" class="card-bg"/>
+  <text x="525" y="97" class="kpi-label">HEADCOUNT (FTE)</text>
+  <text x="525" y="132" class="kpi-value" fill="#0e7490">3.7</text>
+  <text x="590" y="132" class="kpi-delta" fill="#10b981">&#9650; 0.2</text>
+  <text x="525" y="152" class="footnote">Hired 20% of a person this quarter</text>
+
+  <!-- KPI 4: Impossible churn -->
+  <rect x="750" y="75" width="220" height="90" class="card-bg"/>
+  <text x="765" y="97" class="kpi-label">MONTHLY CHURN</text>
+  <text x="765" y="132" class="kpi-value" fill="#f59e0b">-12%</text>
+  <text x="860" y="132" class="kpi-delta" fill="#10b981">&#9650; Gaining customers by losing them</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- BAR CHART — bars going the wrong direction and overlapping -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <rect x="30" y="185" width="450" height="230" class="card-bg"/>
+  <text x="45" y="210" font-size="13" font-weight="600" fill="#1a1a1a">Revenue by Department</text>
+  <text x="45" y="224" class="subtitle">(Some departments have negative revenue. This is fine.)</text>
+
+  <!-- Y axis -->
+  <text x="85" y="250" class="axis-label" text-anchor="end">$8M</text>
+  <text x="85" y="280" class="axis-label" text-anchor="end">$4M</text>
+  <text x="85" y="310" class="axis-label" text-anchor="end">$0</text>
+  <text x="85" y="340" class="axis-label" text-anchor="end">-$4M</text>
+  <text x="85" y="370" class="axis-label" text-anchor="end">-$8M</text>
+  <line x1="90" y1="240" x2="90" y2="380" stroke="#e0e0e0" stroke-width="1"/>
+  <line x1="90" y1="310" x2="450" y2="310" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Bars — some go up, some go down, one is impossibly wide -->
+  <rect x="110" y="260" width="40" height="50" class="bar" fill="#6366f1" opacity="0.8"/>
+  <text x="130" y="396" class="chart-label" text-anchor="middle">Sales</text>
+
+  <rect x="170" y="310" width="40" height="60" class="bar" fill="#ef4444" opacity="0.8"/>
+  <text x="190" y="396" class="chart-label" text-anchor="middle">HR</text>
+
+  <!-- This bar goes UP from below zero — profit from losing money -->
+  <rect x="230" y="290" width="40" height="20" class="bar" fill="#10b981" opacity="0.8"/>
+  <rect x="230" y="310" width="40" height="40" class="bar" fill="#10b981" opacity="0.4"/>
+  <text x="250" y="396" class="chart-label" text-anchor="middle">Parking</text>
+
+  <!-- Impossibly large bar that goes off chart -->
+  <rect x="290" y="185" width="40" height="125" class="bar" fill="#f59e0b" opacity="0.8"/>
+  <text x="310" y="196" class="axis-label" text-anchor="middle" fill="#f59e0b">$47M (?)</text>
+  <text x="310" y="396" class="chart-label" text-anchor="middle">Vibes</text>
+
+  <!-- Bar that's zero width -->
+  <rect x="370" y="308" width="40" height="2" class="bar" fill="#0e7490"/>
+  <text x="390" y="396" class="chart-label" text-anchor="middle">R&amp;D</text>
+  <text x="390" y="300" class="footnote" text-anchor="middle">$0 (but crucial)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- PIE CHART — adds up to 182% -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <rect x="510" y="185" width="460" height="230" class="card-bg"/>
+  <text x="525" y="210" font-size="13" font-weight="600" fill="#1a1a1a">Market Share by Competitor</text>
+  <text x="525" y="224" class="subtitle">(Total: 182%. Multiple respondents chose "all of the above.")</text>
+
+  <!-- "Pie" that's just overlapping circles -->
+  <circle cx="700" cy="310" r="70" fill="#6366f1" opacity="0.5"/>
+  <circle cx="740" cy="290" r="60" fill="#ef4444" opacity="0.5"/>
+  <circle cx="680" cy="330" r="55" fill="#10b981" opacity="0.5"/>
+  <circle cx="730" cy="340" r="45" fill="#f59e0b" opacity="0.5"/>
+  <circle cx="710" cy="305" r="20" fill="#0e7490" opacity="0.7"/>
+
+  <!-- Legend -->
+  <rect x="820" y="250" width="10" height="10" fill="#6366f1" opacity="0.7" rx="2"/>
+  <text x="835" y="259" class="chart-label">Us (62%)</text>
+  <rect x="820" y="268" width="10" height="10" fill="#ef4444" opacity="0.7" rx="2"/>
+  <text x="835" y="277" class="chart-label">Them (48%)</text>
+  <rect x="820" y="286" width="10" height="10" fill="#10b981" opacity="0.7" rx="2"/>
+  <text x="835" y="295" class="chart-label">Also Us (37%)</text>
+  <rect x="820" y="304" width="10" height="10" fill="#f59e0b" opacity="0.7" rx="2"/>
+  <text x="835" y="313" class="chart-label">Nobody (28%)</text>
+  <rect x="820" y="322" width="10" height="10" fill="#0e7490" opacity="0.7" rx="2"/>
+  <text x="835" y="331" class="chart-label">Undecided (7%)</text>
+  <text x="820" y="355" class="footnote">Margin of error: +/- 94%</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- LINE CHART — line that loops back on itself -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <rect x="30" y="435" width="450" height="240" class="card-bg"/>
+  <text x="45" y="460" font-size="13" font-weight="600" fill="#1a1a1a">Growth Trajectory (Projected)</text>
+  <text x="45" y="474" class="subtitle">(Time is approximate and may flow in either direction.)</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="490" x2="80" y2="650" stroke="#e0e0e0"/>
+  <line x1="80" y1="650" x2="450" y2="650" stroke="#e0e0e0"/>
+
+  <!-- X axis labels — out of order -->
+  <text x="120" y="665" class="axis-label" text-anchor="middle">Q1</text>
+  <text x="185" y="665" class="axis-label" text-anchor="middle">Q3</text>
+  <text x="250" y="665" class="axis-label" text-anchor="middle">Q2</text>
+  <text x="315" y="665" class="axis-label" text-anchor="middle">Q5</text>
+  <text x="380" y="665" class="axis-label" text-anchor="middle">Q1</text>
+  <text x="430" y="665" class="axis-label" text-anchor="middle">???</text>
+
+  <!-- Y axis labels — also wrong -->
+  <text x="75" y="500" class="axis-label" text-anchor="end">High</text>
+  <text x="75" y="540" class="axis-label" text-anchor="end">Yes</text>
+  <text x="75" y="580" class="axis-label" text-anchor="end">Maybe</text>
+  <text x="75" y="620" class="axis-label" text-anchor="end">Tuesday</text>
+  <text x="75" y="650" class="axis-label" text-anchor="end">No</text>
+
+  <!-- The line — loops, goes backward, intersects itself -->
+  <path d="M 120,620 C 150,580 170,510 185,530 C 200,550 210,600 250,560
+           C 280,530 290,500 315,520 C 330,535 340,580 350,560
+           C 360,540 370,510 380,530 C 390,550 400,600 410,580
+           L 380,530 C 350,490 300,540 280,510 C 260,480 240,520 220,500
+           L 185,530"
+        stroke="#6366f1" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+
+  <!-- Data points on the loop -->
+  <circle cx="185" cy="530" r="4" fill="#6366f1"/>
+  <circle cx="250" cy="560" r="4" fill="#6366f1"/>
+  <circle cx="315" cy="520" r="4" fill="#6366f1"/>
+  <circle cx="380" cy="530" r="4" fill="#ef4444"/>
+  <text x="385" y="522" class="footnote" fill="#ef4444">time loop detected</text>
+
+  <!-- Confident trend line going through ceiling -->
+  <line x1="100" y1="630" x2="440" y2="440" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="442" y="438" class="chart-label" fill="#10b981">Trend (aspirational)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- FLOW CHART — circular dependencies -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <rect x="510" y="435" width="460" height="240" class="card-bg"/>
+  <text x="525" y="460" font-size="13" font-weight="600" fill="#1a1a1a">Decision Process</text>
+  <text x="525" y="474" class="subtitle">(All paths lead to the same meeting.)</text>
+
+  <!-- Nodes -->
+  <rect x="560" y="490" width="100" height="35" rx="4" fill="#6366f1" opacity="0.15" stroke="#6366f1"/>
+  <text x="610" y="512" class="chart-label" text-anchor="middle" fill="#6366f1" font-weight="600">Idea</text>
+
+  <rect x="710" y="490" width="100" height="35" rx="4" fill="#f59e0b" opacity="0.15" stroke="#f59e0b"/>
+  <text x="760" y="512" class="chart-label" text-anchor="middle" fill="#f59e0b" font-weight="600">Meeting</text>
+
+  <rect x="860" y="490" width="100" height="35" rx="4" fill="#ef4444" opacity="0.15" stroke="#ef4444"/>
+  <text x="910" y="512" class="chart-label" text-anchor="middle" fill="#ef4444" font-weight="600">Concern</text>
+
+  <rect x="560" y="570" width="100" height="35" rx="4" fill="#10b981" opacity="0.15" stroke="#10b981"/>
+  <text x="610" y="592" class="chart-label" text-anchor="middle" fill="#10b981" font-weight="600">Approval</text>
+
+  <rect x="710" y="570" width="100" height="35" rx="4" fill="#f59e0b" opacity="0.15" stroke="#f59e0b"/>
+  <text x="760" y="592" class="chart-label" text-anchor="middle" fill="#f59e0b" font-weight="600">Meeting</text>
+
+  <rect x="860" y="570" width="100" height="35" rx="4" fill="#0e7490" opacity="0.15" stroke="#0e7490"/>
+  <text x="910" y="592" class="chart-label" text-anchor="middle" fill="#0e7490" font-weight="600">Decision</text>
+
+  <!-- The final node -->
+  <rect x="710" y="635" width="100" height="35" rx="4" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+  <text x="760" y="657" class="chart-label" text-anchor="middle" fill="#f59e0b" font-weight="700">Meeting</text>
+
+  <!-- Arrows — everything points to Meeting -->
+  <line x1="660" y1="507" x2="710" y2="507" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="810" y1="507" x2="860" y2="507" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="910" y1="525" x2="910" y2="570" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="660" y1="587" x2="710" y2="587" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="810" y1="587" x2="860" y2="587" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Loop arrows back to Meeting -->
+  <path d="M 910,605 C 910,640 810,652 810,652" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 610,605 C 610,640 710,652 710,652" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 760,525 L 760,570" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Loop from final Meeting back to Idea -->
+  <path d="M 710,652 C 540,660 530,507 560,507" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="528" y="580" class="footnote" fill="#ef4444" transform="rotate(-90, 528, 580)">repeat forever</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#aaa"/>
+    </marker>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- Footer -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <line x1="30" y1="688" x2="970" y2="688" stroke="#e0e0e0"/>
+  <text x="30" y="698" class="footnote">Source: Internal estimates, external guesses, and one dream a VP had on a flight. Peer-reviewed by no one.</text>
+  <text x="970" y="698" class="footnote" text-anchor="end">CONFIDENTIAL — Do not distribute (but also it's wrong, so it doesn't matter)</text>
+</svg>

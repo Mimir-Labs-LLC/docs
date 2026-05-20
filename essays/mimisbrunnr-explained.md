@@ -2,6 +2,24 @@
 
 *Or: why we built a database schema and then refused to let anyone change it.*
 
+*Sixth and final in a series. Previous: [The Cost of Convenience](the-cost-of-convenience.md), [What We Take to the Moon](what-we-take-to-the-moon.md), [Glass Machines](glass-machines.md), [What the Builders Know](what-the-builders-know.md), [The Greater Fool](the-greater-fool.md).*
+
+---
+
+The previous essays in this series described a problem in five layers.
+
+*The Cost of Convenience* described how the debt was accumulated. Every enterprise system was built by people optimizing for today's shipping deadline. Those choices made sense at the time. They have compounded over thirty years into an operational liability that no one in the current commercial value chain claims credit for.
+
+*What We Take to the Moon* described what the debt now costs. AI operating on data that does not mean what it says produces confident wrong answers at scales that do not forgive error. Automation amplifies bad inputs faster than any reviewer can catch them.
+
+*Glass Machines* described the cost structure that results when a product does not work on delivery. Every comparable industry, from aviation to printers to defense, has faced a reckoning about this. Enterprise software has so far avoided the same reckoning by selling the reckoning itself, over and over, to buyers who did not know they were buying it.
+
+*The Greater Fool* described the market structure that kept the broken product moving anyway. Every participant in the value chain, from vendor to analyst to consultancy to incoming CIO, had a reason to pass the bag to the next buyer at a higher price. The reasonable voices were structurally excluded, not because the market is malicious, but because the market is optimized for a metric that does not pay for being right.
+
+*What the Builders Know* described the mechanism by which all of this has persisted without self-correction. The engineers who designed the systems under discussion are almost entirely absent from the public conversation that describes them. Silence at the layer where the problem could have been named plainly is the load-bearing dysfunction, and the one that made the other four sustainable.
+
+Each essay named a different part of the same failure. This essay describes what we did about it.
+
 ---
 
 Most enterprise software problems, when you unwind them, turn out to be the same problem in different clothing.
@@ -57,6 +75,8 @@ The translation from a source system to Mimisbrunnr is not done by hand, and it 
 The deterministic part is load-bearing. A mapping built on machine learning varies across runs, drifts as models update, and cannot be audited by a migration team or a regulator after the fact. Probabilistic mapping is not a vocabulary. It is a suggestion dressed up as one. Ratatosk produces the same answer every time it is given the same input, which is the property the downstream representation requires in order to be trusted.
 
 The human in the loop is load-bearing too. Ratatosk proposes mappings, flags ambiguities, and explains its reasoning for each assignment. It does not commit anything to the operational manifest until a human has reviewed, edited where necessary, and approved. The tool does the work; the human does the accepting. This is how you get the efficiency of automation without the unaccountability of automation, which is what data governance requires and what most existing tools in the category fail to provide.
+
+This is also the governance posture *What the Builders Know* argued the field had quietly abandoned. The engineer who can override the algorithm is the person whose work earns the right to be called data governance. A tool that commits without a reviewer is not governance. It is automation wearing the word.
 
 ## What Makes It Different
 
@@ -116,6 +136,18 @@ Mimisbrunnr is not finished. No vocabulary ever is. We add domains as the scope 
 
 We are also not the only people thinking about this problem. There are serious efforts elsewhere (dbt Labs on the semantic layer, Atlan and Collibra on the catalog, various open-source projects on interoperability) and we consider them allies more than competitors. The enterprise software industry has been running on approximations for thirty years. The question of who fixes it is less important than whether anyone does.
 
-We think the fix is possible. We think it requires a shared vocabulary that does not permit extensions, owned by someone whose commercial interest is in being a good implementer rather than in controlling the vocabulary. We think the biological analogy is not just a metaphor but an instruction manual.
+We think the fix is possible. We think it requires a shared vocabulary that does not permit extensions, owned by someone whose commercial interest is in being a good implementer rather than in controlling the vocabulary. We think the biological analogy is an instruction manual.
 
 Mimisbrunnr is what you get when you take that instruction manual seriously.
+
+## Closing the Arc
+
+We wrote five essays before this one because the problem has five parts, and naming one part without the others produces the wrong conclusions. A reader who sees only the debt tries to refactor their way out of what is actually a commercial problem. A reader who sees only the market dynamic turns cynical and builds nothing. A reader who sees only the silence writes essays of their own and waits for the field to wake up. The field has been waiting to wake up for thirty years.
+
+Mimisbrunnr is the structural answer to one part of the problem. It is the shared vocabulary the category has needed for that entire thirty years and has not produced. A shared vocabulary does not fix the commercial incentives that bent every prior schema. It does not restore the voices the field selected out. It does not replace the enterprises that have already written off their ability to operate on their own data.
+
+It does one thing. It removes the approximation tax that every cross-system operation currently pays because the systems do not agree on what the words mean. That tax is what funds most of the failure modes the preceding essays described. Removing it is not sufficient to fix the category. It is, as far as we can tell, necessary.
+
+What the vocabulary gives you, if it works, is the ability to build the next thing on data that means what it says. Whether that next thing is another ERP, an AI agent operating over business operations, an integration platform, or a migration service, it gets to operate on ground truth rather than on translations of translations. The rest of the category's problems do not get solved by this. They do, for the first time, become solvable.
+
+That is the whole ambition. The essays name the problem. This essay names the contribution. The record accumulates whether anyone is watching or not.

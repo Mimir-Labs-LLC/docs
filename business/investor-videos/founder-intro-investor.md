@@ -13,9 +13,9 @@
 
 Hi, I'm Doc Gaither. I'm the founder of Mimir Labs.
 
-I spent fifteen years in manufacturing — on shop floors, in planning meetings, running operations. I spent most of those years fighting with ERP systems that couldn't give me a straight answer about inventory or production status. Eventually I started writing VBA workarounds to bridge the gaps. Then I realized I was building a shadow system on top of a broken one.
+I spent fifteen years in manufacturing — on shop floors, in planning meetings, running operations. I spent most of those years fighting with ERP systems that couldn't give me a straight answer about things like inventory or production status. Eventually I started writing VBA workarounds to bridge the gaps. Then I realized I was building a shadow system on top of a broken system.
 
-Mimir Labs builds the real thing. We're a six-product enterprise data platform for manufacturers — ERP, data governance, migration, integration, contract intelligence, and governance enforcement. The architectural foundation is a shared, deterministic data model with zero customization — which is what makes real-time B2B supply chain propagation possible without middleware or translation layers. I still find it hard to believe nobody else is taking this approach — but the reason is structural. Incumbents can't remove customization without destroying their installed base. We started without it.
+Mimir Labs builds the real thing. We're a six-product enterprise data platform for manufacturers — ERP, data governance, migration, integration, contract intelligence, and governance enforcement. The architectural foundation is a shared, deterministic data model with zero custo[mization — which is what makes real-time B2B supply chain propagation possible without middleware or translation layers. I still find it hard to believe nobody else is taking this approach — but the reason is structural. Incumbents can't remove customization without destroying their installed base. We started without it.
 
 We're based in Harrisburg, Pennsylvania. Pre-seed stage, alpha product, validation cohort in progress. The product demos will show you what we've built and how the business model works. This video is just to tell you who's behind it.
 

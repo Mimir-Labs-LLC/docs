@@ -4,9 +4,11 @@
 
 *Draft — April 2026*
 
+*Fourth in a series. Previous: [The Cost of Convenience](the-cost-of-convenience.md), [What We Take to the Moon](what-we-take-to-the-moon.md), [Glass Machines](glass-machines.md).*
+
 ---
 
-The first two essays in this sequence spoke to the people who buy and operate enterprise software. This one speaks to the people who build it, and to those positioned to describe the building in public.
+The first three essays in this sequence spoke to the people who buy and operate enterprise software. This one speaks to the people who build it, and to those positioned to describe the building in public.
 
 ---
 
@@ -20,7 +22,7 @@ Catalogue who is speaking. The speakers are, in overwhelming majority, vendor ex
 
 The complaint is about what is missing. The people who designed the systems under discussion — the engineers, data architects, transaction modelers, schema designers, integration architects, database specialists, and domain experts who made the decisions that actually determine how the system behaves — are almost entirely absent from the public conversation that describes those systems. They did the work. Their decisions are the load-bearing intellectual content of every product the commercial layer is selling. They will be responsible for whatever evolution the product is or is not capable of over the next decade. And they do not speak.
 
-The absence is the defining feature of the field's public discourse, and it is the reason the dysfunction the previous two essays described has been allowed to persist through a period in which any comparably-sized field would have self-corrected. *The Cost of Convenience* described how the debt was accumulated. *What We Take to the Moon* described what the debt is now costing and what it will cost at scales that are not forgiving. This essay describes the mechanism by which both of those prior arguments have remained invisible to the organizations that needed them most: the layer of the conversation at which they could have been said plainly has, for thirty years, been silent.
+The absence is the defining feature of the field's public discourse, and it is the reason the dysfunction the previous three essays described has been allowed to persist through a period in which any comparably-sized field would have self-corrected. *The Cost of Convenience* described how the debt was accumulated. *What We Take to the Moon* described what the debt is now costing and what it will cost at scales that are not forgiving. *Glass Machines* described the cost structure that results when the product itself does not work on delivery, and why every comparable industry has faced a reckoning that enterprise software has so far avoided. This essay describes the mechanism by which all of those prior arguments have remained invisible to the organizations that needed them most: the layer of the conversation at which they could have been said plainly has, for thirty years, been silent.
 
 ### 2. What a Stratified Conversation Looks Like
 
