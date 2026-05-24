@@ -32,7 +32,7 @@ I am impugning the incentive.
 
 The system integrator is paid by the hour, which means a clean, fast, faithful implementation is a bad quarter and a slow, complex, customization-laden one is a multi-year annuity. This is not a hidden conspiracy; it is just arithmetic, and arithmetic is more reliable than conspiracy. The model is paid to build the workarounds, and then paid again to maintain them. It is paid to translate the vendor's original lie into something the customer can survive, and paid a third time when the translation drifts. The shadow systems, the reconciliation spreadsheets, the approval matrices that live in a wiki and a prayer — these are not failures of the implementation. They are its metabolic product. They are what the model is *for*.
 
-I hold a principle about this that I will not soften: a vendor that cannot deploy its own product without a third party does not actually understand what its product does. The dependence on an implementation army is not a sign of enterprise seriousness. It is a confession. It says the system is too far from the truth of the business to be installed by anyone who hasn't been trained to bridge the distance — and that distance, again, is the architecture, not the client.
+I hold a principle about this that I will not soften: a vendor that cannot reliably deploy its own product without an implementation army has not finished translating its product into something customers can safely live inside. The dependence on that army is not a sign of enterprise seriousness. It is a confession. It says the system is too far from the truth of the business to be installed by anyone who hasn't been trained to bridge the distance — and that distance, again, is the architecture, not the client.
 
 The model deserves disruption. The annuity that depends on dysfunction deserves to end. And the good consultants — the ones whose talent is currently spent papering over an architecture's refusal to tell the truth — deserve better work than that. They deserve to be set loose on problems worth their judgment.
 
@@ -53,6 +53,10 @@ The customer deserves software that tells the truth about their own operation. N
 They deserve to govern their own canon without renting an army to do it. They deserve a vendor who is answerable to them — directly, without a partner channel to hide behind — for the model of truth being delivered. They deserve to not be gaslit about their own business by the very systems they bought to understand it.
 
 Most of all, they deserve to stop being told that the distance between what they were promised and what they got is a measure of their own immaturity. It is not. It never was. It is the measure of a settlement that was never built in their interest, and they have paid for it twice — once in license, once in the consultants hired to survive the license — and they were told, the whole time, to be grateful.
+
+## The standard is fidelity
+
+The replacement standard is not perfection. It is fidelity. A system should be judged by whether it can represent the business without forcing its truth into private spreadsheets, undocumented exception paths, consultant-owned logic, or after-the-fact reconciliation rituals. It should preserve provenance, state, evidence, authority, and constraint as part of the operating record itself. If the software cannot tell the whole operational story, then the customer is not receiving a system of truth. They are receiving a system of partial record-keeping, dressed as control.
 
 ## What is actually owed
 
