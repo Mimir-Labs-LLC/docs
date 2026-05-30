@@ -1,38 +1,40 @@
 # How to Preserve One Version of Truth Using 37 Systems and a Parrot
 
-*An instructional manuscript recovered during the recent expedition to the vaults of Lucifer Gorgonzola Butt; transcribed, footnoted, and reproduced here in defiance of the Editor's standing recommendation that it be re-sealed and forgotten.*
+*An instructional manuscript recovered during the recent expedition to the vaults of Lucifer Gorgonzola Butt; transcribed, footnoted, and reproduced here in defiance of Counsel's standing recommendation that it be re-sealed and forgotten.*
 
 ---
 
-## Preface, by the Editor
+## Preface, by the Archivist
 
-The manuscript was found in Chamber Three, beside the assembly. It was bound in a material the Editor declined to name on the record. Its title page bore the inscription reproduced above. Its author has been identified, with the qualifications customary to claims of this kind, as Lucifer Gorgonzola Butt — a name treated by the external scholarly literature as either an attribution, an editorial pseudonym, an act of self-effacement, or an early example of corporate doxxing of a deceased employee. The Editor takes no position and notes that the dispute is older than the manuscript.
+The manuscript was found in Chamber Three, beside the assembly. It was bound in a material the Conservator has declined to name on the record. Its title page bore the inscription reproduced above. Its author has been identified, with the qualifications customary to claims of this kind, as Lucifer Gorgonzola Butt[^1] — a name treated by the external scholarly literature as either an attribution, an editorial pseudonym, an act of self-effacement, or an early example of corporate doxxing of a deceased employee. The dispute is older than the manuscript, and the Bureau takes no position.
 
-The manuscript is presented in the original numbering, in its original instructional register, with footnotes added where the Editor found it necessary to intervene on behalf of subsequent readers. Several steps are elided in the source. Those omissions are noted at the point of elision and are not the Editor's.
+The manuscript is presented in the original numbering, in its original instructional register, with footnotes added by the expedition staff where intervention on behalf of subsequent readers was judged necessary. Voices are attributed at the foot of each note. Several steps are elided in the source; those omissions are not ours, and are flagged at the point of elision.
 
-The Editor formally recommends that this manuscript be regarded as an artifact rather than a guide. Several Systems on the recommended list remain in production. Several of their vendors retain counsel.
+The Bureau formally recommends that this manuscript be regarded as an artifact rather than a guide. Several Systems on the recommended list remain in production. Several of their vendors retain counsel.
+
+*— the Archivist*
 
 ---
 
 ## The Manuscript
 
 ### Step 1.
-Acquire a System of Record.[^1] This System shall hold the canonical version of every operationally significant entity in the enterprise. The System shall be selected on the basis of an analyst's quadrant, a salesperson's enthusiasm, and the executive sponsor's previous employer.
+Acquire a System of Record.[^2] This System shall hold the canonical version of every operationally significant entity in the enterprise. The System shall be selected on the basis of an analyst's quadrant, a salesperson's enthusiasm, and the executive sponsor's previous employer.
 
 ### Step 2.
 Acquire a second System of Record. The second System shall hold a different canonical version of every operationally significant entity. The selection criteria for the second System shall be that the first System is, upon reflection, "not quite right for everything."
 
 ### Step 3.
-Acquire a System of Engagement.[^2] This System shall be marketed as customer-facing. Its definitions shall not match either of the first two Systems, by intention, on the grounds that customer-facing data has different requirements.
+Acquire a System of Engagement.[^3] This System shall be marketed as customer-facing. Its definitions shall not match either of the first two Systems, by intention, on the grounds that customer-facing data has different requirements.
 
 ### Step 4.
-Acquire a Warehouse Management System. This shall be the third System to claim authoritative truth about *Inventory*, and the second System to claim authoritative truth about *Customer.*[^3]
+Acquire a Warehouse Management System. This shall be the third System to claim authoritative truth about *Inventory*, and the second System to claim authoritative truth about *Customer.*[^4]
 
 ### Step 5.
 Acquire a Manufacturing Execution System. This shall be the fourth System to claim authoritative truth about *Inventory*; the second to claim authoritative truth about *Part*; and the first to claim authoritative truth about *Work Order*, which it shall jealously guard against the General Ledger's later interpretation of the same noun.
 
 ### Step 6.
-Acquire a Customer Relationship Management System.[^4] The CRM shall hold a definition of *Customer* that disagrees with all preceding definitions of *Customer*, with documented intent. The documented intent shall not be re-read after the third quarter following implementation.
+Acquire a Customer Relationship Management System.[^5] The CRM shall hold a definition of *Customer* that disagrees with all preceding definitions of *Customer*, with documented intent. The documented intent shall not be re-read after the third quarter following implementation.
 
 ### Step 7.
 Acquire a Business Intelligence platform. The BI platform's purpose is to reconcile the preceding definitions into a single dashboard. The dashboard shall not match any of the preceding definitions. The discrepancy shall be reported as a *modeling decision* and shall not appear in any audit report.
@@ -40,10 +42,10 @@ Acquire a Business Intelligence platform. The BI platform's purpose is to reconc
 ### Steps 8 through 13.
 Acquire six additional Systems, in the following order: the General Ledger (Step 8), the billing engine (Step 9), the contract lifecycle platform (Step 10), the procurement suite (Step 11), the expense-management application (Step 12), and the treasury workstation (Step 13).
 
-The documentation for the six Systems is preserved in Appendix A. Appendix A was misfiled in the procurement suite (Step 11) and could not be recovered for this edition.[^5]
+The documentation for the six Systems is preserved in Appendix A. Appendix A was misfiled in the procurement suite (Step 11) and could not be recovered for this edition.[^6]
 
 ### Step 14.
-Acquire a parrot.[^6]
+Acquire a parrot.[^7]
 
 The parrot shall be installed between Systems 9 and 10 — that is, between billing and contract lifecycle — where the throughput requirements exceed what the licensed ETL transport can accommodate during peak hours. The parrot's responsibilities shall include the verbal recitation of seventeen field values, in order, from System 9's output queue, to System 10's intake clerk. The parrot shall be paid in seeds. The parrot's accuracy, when audited, shall exceed that of System 11's automated transformation layer by approximately four percent.
 
@@ -67,7 +69,7 @@ A stylus shall record the new address onto a tablet. The tablet shall be conveye
 
 A discrepancy bell shall ring in approximately ninety-one percent of cases. The discrepancies shall be logged in a third tablet and forwarded to a chamber the expedition was never permitted to enter.
 
-The second tablet, having been signed in red wax by an officer whose office has been vacant for two hundred years, shall be carried by Gerald[^7] to an aqueduct, dropped into the aqueduct, retrieved downstream by a child, dried, filed, and entered into the billing engine (System 9), which is the System the next outgoing invoice shall consult, except in the case of statements over $10,000, in which case the invoice shall consult System 14.[^8]
+The second tablet, having been signed in red wax by an officer whose office has been vacant for two hundred years, shall be carried by Gerald[^8] to an aqueduct, dropped into the aqueduct, retrieved downstream by a child, dried, filed, and entered into the billing engine (System 9), which is the System the next outgoing invoice shall consult, except in the case of statements over $10,000, in which case the invoice shall consult System 14.[^9]
 
 A fourth tablet, generated entirely separately, shall serve as the source of truth for the customer's address in the marketing newsletter.
 
@@ -85,7 +87,7 @@ Schedule the Month-End Close.
 The Month-End Close shall reconcile the General Ledger (System 8) to the Subsystems. The Subsystems shall not reconcile to the General Ledger. The variance shall be posted to a suspense account named, in the original tongue, *the Account of Mortal Forgetting,* and rendered in modern usage as *Other Adjustments.*
 
 ### Steps 27 through 30.
-*These steps concern auditor briefings and are not reproduced here, as their content has been superseded by the operative version of the Sarbanes-Oxley liturgy.*[^9]
+*These steps concern auditor briefings and are not reproduced here, as their content has been superseded by the operative version of the Sarbanes-Oxley liturgy.*[^10]
 
 ### Step 31.
 Engage a Systems Integrator.
@@ -95,7 +97,7 @@ The Integrator shall be paid by the hour. The Integrator shall produce a Future-
 ### Step 32.
 Train the workforce.
 
-Training shall consist of a four-hour module taken on the first day of employment, followed by the discovery, over the next three years, that the actual System operates differently from the System described in the training. The discovery shall be made by each employee independently, and shall not be entered into the knowledge base, the identification of which is discussed in footnote 9.
+Training shall consist of a four-hour module taken on the first day of employment, followed by the discovery, over the next three years, that the actual System operates differently from the System described in the training. The discovery shall be made by each employee independently, and shall not be entered into the knowledge base, the identification of which is discussed in footnote 10.
 
 ### Step 33.
 Establish the Shadow Systems.
@@ -126,21 +128,21 @@ Acquire a second parrot.
 
 ---
 
-## Postscript, by the Editor
+## Joint Statement, on Filing
 
-The manuscript ends here. There is no Step 38, and no evidence of one having existed.
+*The undersigned were each asked, on completion of the recovery, to record what each thought ought to be recorded. The statements are reproduced in the order received.*
 
-The Editor wishes to record the following observation, in the hope that subsequent readers will spare themselves the discovery: every System enumerated above continues to be sold under the same name today, by the same vendors, to the same customers, who buy them in the same combinations and reconcile them, where they reconcile at all, through the same architecture. The Editor has been unable to determine whether the manuscript describes an ancient practice that survived to the present, or a present practice that was retroactively ancient-ified by someone who had grown tired of explaining it. The two readings are operationally indistinguishable. The Editor takes no position.
+**The Cataloguer.** The manuscript ends here. There is no Step 38, and no evidence of one having existed.
 
-Gerald, if alive, would be approximately two thousand years old. The Editor regrets to report that no parrot of this age has been produced for inspection. Gerald is presumed dead. Inquiries to that effect have been forwarded to System 14, which has not replied.
+**The Archivist.** Every System enumerated above continues to be sold under the same name today, by the same vendors, to the same customers, who buy them in the same combinations and reconcile them, where they reconcile at all, through the same architecture. Whether the manuscript describes an ancient practice that survived to the present, or a present practice that was retroactively ancient-ified by someone who had grown tired of explaining it, cannot be determined. The two readings are operationally indistinguishable.
 
-The Editor's recommendation, on filing, was that the vaults be re-sealed and the inscription strengthened. The recommendation was acknowledged. The recommendation was not heeded. The vaults remain open. The Editor is the only signatory to the recommendation and the only signatory to the present document, and accepts responsibility for both.
+**The Veterinary Consultant.** Gerald, if alive, would be approximately two thousand years old. No parrot of this age has been produced for inspection. Gerald is presumed dead. Inquiries to that effect have been forwarded to System 14, which has not replied.
 
-There is, in the end, one observation the manuscript will not make and which the Editor has elected to make on its behalf. The 37 Systems do not preserve one version of truth. They preserve thirty-seven versions of truth, plus the parrot's. The dashboard reconciles to none of them.
+**Counsel.** The Bureau's recommendation, on filing, was that the vaults be re-sealed and the inscription strengthened. The recommendation was acknowledged. The recommendation was not heeded. The vaults remain open. Counsel notes the foregoing in lieu of further comment.
+
+**The Archivist, again.** There is, in the end, one observation the manuscript will not make and which the Bureau has elected to make on its behalf. The 37 Systems do not preserve one version of truth. They preserve thirty-seven versions of truth, plus the parrot's. The dashboard reconciles to none of them.
 
 The operational canon — the one authoritative, adjudicated record of how the business is actually operating — is a single thing or it is no thing at all. Anything else is the vaults still being open.
-
-*— the Editor*
 
 ---
 
@@ -148,20 +150,22 @@ The operational canon — the one authoritative, adjudicated record of how the b
 
 ---
 
-[^1]: The original term, in the language of the manuscript, has no settled translation. *System of Record* is the consensus reading. A minority reading would render it *System of Vague Authority Whose Authority Is Routinely Overridden.*
+[^1]: A minority strand of the secondary literature reads the name as a corruption — *Rube Goldberg* having been an American newspaper cartoonist of the early twentieth century whose work depicted unnecessarily complex contrivances achieving banal results. The reading is etymologically suggestive and chronologically impossible, the manuscript predating Goldberg by a margin that has not been fully reconciled. The Translator takes no position. *— the Translator*
 
-[^2]: The distinction between a System of Record and a System of Engagement is the subject of a substantial secondary literature, none of which agrees with itself. The Editor recommends the reader simply note the distinction and accept that two Systems will be acquired.
+[^2]: The original term, in the language of the manuscript, has no settled translation. *System of Record* is the consensus reading. A minority reading would render it *System of Vague Authority Whose Authority Is Routinely Overridden.* *— the Translator*
 
-[^3]: The Editor notes with concern that no two Systems on the present list employ the same primary key for *Customer.* The Editor further notes that this is presented in the manuscript as a feature.
+[^3]: The distinction between a System of Record and a System of Engagement is the subject of a substantial secondary literature, none of which agrees with itself. The reader is advised to note the distinction and accept that two Systems will be acquired. *— the Archivist*
 
-[^4]: One commentator has argued that the CRM is in fact the parrot from Step 14, and that the entire enterprise has been the long, slow re-discovery of this fact. The argument is unfashionable but has not been refuted.
+[^4]: No two Systems on the present list employ the same primary key for *Customer.* This is presented in the manuscript as a feature. *— the Cataloguer*
 
-[^5]: The Editor regards the loss of Appendix A inside the very System whose acquisition it documents as the manuscript's purest demonstration of its own thesis, and has resisted the temptation to recover the appendix from the recovered procurement suite on the grounds that doing so would falsify the example.
+[^5]: One commentator has argued that the CRM is in fact the parrot from Step 14, and that the entire enterprise has been the long, slow re-discovery of this fact. The argument is unfashionable but has not been refuted. *— the Translator*
 
-[^6]: The species is not specified. The expedition's veterinary consultant has offered the opinion that an African Gray would be most appropriate to the recitation task described in this step, but cautions that the species' suitability for the additional duties enumerated in Step 23 has not been established.
+[^6]: Appendix A was misfiled inside the procurement suite documented at Step 11. Retrieval has not been attempted. *— the Cataloguer*
 
-[^7]: The expedition's veterinary consultant has questioned the practicability of a parrot carrying a clay tablet of the weight implied by the dimensions given in this step. The manuscript is explicit on the point. The Editor defers to the source.
+[^7]: The species is not specified. An African Gray would be most appropriate to the recitation task described in this step, but the species' suitability for the additional duties enumerated in Step 23 has not been established. *— the Veterinary Consultant*
 
-[^8]: That is: the parrot.
+[^8]: The practicability of a parrot carrying a clay tablet of the weight implied by the dimensions given in this step has been formally questioned. The manuscript is explicit on the point. *— the Veterinary Consultant*
 
-[^9]: The Editor was unable to identify the knowledge base referenced in Step 32 from the surviving text. The manuscript's internal numbering would place it among the auditor-briefing Systems elided in Steps 27 through 30. This is consistent with the practice of placing knowledge bases under audit governance and ensuring they are not consulted by anyone in operations.
+[^9]: That is: the parrot. *— the Cataloguer*
+
+[^10]: The knowledge base referenced at Step 32 cannot be identified from the surviving text. The manuscript's internal numbering would place it among the auditor-briefing Systems elided in Steps 27 through 30. The practice of housing knowledge bases under audit governance, and of ensuring they are not consulted by anyone in operations, is one Counsel declines to characterize further. *— Counsel*

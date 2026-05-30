@@ -25,6 +25,64 @@ A top-append log of LinkedIn comments, replies, and other shareable text Mimir L
 
 ---
 
+## 2026-05-30 — LinkedIn, post accompanying "How to Preserve One Version of Truth Using 37 Systems and a Parrot" essay
+
+**Context:** Top-level LinkedIn post to drive readers to the satirical "recovered manuscript" essay — a Borgesian pastiche on best-of-breed enterprise software, framed as a 37-step instructional text recovered from the vaults of Lucifer Gorgonzola Butt (deformation of Rube Goldberg). The essay carries a five-voice editorial cast (Archivist, Translator, Cataloguer, Veterinary Consultant, Counsel) and closes on the operational-canon doctrine.
+**Source:** Essay — TBD (Substack URL to be placed in the first comment by the author).
+**Key setup facts:** Companion to `operational-canon.md`, `what-the-system-deserves.md`, and `the-bookkeepers-inheritance.md`. The post leads with Gerald the parrot (System 14) as the most shareable single image; the "every joke is true about somebody's stack" line is the recognition beat. Doctrine close mirrors the essay's pivot from comedy to the canon argument. ~220 words; em-dash count kept low (2 in body, 1 in close). No markdown italics (LinkedIn renders asterisks literally) — emphasis handled via quotation marks.
+**Posting note:** Single top-level post. URL goes in the first comment (author's preference for this piece), not in the body — departure from the standing link-in-body pattern.
+
+### Post text
+
+A working definition of best-of-breed: 37 systems and a parrot named Gerald.
+
+Gerald is System 14. He sits between billing and contract lifecycle, where the licensed ETL transport can't handle peak hours. He's paid in seeds. When audited, his accuracy exceeds the iPaaS transformation layer by approximately four percent.
+
+That's from a new piece — a satirical "recovered manuscript" on how to preserve one version of truth using 37 systems. Other features include an 11,000-square-foot Reconciliation Assembly dedicated to updating the customer's address, a suspense account called "the Account of Mortal Forgetting" (rendered in modern usage as "Other Adjustments"), and a Future-State Architecture diagram in which the 37 systems are replaced with the 37 systems, configured slightly differently.
+
+Every joke is true about somebody's stack.
+
+When the satire finally drops its mask, the point is this. Thirty-seven systems do not preserve one version of truth. They preserve thirty-seven versions of truth, plus the parrot's. The operational canon — the one authoritative, adjudicated record of how the business is actually operating — is a single thing or it is no thing at all.
+
+Link in the first comment.
+
+#ERP #EnterpriseSoftware #DataGovernance #BestOfBreed #OperationalCanon
+
+### First comment (URL)
+
+[paste Substack URL here]
+
+---
+
+## 2026-05-22 — LinkedIn, post accompanying "The Missing Layer" essay
+
+**Context:** Top-level LinkedIn post to drive readers to the Substack essay "The Missing Layer" (the editorial version of the enterprise AI-readiness preprint). Idea-focused and anti-hype; leads with the "dirty data is too narrow" reframe and closes on the "calls the result intelligence" kicker.
+**Source:** Essay — https://mimirlabs.substack.com/p/the-missing-layer?r=p2euh
+**Key setup facts:** Companion to the academic preprint (`research/the-missing-layer-in-enterprise-ai-readiness.md`) and the manifesto essays (`operational-canon.md`, `erp-operational-distortion.md`). Core construct: "incomplete operational truth." No em dashes (house preference). ~250 words; first two lines are the hook and sit inside LinkedIn's "see more" cutoff.
+**Posting note:** Single post, link in the body (below). LinkedIn no longer suppresses reach on posts with outbound links; it re-links them through its own redirect, so the link-in-comments workaround is unnecessary.
+
+### Post text
+
+"Dirty data" is too narrow a phrase for the AI problem.
+
+Every field in a record can be correct and the record can still be unsafe to act on.
+
+The enterprise AI-readiness conversation has the big things right. MIT, Stanford, and NIST all converge on the same finding: enterprise AI fails for reasons that have little to do with model quality. Data, governance, context, workflow fit. All necessary.
+
+But the consensus stops one layer too high. It treats your enterprise systems as a source of data to clean and serve to a model. It does not treat them as an authority that has to decide, at the moment of action, what is allowed to happen.
+
+That distinction is the whole game, because an AI agent doesn't just read your substrate. It acts on it.
+
+A record is only safe for an agent to act on if it carries the whole operational story: what it means, where it came from, what state it represents, what evidence supports it, and which actions are valid because of it. Strip those away and you don't have dirty data. You have incomplete operational truth.
+
+Hand an agent a substrate full of correct-but-incomplete records and it won't stop to tell you what's missing. It will reason over the absent context and call the result intelligence.
+
+Clean data is necessary. It is not sufficient.
+
+Full essay: https://mimirlabs.substack.com/p/the-missing-layer?r=p2euh
+
+---
+
 ## 2026-05-13 — LinkedIn, Bob Turek IBM 2026 CEO Study post
 
 **Context:** Bob Turek shared Jen Colletta's HR Executive piece on IBM's 2026 CEO Study, tagging Chris Gaither and Dr. James A. Robertson by name. Bob's read: IBM identifies real symptoms (rewiring C-suite, authority distribution, clarity, cross-functional teamwork) but completely misses data architecture and governance.
