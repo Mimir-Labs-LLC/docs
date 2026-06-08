@@ -8,19 +8,21 @@
 
 Yggdrasil is a complete manufacturing ERP — CRM, sales, purchasing, manufacturing, warehouse, finance, projects, PLM, quality, service — built around something everyone on the floor knows but no software vendor wants to admit. The system you use today asks the operation to fit *its* rules. We built ours the other way around.
 
-## What changes on the floor
+## What's different about Yggdrasil
 
-**Work orders look the way work actually happens.** When a job is held for engineering review because dimension 3.4 is out of tolerance, the operator can say so. The system doesn't make them pick *in process* because that's the closest state on the dropdown. When a kit shows up half-complete and the line manager wants to start what arrived, the system can model a split. When an NCR opens at 2 a.m., it's a real record, not a sticky note that someone has to walk to QA in the morning.
+**Work orders look the way work actually happens.** When a job is held for engineering review because dimension 3.4 is out of tolerance, the operator can say so. The system doesn't make them pick *in process* because that's the closest state on the dropdown. When a kit shows up half-complete and the line manager wants to start what arrived, the system can model a split. When an NCR opens at 2 a.m., it's a real record, not a sticky note that someone has to walk to QA in the morning. The spreadsheets, SharePoint trackers, and shadow databases that grew up around your current ERP shrink and then go away, because Yggdrasil represents the situations they were invented to compensate for.
 
-**The floor stops feeding two systems.** The spreadsheets, SharePoint trackers, and shadow databases that grew up around the existing ERP shrink and then go away, because Yggdrasil can represent the situations they were invented to compensate for. The controller's binder titled *How We Actually Do It* becomes part of the system, not a workaround for it.
+**Your supply chain talks to itself, in real time.** Yggdrasil's B2B Event Hub is part of the platform, not a separately-licensed add-on, not an event mesh SKU, not a third-party iPaaS tax. When your supplier confirms a shipment, your purchasing team and your floor see it the same second — not after an overnight batch, not after a brittle EDI translation. When a customer changes an order, your planner knows now. Suppliers and customers who run on Yggdrasil join your event stream directly; the ones who don't get clean webhook output instead of a recurring integration subscription you'll renew forever.
 
-**Every consequential change is a real-time event.** Inventory updates, order confirmations, quality flags, shipment statuses — anything that matters to a downstream consumer is available the moment it happens. No nightly batch. No "let me refresh and see if it's there yet."
+**Built for the AI question your board is asking.** Most vendors are selling Copilot-style assistants bolted onto architectures that were never designed for agentic AI. We took a different bet. Yggdrasil was built from day one for AI agents to operate *against*: every value carries its origin and authority chain, every policy is signed by the human who owns it and enforced at the moment of action, every consequential change is observable in real time, every record is tamper-evident at the database level. AI agents pointed at Yggdrasil can reason about real state and act inside real boundaries. They cannot invent inventory, hallucinate approvals, or rewrite history. That's what AI-readiness actually requires — the AI strategy your board is looking for is the one whose substrate doesn't lie.
 
-**The audit trail answers the questions auditors actually ask.** *Who approved this, on what authority, and what changed afterward?* Three clicks. Not three weeks of email forensics.
+**Compliance procedures run, instead of sitting in a PDF.** AS9100, ITAR, FDA 21 CFR Part 11, SOX, and GDPR procedures your compliance team writes become signed *Decisions* your runtime enforces. The CFO authorizes "POs over $250K require two signers from Finance and one from Engineering" in plain language with a citation and a date attached. Six months later the auditor asks who approved a $300K PO and on what authority. You answer in three clicks. The audit trail is append-only at the database level — an attacker who compromises your application cannot rewrite history through it.
+
+**No custom fields. The system doesn't decay.** We don't allow custom fields and we don't fork the data model per tenant. That sounds restrictive at first. Eight years in, when the consultants who customized your last ERP have moved on and nobody can tell you why work orders at one plant post differently than at another, you'll understand the trade. The platform you deploy today is the platform you have five years from now: cleaner upgrades, cleaner integrations, cleaner audits, no slow-motion technical-debt avalanche.
 
 ## What stays the same
 
-You still close the month. You still pay people, run AR and AP, produce the GL and the statements the auditor expects. The difference is that those numbers are derived from what the floor actually did, in real time, instead of reconstructed at month-end from spreadsheets and tribal memory. The CFO's books come out cleaner because the inputs are honest. Nothing in the finance function has to change for that to be true.
+You still close the month. You still run AR and AP, produce the GL and the statements the auditor expects. The difference is that those numbers are derived from what the floor actually did, in real time, instead of reconstructed at month-end from spreadsheets and tribal memory. The CFO's books come out cleaner because the inputs are honest. Nothing in your finance function has to change for that to be true.
 
 ## The argument in one paragraph
 
@@ -28,7 +30,7 @@ Most ERPs were built for the bookkeeper. The operator has to lie to the form to 
 
 ## What's included
 
-Every Yggdrasil deployment ships with all ten modules, unlimited users, full audit logging, real-time event streaming across the floor, signed-policy enforcement (so your AS9100 / ITAR / FDA / SOX procedures *run* instead of sitting in a PDF), and the standard SLA. No module add-ons. No per-seat fees. No premium tiers that gate the things you already need. Pricing scales with the operating footprint we govern — sites, integrations, throughput, audit retention. Not with how many people log in.
+Every deployment ships with all ten business modules, unlimited users, the real-time B2B Event Hub, signed Operational Policy Enforcement, append-only audit at the database, the canonical state engine, multi-tenant supply-chain join, and the standard SLA. No module add-ons. No per-seat fees. No premium tiers that gate the things you already need. Pricing scales with the operating footprint we govern — sites, integrations, throughput, audit retention. Not with how many people log in.
 
 ## How we deploy
 
@@ -40,7 +42,7 @@ Discrete and process manufacturers in the $25M–$500M range, single-site or mul
 
 ## The honest first conversation
 
-About thirty minutes. We listen to how your operation actually runs, walk through how Yggdrasil represents the specific parts you describe, and tell you whether your environment is a fit. We tell you both yes and no.
+About thirty minutes. We listen to how your operation actually runs, walk through how Yggdrasil represents the specific parts you describe, and tell you whether your environment is a fit. We say yes and no with equal candor. If a fit looks credible we'll talk through a 120-day pilot track that lets you test the system against real workflows before signing an annual license.
 
 **→ mimirlabs.net/yggdrasil**
 
