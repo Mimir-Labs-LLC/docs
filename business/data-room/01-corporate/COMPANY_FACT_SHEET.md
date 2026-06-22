@@ -11,20 +11,21 @@
 | **Headquarters** | Harrisburg, PA |
 | **Incorporation** | Delaware |
 | **Founder/CEO** | Christopher "Doc" Gaither |
-| **Website** | mimirlabs.io |
-| **Contact** | legal@mimirlabs.com |
+| **Website** | mimirlabs.net |
+| **Contact** | legal@mimirlabs.net |
 | **Stage** | Pre-revenue (Alpha) |
 
 ## Product: Yggdrasil ERP
 
 | | |
 |---|---|
-| **Category** | Multi-tenant B2B SaaS ERP |
-| **Version** | 0.4.4a (Alpha) |
-| **Modules** | 14 fully integrated |
+| **Category** | Multi-tenant ERP with a governed operating substrate |
+| **Version** | 0.8.1a (Alpha) |
+| **Modules** | 10 core business modules + HR, Logistics, Reports |
 | **API Endpoints** | 150+ REST |
-| **Database** | 126 tables, 12 views, 150+ indexes (PostgreSQL) |
-| **Clients** | Qt 6 Desktop (Win/Mac/Linux) + Next.js Web |
+| **Database** | 323 tables, 6 views, 806 indexes (PostgreSQL) |
+| **Clients** | Qt 6 Desktop (Win/Mac/Linux) + Next.js 15 Web — both fully built |
+| **Operating-model governance** | ROPE — Runtime Operational Policy Enforcement: signed policies enforce state transitions inside the transaction |
 | **B2B Integration** | Real-time event mesh (Redpanda/Kafka + WebSocket) |
 | **Carrier APIs** | UPS, FedEx, USPS (rate shopping, labels, tracking) |
 
@@ -42,16 +43,16 @@
 
 Licensed by **governed operating footprint**. All ten modules included at every tier. Unlimited users at every tier. No per-seat fees, no per-module SKUs.
 
-**Annual License = $30,000 + ($10,000 × Footprint Score)**
+**Annual License = $75,000 + ($15,000 × Footprint Score)**
 
 | Footprint Score | Annual License | Band |
 |---|---|---|
-| 1 – 4 | $40K – $70K | Compliance Core |
-| 5 – 11 | $80K – $140K | Operational Core |
-| 12 – 26 | $150K – $290K | Regulated Enterprise |
-| 27+ | $300K+ | Portfolio / Strategic |
+| 1 – 4 | $90K – $135K | Compliance Core |
+| 5 – 11 | $150K – $240K | Operational Core |
+| 12 – 26 | $255K – $465K | Regulated Enterprise |
+| 27+ | $480K+ | Portfolio / Strategic |
 
-Activation: $25K – $75K (standard), $75K – $200K+ (migration-heavy). Optional Audit Authority designation pairs price with capped warranty exposure. 120-day Pilot: $35K fixed.
+Activation: $50K – $125K (standard), $125K – $300K+ (migration-heavy). Optional Audit Authority designation: $35K/yr per named regime (minimum), with capped warranty exposure. 120-day Pilot: $35K fixed.
 
 **Positioning:** 30 – 70% of incumbent TCO when consultants, customizations, and integration maintenance are accounted for. Calculator: [mimirlabs.net/pricing](https://mimirlabs.net/pricing).
 
@@ -78,20 +79,21 @@ Activation: $25K – $75K (standard), $75K – $200K+ (migration-heavy). Optiona
 
 ## Key Differentiators
 
-1. **Integrated PLM** — Native EBOM/MBOM/ECO; no third-party PLM needed
-2. **B2B Event Mesh** — Real-time supply chain orchestration replaces EDI
-3. **Live Carrier APIs** — Built-in UPS/FedEx/USPS rate shopping and labels
-4. **Dual Interface** — Native desktop (Qt 6) + web (Next.js)
-5. **No Per-User Fees** — Flat-rate pricing eliminates headcount anxiety
-6. **Self-Hosted Option** — On-premise data control for regulated industries
-7. **90-Day Go-Live** — vs. 6-24 months for incumbents
+1. **Operating model in the substrate (ROPE)** — The business's rules, legal states and transitions, authority, and exceptions live as governed data in the system itself. Every state transition is evaluated inside the transaction against signed policies with cited authority — and the same enforcement binds AI agents, which can propose but cannot bypass policy. The safety guarantee is in the database, not the prompt.
+2. **Integrated PLM** — Native EBOM/MBOM/ECR/ECO/ECN; no third-party PLM needed
+3. **B2B Event Mesh** — Real-time supply chain orchestration replaces EDI
+4. **Live Carrier APIs** — Built-in UPS/FedEx/USPS rate shopping and labels
+5. **Dual Interface** — Native desktop (Qt 6) + web (Next.js 15), both fully built
+6. **No Per-User Fees** — Footprint-based pricing eliminates headcount anxiety
+7. **Self-Hosted Option** — On-premise data control for regulated industries
+8. **90-Day Go-Live** — vs. 6-24 months for incumbents
 
 ## Technology Stack
 
 | Layer | Technology |
 |---|---|
 | Backend | C++17, Qt 6.2+ |
-| Web | Next.js 14, React 18, TypeScript, Tailwind CSS |
+| Web | Next.js 15, React, TypeScript, Tailwind CSS |
 | Database | PostgreSQL 16 |
 | Events | Redpanda (Kafka-compatible) |
 | Desktop | Qt 6 QML |

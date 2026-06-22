@@ -69,16 +69,16 @@ See [product/ROADMAP.md](../product/ROADMAP.md) for the full development roadmap
 
 Revenue comes from three components:
 
-1. **Annual License** -- `$30,000 + ($10,000 × Footprint Score)`. Pricing by governed operating footprint, not by module, not by seat. All ten modules included; unlimited users.
-2. **Activation Fee** -- one-time, $25K – $75K standard (up to $200K+ migration-heavy). Covers canonical model setup, governance design, migration planning, validation.
-3. **Optional Audit Authority** -- $15K – $25K / yr per warranted compliance regime, with capped remediation exposure.
+1. **Annual License** -- `$75,000 + ($15,000 × Footprint Score)`. Pricing by governed operating footprint, not by module, not by seat. All ten modules included; unlimited users.
+2. **Activation Fee** -- one-time, $50K – $125K standard (up to $300K+ migration-heavy). Covers canonical model setup, governance design, migration planning, validation.
+3. **Optional Audit Authority** -- $35K / yr per warranted compliance regime (minimum), with capped remediation exposure.
 
 | Footprint Score | Annual License | Band |
 |---|---|---|
-| 1 – 4 | $40K – $70K | Compliance Core |
-| 5 – 11 | $80K – $140K | Operational Core |
-| 12 – 26 | $150K – $290K | Regulated Enterprise |
-| 27+ | $300K+ | Portfolio / Strategic |
+| 1 – 4 | $90K – $135K | Compliance Core |
+| 5 – 11 | $150K – $240K | Operational Core |
+| 12 – 26 | $255K – $465K | Regulated Enterprise |
+| 27+ | $480K+ | Portfolio / Strategic |
 
 120-day Pilot Track: $35K fixed, 33% credit on conversion. Quarterly (3%) / Annual (8%) billing discounts.
 

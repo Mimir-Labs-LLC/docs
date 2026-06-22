@@ -17,7 +17,7 @@ The central server coordinates tenant connectivity, event streaming, and the mar
 | Redpanda (event broker) | Self-hosted on VPS | $0 | Included in VPS cost; Docker container |
 | Cloudflare Tunnel | Cloudflare (Free) | $0 | Zero-trust connectivity for tenant sites |
 | SSL/TLS | Cloudflare / Let's Encrypt | $0 | Auto-provisioned via Cloudflare |
-| DNS | Cloudflare | $0 | mimirlabs.net, mimirlabs.io |
+| DNS | Cloudflare | $0 | mimirlabs.net, mimirlabs.net |
 | Domain registration | Registrar | $4 | ~$48/yr across domains |
 | Backup storage | Hetzner Storage Box | $4 | 100 GB, daily pg_dump, 14-day local + 90-day off-site |
 | **Subtotal** | | **~$26/mo** | |

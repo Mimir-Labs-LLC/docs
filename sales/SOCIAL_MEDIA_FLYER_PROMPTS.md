@@ -37,7 +37,7 @@ Right column — "Yggdrasil ERP"
 
 BOTTOM (call to action):
 "Stop paying the Software Tax."
-mimirlabs.io
+mimirlabs.net
 
 LOGO: "MIMIR LABS" in clean sans-serif at bottom corner.
 
@@ -86,7 +86,7 @@ BOTTOM SECTION — Three key differentiators as short pills/badges:
 
 FOOTER:
 "Built for manufacturers who've outgrown spreadsheets and legacy ERP."
-MIMIR LABS | mimirlabs.io
+MIMIR LABS | mimirlabs.net
 
 DESIGN DIRECTION:
 - Dark navy or charcoal background (#0F172A)
@@ -131,7 +131,7 @@ SECTION 3 — urgency strip across bottom third:
 "5 spots. That's it. First cohort shapes the product."
 
 FOOTER:
-"Apply at mimirlabs.io"
+"Apply at mimirlabs.net"
 MIMIR LABS | Harrisburg, PA
 
 DESIGN DIRECTION:

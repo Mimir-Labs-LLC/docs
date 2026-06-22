@@ -8,7 +8,9 @@ Yggdrasil is a multi-tenant enterprise resource planning system built for small 
 
 The technical stack consists of a C++17 backend server built on Qt 6, a native Qt 6 desktop client, a Next.js web application, and PostgreSQL as the data store. In the default SaaS deployment, all server-side components run on provider-managed infrastructure (currently a Hetzner VPS), with each tenant provisioned as an isolated set of Docker containers. Cross-tenant coordination runs through a Redpanda broker (Kafka-compatible). Desktop and web clients at the tenant's site connect through Cloudflare Zero Trust tunnels. A self-hosted deployment option exists for data sovereignty cases — defense, aerospace, and similar — where the full stack runs on the tenant's own infrastructure.
 
-The system is built by Mimir Labs LLC and is currently at version 0.4.4a — alpha maturity. There are no production deployments or paying customers at the time of writing.
+What distinguishes Yggdrasil from a conventional ERP is that the operating model itself — the rules, the legal states and the transitions between them, who holds authority, and where exceptions live — is captured as governed data inside the system and enforced at runtime. This subsystem, ROPE (Runtime Operational Policy Enforcement), evaluates each governed state transition inside the transaction against signed policies with cited authority; an illegal transition is refused and rolled back, not recorded and reconciled later. The same enforcement binds AI agents, which can propose actions but cannot set a disallowed state or rewrite a policy. This is covered further in Section 5.
+
+The system is built by Mimir Labs LLC and is currently at version 0.8.1a — alpha maturity. There are no production deployments or paying customers at the time of writing.
 
 ## 2. What Yggdrasil Is Not
 
@@ -55,14 +57,14 @@ The cross-tenant coordination feature creates a secondary positioning axis. Trad
 Yggdrasil uses subscription pricing structured around **governed operating footprint**, not per module and not per seat. The recurring annual license follows a published formula:
 
 ```
-Annual License = $30,000 + ($10,000 × Footprint Score)
+Annual License = $75,000 + ($15,000 × Footprint Score)
 ```
 
-The Footprint Score is the sum of seven verifiable inputs (physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth) and produces four descriptive bands: Compliance Core ($40K – $70K), Operational Core ($80K – $140K), Regulated Enterprise ($150K – $290K), and Portfolio / Strategic ($300K+). All ten Business Modules are included at every tier; authorized users are unlimited at every tier. The pricing model deliberately removes the two perverse incentives present in the mainstream ERP market: per-seat fees that discourage organizations from giving system access to shop floor workers, warehouse staff, and quality inspectors; and per-module fees that fragment the customer's view of an integrated platform. The published formula is verifiable by the customer and by their procurement team; a public calculator at mimirlabs.net/pricing exposes the math live.
+The Footprint Score is the sum of seven verifiable inputs (physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth) and produces four descriptive bands: Compliance Core ($90K – $135K), Operational Core ($150K – $240K), Regulated Enterprise ($255K – $465K), and Portfolio / Strategic ($480K+). All ten Business Modules are included at every tier; authorized users are unlimited at every tier. The pricing model deliberately removes the two perverse incentives present in the mainstream ERP market: per-seat fees that discourage organizations from giving system access to shop floor workers, warehouse staff, and quality inspectors; and per-module fees that fragment the customer's view of an integrated platform. The published formula is verifiable by the customer and by their procurement team; a public calculator at mimirlabs.net/pricing exposes the math live.
 
-One-time activation fees accompany each subscription, ranging from $25K to $75K for standard deployments and up to $200K+ for migration-heavy or multi-site programs. Activation covers canonical model setup, tenant configuration, governance boundary definition, role design, initial workflows, migration planning, and validation testing. Ratatosk (governance discovery) and Ragnarok (migration execution) engagements paid prior to activation are credited 1:1 against the activation fee. A location-based fee applies for implementation sites more than 50 miles from the company's base in Harrisburg, PA, covering travel costs at prevailing rates.
+One-time activation fees accompany each subscription, ranging from $50K to $125K for standard deployments and up to $300K+ for migration-heavy or multi-site programs. Activation covers canonical model setup, tenant configuration, governance boundary definition, role design, initial workflows, migration planning, and validation testing. Ratatosk (governance discovery) and Ragnarok (migration execution) engagements paid prior to activation are credited 1:1 against the activation fee. A location-based fee applies for implementation sites more than 50 miles from the company's base in Harrisburg, PA, covering travel costs at prevailing rates.
 
-Optional **Audit Authority** designations make Yggdrasil the contractually warranted system of record for one or more named compliance regimes (ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA). Pricing is $15K – $25K / yr per designation; Mimir Labs accepts capped warranty exposure ($50K – $100K per regime) for audit-finding remediation costs traceable to a Yggdrasil failure. This pricing line is structurally distinct from the mainstream ERP pattern of charging more for regulated customers without accepting any regulatory liability.
+Optional **Audit Authority** designations make Yggdrasil the contractually warranted system of record for one or more named compliance regimes (ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA). Pricing is $35K / yr per named regime (minimum), set by warranty exposure and deployment scope; Mimir Labs accepts capped warranty exposure for audit-finding remediation costs traceable to a Yggdrasil failure. This pricing line is structurally distinct from the mainstream ERP pattern of charging more for regulated customers without accepting any regulatory liability.
 
 Billing cycle discounts of 3% (quarterly) and 8% (annual) apply to the recurring subscription fee. The Validation Cohort program offers locked-in cohort pricing for the life of the subscription to qualifying pre-release customers. A 120-day Pilot Track ($35K fixed: $15K activation + $5K/mo × 4) provides a low-friction proof path with 33% conversion credit toward the first annual license if signed within 90 days of pilot end.
 
@@ -76,5 +78,5 @@ The architecture, trust model, and isolation mechanisms are covered in DD-02. Da
 
 ---
 
-*Document version: 1.1 — February 2026*
-*System version: Yggdrasil v0.4.4a (alpha)*
+*Document version: 1.2 — June 2026*
+*System version: Yggdrasil v0.8.1a (alpha)*

@@ -1,10 +1,21 @@
 # Yggdrasil ERP - Product Roadmap
 
+> **Current state (v0.8.1a, June 2026):** Phases 0–2 are largely delivered.
+> Both the Qt desktop client and the Next.js web application are fully built and
+> connected; the schema is at **323 tables, 6 views, 806 indexes**; CI/CD,
+> Docker, export, notifications, attachments, search, and the Logistics module
+> have all shipped. The defining addition since this roadmap was first written is
+> **ROPE — Runtime Operational Policy Enforcement**: signed policies enforcing
+> state transitions inside the transaction, the basis of the product's
+> operating-model-as-substrate thesis and its AI-safety story. Remaining work is
+> concentrated in Phase 3 (production hardening / SOC 2) and Phase 4 (market
+> entry).
+
 ## Phase 0: Foundation (Complete)
 Goal: Core architecture, database, and module APIs
 
 ### Database & Schema
-- [x] PostgreSQL database schema (108 tables, 6 views, 150+ indexes)
+- [x] PostgreSQL database schema (323 tables, 6 views, 806 indexes)
 - [x] Multi-tenant architecture with tenant_id isolation on all tables
 - [x] Audit trail timestamps (created_at, updated_at) on all entity tables
 - [x] Foundation seed data (tenant config, 10 RBAC roles, permissions catalog, tenant settings)
@@ -65,7 +76,7 @@ Goal: Core architecture, database, and module APIs
 - [x] Admin module fully connected (Users, Roles, Permissions, Settings — full CRUD)
 - [x] HR module components (EmployeeTable, PayrollTable, PerformanceTable)
 - [x] PLM module components (EbomPanel, MbomPanel, EngineeringReportPanel)
-- [x] Module stub pages for all 13 modules (CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, Admin, HR, Workflows)
+- [x] Full module pages across CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, Service, Admin, HR, Workflows — now fully built and backend-connected (no longer stubs)
 
 ### Build & Tooling
 - [x] CMake build system for server and client
@@ -155,10 +166,12 @@ Goal: Market expansion and feature leadership
 
 | Milestone | Target Date | Status |
 |-----------|-------------|--------|
-| Alpha release (current state) | Feb 2026 | Done |
-| Automated test coverage > 60% | Q2 2026 | In progress |
-| Web app connected to backend | Q2 2026 | In progress |
-| First internal production deployment | Q3 2026 | Not started |
+| Alpha release | Feb 2026 | Done |
+| Web app connected to backend | Q2 2026 | Done |
+| ROPE operating-model governance wired | Q2 2026 | Done |
+| Validation cohort (5 PA manufacturers, discovery) | Q2 2026 | In progress |
+| Automated test coverage > 60% | Q3 2026 | In progress |
+| First internal production deployment | Q3 2026 | In progress (VPS demo deployment live) |
 | Security audit complete | Q4 2026 | Not started |
 | Beta release | Q4 2026 | Not started |
 | First paying customer | Q1 2027 | Not started |

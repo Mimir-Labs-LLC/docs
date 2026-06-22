@@ -1,6 +1,6 @@
 # Mimir Labs — Executive Summary
 
-**Harrisburg, PA | February 2026 | mimirlabs.io**
+**Harrisburg, PA | February 2026 | mimirlabs.net**
 
 ---
 
@@ -78,4 +78,4 @@ The product is built. The market is ready. Every Anchor partner becomes an Evang
 
 ---
 
-*Confidential — Mimir Labs LLC | legal@mimirlabs.com*
+*Confidential — Mimir Labs LLC | legal@mimirlabs.net*

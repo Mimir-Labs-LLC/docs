@@ -58,12 +58,12 @@ Real-time integration platform connecting disparate ERP systems through a canoni
 **Status:** Desktop application built, playbook library complete.
 
 ### Yggdrasil ERP — Manufacturing ERP (SaaS + Implementation)
-Comprehensive 10-module ERP system for discrete and mixed-mode manufacturers. Includes CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, and Service modules. Subscription pricing ($500-$4,800/mo) plus one-time implementation fees ($6,000-$25,000).
+Comprehensive 10-module ERP system for discrete and mixed-mode manufacturers. Includes CRM, Sales, Purchasing, Manufacturing, Warehouse, Finance, Projects, PLM, Quality, and Service modules. Licensed by governed operating footprint: **Annual License = $75,000 + ($15,000 × Footprint Score)** (bands $90K – $480K+/yr), plus one-time activation ($50K – $125K standard).
 
-**Status:** C++ server, Qt desktop client, and Next.js web application built. 101 database tables, 150+ API endpoints, 10 business modules operational. Pre-production.
+**Status:** C++ server, Qt desktop client, and Next.js web application all built and connected. 323 database tables, 806 indexes, 150+ API endpoints, and 10 business modules operational — plus **ROPE (Runtime Operational Policy Enforcement)**: signed policies that govern state transitions inside the transaction, the basis of the platform's operating-model-as-substrate and AI-safety thesis. Alpha; VPS demo deployment live.
 
 ### Mimisbrunnr — Universal Semantic Reference Model
-A 166-table reference model spanning 17 business domains that serves as the shared vocabulary for all Mimir Labs products. Mimisbrunnr enables semantic interoperability across tools and customer engagements without requiring Yggdrasil as the target system.
+A 323-table reference model spanning 17 business domains that serves as the shared vocabulary for all Mimir Labs products. Mimisbrunnr enables semantic interoperability across tools and customer engagements without requiring Yggdrasil as the target system.
 
 ---
 
@@ -91,7 +91,7 @@ The business starts services-heavy and shifts to SaaS-dominant as the installed 
 | Ratatosk | Services | $5,000 - $12,500/engagement |
 | Ragnarok | Services | $15,000 - $75,000/engagement |
 | Bifrost | SaaS | $2,000 - $5,000/mo |
-| Yggdrasil ERP | SaaS + implementation | $500 - $4,800/mo + $6K-$25K impl |
+| Yggdrasil ERP | SaaS + activation | $75K + ($15K × Footprint Score)/yr ($90K-$480K+) + $50K-$125K activation |
 
 ### Bundle Pricing
 
@@ -131,7 +131,7 @@ The business starts services-heavy and shifts to SaaS-dominant as the installed 
 
 ## 6. Competitive Advantage
 
-1. **Mimisbrunnr reference model** — A pre-built 166-table canonical vocabulary that eliminates the per-customer ontology build required by competitors. No other vendor offers a universal semantic reference model for manufacturing.
+1. **Mimisbrunnr reference model** — A pre-built 323-table canonical vocabulary that eliminates the per-customer ontology build required by competitors. No other vendor offers a universal semantic reference model for manufacturing.
 
 2. **Workshop-to-platform pipeline** — Ratatosk workshops produce a manifest that provisions Bifrost integration and informs Ragnarok migration. The diagnostic engagement naturally leads to the remediation product. Each product sells the next.
 
@@ -151,14 +151,14 @@ The business starts services-heavy and shifts to SaaS-dominant as the installed 
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| Total revenue | $92K | $721K | $2.73M | $7.25M | $15.4M |
+| Total revenue | $296K | $1.43M | $4.53M | $10.74M | $21.67M |
 | Total expenses | $115K | $553K | $1.30M | $2.49M | $4.00M |
-| Net income | ($23K) | $168K | $1.43M | $4.76M | $11.4M |
-| Net margin | (25%) | 23% | 52% | 66% | 74% |
-| Recurring ARR | $40K | $384K | $1.68M | $4.96M | $11.4M |
+| Net income | $181K | $880K | $3.23M | $8.25M | $17.67M |
+| Net margin | 61% | 61% | 71% | 77% | 82% |
+| Recurring ARR | $140K | $902K | $3.30M | $8.34M | $17.64M |
 | Team size | 1 | 3 | 7 | 14 | 22 |
 
-Cash-flow positive in Year 2. The business is self-sustaining before the loan's principal repayment period becomes material.
+Cash-flow positive in Year 1 under current pricing. The business is self-sustaining well before the loan's principal repayment period becomes material.
 
 ---
 

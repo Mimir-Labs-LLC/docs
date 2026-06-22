@@ -19,16 +19,24 @@ possible but the click targets below are the web app. Capture screen-only at
 idea. Do NOT say "Deterministic B2B Marketplace" or "Universal BI." Keep the
 spoken lines plain; the captions do the work when muted.
 
+**UI note.** Records now open **full-pane** (with a popout button), not in a
+modal overlay. Opening the receipt in Beat 2 lands on the full-pane detail —
+frame the shot for that, not a centered dialog.
+
 ---
 
 > **Reality note (read before recording).** This cut shows what's *actually
-> live* as of v0.8.1a: **governed status fields** (every status is a
-> schema-constrained dropdown, not free text) plus the **narrative qualifier**
-> (sub-status preset + note), and the **ROPE policy library**. It deliberately
-> does NOT stage a live "click Receive → policy-block modal" on a receipt — that
-> receipt-side enforcement panel is not a shipped surface yet, so don't try to
-> film it. The governed dropdown + qualifier is the real, demonstrable "rules
-> live in the system" moment.
+> live* as of v0.8.1a-15: **governed status fields** (every status is a
+> schema-constrained dropdown, not free text), the **narrative qualifier**
+> (sub-status preset + note), and the **ROPE policy library**. As of v0.8.1a-15
+> the **live "Receive → block" panel is now a shipped surface** and can be filmed
+> — the trigger is the **"Receive Goods"** action on a **Purchase Order**
+> (Operations → Purchasing → Purchase Orders → open a PO → Receive Goods), and it
+> fires only when a ROPE policy gates that PO's `received` transition. Because
+> this is a *recorded* reel, not a live call, you can seed/author that policy
+> first and capture a clean block (see the optional Beat 4b). If you don't want
+> to set that up, the governed dropdown + qualifier + policy library still carry
+> the whole story on their own.
 
 ## Pre-flight (do this before you hit record)
 
@@ -39,6 +47,29 @@ spoken lines plain; the captions do the work when muted.
 | P.3 | **Dry-run the feature once.** Operations → Purchasing → Receipts → open a receipt → Edit. Confirm **Status** is a **dropdown** of allowed states (no free typing), and that setting a hold-type status reveals the **qualifier** preset list + a note field. Reload so the take starts fresh. | Status is a select; qualifier + note appear when a hold status is chosen. |
 | P.4 | Turn on your caption/overlay track (see copy below). Website and social play **muted** by default. | Every beat has a readable on-screen line. |
 | P.5 | If your cut includes the policy library and the sidebar "ROPE Policies" link 404s (legacy `/ope` slug), navigate by typing `/rope` in the address bar before rolling. | No 404 on camera. |
+
+---
+
+## Intro & outro scripts
+
+Two short scripts that bookend the reel. Use the **intro** as a cold-open
+voiceover (or a spoken framing line when the reel is played live in a pitch);
+use the **outro** as the closing voiceover over Beat 6's end card. Both are
+written to be read aloud in a few seconds — trim to fit.
+
+**Intro (cold open, ~6s — before Beat 1).**
+> *"A quick look at one manufacturing ERP where the operating rules don't live in
+> a workflow or a prompt — they live in the system itself, as structure you can
+> see. In ninety seconds: a status the system governs, the human story captured as
+> data beside it, and the signed policies the rules come from — the foundation
+> that lets both people and AI act on one source of truth."*
+
+**Outro (closing VO over Beat 6, ~10s — the benefit, focused on who it serves).**
+> *"One system that captures how the business actually runs — the rules, the
+> states, the authority — as live data. Then it serves that same governed truth
+> to your people and your AI agents alike. Your people get governed records and an
+> audit trail that answers the auditor. Your agents get to read and propose, but
+> never to bypass the rule. Govern the operating model once. Serve it to both."*
 
 ---
 
@@ -70,6 +101,14 @@ Captions are paste-ready lower-thirds for the muted track.
 - **On screen:** a signed policy with cited authority; the artifact rendered as readable English over the structured predicate.
 - **VO:** *"And the rules that constrain those states aren't buried in code. Each one is a signed policy with cited authority, and this is the actual predicate the engine evaluates inside the transaction. The rule and the data live in the same system."*
 - **Caption:** **Every rule is a signed policy — evaluated inside the transaction.**
+
+### Beat 4b — (Optional) The live block · insert ~12s after Beat 4
+- **Prerequisite:** a ROPE policy gating the apex slot's PO `received` transition (author one before filming; the tightest version blocks while a "quality hold" qualifier is set — the qualifier became a ROPE predicate operand in v0.8.1a-15). Dry-run it once before the real take.
+- **Click target:** Operations → Purchasing → Purchase Orders → open an approved PO → **Receive Goods**.
+- **On screen:** the **block panel** — "Action blocked by policy," the transition, and the policy named with its decision code and cited authority. Nothing is saved.
+- **VO:** *"And when you try to cross one of these rules, the system doesn't warn you — it refuses, inside the transaction, and names the policy that stopped you."*
+- **Caption:** **The substrate refuses an illegal move — and names the rule.**
+- **Note:** if you include this beat, it pairs best right before Beat 5; the AI kicker then lands as "an agent hits the same wall."
 
 ### Beat 5 — The AI kicker · 1:04–1:20  ← the investable line
 - **Click target:** slow push back to the Dashboard substrate widget.
@@ -116,9 +155,9 @@ Record the full 90-second master, then trim. Every venue is covered by one shoot
 - **No invented traction.** If a card or description references customers: alpha, 2026 Validation Cohort in discovery, Penn State LaunchBox / MANTEC, no signed production customers yet. Do not imply more.
 - **Don't film credentials.** Log in before you roll, or cut the paste.
 - **One clean take of Beat 3.** The qualifier is the differentiator. If it doesn't appear, the field you opened isn't qualifier-wired — use receiving Status (it is), or another record whose primary status carries the qualifier.
-- **Don't stage a live receipt "block."** That receipt-side enforcement panel isn't a shipped surface; the governed dropdown + qualifier + policy library is the real story. (See the reality note up top.)
+- **The live block is now filmable, but only with a seeded policy.** As of v0.8.1a-15 the "Receive → block" panel is shipped (trigger: a PO's **Receive Goods** action). Film it only after you've authored a policy gating that PO's `received` transition and dry-run it once — an on-camera receive that silently succeeds reads as "no enforcement." No seeded policy? Skip Beat 4b; the governed dropdown + qualifier + policy library still carry it. (See the reality note up top.)
 - **Keep the spoken lines plain.** The substrate idea lands harder stated simply than dressed up.
 
 ---
 
-*Created 2026-06-19; reworked 2026-06-19 to reflect v0.8.1a (governed status dropdowns + narrative qualifier are live; the live receipt-side ROPE-block panel is not). Maintainer: Christopher Gaither, cgaither@mimirlabs.net. Source of click accuracy: `sales/Full Demo Script/yggdrasil-platform-demo.md`. Update if the sidebar structure, apex archetype, the governed-status/qualifier flow, or the ROPE policy library changes.*
+*Created 2026-06-19; reworked 2026-06-19 to reflect v0.8.1a (governed status dropdowns + narrative qualifier are live). Reviewed 2026-06-21 against v0.8.1a-13 — added the full-pane record-UI note. Updated 2026-06-21 for v0.8.1a-15: the live "Receive → block" panel is now a shipped surface (trigger = a PO's Receive Goods action, requires a gating policy) and the narrative qualifier is now a ROPE predicate operand — added optional Beat 4b; added Intro & Outro scripts (the outro lands the dual-consumer thesis: govern the operating model once, serve it to both human and AI consumers). Maintainer: Christopher Gaither, cgaither@mimirlabs.net. Source of click accuracy: `sales/Full Demo Script/yggdrasil-platform-demo.md` (kept in sync; the full script's Scene 5b matches Beat 4b). Update if the sidebar structure, apex archetype, the governed-status/qualifier flow, the receive-block trigger, or the ROPE policy library changes.*

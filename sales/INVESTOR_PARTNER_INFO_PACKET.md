@@ -3,7 +3,7 @@
 **Prepared by:** Christopher "Doc" Gaither, CEO/COO
 **Date:** February 2026
 **Location:** Harrisburg, PA
-**Contact:** legal@mimirlabs.com | mimirlabs.io
+**Contact:** legal@mimirlabs.net | mimirlabs.net
 
 ---
 
@@ -44,7 +44,7 @@
 | **Product** | Yggdrasil ERP Platform |
 | **Stage** | Alpha (v0.4.4a) — pre-revenue |
 | **Target Market** | SMB manufacturers (10-500 employees) |
-| **Website** | mimirlabs.io |
+| **Website** | mimirlabs.net |
 
 **Mission:** Build cloud-native ERP platforms that combine enterprise depth with modern developer experience — software meant to last longer than you.
 
@@ -531,8 +531,8 @@ Information Security, Access Control, Data Classification, Encryption, Incident 
 Founder & CEO/COO, Mimir Labs LLC
 Harrisburg, PA
 
-**Website:** mimirlabs.io
-**Email:** legal@mimirlabs.com
+**Website:** mimirlabs.net
+**Email:** legal@mimirlabs.net
 
 **Next steps for interested parties:**
 1. Execute Mutual NDA

@@ -3,7 +3,7 @@
 **Prepared by:** Christopher "Doc" Gaither, CEO/COO
 **Date:** February 2026
 **Location:** Harrisburg, PA
-**Contact:** legal@mimirlabs.com | mimirlabs.io
+**Contact:** legal@mimirlabs.net | mimirlabs.net
 
 ---
 
@@ -44,7 +44,7 @@
 | **Product** | Yggdrasil ERP Platform |
 | **Stage** | Alpha (v0.4.4a) — pre-revenue |
 | **Target Market** | SMB manufacturers (10-500 employees) |
-| **Website** | mimirlabs.io |
+| **Website** | mimirlabs.net |
 
 **Mission:** Build cloud-native ERP platforms that combine enterprise depth with modern developer experience — software meant to last longer than you.
 
@@ -231,20 +231,20 @@ Yggdrasil targets the gap between lightweight SMB tools and expensive enterprise
 
 Pricing is by **governed operating footprint** — not per module, not per seat. All ten Business Modules included at every tier; unlimited users.
 
-**Annual License = $30,000 + ($10,000 × Footprint Score)**
+**Annual License = $75,000 + ($15,000 × Footprint Score)**
 
 The Footprint Score is the sum of seven verifiable inputs: physical sites, legal entities, integrated systems, annual governed transitions, compliance posture, SLA tier, and audit retention depth. The customer can verify and reproduce the math themselves; the calculator at [mimirlabs.net/pricing](https://mimirlabs.net/pricing) shows the decomposition live.
 
 | Footprint Score | Annual License | Band | Profile |
 |---|---|---|---|
-| 1 – 4 | $40K – $70K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
-| 5 – 11 | $80K – $140K | **Operational Core** | Single-site or small multi-site, full operational running |
-| 12 – 26 | $150K – $290K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
-| 27+ | $300K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
+| 1 – 4 | $90K – $135K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
+| 5 – 11 | $150K – $240K | **Operational Core** | Single-site or small multi-site, full operational running |
+| 12 – 26 | $255K – $465K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
+| 27+ | $480K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
 
-**Activation:** $25K – $75K standard, $75K – $200K+ migration-heavy. Covers canonical model setup, governance design, migration planning, validation. Ratatosk and Ragnarok engagements paid prior credit 1:1 against activation.
+**Activation:** $50K – $125K standard, $125K – $300K+ migration-heavy. Covers canonical model setup, governance design, migration planning, validation. Ratatosk and Ragnarok engagements paid prior credit 1:1 against activation.
 
-**Audit Authority (optional):** Each designation makes Yggdrasil the contractually warranted system of record for one named compliance regime. $15K – $25K / yr per designation, with capped warranty exposure ($50K – $100K per regime). Eligible: ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA.
+**Audit Authority (optional):** Each designation makes Yggdrasil the contractually warranted system of record for one named compliance regime. $35K / yr per named regime (minimum), priced by warranty exposure and deployment scope, with capped warranty exposure if a finding traces to a Yggdrasil failure. Eligible: ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA.
 
 **Pilot Track:** $35K fixed for 120 days ($15K activation + $5K/mo × 4). 33% conversion credit toward first annual license if signed within 90 days of pilot end.
 
@@ -531,8 +531,8 @@ Information Security, Access Control, Data Classification, Encryption, Incident 
 Founder & CEO/COO, Mimir Labs LLC
 Harrisburg, PA
 
-**Website:** mimirlabs.io
-**Email:** legal@mimirlabs.com
+**Website:** mimirlabs.net
+**Email:** legal@mimirlabs.net
 
 **Next steps for interested parties:**
 1. Execute Mutual NDA

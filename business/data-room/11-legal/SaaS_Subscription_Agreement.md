@@ -292,7 +292,7 @@ Each a "Party" and collectively the "Parties."
 The recurring annual subscription fee is computed from the published Yggdrasil pricing formula:
 
 ```
-Annual License = $30,000 + ($10,000 × Footprint Score)
+Annual License = $75,000 + ($15,000 × Footprint Score)
 ```
 
 The Footprint Score is the sum of seven verifiable inputs that describe the operational scope brought under the platform's governance. The current values are recorded in this Schedule and may be revised at renewal upon mutual agreement.
@@ -314,8 +314,8 @@ The Footprint Score is the sum of seven verifiable inputs that describe the oper
 
 | Component | Amount |
 |-----------|--------|
-| Base Platform Fee | $30,000 |
-| Footprint Score Multiplier ($10,000 × Footprint Score) | ${{text\|1\|*\|Footprint multiplier amount\|fp_multiplier_amount}} |
+| Base Platform Fee | $75,000 |
+| Footprint Score Multiplier ($15,000 × Footprint Score) | ${{text\|1\|*\|Footprint multiplier amount\|fp_multiplier_amount}} |
 | **Annual Subscription Fee** | **${{text\|1\|*\|Annual subscription amount\|annual_subscription_amount}}** |
 
 #### Pricing Band (descriptive)
@@ -478,9 +478,7 @@ Select all that apply (each requires Provider engineering and legal sign-off pri
 
 | Designation | Annual Fee | Warranty Cap |
 |---|---|---|
-| 1st designated regime | Included if Footprint Score ≥ 10; otherwise $15K / yr | $50K |
-| 2nd – 3rd designated regime, each | $15,000 / yr | +$50,000 each |
-| 4th and subsequent designated regimes, each | $25,000 / yr | +$100,000 each |
+| Each designated regime | $35,000 / yr (minimum), set by warranty exposure, deployment scope, and customer control obligations | Per-regime cap set in this Schedule, subject to the terms, exclusions, and limitations of this Agreement |
 
 **Computed Audit Authority annual fee:** ${{text|1|*|Audit authority annual fee|audit_authority_annual_fee}}
 **Aggregate warranty cap:** ${{text|1|*|Audit authority warranty cap|audit_authority_warranty_cap}}

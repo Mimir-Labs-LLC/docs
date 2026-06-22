@@ -19,7 +19,7 @@ Yggdrasil pricing has three independently-priced components.
 ### 1. Annual Platform License
 
 ```
-Annual License = $30,000 + ($10,000 × Footprint Score)
+Annual License = $75,000 + ($15,000 × Footprint Score)
 ```
 
 The Footprint Score is the sum of seven verifiable inputs that measure the actual operational scope under Yggdrasil's governance.
@@ -37,26 +37,23 @@ The Footprint Score is the sum of seven verifiable inputs that measure the actua
 ### 2. Activation Fee
 
 ```
-Activation = $25,000 + ($5,000–$15,000 per source system migrated at cutover)
-            + ($15,000 per additional site beyond first)
-            + ($15,000–$40,000 for heavy compliance documentation)
+Activation = $50,000 + ($10,000–$25,000 per migrated source system)
+            + ($25,000 per additional site)
 ```
 
 Activation covers canonical model setup, tenant configuration, governance boundary definition, role design, initial workflows, migration planning, and validation testing. Ratatosk and Ragnarok engagements paid prior are credited 1:1 against activation.
 
-Standard deployment range: **$25K – $75K**. Migration-heavy or multi-site deployments: **$75K – $200K+**.
+Standard deployment range: **$50K – $125K**. Migration-heavy or multi-site deployments: **$125K – $300K+**.
 
 ### 3. Audit Authority (Optional)
 
 Each Audit Authority designation makes Yggdrasil the contractually warranted system of record for one named compliance regime. Mimir Labs commits to audit-readiness for the designation and accepts capped warranty exposure if a finding traces to a Yggdrasil failure.
 
-| Designation | Annual fee | Warranty cap |
-|---|---|---|
-| 1st regime | Included with Footprint Score ≥ 10 | $50K |
-| Each additional regime, 2nd–3rd | $15K / yr | +$50K each |
-| Each additional regime, 4th+ | $25K / yr | +$100K each |
+```
+Audit Authority = $35,000 / yr per named regime (minimum)
+```
 
-Eligible regimes: ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA. Each requires Mimir Labs engineering and legal sign-off before designation.
+Each designation is priced by warranty exposure, deployment scope, and customer control obligations, subject to contract terms, customer obligations, exclusions, and warranty caps. Eligible regimes: ISO 9001, AS9100, ISO 13485, ITAR, FDA 21 CFR Part 11, CMMC L2/L3, SOC 2, SOX, HIPAA. Each requires Mimir Labs engineering and legal sign-off before designation.
 
 ---
 
@@ -66,10 +63,10 @@ The formula produces these ranges. Bands are descriptive, not prescriptive — t
 
 | Footprint Score | Annual License | Band | Profile |
 |---|---|---|---|
-| 1 – 4 | $40K – $70K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
-| 5 – 11 | $80K – $140K | **Operational Core** | Single-site or small multi-site, full operational running |
-| 12 – 26 | $150K – $290K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
-| 27+ | $300K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
+| 1 – 4 | $90K – $135K | **Compliance Core** | Single-site, controlled scope, audit-integrity-first |
+| 5 – 11 | $150K – $240K | **Operational Core** | Single-site or small multi-site, full operational running |
+| 12 – 26 | $255K – $465K | **Regulated Enterprise** | Multi-site, heavier integrations, CMMC/FDA/aerospace posture |
+| 27+ | $480K+ | **Portfolio / Strategic** | PE rollup, multi-entity, OEM/SI partnership |
 
 ---
 
@@ -77,11 +74,11 @@ The formula produces these ranges. Bands are descriptive, not prescriptive — t
 
 **Example A — Single-site ISO manufacturer, light scope.**
 1 site (1) + 1 entity (0) + 4 integrations (1) + 200K transitions (2) + ISO (2) + Standard SLA (0) + 7-year retention (1) = **Score 7**
-→ $30K + (7 × $10K) = **$100K / yr** (Operational Core)
+→ $75K + (7 × $15K) = **$180K / yr** (Operational Core)
 
 **Example B — Three-plant aerospace supplier.**
 3 sites (3) + 2 entities (1) + 9 integrations (4) + 1.5M transitions (4) + AS9100+CMMC L2 (5, taking the higher) + Critical SLA (2) + 10-year retention (2) = **Score 21**
-→ $30K + (21 × $10K) = **$240K / yr** (Regulated Enterprise)
+→ $75K + (21 × $15K) = **$390K / yr** (Regulated Enterprise)
 
 **Example C — PE portfolio, six-entity manufacturing rollup.**
 Score will land north of 30. Skip the formula; run a Strategic conversation.
@@ -138,4 +135,4 @@ Every tenant runs the same data model, the same validation rules, the same API c
 
 ---
 
-*Pricing model effective April 2026. Calculator available at [mimirlabs.net/pricing](https://mimirlabs.net/pricing).*
+*Pricing model effective June 2026 ($75K + $15K × Footprint Score). Calculator available at [mimirlabs.net/pricing](https://mimirlabs.net/pricing).*

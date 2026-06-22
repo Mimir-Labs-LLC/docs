@@ -8,24 +8,24 @@
 
 ## Market Positioning
 
-Yggdrasil targets a gap in the manufacturing ERP market: companies too large for horizontal tools (Odoo, Zoho) but priced out of or underserved by legacy incumbents (Epicor, Infor, Syspro). All ten Business Modules are included in every subscription — the platform operates as one integrated system, not a bundle of optional add-ons — and our modern tech stack (C++/Qt desktop, Next.js web, PostgreSQL) delivers a faster, more intuitive experience than aging on-premise solutions.
+Yggdrasil targets a gap in the manufacturing ERP market: companies too large for horizontal tools (Odoo, Zoho) but priced out of or underserved by legacy incumbents (Epicor, Infor, Syspro). All ten Business Modules are included in every subscription — the platform operates as one integrated system, not a bundle of optional add-ons — and our modern tech stack (C++/Qt desktop, Next.js web, PostgreSQL) delivers a faster, more intuitive experience than aging on-premise solutions. The structural differentiator is **ROPE** (Runtime Operational Policy Enforcement): the customer's operating model — rules, legal states and transitions, authority, exceptions — is governed inside the system and enforced at every state transition, which is also what makes the platform safe to automate with AI agents. This is the basis of the Footprint Score pricing: customers pay for the share of the enterprise brought under governed operational control.
 
 ## Pricing Model
 
 Three independently-priced components:
 
 ```
-Annual License = $30,000 + ($10,000 × Footprint Score)
+Annual License = $75,000 + ($15,000 × Footprint Score)
 ```
 
 | Footprint Score | Annual License | Activation | Band |
 |---|---|---|---|
-| 1 – 4 | $40K – $70K | $25K – $40K | Compliance Core |
-| 5 – 11 | $80K – $140K | $30K – $60K | Operational Core |
-| 12 – 26 | $150K – $290K | $50K – $100K | Regulated Enterprise |
-| 27+ | $300K+ | $100K – $200K+ | Portfolio / Strategic |
+| 1 – 4 | $90K – $135K | $50K – $75K | Compliance Core |
+| 5 – 11 | $150K – $240K | $60K – $90K | Operational Core |
+| 12 – 26 | $255K – $465K | $90K – $150K | Regulated Enterprise |
+| 27+ | $480K+ | $150K – $300K+ | Portfolio / Strategic |
 
-Plus optional Audit Authority designations ($15K – $25K / yr per regime) and the 120-day Pilot Track ($35K fixed, 33% conversion credit).
+Plus optional Audit Authority designations ($35K / yr per named regime, minimum) and the 120-day Pilot Track ($35K fixed, 33% conversion credit).
 
 Full pricing logic at [business/PRICING.md](../../PRICING.md).
 
@@ -68,26 +68,26 @@ Full pricing logic at [business/PRICING.md](../../PRICING.md).
 
 | Tier | Annual License | Activation (gross) |
 |---|---|---|
-| Compliance Core | $50,000 | $30,000 |
-| Operational Core | $100,000 | $50,000 |
-| Regulated Enterprise | $200,000 | $75,000 |
-| Portfolio / Strategic | $400,000 | $150,000 |
+| Compliance Core | $100,000 | $60,000 |
+| Operational Core | $190,000 | $80,000 |
+| Regulated Enterprise | $330,000 | $110,000 |
+| Portfolio / Strategic | $550,000 | $200,000 |
 
-These are mid-band figures. Real customers will land at points within their tier ranges; the figures used here represent the conservative-to-typical case.
+These are conservative mid-band figures under the $75K + $15K × Footprint Score model. Real customers will land at points within their tier ranges; the figures used here represent the conservative-to-typical case.
 
 ## Revenue
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|---|---|---|---|---|
 | Pilot revenue (Pilot Track) | $105K | $280K | $490K | $875K | $1,400K |
-| Activation revenue (gross) | $30K | $140K | $325K | $640K | $1,160K |
-| Subscription revenue (net of pilot credits) | $14K | $129K | $533K | $1,427K | $3,162K |
-| Audit Authority revenue | $0 | $0 | $70K | $151K | $286K |
-| **Total Yggdrasil revenue** | **$149K** | **$549K** | **$1.42M** | **$3.09M** | **$6.01M** |
+| Activation revenue (gross) | $60K | $260K | $570K | $1,100K | $1,940K |
+| Subscription revenue (net of pilot credits) | $39K | $299K | $1,103K | $2,833K | $6,078K |
+| Audit Authority revenue | $0 | $0 | $164K | $353K | $668K |
+| **Total Yggdrasil revenue** | **$204K** | **$839K** | **$2.33M** | **$5.16M** | **$10.09M** |
 | | | | | | |
-| Subscription ARR (EOY, full run-rate) | $50K | $300K | $950K | $2,250K | $4,650K |
-| Audit Authority ARR (EOY) | $0 | $0 | $70K | $151K | $286K |
-| **Recurring ARR (EOY)** | **$50K** | **$300K** | **$1.02M** | **$2.40M** | **$4.94M** |
+| Subscription ARR (EOY, full run-rate) | $100K | $590K | $1,800K | $4,210K | $8,520K |
+| Audit Authority ARR (EOY) | $0 | $0 | $164K | $353K | $668K |
+| **Recurring ARR (EOY)** | **$100K** | **$590K** | **$1.96M** | **$4.56M** | **$9.19M** |
 
 Subscription revenue applies half-year averaging to the new-tenant cohort and deducts the $11.5K pilot conversion credit per new paid tenant. Activation is recognized at signing (front-loaded). Audit Authority is recognized as recurring.
 
@@ -109,11 +109,11 @@ Operating model is intentionally lean. Year 1 is solo founder with deferred comp
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|---|---|---|---|---|
-| **Total revenue** | $149K | $549K | $1.42M | $3.09M | $6.01M |
+| **Total revenue** | $204K | $839K | $2.33M | $5.16M | $10.09M |
 | **Total expenses** | $103K | $280K | $810K | $1.72M | $3.15M |
-| **Net income** | $46K | $269K | $608K | $1.37M | $2.86M |
-| **Cumulative net** | $46K | $315K | $923K | $2.29M | $5.15M |
-| **Net margin** | 31% | 49% | 43% | 44% | 48% |
+| **Net income** | $101K | $559K | $1.52M | $3.44M | $6.94M |
+| **Cumulative net** | $101K | $660K | $2.18M | $5.62M | $12.56M |
+| **Net margin** | 50% | 67% | 65% | 67% | 69% |
 
 Bootstrapped to profitability from Year 1. Net margins compress modestly in Y3 as we reinvest in the team to support the customer count ramp, then recover in Y4-Y5 as operational leverage compounds.
 
@@ -121,35 +121,35 @@ Bootstrapped to profitability from Year 1. Net margins compress modestly in Y3 a
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|---|---|---|---|---|
-| Pilot fees | 71% | 51% | 35% | 28% | 23% |
-| Activation | 20% | 25% | 23% | 21% | 19% |
-| Subscription | 9% | 24% | 38% | 46% | 53% |
-| Audit Authority | 0% | 0% | 5% | 5% | 5% |
-| **Recurring %** (sub + AA) | **9%** | **24%** | **42%** | **51%** | **58%** |
+| Pilot fees | 51% | 33% | 21% | 17% | 14% |
+| Activation | 29% | 31% | 24% | 21% | 19% |
+| Subscription | 19% | 36% | 47% | 55% | 60% |
+| Audit Authority | 0% | 0% | 7% | 7% | 7% |
+| **Recurring %** (sub + AA) | **19%** | **36%** | **54%** | **62%** | **67%** |
 
-Revenue mix shifts toward recurring as the install base accumulates. Pilot fees dominate in Y1-Y2 (the funnel filling phase) and recede as a percentage as paying tenants compound. By Y5, recurring crosses 58% and continues climbing.
+Revenue mix shifts toward recurring as the install base accumulates. Pilot fees and activation dominate in Y1-Y2 (the funnel-filling phase) and recede as a percentage as paying tenants compound. By Y5, recurring crosses 67% and continues climbing.
 
 ## Unit Economics
 
 | Metric | Year 1 | Year 5 |
 |---|---|---|
-| Average annual subscription per paid tenant | $50K | $93K (blended across tiers) |
+| Average annual subscription per paid tenant | $100K | $161K (blended across tiers) |
 | Pilot CAC (per pilot sold) | ~$2K | ~$2K |
 | Conversion CAC (per paid conversion) | ~$6K | ~$3K |
-| First-year value per paid tenant (sub + activation, post-credits) | ~$70K | ~$120K |
-| LTV (recurring only, at avg 1.5% annual churn from Y4) | $300K – $1.5M depending on tier | |
-| LTV:CAC | 50× – 250× depending on tier | |
+| First-year value per paid tenant (sub + activation, post-credits) | ~$150K | ~$250K |
+| LTV (recurring only, at avg 1.5% annual churn from Y4) | $600K – $3M depending on tier | |
+| LTV:CAC | 100× – 500× depending on tier | |
 | Payback period | ~6 months on activation alone; ~12 months including subscription pro-rating | |
 
 The Pilot Track itself is positive-margin: $35K pilot revenue against ~$10K delivery cost. This means the customer-acquisition motion *generates revenue* during the validation phase, which is unusual and a structural advantage over CAC-heavy SaaS comparables.
 
 ## Growth Trajectory
 
-- **Year 1 (Validation):** 3 pilots, 1 conversion. Solo founder. $149K revenue, $46K net. Pilot funnel proves viable; first paying tenant validates Compliance Core fit.
-- **Year 2 (First repeatable motion):** 8 pilots, 4 conversions. First Operational Core tenant lands. Team grows to 2. $549K revenue, $269K net.
-- **Year 3 (Funnel maturity):** 14 pilots, 8 conversions. Audit Authority designations begin. First Regulated Enterprise tenant. Recurring crosses $1M ARR. $1.42M revenue, $608K net.
-- **Year 4 (Compounding):** 25 pilots, 15 conversions. Operational Core becomes the dominant new-tenant tier. Recurring ARR $2.4M. $3.09M revenue, $1.37M net.
-- **Year 5 (Scale validation):** 40 pilots, 25 conversions. First Portfolio/Strategic deal closes. 53 active tenants, $4.94M recurring ARR, $6.01M total revenue, $2.86M net. Cumulative earnings $5.15M, all bootstrapped. At 6–10× recurring ARR, implied valuation **$30M – $50M** at end of Y5.
+- **Year 1 (Validation):** 3 pilots, 1 conversion. Solo founder. $204K revenue, $101K net. Pilot funnel proves viable; first paying tenant validates Compliance Core fit.
+- **Year 2 (First repeatable motion):** 8 pilots, 4 conversions. First Operational Core tenant lands. Team grows to 2. $839K revenue, $559K net.
+- **Year 3 (Funnel maturity):** 14 pilots, 8 conversions. Audit Authority designations begin. First Regulated Enterprise tenant. Recurring crosses $1.9M ARR. $2.33M revenue, $1.52M net.
+- **Year 4 (Compounding):** 25 pilots, 15 conversions. Operational Core becomes the dominant new-tenant tier. Recurring ARR $4.56M. $5.16M revenue, $3.44M net.
+- **Year 5 (Scale validation):** 40 pilots, 25 conversions. First Portfolio/Strategic deal closes. 53 active tenants, $9.19M recurring ARR, $10.09M total revenue, $6.94M net. Cumulative earnings $12.56M, all bootstrapped. At 6–10× recurring ARR, implied valuation **$55M – $92M** at end of Y5.
 
 ## Sensitivity to Tier Mix
 
@@ -157,9 +157,9 @@ The tier mix assumption is the single largest driver of revenue at this stage. T
 
 | Scenario | Y5 Recurring ARR | Y5 Total Revenue |
 |---|---|---|
-| **Humble (modeled)**: 55% CC / 34% OC / 9% RE / 2% Strategic at Y5 | $4.94M | $6.01M |
-| **Mid case**: 40% CC / 40% OC / 15% RE / 5% Strategic | $7.4M | $9.0M |
-| **Upside**: 30% CC / 45% OC / 18% RE / 7% Strategic | $9.5M | $11.5M |
+| **Humble (modeled)**: 55% CC / 34% OC / 9% RE / 2% Strategic at Y5 | $9.19M | $10.09M |
+| **Mid case**: 40% CC / 40% OC / 15% RE / 5% Strategic | ~$13.8M | ~$15.1M |
+| **Upside**: 30% CC / 45% OC / 18% RE / 7% Strategic | ~$17.7M | ~$19.3M |
 
 Mid-case requires the Operational Core tier to displace Compliance Core as the dominant new-tenant size by Y3-Y4 — plausible if PE operating partner relationships materialize on plan. Upside requires a Portfolio/Strategic land-and-expand motion within an investor portfolio. We model the humble case as base, treat mid as planning case, and reserve upside for opportunistic execution.
 

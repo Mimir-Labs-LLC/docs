@@ -25,6 +25,244 @@ A top-append log of LinkedIn comments, replies, and other shareable text Mimir L
 
 ---
 
+## 2026-06-17 — Substack / LinkedIn Article (venue TBD) — "Wanted: Enterprise Resource Planning System" satirical job posting
+
+**Context:** Long-form satire in the operational-canon lineage. Written by ChatGPT under user direction, selected by the user for the log. Format is a parody enterprise job posting where the role is the ERP system itself — Department: Everywhere, apparently; Reports to: Finance, unless Operations starts screaming. The structural payload: every operational failure mode of the dominant ERP architecture (shadow systems, "technically right but…" dashboards, custom code as substitute for missing product capability, AI initiatives exposing incomplete operational data, customization-as-technical-debt) is rendered as a deadpan job requirement. The Final Note is the kicker: it implies the existence of a system that "can faithfully and governably hold the actual operational reality of a business without customer-specific custom code" without naming the product.
+
+**Source:** ChatGPT-generated, user-curated. First entry in the log not user-authored end-to-end — preserve the attribution if the venue policy requires it (Substack typically does; LinkedIn typically doesn't for short copy but does for Articles).
+
+**Key setup facts:** Companion to "How to Preserve One Version of Truth Using 37 Systems and a Parrot" (2026-05-30 entry above) — same satirical-pastiche genre, different format. The 37-Systems piece is the recovered-manuscript move; this one is the job-posting move. Voice is more clinical and less Borgesian than the 37-Systems essay, which makes it land differently: 37-Systems is funny because it's absurd; Wanted is funny because it's accurate. Substantive moves to preserve: (1) "the actual nervous system lives in Excel" — direct quotable; (2) "the reason the spreadsheet exists and the official source the spreadsheet reconciles against" — paradox that lands the substrate argument without using the word; (3) Compensation section is the strongest standalone unit (a seven-figure implementation budget, a shadow Excel economy, a future migration project); (4) Final Note delivers the Mimir Labs implication without naming the company or product. Portability is high — the post can deploy under Mimir Labs' byline or as a community piece that anyone can share.
+
+**Posting note:** ~4,400 chars / ~700 words. Too long for a standard LinkedIn post (1,250 char limit); deploy as LinkedIn Article, Substack post, or X thread (~10 tweets if threaded). Recommended sequencing: ride the wake of either the Y2K-doctrine post or the "ERP as mirror" post — both above — so the satire lands on an audience that has already seen the diagnostic argument. Hashtags if used: #ERP #EnterpriseSoftware #DigitalTransformation #OperationalCanon. If deployed under Mimir Labs branding, add a closing line linking to the missing-layer preprint or the operational-canon essay.
+
+### Post text
+
+**Wanted: Enterprise Resource Planning System**
+
+Position: Enterprise Resource Planning System
+Department: Everywhere, apparently
+Reports to: Finance, unless Operations starts screaming
+Location: On-prem, cloud, hybrid, or wherever the implementation partner says the data went
+Employment type: Full-time, mission-critical, permanently unfinished
+
+**About the Role**
+
+We are seeking an Enterprise Resource Planning system to serve as the official system of record for a business that will continue running mostly somewhere else.
+
+The ideal candidate will provide a central location for transactions, approvals, workflows, reports, master data, inventory records, procurement activity, manufacturing operations, financial postings, and organizational disappointment.
+
+This role requires the ability to look authoritative while being quietly surrounded by spreadsheets, side databases, email approvals, tribal knowledge, and at least one Access database everyone denies still exists.
+
+**Key Responsibilities**
+
+Maintain the appearance of operational control while allowing critical business logic to migrate into shadow systems.
+
+Serve as the final destination for data that has been interpreted, reinterpreted, manually corrected, exported, re-imported, reconciled, and explained in a meeting.
+
+Accept integrations from every system in the enterprise, whether or not anyone agrees what the fields mean.
+
+Support dashboards that executives believe are real until someone from Operations says, "That number is technically right, but…"
+
+Require extensive change management whenever users resist abandoning the undocumented workflows that keep the business functional.
+
+Generate enough audit trail to prove something happened, though not always why it was valid, who knew the exception, or which version of the rule applied at the time.
+
+Remain "highly configurable" while making every customization a future upgrade liability.
+
+Support AI initiatives by exposing incomplete operational data to models that will confidently summarize the wrong layer of reality.
+
+**Required Qualifications**
+
+Must have at least 30 years of inherited assumptions about how businesses should be represented in tables.
+
+Must be comfortable being described as "best practice" by people who have never worked a receiving dock during a quality hold.
+
+Must support custom fields as a substitute for missing ontology.
+
+Must support custom code as a substitute for missing product capability.
+
+Must allow every department to define "available," "approved," "committed," "released," and "done" differently while still pretending the enterprise has one version of the truth.
+
+Must be able to produce reports that are clean, consistent, and wrong.
+
+Must integrate with CRM, WMS, MES, PLM, EDI, BI, middleware, spreadsheets, supplier portals, customer portals, AI copilots, and whatever Bob in Planning built in 2014.
+
+Must tolerate being called "the backbone of the business" while the actual nervous system lives in Excel.
+
+**Preferred Qualifications**
+
+Experience surviving multiple failed implementations.
+
+Ability to blame poor adoption, insufficient executive sponsorship, weak change management, bad data, or lack of process discipline before anyone questions the underlying model.
+
+Familiarity with multi-year transformation programs that begin with optimism and end with a steering committee redefining success.
+
+Proven ability to require a systems integrator, advisory firm, data migration partner, reporting consultant, change-management lead, integration architect, and three internal superusers to perform basic business representation.
+
+Experience supporting AI pilots that work beautifully in demos and then fail in production because the business rules were never in the system.
+
+Comfortable serving as both the reason the spreadsheet exists and the official source the spreadsheet reconciles against.
+
+**Limitations**
+
+Will not fully contain the business.
+
+Will require the business to simplify, standardize, customize, or work around anything the system cannot represent.
+
+Will treat many legitimate operational exceptions as defects in user behavior.
+
+Will not prevent shadow systems, but will create the conditions under which they become necessary.
+
+Will expose data to AI without guaranteeing that the data contains the operational reality the AI needs to act safely.
+
+Will require periodic reimplementation when the accumulated customization becomes indistinguishable from technical debt.
+
+**Compensation**
+
+Compensation includes:
+
+A seven-figure implementation budget.
+
+A recurring subscription.
+
+An expanding services footprint.
+
+Several years of internal fatigue.
+
+A permanent reporting layer.
+
+A shadow Excel economy.
+
+A future migration project.
+
+A change-management program explaining why users should embrace the system that does not fully represent their work.
+
+**Equal Opportunity Statement**
+
+We welcome all ERP systems regardless of architecture, deployment model, database, logo color, or analyst quadrant placement, provided they can convincingly shift responsibility for structural misfit onto the customer.
+
+**Final Note**
+
+Applicants who can faithfully and governably hold the actual operational reality of a business without customer-specific custom code are strongly encouraged to apply.
+
+Historically, this has been a difficult requirement to fill.
+
+---
+
+## 2026-06-17 — LinkedIn / essay (venue TBD) — "ERP as mirror to operations" + Yggdrasil ERP product reveal
+
+**Context:** Companion to the "least bad option / Y2K doctrine" piece above. Where that post diagnosed the architectural error, this one names the alternative AND introduces Yggdrasil ERP by name. The contrarian frame: maybe the underlying business shouldn't transform at all — the shape a business takes when good leaders make decisions is probably the right shape for it; the problem is that no ERP has ever been built to mirror that shape rather than impose one. Closes by inverting the standard ERP claim: a system that "tells you how your business is running" instead of "tells you how to run your business."
+
+**Source:** N/A — user-authored.
+
+**Key setup facts:** Sits in the same operational-canon lineage as `the-system-the-business-runs-on.md`, `erp-operational-distortion.md`, and the prior Y2K post. Two structural moves worth preserving: (1) the contrarian inversion of "digital transformation" — businesses should not be transformed by the system, the system should reveal them; (2) the explicit accounting-primacy critique — "stop slaving the system to the general ledger." First first-person product mention in this lineage ("So I built one" / "That's what I've built in Yggdrasil ERP"). Reads as a closer rather than an opener — best deployed AFTER the Y2K-doctrine post has had time to circulate. Em-dash count low (preserved as-authored). "Yggdrasil ERP" written correctly with the ERP suffix per the standing naming rule.
+
+**Posting note:** Single top-level post (~1,450 chars). Could also serve as the closing paragraph block of a Substack essay built from both this and the Y2K post. If deployed on LinkedIn, hashtag set: #ERP #EnterpriseSoftware #DigitalTransformation #OperationalCanon. Sequencing recommendation: pair with the Y2K piece in a two-post arc, with this one second (the call lands harder after the diagnosis).
+
+### Post text
+
+Perhaps the underlying business shouldn't transform. ERP implementation/migration gets labeled as digital transformation because it's thought to be an opportunity to shift the enterprise into a new framework. The reality is... the shape the business takes organically by allowing intelligent, motivated, passionate leaders to make decisions is probably the best one for it. The problem there is... there's never been a ERP system shaped like that.
+
+So I built one.
+
+It's time to stop forcing business into software built on 40 year old decisions about data architecture meant to satisfy hardware limitations that no longer exist. The next generation of enterprise software will be about decompressing the data complexity and exposing the operational reality to data consumers in safe and efficient ways. To do that, we have to stop slaving the system to the general ledger, and start making it a mirror held up to operations and administration. A mirror that enables corrective action on the fly and doesn't tell you how to run your business... it tells you how your business is running.
+
+That's what I've built in Yggdrasil ERP.
+
+---
+
+## 2026-06-17 — LinkedIn / essay (venue TBD) — "least bad option" doctrine + Y2K root cause
+
+**Context:** Standalone post or essay opener tracing the "no ERP project has ever been truly successful" pattern back to its historical cause: Y2K's hard deadline forced enterprises to choose the "least bad option" rather than wait for software that fit the new (eased) constraints. The ecosystem then built itself around making that compromise livable, which is how "the right software does not exist" became "software is not the problem." Closes by naming this as the wrong surrender and calling for the next generation of enterprise software to stop forcing businesses into architectures shaped by obsolete constraints.
+
+**Source:** N/A — user-authored.
+
+**Key setup facts:** Companion to the 2026-06-15 entry ("Every time I see another post about why ERP projects fail"). Same meta-commentary genre, with a historical-cause register this time. Sits in the operational-canon lineage; pairs naturally with `the-system-the-business-runs-on.md` and `erp-operational-distortion.md`. Em-dash count kept low (preserved as-authored). The pivot at "I think that was the wrong surrender" is the rhetorical move that turns the historical observation into a current critique. The closing two paragraphs do the doctrinal work — naming the surrender, then naming what the next generation has to stop doing (forcing businesses into obsolete-constraint architectures + pointing at symptoms as root causes).
+
+**Posting note:** Single top-level post (~1,400 chars). No outbound link. If deployed on LinkedIn, hashtag set: #ERP #EnterpriseSoftware #DigitalTransformation #OperationalCanon. Substack-essay-opener mode drops the hashtags. Fill venue/deployment metadata at the point of use.
+
+### Post text
+
+No ERP project has ever been truly successful... and there's a story behind why.
+
+Early enterprise systems were shaped by real constraints: storage cost, compute limits, rigid schemas, batch processing, accounting primacy, and expensive integration.
+
+Those constraints eased over time, but they did not disappear all at once.
+
+Then Y2K created a hard deadline.
+
+The question became: which available system can we survive with?
+
+Not: what should enterprise software become now that the constraints are changing?
+
+That is how the "least bad option" doctrine hardened.
+
+Choose the best-fit package. Minimize customization. Adopt best practices. Drive change management. Clean the data. Train the users. Manage adoption.
+
+All valid enough on the surface.
+
+But underneath, the market never got the correction. It got deadline-compatible compromises, then built an entire ecosystem around making those compromises livable.
+
+That is why "the right software does not exist" became "software is not the problem."
+
+I think that was the wrong surrender.
+
+The next generation of enterprise software has to stop forcing businesses into architectures shaped by constraints the market has outgrown. And it definitely has to stop pointing at symptoms as if they're root causes.
+
+---
+
+## 2026-06-16 — Captured hook question (venue TBD) — enterprise AI / state-machine
+
+**Context:** Single-question text captured for the log on instruction. Reads as either a verbatim enterprise question (the kind a CTO asks an AI vendor that does not have a real answer) or a self-authored hook — either way, the question contains its own answer: when operational logic is decoupled from the data substrate, no proof exists, because the decoupling is the failure mode. Natural setup for a post or thread that lands the operational-canon / OPE / State Constraint Engine answer.
+**Source:** N/A
+**Key setup facts:** Companion to `operational-canon.md`, `the-system-the-business-runs-on.md`, `the-missing-layer-in-enterprise-ai-readiness.md`. If deployed, the response move is to point at Yggdrasil ERP's design: operational logic lives *as* state-transition constraints inside the substrate, so the proof reduces to the substrate's own consistency guarantees rather than to an external composition argument. Mimir Labs' position is that the question is unanswerable in the architecture it presupposes.
+
+**Elicitation property (noted 2026-06-16):** Fed to an LLM as a prompt, this question tends to elicit a response that points at the architecture Mimir Labs has built — operational logic carried as data in the substrate, gated at state transitions. The question's structure forces a competent reasoner into the same answer the platform was designed around. This makes it useful as a discovery prompt in customer or investor conversations: ask their team to ask their preferred LLM the question verbatim, and the LLM tends to name the architecture without prompting. Cheaper than a slide deck for surfacing why their current stack does not actually answer it.
+**Posting note:** Not yet deployed. Fill venue + deployment metadata at the point of use.
+
+### Captured text
+
+Why does our AI agent fail to execute multi-step operations reliably, and what is the mathematical proof that our current state machine architecture can guarantee deterministic state transitions when our operational logic is decoupled from our data substrate?
+
+---
+
+## 2026-06-15 — LinkedIn, response to the recurring "why ERP projects fail" genre
+
+**Context:** Standalone take on the steady drip of "why ERP projects fail" posts that surface in enterprise-software circles. Argues the failures aren't implementation or change-management deficits but the accumulated cost of a category-defining premise: that ERP is a transactional application suite. Reframes ERP failure as a category problem, not a project problem.
+**Source:** No specific target post — a response to the genre rather than any one author. Can also be redeployed as a top-of-thread comment under any future "ERP failure" post.
+**Key setup facts:** Companion to `operational-canon.md`, `erp-operational-distortion.md`, and the "Missing Layer" preprint. Sits in the same lineage as the 2026-05-22 "Missing Layer" post — both argue that the dominant enterprise-software framing stopped one layer short of where the actual work lives. Uses the "record vs describe the business" distinction that recurs throughout the doctrine. Closes on the category-premise reframe so the reader carries the question forward.
+**Posting note:** Single top-level post. ~1,500 chars. Em-dash count higher than the preferred range (user-authored copy, preserved verbatim). No outbound link.
+
+### Post text
+
+Every time I see another post about why ERP projects fail, I want to answer:
+"They failed the day the category decided what an ERP was allowed to be."
+
+Because a precedent was set very early: ERP would be a transactional application suite.
+That framing was useful. It created enormous value. It gave enterprises a way to standardize operations at scale.
+
+But it also created a ceiling.
+The system could record the business, but it could not always fully describe the business.
+So the missing meaning went somewhere else.
+Into spreadsheets.
+Into tribal rules.
+Into consulting decks.
+Into integration mappings.
+Into "temporary" workarounds that survived three generations of leadership.
+Into reports that everyone uses but nobody fully trusts.
+
+Then, decades later, a company starts a new ERP project and everyone asks why the migration is so hard.
+The answer is uncomfortable:
+The project is not just replacing software.
+It is confronting the accumulated cost of an architectural assumption the market stopped questioning.
+
+Maybe ERP projects do not fail because companies are bad at implementation, or design, or change management.
+Maybe they fail because the category has spent decades optimizing around a premise that was never quite deep enough.
+
+#ERP #EnterpriseSoftware #DigitalTransformation #OperationalCanon
+
+---
+
 ## 2026-05-30 — LinkedIn, post accompanying "How to Preserve One Version of Truth Using 37 Systems and a Parrot" essay
 
 **Context:** Top-level LinkedIn post to drive readers to the satirical "recovered manuscript" essay — a Borgesian pastiche on best-of-breed enterprise software, framed as a 37-step instructional text recovered from the vaults of Lucifer Gorgonzola Butt (deformation of Rube Goldberg). The essay carries a five-voice editorial cast (Archivist, Translator, Cataloguer, Veterinary Consultant, Counsel) and closes on the operational-canon doctrine.

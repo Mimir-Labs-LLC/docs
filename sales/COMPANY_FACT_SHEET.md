@@ -11,8 +11,8 @@
 | **Headquarters** | Harrisburg, PA |
 | **Incorporation** | Delaware |
 | **Founder/CEO** | Christopher "Doc" Gaither |
-| **Website** | mimirlabs.io |
-| **Contact** | legal@mimirlabs.com |
+| **Website** | mimirlabs.net |
+| **Contact** | legal@mimirlabs.net |
 | **Stage** | Pre-revenue (Alpha) |
 
 ## Product: Yggdrasil ERP

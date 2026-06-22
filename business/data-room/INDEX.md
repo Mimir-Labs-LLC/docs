@@ -40,8 +40,8 @@
 | Server Architecture | PDF | C++17/Qt 6 HTTP/WebSocket server, route modules, caching, metrics |
 | Desktop Client Architecture | PDF | Qt 6 QML reference implementation, module tabs, real-time sync |
 | Web Application Architecture | PDF | Next.js 15, React, TypeScript, Tailwind, Zustand, React Query |
-| Database Architecture | PDF | PostgreSQL, 150+ tables, multi-tenant isolation, audit trail |
-| Mimisbrunnr Architecture | PDF | Universal semantic reference model, 166 tables, 17 domains |
+| Database Architecture | PDF | PostgreSQL, 323 tables, 806 indexes, multi-tenant isolation, append-only audit trail |
+| Mimisbrunnr Architecture | PDF | Universal semantic reference model, 323 tables, 17 domains |
 | Security Architecture | PDF | JWT auth, RBAC, TOTP MFA, tenant isolation, encryption, audit logging |
 | Ragnarok Architecture | PDF | Data migration engine, 10+ legacy ERP connectors |
 | Ratatosk Architecture | PDF | Data governance analysis, zero-knowledge, deterministic, HITL |
