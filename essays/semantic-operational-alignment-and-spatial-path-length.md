@@ -1,7 +1,9 @@
 # Semantic-Operational Alignment and Spatial Path-Length: A Formal Model for Reliability and Efficiency in Enterprise Automation
 
 **Mimir Labs LLC — Technical White Paper 13**
-**Version 1.0 — June 2026**
+**Version 1.1 — June 2026**
+
+*v1.1 (2026-06-22): adds Appendix C, "Estimating δ and σ." No changes to the v1.0 model, assumptions, or results.*
 
 ---
 
@@ -322,4 +324,54 @@ No external citations are asserted as established here. This appendix marks the 
 
 ---
 
-*Mimir Labs LLC — White Paper 13, v1.0, June 2026. This document presents a conditional model under stated assumptions and is intended for technical evaluation. It is not a guarantee of system performance.*
+## Appendix C: Estimating δ and σ
+
+The body treats `δ` and `σ` as parameters. Limitation 4 flagged their estimation as open. This appendix addresses it directly, because it is the first question a technical reviewer asks: if the model's conclusions turn on two probabilities, how are those probabilities measured rather than assumed? The honest answer is that `δ` has a measurable majority and an irreducible minority, and that a governance-first architecture is precisely what shifts the boundary between the two.
+
+### C.1 The estimand
+
+Both `δ` and `σ` are Bernoulli rates over an operative distribution. Draw a `(state, action)` pair the way automation actually encounters it — weighted by where automation acts, not uniformly over all rows — ask whether operation matched the formal definition, and `δ` is the probability of "no." `σ` is the same quantity evaluated for the specific fact a consumer relies on at the point of use. The naïve estimator is therefore elementary: sample `n` events, count `d` divergences, take `δ̂ = d/n` with a confidence interval. Because `δ` is small, the Wilson score interval is preferred over the normal approximation, and for rare-event regimes (`δ ≈ 0.02`) either a large sample or a full-population count is required for a usable interval.
+
+The entire difficulty is the word *divergence*. To count it, one needs ground truth for actual operation `O` and formal definition `D` simultaneously. If that were cheaply observable for every event, the divergence would be corrected rather than measured. So the real problem is not the estimator; it is the source of the ground-truth reference. There are three such sources, in increasing cost.
+
+### C.2 The governed gate as a census instrument
+
+When the state-constraint engine evaluates `D` *inside the write transaction*, every attempted transition is recorded with its outcome. The blocked fraction,
+
+$$\hat{\delta}_{\text{would-be}} = \frac{N_{\text{blocked}}}{N_{\text{blocked}} + N_{\text{passed}} + N_{\text{warned}}},$$
+
+is a direct estimate of how often operation *would have* diverged from definition had the gate not been present — the counterfactual ungoverned rate, and exactly the `σ = 0.05` of the worked example in Section 8. Crucially this is a **census, not a sample**: every attempt is logged, so the would-be component carries no sampling error. The architectural point is that only a governing substrate produces this signal at all. An ungoverned system commits the same divergences silently, leaving nothing to count. Governance does not merely lower `δ`; it converts the bulk of `δ` from a silent, unmeasurable quantity into a logged event that is tallied rather than estimated.
+
+### C.3 Back-testing the definition against committed state
+
+The gate measures *attempted* divergence. To measure what *escaped* — divergence that committed despite the gate — re-evaluate `D`'s invariants over committed rows using the append-only change log, and count failures. This exposes a decomposition of `δ` into three independent escape channels, which a union bound (consistent with the body's posture) combines:
+
+$$\delta \;\le\; \gamma \;+\; \rho \;+\; \tau,$$
+
+- `γ` — **coverage gap**: the fraction of `D`'s intended invariants that are not actually authored and enforced, weighted by event frequency. Estimated by auditing the enforced-constraint catalog against the obligation corpus (board, contract, framework). This is typically the dominant term and the most under-acknowledged.
+- `ρ` — **escape rate**: among enforced invariants, the rate of out-of-band mutation that bypassed the gate. Read directly from the drift-event log.
+- `τ` — **residual definitional error**: cases where `D` itself misstates the intended rule. The gate cannot catch this, because the gate trusts `D`. Only Section C.4 catches it.
+
+The first two terms are computed continuously from the logs at near-zero marginal cost.
+
+### C.4 Independent adjudication: the irreducible term
+
+The `τ` term, and `σ` in general, require a reference *outside* the system. Sample consumed facts and verify each against an out-of-band channel: physical inspection, a second system of record, the shadow spreadsheet, a human adjudicator. In the worked example, "`σ = 0.05`" means operationally: draw `N` receipts marked `received`, independently confirm from inspection records how many were genuinely complete and inspected, and find that one in twenty was not. Stratify by entity type, transition, and value band; weight by automation frequency so the estimate reflects the distribution that matters.
+
+This is the only genuinely irreducible cost, and it is a *sampling* cost, not a census — periodic (e.g. quarterly) rather than continuous. Its function is to calibrate the cheap estimators of C.2 and C.3 and to detect when they have drifted.
+
+### C.5 The σ asymmetry: consumer-assumption drift
+
+`σ` is not simply `δ` evaluated at the endpoint. It carries a term `δ` does not: the consumer may rely on an implication `D` never asserts. "Received means inspected" may appear nowhere in `D` — the consumer inferred it. Estimating `σ` therefore requires eliciting the consumer's *assumed* definition `D_consumer` and diffing it against `D_source`, a semantic-contract audit rather than a value check. This is why, in general, `σ` is at least the residual semantic error at the source, and why an agent at the end of a long chain is the dangerous case: its `D_consumer` is whatever it inferred from flattened data, and nothing adjudicated it.
+
+### C.6 Estimating per-hop δᵢ and h
+
+The spatial parameters are estimated by **reconciliation**: for the same fact, compare its representation at hop `i` against hop `i − 1` and count disagreements beyond legitimate transformation. The disagreement rate estimates `δ_i`; the measured path length on the real topology is `h`. The machinery is identical to the semantic case — a Bernoulli rate with the upstream hop as reference — and lineage/discovery tooling produces both the per-hop rates and the topology.
+
+### C.7 What is measurable, and what is not
+
+The defensible summary is that a governing substrate makes the would-be-divergence component a census (gate logs), the escape component continuous (drift plus back-test), and shrinks the manual residual to a stratified periodic sample. The irreducible minority is the definitional-error term `τ` and the consumer-assumption component of `σ`, both of which need human ground truth. Every estimate is conditional on the operative distribution being stationary: shift the workload and `δ` shifts. `δ` and `σ` are therefore monitored quantities, not constants — which is consistent with, and not a weakening of, the body's conditional claims.
+
+---
+
+*Mimir Labs LLC — White Paper 13, v1.1, June 2026. This document presents a conditional model under stated assumptions and is intended for technical evaluation. It is not a guarantee of system performance.*
