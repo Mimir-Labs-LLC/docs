@@ -2,7 +2,7 @@
 title: "Ratatosk — Discovering What Your Data Actually Means"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-009"
 classification: "Public"
 logo: "mimir_labs_logo.png"

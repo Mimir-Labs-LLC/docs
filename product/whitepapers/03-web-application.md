@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — Web Application Architecture"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.0"
+version: "1.1"
 docnumber: "ML-WP-004"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -10,11 +10,11 @@ logo: "mimir_labs_logo.png"
 
 ## Overview
 
-The Yggdrasil ERP web application provides browser-based access to the platform while maintaining feature parity with the native desktop client. The application is implemented using Next.js, React, and TypeScript, and communicates exclusively with the Yggdrasil C++ backend server through the public REST and WebSocket interfaces.
+The Yggdrasil ERP web application provides browser-based access to the platform while maintaining feature parity with the native desktop client. The application is built using Next.js, React, and TypeScript, and communicates exclusively with the Yggdrasil C++ backend server through the public REST and WebSocket interfaces. It ports the native desktop reference implementation across all ten business modules and is in active use, not a planned or in-progress effort.
 
-The web client is designed as a portable interface layer rather than the architectural reference implementation. New platform capabilities are first implemented and validated in the native desktop client and then reproduced in the web interface. This ensures that browser constraints never dictate core platform behavior while still enabling ubiquitous access across devices.
+The web client is a portable interface layer rather than the architectural reference implementation. New platform capabilities are first implemented and validated in the native desktop client and then reproduced in the web interface. This ensures that browser constraints never dictate core platform behavior while still enabling ubiquitous access across devices.
 
-The web application exposes all primary ERP modules as well as administrative, onboarding, and portal interfaces.
+The web application exposes all primary ERP modules as well as administrative, onboarding, governance, and portal interfaces.
 
 ## Technology Stack
 
@@ -165,6 +165,12 @@ These events include:
 Incoming events invalidate corresponding React Query caches, triggering automatic UI updates without polling.
 
 Connection management includes automatic reconnection, exponential backoff, and session reauthentication after reconnection.
+
+## Governance Integration
+
+The web application surfaces the platform's ROPE (Runtime Operational Policy Enforcement) governance layer. It includes a policy import and authoring interface that allows administrators to bring in and define operational policies through the browser.
+
+Policy enforcement is presented through a global policy-block modal. When the backend's State Constraint Engine refuses a state transition because it violates an active policy — for example, a goods-receipt or purchase-order transition that breaches an active policy — the web client blocks the action and presents the modal with the offending policy cited. This keeps policy enforcement authoritative on the server while making the reason for a refused transition visible to the user.
 
 ## Validation Model
 

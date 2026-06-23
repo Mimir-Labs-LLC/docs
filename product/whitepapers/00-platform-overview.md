@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — An Enterprise System Designed to Govern Itself"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-001"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -72,6 +72,8 @@ Most ERP platforms advertise governance as a feature. In Yggdrasil, governance i
 
 **Lifecycle states governed by a state machine.** Quotes, orders, invoices, work orders, NCRs, ECRs — every governed document has a defined transition graph. Moves outside the graph are rejected. When a valid transition occurs, the status update, the audit entry, and the real-time event are committed together.
 
+**Policy enforced at the write transaction.** Governance in Yggdrasil is not advisory. Through **ROPE — Runtime Operational Policy Enforcement** — tenant administrators author signed, version-controlled policies: compound conditions combined with AND/OR/NOT and IF/THEN, named-condition references, and one or more resulting actions. Policies can span modules and entities, gating transitions or fields on related records via predicate join-paths. They compile into four runtime artifact kinds — state constraints, roles, approval flows, and workflow templates. At runtime, the **State Constraint Engine** evaluates every governed state transition *inside the database write transaction* and refuses illegal transitions at the gate, returning structured violations. A goods-receipt or purchase-order transition that violates an active policy is blocked at the point of action, with the governing policy cited and an audit trail written. Enforcement is real, not a report you read after the fact, and it is scoped per tenant.
+
 **Observability built in.** Every meaningful change emits a real-time event over the platform's event hub, available to clients, integration partners, and downstream analytics. There is no polling, no batch reconciliation, no nightly extract. Significant activity is visible the moment it happens.
 
 **Canonical semantics.** The database schema is the authoritative definition of enterprise meaning. Application code, APIs, and integrations derive from it. External systems adapt to the canonical model, not the other way around. The schema is called Mimisbrunnr; it is the same vocabulary the rest of the Mimir Labs platform uses.
@@ -109,7 +111,7 @@ This makes Yggdrasil suitable for both single-tenant deployments (one organizati
 
 Yggdrasil is one piece of a larger architecture. The same canonical model that drives the ERP also drives a suite of system-agnostic tools that operate on enterprise data more broadly:
 
-**Mimisbrunnr** is the canonical model. Yggdrasil's database schema and the universal vocabulary the rest of the platform speaks. More than three hundred tables across seventeen domains, fixed by design.
+**Mimisbrunnr** is the canonical model. Yggdrasil's database schema and the universal vocabulary the rest of the platform speaks. 345 tables across seventeen domains, fixed by design.
 
 **Ratatosk** discovers what data in your existing systems means. Connects to ERPs, warehouse systems, CRMs, even VBA-driven Excel workbooks. Produces a structured, human-authoritative manifest of enterprise meaning.
 
@@ -117,7 +119,7 @@ Yggdrasil is one piece of a larger architecture. The same canonical model that d
 
 **Bifrost** maintains live synchronization between enterprise systems once they are aligned. Mirror, unidirectional, or bidirectional sync.
 
-**Jormungandr** turns governance into an ongoing subscription, continuously validating that enterprise data structures remain compliant.
+**Jormungandr** turns governance into an ongoing subscription, continuously validating that enterprise data structures remain compliant. It is the standalone expression of ROPE for non-Yggdrasil systems, carrying policy enforcement to ERPs that do not have Yggdrasil's State Constraint Engine of their own.
 
 The tools are independently useful. You can run Ratatosk on your existing SAP environment without ever adopting Yggdrasil. You can use Bifrost to keep two existing systems in sync. The Mimir Labs platform is not a sales funnel that ends in Yggdrasil; it is a coherent set of tools for organizations that take their data architecture seriously, and Yggdrasil happens to be the operational execution layer when one is needed.
 
@@ -137,7 +139,7 @@ Operational complexity is proportional to business complexity. The system stays 
 
 Enterprise ERP buyers have been promised governance for two decades and have, mostly, received features bolted onto systems that fundamentally do not enforce it. The result is the operational opacity every ERP veteran recognizes: audits that take weeks to assemble, integrations that fail in non-obvious ways, AI tools that cannot be trusted on the company's own data, migrations that uncover problems no one knew existed.
 
-Yggdrasil is built differently. Tenant isolation is enforced at the database. State transitions go through a single state machine. Audit captures every consequential change. AI participation is gated by the same proposal-and-disposition substrate that gates any consequential change. Canonical semantics make every integration speak the same language at the boundary.
+Yggdrasil is built differently. Tenant isolation is enforced at the database. State transitions go through a single state machine, and policies authored in ROPE are enforced by the State Constraint Engine inside the write transaction — illegal moves are refused at the gate, with the governing policy cited. Audit captures every consequential change. AI participation is gated by the same proposal-and-disposition substrate that gates any consequential change. Canonical semantics make every integration speak the same language at the boundary.
 
 These choices are not neutral. They reflect a particular conviction about what enterprise software is supposed to do: maintain coherent, trustworthy, observable state across operational domains and over time. If that conviction matches the way you want to run your business, Yggdrasil is built for you.
 

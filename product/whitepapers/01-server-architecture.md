@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — Server Architecture"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-002"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -10,7 +10,7 @@ logo: "mimir_labs_logo.png"
 
 ## Executive Summary
 
-Yggdrasil ERP is powered by a high-performance C++17 server built on the Qt 6 framework. The server provides RESTful HTTP and real-time WebSocket APIs to desktop, web, and mobile clients, managing 10 integrated business modules across 166 database tables. This white paper details the server's architecture, covering its boot sequence, authentication and authorization subsystem, middleware pipeline, service layer, route architecture, real-time event streaming, and operational characteristics.
+Yggdrasil ERP is powered by a high-performance C++17 server built on the Qt 6 framework. The server provides RESTful HTTP and real-time WebSocket APIs to desktop, web, and mobile clients, managing 10 integrated business modules across 345 database tables. This white paper details the server's architecture, covering its boot sequence, authentication and authorization subsystem, middleware pipeline, service layer, route architecture, real-time event streaming, and operational characteristics.
 
 ---
 
@@ -210,18 +210,30 @@ The server auto-generates an OpenAPI 3.0.3 specification served at `/api/docs` w
 - Full request/response type definitions
 - `additionalProperties: false` enforcement on all create/update schemas (Data DMZ pattern)
 
+### 5.4 Agent-Tools Surface
+
+The server exposes a dedicated HTTP surface for external LLM agents under `/api/agent/tools/<tool>`. The surface is read/propose-only — the agent never executes a state change. It includes:
+
+- **Governed read tools** — `transaction_context`, `evaluate_policy`, and `explain_exception_path` for reasoning over the current state and applicable policy.
+- **Propose-only state-change tool** — surfaces a proposed transition for human or substrate adjudication rather than applying it.
+- **Policy-authoring tools** — `derive_policy_intent`, `find_policy_conflicts`, and `propose_policy_predicate` to assist drafting ROPE policies.
+
+The substrate decides; the agent proposes. Every governed transition still passes through the State Constraint Engine, so an agent cannot bypass ROPE enforcement through this surface.
+
 ---
 
 ## 6. Service Layer
 
-### 6.1 State Machine Engine
+### 6.1 State Constraint Engine
 
-The `StateMachine` service enforces valid status transitions across 23 entity types:
+The State Constraint Engine enforces valid status transitions across 23 entity types and sits directly in the server's transaction path. It evaluates every governed state transition inside the same database write transaction that performs the status update, refusing illegal transitions and returning structured violations:
 
 - **Transition validation** — Each entity type has a defined state graph. Transitions not in the graph are rejected with a 409 Conflict response.
 - **Atomic execution** — Status updates, audit logging, and event emission occur within a single transaction.
 - **Event emission** — Every valid transition emits a `state_transition` event to the B2B Event Hub for real-time notification.
 - **Audit trail** — All transitions are logged to `audit_change_log` with `STATUS_CHG` action and JSONB before/after values.
+
+This engine is the enforcement point for ROPE (Runtime Operational Policy Enforcement). Policies are signed and version-controlled, and compile into four artifact kinds — state constraints, roles, approval flows, and workflow templates — that the engine consults when admitting a transition.
 
 Covered entity types include: sales quotes, sales orders, sales invoices, purchase orders, work orders, work order operations, MRP planned orders, PLM parts, engineering change requests, eBOMs, quality reports (8D, CAPA, NCR, audits), service tickets, RMAs, maintenance orders, journal entries, AP bills, finance invoices and bills, workflow instances, approval requests, form templates, form submissions, and integration dead letters.
 

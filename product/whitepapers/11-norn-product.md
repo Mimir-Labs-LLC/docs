@@ -2,11 +2,12 @@
 title: "Norn — Contract Intelligence for the Rest of Us"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.0"
+version: "1.1"
 docnumber: "ML-WP-013"
 classification: "Public"
 logo: "mimir_labs_logo.png"
 ---
+
 
 ## The Problem Nobody Talks About
 
@@ -125,12 +126,11 @@ No per-document fees. No per-signature charges. No surprise invoices when your v
 
 ## What's Coming
 
-Norn is in pre-alpha development. The v0.1 release focuses on the core workflow: ingest, detect, promote, fill, export, archive.
+Norn is a deployed product currently in pilot. The core workflow — ingest, detect, promote, fill, export, archive — is in place, the application is running on the Mimir Labs VPS, transactional email is wired through SendGrid, and BoldSign is integrated as the e-signature vendor.
 
 Planned for subsequent releases:
 
 - DOCX input format support
-- Direct BoldSign / DocuSign integration for e-signature workflows
 - Template marketplace (share and discover templates)
 - Multi-user collaboration with role-based access
 - VPS-backed archive for team environments

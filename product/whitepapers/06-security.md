@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — Security Architecture"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-007"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -129,6 +129,12 @@ The `enforceRbac()` middleware intercepts every API request:
 
 Administrative endpoints (user management, system configuration, data management, backup/restore) are additionally gated behind an admin role check that verifies `isAdmin` status from the `AuthManager`. This provides a second layer of defense beyond RBAC module permissions.
 
+### 3.4 Governed State Transitions (ROPE)
+
+RBAC answers *who may call an endpoint*. Runtime Operational Policy Enforcement (ROPE) answers *which state changes are permitted at all*. The State Constraint Engine enforces governed state transitions **inside the database write transaction** and refuses illegal ones at the gate. Because the policy check lives in the transaction path — not in a model wrapper or an application layer that could be bypassed — there is no code path that commits a disallowed transition. ROPE enforces per-tenant: each tenant's operational policy governs its own writes.
+
+This matters most for autonomous and AI-driven workflows. External LLM agents reach the system only through a read/propose-only agent-tools surface; they can read data and propose actions, but the substrate decides what is actually allowed. An agent cannot bypass the enforcement gate, because the gate is the write transaction itself.
+
 ---
 
 ## 4. Multi-Tenant Isolation
@@ -143,7 +149,7 @@ Every tenant-scoped table (120+ tables) includes a `tenant_id` UUID column. Isol
 - The `QueryBuilder` automatically injects tenant filters
 
 **Database-level enforcement (Row-Level Security):**
-- PostgreSQL RLS policies are defined on all tenant-scoped tables
+- PostgreSQL RLS policies are defined on all tenant-scoped tables, with `FORCE ROW LEVEL SECURITY` so the policies apply even to the table owner
 - Policies reference `current_setting('app.current_tenant_id')`, a session variable set at the start of each database transaction
 - Even if application code fails to filter by tenant, the database rejects cross-tenant access
 - This defense-in-depth approach means a single application bug cannot leak tenant data
@@ -261,7 +267,11 @@ Every data mutation is recorded in the `audit_change_log` table:
 
 All status transitions through the StateMachine service are logged with `action = 'STATUS_CHG'` and JSONB before/after state values. Partial indexes on `(table_name, entity_id, changed_at DESC) WHERE action = 'STATUS_CHG'` enable efficient status history queries.
 
-### 7.3 Security Event Logging
+### 7.3 Immutable Audit Records
+
+The audit trail is tamper-evident at the database level. Both the `audit_change_log` and `ledger_entries` tables carry database triggers that reject `UPDATE`, `DELETE`, and `TRUNCATE` operations. Once a change or ledger entry is written, it cannot be altered or removed, even by a privileged database session. This makes the audit history append-only by enforcement rather than by convention, and means any attempt to rewrite history is blocked at the gate rather than detected after the fact.
+
+### 7.4 Security Event Logging
 
 The structured JSON logger records security-relevant events:
 
@@ -272,7 +282,7 @@ The structured JSON logger records security-relevant events:
 - Administrative actions (user creation, role changes, configuration changes)
 - Password changes and resets
 
-### 7.4 Log Protection
+### 7.5 Log Protection
 
 - Log files use automatic rotation (10 MB per file, 10 files retained)
 - PII redaction is applied to log entries — sensitive fields are masked before writing
@@ -406,10 +416,10 @@ Tenant notification is required when Confidential data may have been exposed.
 | **Network** | Cloudflare tunnel, ufw deny-all, fail2ban, no direct port exposure |
 | **Transport** | TLS 1.2+, WSS, HTTPS-only cookies |
 | **Authentication** | PBKDF2 (600k iter), TOTP MFA, progressive lockout, password history |
-| **Authorization** | RBAC middleware, fail-closed, admin gating |
-| **Data** | RLS policies, tenant_id on all tables, AES-256-GCM at rest |
+| **Authorization** | RBAC middleware, fail-closed, admin gating, ROPE governed state transitions |
+| **Data** | FORCE RLS policies, tenant_id on all tables, AES-256-GCM at rest |
 | **Application** | Prepared statements, input validation, Data DMZ, no type coercion |
-| **Audit** | Change log, status transition log, structured JSON logging, PII redaction |
+| **Audit** | Immutable change log + ledger (tamper-evident triggers), status transition log, structured JSON logging, PII redaction |
 | **Operations** | Encrypted backups, automated health checks, security policy framework |
 
 ---

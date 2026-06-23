@@ -2,7 +2,7 @@
 title: "Bifrost — Live Data Bridge"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-010"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -11,10 +11,10 @@ logo: "mimir_labs_logo.png"
 [# Bifrost — Live Data Bridge White Paper
 
 **Mimir Labs Technical Publication**
-**Document Version:** 0.1 (Evolving — Pre-Development)
-**Date:** March 2026
+**Document Version:** 1.2
+**Date:** June 2026
 **Classification:** Public
-**Status:** Planned (YGGDATA-312, 13 stories, all To Do)
+**Status:** Built — ships as part of the Mimir Labs data platform
 
 ---
 
@@ -22,11 +22,11 @@ logo: "mimir_labs_logo.png"
 
 Bifrost is a standalone, persistent background service that maintains live data synchronization between multiple enterprise systems. It supports three sync modes — bidirectional, mirror (digital twin), and unidirectional (pilot) — enabling a progressive customer lifecycle from proof-of-concept to full production.
 
-Bifrost uses the Mimisbrunnr semantic model as its Rosetta Stone — a universal reference schema of 300+ tables across 17 business domains that provides the shared vocabulary for routing and translating data between systems. While Yggdrasil ERP is the default hub, Bifrost is system-agnostic: it can synchronize data between any combination of connected systems (Salesforce, Business Central, Smartsheet, PostgreSQL, etc.) using Mimisbrunnr as the semantic mediation layer.
+Bifrost uses the Mimisbrunnr semantic model as its Rosetta Stone — a universal reference schema of 345 tables across 17 business domains that provides the shared vocabulary for routing and translating data between systems. While Yggdrasil ERP is the default hub, Bifrost is system-agnostic: it can synchronize data between any combination of connected systems (Salesforce, Business Central, Smartsheet, PostgreSQL, etc.) using Mimisbrunnr as the semantic mediation layer.
 
 Bifrost is the third and final tool in the Mimir Labs data platform trilogy. Where Ratatosk discovers and Ragnarok migrates, Bifrost keeps systems in continuous harmony.
 
-**This is an evolving document. Bifrost is not yet implemented. Content reflects the planned architecture as defined in the YGGDATA-312 epic and its 13 child stories.**
+**Bifrost is built and ships as part of the Mimir Labs data platform.** This document describes the implemented architecture: the QMainWindow dashboard with dockable panels (listeners, route table, conflicts, dead-letter, event log, metrics, vault), the listener/routing/fan-out sync engine, the encrypted credential vault, circuit breaker, and the integration playbooks.
 
 ---
 
@@ -47,7 +47,7 @@ Bifrost packages the **mapping intelligence** from Ratatosk manifests and the **
 
 ---
 
-## 2. Planned Technology Stack
+## 2. Technology Stack
 
 | Component | Specification |
 |-----------|---------------|
@@ -109,9 +109,9 @@ Mode transitions happen without data loss or service restart.
 
 ---
 
-## 4. Planned Architecture
+## 4. Architecture
 
-### 4.1 Manifest Consumption (YGGDATA-315)
+### 4.1 Manifest Consumption
 
 Bifrost consumes `.ratatosk.json` manifests as its foundational routing table:
 
@@ -136,7 +136,7 @@ Each listener:
 - Handles rate limiting and authentication for its target system
 - Supports Tier A (live connection) and Tier B (replay from JSON capture file)
 
-### 4.3 Sync Engine (YGGDATA-321)
+### 4.3 Sync Engine
 
 The fan-out sync engine is the central event dispatcher:
 
@@ -155,7 +155,7 @@ Key capabilities:
 - **Parallel fan-out** — Thread pool for concurrent writes across systems.
 - **Dry-run mode** — Log planned writes without executing (Tier B).
 
-### 4.4 Golden Record Logic (YGGDATA-322)
+### 4.4 Golden Record Logic
 
 Deterministic source-of-truth rules per field (bidirectional mode only):
 
@@ -171,7 +171,7 @@ Deterministic source-of-truth rules per field (bidirectional mode only):
 | `SOURCE_PRIORITY` | Owner system always wins, discard non-owner change |
 | `PAUSE_AND_ALERT` | Halt sync for this (entity, field) pair, notify human reviewer |
 
-### 4.5 Conflict Resolution UI (YGGDATA-323)
+### 4.5 Conflict Resolution UI
 
 Qt Widgets dialog for human conflict resolution:
 
@@ -182,7 +182,7 @@ Qt Widgets dialog for human conflict resolution:
 - Audit trail: every resolution logged with operator, timestamp, reason
 - System tray notification on new conflicts
 
-### 4.6 Sync State Database (YGGDATA-316)
+### 4.6 Sync State Database
 
 SQLite-backed local persistence:
 
@@ -200,7 +200,7 @@ Retry logic: exponential backoff (1s → 2s → 4s → ... max 5 minutes), confi
 
 ---
 
-## 5. Planned Credential Security (YGGDATA-314)
+## 5. Credential Security
 
 Encrypted credential vault:
 
@@ -212,7 +212,7 @@ Encrypted credential vault:
 
 ---
 
-## 6. Observability (YGGDATA-324)
+## 6. Observability
 
 ### 6.1 Health Monitoring
 
@@ -275,23 +275,23 @@ Active connections to all incumbent systems with real-time event listeners, data
 
 ---
 
-## 9. Implementation Roadmap
+## 9. Implementation Status
 
 | Story | Title | Status |
 |-------|-------|--------|
-| YGGDATA-313 | Project scaffold & CMake build system | To Do |
-| YGGDATA-314 | Encrypted credential vault (AES-256) | To Do |
-| YGGDATA-315 | Manifest routing table & sync configuration | To Do |
-| YGGDATA-316 | Sync state database (SQLite) | To Do |
-| YGGDATA-317 | PostgreSQL listener (LISTEN/NOTIFY) | To Do |
-| YGGDATA-318 | Salesforce listener (webhook receiver) | To Do |
-| YGGDATA-319 | Business Central listener (OData polling) | To Do |
-| YGGDATA-320 | Smartsheet listener (Events API) | To Do |
-| YGGDATA-321 | Fan-out sync engine & cycle detection | To Do |
-| YGGDATA-322 | Golden record logic & conflict detection | To Do |
-| YGGDATA-323 | Conflict resolution UI | To Do |
-| YGGDATA-324 | Health monitoring & status dashboard | To Do |
-| YGGDATA-325 | 3-way integration test (SF + BC + Smartsheet) | To Do |
+| YGGDATA-313 | Project scaffold & CMake build system | Delivered |
+| YGGDATA-314 | Encrypted credential vault (AES-256) | Delivered |
+| YGGDATA-315 | Manifest routing table & sync configuration | Delivered |
+| YGGDATA-316 | Sync state database (SQLite) | Delivered |
+| YGGDATA-317 | PostgreSQL listener (LISTEN/NOTIFY) | Delivered |
+| YGGDATA-318 | Salesforce listener (webhook receiver) | Delivered |
+| YGGDATA-319 | Business Central listener (OData polling) | Delivered |
+| YGGDATA-320 | Smartsheet listener (Events API) | Delivered |
+| YGGDATA-321 | Fan-out sync engine & cycle detection | Delivered |
+| YGGDATA-322 | Golden record logic & conflict detection | Delivered |
+| YGGDATA-323 | Conflict resolution UI | Delivered |
+| YGGDATA-324 | Health monitoring & status dashboard | Delivered |
+| YGGDATA-325 | 3-way integration test (SF + BC + Smartsheet) | Delivered |
 
 ---
 

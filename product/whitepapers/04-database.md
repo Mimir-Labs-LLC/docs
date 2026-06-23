@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — Database Architecture"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.0"
+version: "1.1"
 docnumber: "ML-WP-005"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -14,7 +14,7 @@ The Yggdrasil ERP database is designed as a governed persistence layer rather th
 
 The implementation uses PostgreSQL as the underlying datastore, but the architectural focus is not the database technology itself. The database functions as the canonical operational record supporting Yggdrasil's state-machine execution model and the broader Mimir Labs architecture.
 
-This paper describes how the schema, indexing strategy, multi-tenant controls, audit infrastructure, and migration system work together to maintain coherent enterprise data at scale.
+This paper describes how the schema, indexing strategy, multi-tenant controls, audit infrastructure, and schema-management model work together to maintain coherent enterprise data at scale.
 
 ## 1. Architectural Role of the Database
 
@@ -42,9 +42,9 @@ Together, these capabilities allow the persistence layer to actively enforce sys
 
 The Yggdrasil schema spans the operational domains typically required by an enterprise system. These include customer relationship management, sales, purchasing, manufacturing, warehouse management, finance, quality assurance, service operations, logistics, projects, and human resources.
 
-Supporting infrastructure tables manage tenancy, user identity, permissions, attachments, workflow instances, integration endpoints, and system configuration. Additional structures support form definitions, asset tracking, MRP planning artifacts, and multi-currency accounting.
+Supporting infrastructure tables manage tenancy, user identity, permissions, attachments, workflow instances, integration endpoints, and system configuration. Additional structures support form definitions, asset tracking, MRP planning artifacts, and multi-currency accounting. The schema also includes governance structures: the state-engine runtime tables (state_entity_types, state_transitions, state_transition_constraints) read by the State Constraint Engine, and the ROPE governance tables (rope_decisions, rope_decision_artifacts, rope_evaluation_log, rope_named_conditions, and related) that support Runtime Operational Policy Enforcement.
 
-Although the schema contains more than one hundred tables, its structure follows a consistent naming and relationship pattern. Entities are organized by module, primary keys are universally represented as UUIDs, foreign key relationships follow explicit naming conventions, and lifecycle timestamps appear consistently across operational tables.
+The schema comprises 345 tables, 866 indexes, and 6 views. Despite this scale, its structure follows a consistent naming and relationship pattern. Entities are organized by module, primary keys are universally represented as UUIDs, foreign key relationships follow explicit naming conventions, and lifecycle timestamps appear consistently across operational tables.
 
 This uniformity is intentional. The schema is designed to remain legible and predictable even as additional modules are introduced.
 
@@ -52,7 +52,7 @@ This uniformity is intentional. The schema is designed to remain legible and pre
 
 Yggdrasil uses a shared database and shared schema model with logical tenant isolation. Most operational tables include a tenant identifier that scopes each record to its owning organization.
 
-While this is a common multi-tenant pattern, Yggdrasil strengthens it with database-level enforcement. Row-level security policies ensure that every query automatically filters data by tenant context. The application sets the active tenant identifier for each transaction, and PostgreSQL applies isolation rules to all read and write operations.
+While this is a common multi-tenant pattern, Yggdrasil strengthens it with database-level enforcement. Row-level security policies ensure that every query automatically filters data by tenant context, and FORCE ROW LEVEL SECURITY is applied so that the policies bind even for table owners. The application sets the active tenant identifier for each transaction, and PostgreSQL applies isolation rules to all read and write operations.
 
 This defense-in-depth approach ensures that tenant boundaries remain intact even if application logic fails to include appropriate filters.
 
@@ -62,7 +62,7 @@ The tenants table acts as the root of the organizational hierarchy, storing iden
 
 Many ERP failures originate from loosely governed status fields. In Yggdrasil, lifecycle states are treated as first-class constraints within the schema.
 
-Custom ENUM types define valid lifecycle values for major entities such as orders, work orders, engineering changes, financial journals, quality reports, and service tickets. These ENUM definitions work in conjunction with the server's state-machine service to ensure that transitions occur only within defined lifecycle graphs.
+Custom ENUM types define valid lifecycle values for major entities such as orders, work orders, engineering changes, financial journals, quality reports, and service tickets. These ENUM definitions work in conjunction with the server's State Constraint Engine, which reads the state-engine runtime tables and the ROPE governance tables to enforce Runtime Operational Policy Enforcement inside the write transaction, ensuring that transitions occur only within defined lifecycle graphs.
 
 By enforcing lifecycle constraints at both the application and database layers, the system prevents invalid states from entering operational history.
 
@@ -72,7 +72,7 @@ Operational traceability is a core property of the Yggdrasil architecture. The d
 
 Each audit record captures the acting user, tenant context, action type, affected table, entity identifier, and before-and-after data snapshots stored in JSON format. Status transitions are recorded explicitly so that lifecycle histories remain visible even when other fields change.
 
-This design provides a durable historical record of operational activity while remaining flexible enough to represent diverse entity structures.
+Critical audit and financial structures are made tamper-evident at the database level. The audit_change_log and ledger_entries tables carry database triggers that reject UPDATE, DELETE, and TRUNCATE operations, rendering their history effectively append-only. This design provides a durable historical record of operational activity while remaining flexible enough to represent diverse entity structures.
 
 Soft deletion is also supported across entity tables. Instead of removing records entirely, deletion operations mark records as inactive while preserving them for historical and audit purposes.
 
@@ -92,13 +92,13 @@ Cascade rules are applied selectively. Child line items typically cascade from p
 
 The server exposes dedicated relationship endpoints that traverse these connections, enabling client applications to navigate operational flows without constructing complex joins themselves.
 
-## 9. Schema Migration Model
+## 9. Schema Management Model
 
-The schema evolves through a sequential migration system executed automatically during server startup. Each migration is versioned and recorded in a schema tracking table. Migrations are designed to be additive whenever possible so that existing deployments remain stable during upgrades. Destructive schema changes are staged across multiple releases to reduce operational risk.
+In the current pre-production phase, the schema is managed as a single canonical artifact rather than through a runtime migration system. All structural changes (new tables, column additions, ENUM extensions, and index changes) are made directly in one authoritative schema file. Demo and test databases are dropped and recreated from that file after each change, so the schema definition and the running databases never diverge.
 
-Rollback scripts exist for each migration to support controlled recovery scenarios, although production upgrades are intended to proceed forward whenever possible.
+There is no sequential migration system executed during server startup. The migrations directory and its associated lint tooling remain in the repository but are inactive. They become active again only once a paying customer holds production data that must be preserved across upgrades, at which point evolution shifts to versioned, additive migrations rather than full rebuilds.
 
-This disciplined migration strategy ensures that database structure and application behavior remain synchronized across environments.
+This model is deliberately chosen for the pre-production period: keeping a single source of truth eliminates drift between migration history and actual structure, and rebuilding from the canonical file guarantees that every environment reflects the latest schema exactly.
 
 ## 10. Flexible Data Structures
 
@@ -128,7 +128,7 @@ Administrative endpoints in the server provide controlled access to backup manag
 
 The long-term stability of the Yggdrasil platform depends on disciplined schema evolution. Several guiding principles govern this process.
 
-Additive changes are preferred so that new capabilities do not disrupt existing workflows. ENUM expansions occur by appending values rather than modifying existing definitions. Structural removals are staged gradually across multiple releases.
+Additive changes are preferred so that new capabilities do not disrupt existing workflows. ENUM expansions occur by appending values rather than modifying existing definitions. Once production data exists and versioned migrations resume, structural removals are staged gradually across multiple releases.
 
 Most importantly, the schema itself represents the operational expression of canonical enterprise meaning. External tools and migration utilities must adapt to this structure rather than redefining it.
 

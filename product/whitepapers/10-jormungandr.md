@@ -1,8 +1,8 @@
 ---
 title: "Jormungandr — Canon Governance and Enforcement Layer"
 author: "Christopher Gaither"
-date: "April 2026"
-version: "1.0"
+date: "June 2026"
+version: "1.1"
 docnumber: "ML-WP-011"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -10,7 +10,9 @@ logo: "mimir_labs_logo.png"
 
 ## Overview
 
-Jormungandr is the governance enforcement layer of the Mimir Labs data platform. Named for the World Serpent that encircles Midgard in Norse mythology, it wraps around an organization's data landscape and detects when structures, integrations, or schema changes diverge from the approved canonical model.
+Jormungandr is the governance enforcement layer of the Mimir Labs data platform and the standalone expression of ROPE (Runtime Operational Policy Enforcement) for systems that are not Yggdrasil ERP. Named for the World Serpent that encircles Midgard in Norse mythology, it wraps around an organization's data landscape and detects when structures, integrations, or schema changes diverge from the approved canonical model.
+
+Inside Yggdrasil ERP, ROPE refuses illegal state transitions at the database gate through the State Constraint Engine. Jormungandr is that same authority turned outward: it owns the canonical definitions and the legality of state transitions for external systems, and it emits governance contracts those systems validate against before committing a change. Versioned canon registries, drift detection, and compliance reporting make that enforcement durable over time. Jormungandr is currently in pilot.
 
 Where Ratatosk discovers and proposes canonical meaning, Jormungandr owns and enforces it. Where Ragnarok executes a one-time migration and Bifrost maintains ongoing synchronization, Jormungandr ensures that the semantic foundations underlying those processes remain intact over time.
 

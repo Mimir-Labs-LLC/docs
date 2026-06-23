@@ -2,7 +2,7 @@
 title: "Mimisbrunnr — A Canonical Data Model That Doesn't Move"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.1"
+version: "1.2"
 docnumber: "ML-WP-006"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -22,7 +22,7 @@ This paper explains what Mimisbrunnr is, why we refuse to let customers change i
 
 ## What Mimisbrunnr Is
 
-Mimisbrunnr is a database schema. More than three hundred tables, organized into seventeen business domains that cover the operational scope of a modern enterprise: customer relationships, sales, purchasing, manufacturing, warehouse, finance, projects, product lifecycle, quality, service, HR, logistics, integration, scheduling, fleet, asset and MRP, and the workflow substrate underneath them all.
+Mimisbrunnr is a database schema. 345 tables, 866 indexes, and 6 views, organized into seventeen business domains that cover the operational scope of a modern enterprise: customer relationships, sales, purchasing, manufacturing, warehouse, finance, projects, product lifecycle, quality, service, HR, logistics, integration, scheduling, fleet, asset and MRP, and the workflow substrate underneath them all.
 
 Every table has a defined meaning. Every column has a defined meaning. Every relationship between tables has a defined meaning. Those meanings do not change per customer, per industry, or per deployment.
 

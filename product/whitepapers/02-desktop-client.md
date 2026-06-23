@@ -2,7 +2,7 @@
 title: "Yggdrasil ERP — Desktop Client Architecture"
 author: "Christopher Gaither"
 date: "April 2026"
-version: "1.0"
+version: "1.1"
 docnumber: "ML-WP-003"
 classification: "Public"
 logo: "mimir_labs_logo.png"
@@ -183,6 +183,14 @@ Examples include:
 - Creating purchase bills
 
 These actions correspond directly to server endpoints and represent operational transitions in the system's workflow state machine.
+
+---
+
+## Governance and Policy Enforcement
+
+As the desktop-first reference implementation, the client is where Runtime Operational Policy Enforcement (ROPE) is authored, reviewed, and surfaced to operators. The desktop client provides the ROPE policy authoring and review interface, and it renders the constraint-violation dialog that appears when the State Constraint Engine refuses a transition.
+
+When an operator attempts an action the engine blocks, the client presents the violation directly at the point of work, citing the governing policy rather than failing silently or returning an opaque error. This keeps policy enforcement visible and explainable in the operator's workflow, consistent with the role of the desktop client as the platform's reference surface for governed transitions.
 
 ---
 
