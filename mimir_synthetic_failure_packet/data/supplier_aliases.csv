@@ -1,0 +1,11 @@
+alias_id,alias_name,mapped_supplier_id,mapping_confidence,seen_in_systems,first_seen,resolved
+SA-01,ACME Fastener Co.,SUP-2001,1.00,"erp;purchasing",2019-04-10,TRUE
+SA-02,Acme Fasteners LLC,SUP-2001,0.62,"purchasing;receiving",2021-02-18,FALSE
+SA-03,ACME,SUP-2001,0.48,"receiving;quality",2022-06-03,FALSE
+SA-04,Acme Industrial,,0.31,"receiving",2024-01-27,FALSE
+SA-05,Acme Fastener Company,SUP-2001,0.71,"finance",2023-08-14,FALSE
+SA-06,Titan Metals,SUP-2002,0.88,"purchasing;receiving",2019-05-02,FALSE
+SA-07,Titan Metals L.L.C.,SUP-2002,0.79,"finance",2020-03-11,FALSE
+SA-08,Precision Seals,SUP-2003,0.83,"receiving",2020-02-01,FALSE
+SA-09,Summit Hardware,SUP-2007,0.66,"purchasing",2022-06-01,FALSE
+SA-10,Delta Fastening,SUP-2008,0.74,"receiving;quality",2021-01-09,FALSE

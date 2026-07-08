@@ -1,0 +1,11 @@
+part_id,part_number,description,uom,canonical_flag,source_system,revision,commodity_code
+PART-3001,BOLT-440-ZN,"Bolt, 4-40, zinc-plated, Grade 8",EA,TRUE,erp,C,FAST-BOLT
+PART-3002,440-ZINC-BOLT,"Zinc bolt 4-40",EA,FALSE,inventory,,FAST-BOLT
+PART-3003,BOLT440ZN,"Bolt 440 zinc",EA,FALSE,receiving_sheet,,
+PART-3004,WASHER-440-SS,"Washer, 4-40, stainless",EA,TRUE,erp,B,FAST-WASH
+PART-3005,BRKT-AL-221,"Bracket, aluminum, 221",EA,TRUE,erp,A,MACH-BRKT
+PART-3006,SEAL-NBR-06,"Seal, NBR, 6mm",EA,TRUE,erp,D,SEAL-ORING
+PART-3007,SHAFT-TI-905,"Shaft, titanium, 905",EA,TRUE,erp,A,MACH-SHAFT
+PART-3008,GEAR-17T-CS,"Gear, 17T, case-hardened",EA,TRUE,erp,B,GEAR-SPUR
+PART-3009,ZN BOLT 440,"zinc bolt 440 (qc sheet)",EA,FALSE,quality_sheet,,
+PART-3010,BRKT AL 221,"bracket al 221",EA,FALSE,inventory,,MACH-BRKT

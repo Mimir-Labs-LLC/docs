@@ -1,0 +1,16 @@
+so_number,customer_id,order_date,requested_ship_date,promise_date,expected_ship_date,actual_ship_date,order_status,on_time_reported,order_value_usd,last_modified_by,last_modified_via
+SO-10482,CUST-1001,2026-06-10,2026-08-15,2026-08-15,2026-08-29,2026-08-28,Shipped,TRUE,184500,svc_scheduler,api_integration
+SO-10455,CUST-1002,2026-05-28,2026-07-31,2026-07-31,2026-07-31,2026-07-30,Shipped,TRUE,96200,m.ito,ui_workflow
+SO-10460,CUST-1003,2026-06-01,2026-08-05,2026-08-05,2026-08-06,2026-08-06,Shipped,TRUE,41800,r.okafor,ui_workflow
+SO-10468,CUST-1004,2026-06-04,2026-08-10,2026-08-12,2026-08-12,2026-08-14,Shipped,FALSE,22750,l.chen,ui_workflow
+SO-10471,CUST-1005,2026-06-06,2026-08-12,2026-08-12,2026-08-20,2026-08-19,Shipped,TRUE,133900,svc_scheduler,bulk_import
+SO-10479,CUST-1006,2026-06-09,2026-08-14,2026-08-14,2026-08-14,,In Production,,58400,m.ito,ui_workflow
+SO-10485,CUST-1007,2026-06-12,2026-08-18,2026-08-18,2026-08-18,2026-08-18,Shipped,TRUE,77100,r.okafor,ui_workflow
+SO-10490,CUST-1008,2026-06-15,2026-08-21,2026-08-21,2026-08-27,2026-08-26,Shipped,TRUE,112300,svc_scheduler,api_integration
+SO-10493,CUST-1009,2026-06-16,2026-08-22,2026-08-24,2026-08-24,2026-08-25,Shipped,FALSE,19850,l.chen,ui_workflow
+SO-10498,CUST-1010,2026-06-18,2026-08-25,2026-08-25,2026-08-25,,In Production,,64200,m.ito,ui_workflow
+SO-10502,CUST-1011,2026-06-19,2026-08-26,2026-08-26,2026-09-02,2026-09-01,Shipped,TRUE,38900,svc_scheduler,bulk_import
+SO-10507,CUST-1012,2026-06-22,2026-08-28,2026-08-28,2026-08-28,2026-08-28,Shipped,TRUE,89600,r.okafor,ui_workflow
+SO-10511,CUST-1013,2026-06-23,2026-08-29,2026-08-29,2026-08-29,2026-08-31,Shipped,FALSE,27300,l.chen,ui_workflow
+SO-10516,CUST-1014,2026-06-25,2026-09-01,2026-09-01,2026-09-01,,Open,,45500,m.ito,ui_workflow
+SO-10520,CUST-1001,2026-06-26,2026-09-02,2026-09-02,2026-09-10,,In Production,,151200,svc_scheduler,api_integration

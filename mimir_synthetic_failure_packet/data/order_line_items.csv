@@ -1,0 +1,15 @@
+line_id,so_number,part_number,part_description,qty_ordered,qty_shipped,unit_price,line_status
+LN-10482-1,SO-10482,BOLT-440-ZN,"Bolt, 4-40, zinc-plated, Gr8",12000,12000,9.85,Shipped
+LN-10482-2,SO-10482,WASHER-440-SS,"Washer, 4-40, stainless",12000,12000,1.40,Shipped
+LN-10455-1,SO-10455,BRKT-AL-221,"Bracket, aluminum, 221",800,800,58.00,Shipped
+LN-10460-1,SO-10460,SEAL-NBR-06,"Seal, NBR, 6mm",5400,5400,3.10,Shipped
+LN-10468-1,SO-10468,BOLT440ZN,"Bolt 440 zinc",3000,3000,9.90,Shipped
+LN-10471-1,SO-10471,SHAFT-TI-905,"Shaft, titanium, 905",120,120,410.00,Shipped
+LN-10485-1,SO-10485,440-ZINC-BOLT,"Zinc bolt 4-40",7500,7500,9.80,Shipped
+LN-10490-1,SO-10490,GEAR-17T-CS,"Gear, 17T, case-hardened",640,640,86.50,Shipped
+LN-10493-1,SO-10493,SEAL-NBR-06,"Seal, NBR, 6mm",2200,2200,3.15,Shipped
+LN-10502-1,SO-10502,BRKT-AL-221,"Bracket aluminum 221",300,300,59.00,Shipped
+LN-10507-1,SO-10507,BOLT-440-ZN,"Bolt, 4-40, zinc-plated, Gr8",9000,9000,9.85,Shipped
+LN-10511-1,SO-10511,WASHER-440-SS,"Washer, 4-40, stainless",4000,4000,1.42,Shipped
+LN-10520-1,SO-10520,BOLT-440-ZN,"Bolt, 4-40, zinc-plated, Gr8",15000,0,9.85,Open
+LN-10520-2,SO-10520,GEAR-17T-CS,"Gear, 17T, case-hardened",500,0,86.50,Open

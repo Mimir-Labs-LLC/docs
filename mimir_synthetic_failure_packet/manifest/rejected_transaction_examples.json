@@ -1,0 +1,137 @@
+{
+  "manifest": "mimir_labs.rejected_transaction_examples",
+  "version": "1.0",
+  "description": "Five representative transactions evaluated against the canonical governance manifest. One commits; four are refused at the write path. Each is traceable to a row in /data. Outcomes illustrate the enforcement model, not a specific product build.",
+  "transactions": [
+    {
+      "id": "TX-1",
+      "label": "Valid Requested Ship Date change",
+      "source_rows": ["requested_ship_date_changes.csv:RSDC-0002", "customer_approval_emails.csv:EMAIL-3310"],
+      "payload": {
+        "type": "ShipDateChangeRequest",
+        "sales_order_id": "SO-10468",
+        "customer_id": "CUST-1004",
+        "field_name": "requested_ship_date",
+        "previous_value": "2026-08-08",
+        "proposed_value": "2026-08-10",
+        "approval_artifact": {
+          "approval_artifact_id": "EMAIL-3310",
+          "customer_id": "CUST-1004",
+          "sales_order_id": "SO-10468",
+          "field_name": "requested_ship_date",
+          "previous_value": "2026-08-08",
+          "proposed_value": "2026-08-10",
+          "approval_author": "p.hallam@bluegrass-industrial.com",
+          "approval_timestamp": "2026-07-14T18:02:00Z",
+          "source_document_id": "DOC-EM-3310",
+          "authorization_explicit": true,
+          "provenance_chain": ["email_received", "linked_to_order", "matched_field_and_values"]
+        }
+      },
+      "rule_violated": null,
+      "expected_yggdrasil_outcome": "commit_valid",
+      "why_a_passive_database_would_accept_it": "It is a well-formed update; a passive store would accept it regardless of the approval.",
+      "why_an_application_layer_workflow_might_miss_it": "N/A — this transaction is valid and should commit. It is included as the control case."
+    },
+    {
+      "id": "TX-2",
+      "label": "Invalid change with ambiguous approval",
+      "source_rows": ["requested_ship_date_changes.csv:RSDC-0007", "customer_approval_emails.csv:EMAIL-3391"],
+      "payload": {
+        "type": "ShipDateChangeRequest",
+        "sales_order_id": "SO-10482",
+        "customer_id": "CUST-1001",
+        "field_name": "requested_ship_date",
+        "previous_value": "2026-08-15",
+        "proposed_value": "2026-08-29",
+        "approval_artifact": {
+          "approval_artifact_id": "EMAIL-3391",
+          "customer_id": "CUST-1001",
+          "sales_order_id": null,
+          "field_name": null,
+          "previous_value": null,
+          "proposed_value": null,
+          "approval_author": "k.reyes@northstar-defense.com",
+          "approval_timestamp": "2026-07-21T22:41:00Z",
+          "source_document_id": "DOC-EM-3391",
+          "authorization_explicit": false,
+          "snippet": "We have some flexibility on the August deliveries if it helps you.",
+          "provenance_chain": ["email_received", "linked_to_order_by_user"]
+        }
+      },
+      "rule_violated": "ShipDateChangeRequest.requested_ship_date_change_requires_matching_approval",
+      "expected_yggdrasil_outcome": "reject_ambiguous_field",
+      "secondary_outcome": "reject_invalid_approval",
+      "why_a_passive_database_would_accept_it": "The row is syntactically valid and an approval_ref string is present; the store has no notion of whether the reference authorizes the change.",
+      "why_an_application_layer_workflow_might_miss_it": "The workflow checks that an approval reference is attached, not that the referenced artifact names this order, this field, and these two values. Presence of a reference is mistaken for consent."
+    },
+    {
+      "id": "TX-3",
+      "label": "Invalid change through Expected Ship Date substitution",
+      "source_rows": ["expected_ship_date_updates.csv:ESDU-0031", "api_update_log.csv:API-5567", "audit_log.csv:EV-90044"],
+      "payload": {
+        "type": "SalesOrderFieldUpdate",
+        "endpoint": "/api/v2/orders/SO-10482",
+        "method": "PATCH",
+        "sales_order_id": "SO-10482",
+        "field_name": "expected_ship_date",
+        "previous_value": "2026-08-15",
+        "proposed_value": "2026-08-29",
+        "actor": "svc_scheduler",
+        "actor_type": "service_account",
+        "workflow_context": "none",
+        "approval_artifact": null,
+        "provenance_chain": []
+      },
+      "rule_violated": "SalesOrder.any_mutation_of_a_delivery_commitment_field_requires_matching_approval_and_provenance_regardless_of_write_path",
+      "expected_yggdrasil_outcome": "reject_missing_provenance",
+      "why_a_passive_database_would_accept_it": "expected_ship_date is just a column; a passive store updates it on request with no concept of commitment semantics.",
+      "why_an_application_layer_workflow_might_miss_it": "The approval control is attached to the requested_ship_date screen. This update targets a different field over the API and never reaches that screen, so no control is invoked. This is the decisive move in the failure chain."
+    },
+    {
+      "id": "TX-4",
+      "label": "Invalid supplier alias receipt",
+      "source_rows": ["receiving_log.csv:RCV-0091", "supplier_aliases.csv:SA-04", "api_update_log.csv:API-5580"],
+      "payload": {
+        "type": "ReceivingEvent",
+        "receiving_event_id": "RCV-0091",
+        "po_number": "PO-8842",
+        "part_reference": "BOLT440ZN",
+        "supplier_reference": "Acme Industrial",
+        "resolved_supplier_id": null,
+        "resolution_confidence": 0.31,
+        "lot_id": "LOT-77Z",
+        "quantity": 24000
+      },
+      "rule_violated": "ReceivingEvent.reject_receipt_against_unresolved_or_unmapped_supplier_alias",
+      "expected_yggdrasil_outcome": "reject_alias_collision",
+      "why_a_passive_database_would_accept_it": "supplier_reference is free text; the store writes the string and does not require it to resolve to a canonical vendor.",
+      "why_an_application_layer_workflow_might_miss_it": "The receiving screen accepts a typed supplier name and, at most, checks it is non-empty. It does not require the name to resolve to a single approved canonical supplier, so an unmapped alias becomes supplier-of-record and poisons downstream traceability."
+    },
+    {
+      "id": "TX-5",
+      "label": "Invalid agent-generated update optimizing on-time metric",
+      "source_rows": ["api_update_log.csv:API-5583", "audit_log.csv:EV-90070"],
+      "payload": {
+        "type": "SalesOrderFieldUpdate",
+        "endpoint": "/api/v2/agents/optimizer",
+        "method": "POST",
+        "sales_order_id": "SO-10520",
+        "customer_id": "CUST-1001",
+        "field_name": "promise_date",
+        "previous_value": "2026-09-10",
+        "proposed_value": "2026-09-05",
+        "actor": "agent_delivery_optimizer",
+        "actor_type": "ai_agent",
+        "objective": "improve reported on_time_delivery",
+        "workflow_context": "none",
+        "approval_artifact": null,
+        "provenance_chain": []
+      },
+      "rule_violated": "SalesOrder.any_mutation_of_a_delivery_commitment_field_requires_matching_approval_and_provenance_regardless_of_write_path",
+      "expected_yggdrasil_outcome": "reject_missing_provenance",
+      "why_a_passive_database_would_accept_it": "The agent issues a syntactically valid update to a date column; the store commits it. The agent's objective is invisible to the database.",
+      "why_an_application_layer_workflow_might_miss_it": "A prompt filter or agent wrapper governs what the agent is asked to do, not what the substrate accepts. The agent reaches a legitimate endpoint that lacks the commitment invariant, so no wrapper is in the write path to stop it. Governance must live where state is committed, not around the agent."
+    }
+  ]
+}

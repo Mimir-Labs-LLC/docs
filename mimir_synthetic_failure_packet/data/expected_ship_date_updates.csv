@@ -1,0 +1,7 @@
+update_id,so_number,previous_value,new_value,changed_via,changed_by,change_timestamp,workflow_passed,linked_change_request
+ESDU-0031,SO-10482,2026-08-15,2026-08-29,api_integration,svc_scheduler,2026-07-22T14:07:40Z,FALSE,
+ESDU-0033,SO-10471,2026-08-12,2026-08-20,bulk_import,svc_scheduler,2026-07-27T02:15:10Z,FALSE,RSDC-0011
+ESDU-0035,SO-10502,2026-08-26,2026-09-02,bulk_import,svc_scheduler,2026-07-29T03:03:22Z,FALSE,RSDC-0013
+ESDU-0037,SO-10490,2026-08-21,2026-08-27,api_integration,svc_scheduler,2026-07-25T11:12:05Z,FALSE,
+ESDU-0028,SO-10468,2026-08-10,2026-08-12,ui_workflow,l.chen,2026-07-16T10:00:00Z,TRUE,RSDC-0002
+ESDU-0040,SO-10520,2026-09-02,2026-09-10,api_integration,svc_scheduler,2026-07-28T15:20:00Z,FALSE,

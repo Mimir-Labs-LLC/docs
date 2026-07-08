@@ -1,0 +1,7 @@
+log_id,endpoint,method,entity_type,entity_id,field,old_value,new_value,actor,actor_type,timestamp,workflow_context,approval_ref_present
+API-5567,/api/v2/orders/SO-10482,PATCH,SalesOrder,SO-10482,expected_ship_date,2026-08-15,2026-08-29,svc_scheduler,service_account,2026-07-22T14:07:40Z,none,FALSE
+API-5570,/api/v2/orders/SO-10490,PATCH,SalesOrder,SO-10490,expected_ship_date,2026-08-21,2026-08-27,svc_scheduler,service_account,2026-07-25T11:12:05Z,none,FALSE
+API-5573,/api/v2/orders/SO-10520,PATCH,SalesOrder,SO-10520,expected_ship_date,2026-09-02,2026-09-10,svc_scheduler,service_account,2026-07-28T15:20:00Z,none,FALSE
+API-5560,/api/v2/orders/SO-10468,PATCH,SalesOrder,SO-10468,requested_ship_date,2026-08-08,2026-08-10,l.chen,user,2026-07-16T09:59:40Z,ship_date_change_workflow,TRUE
+API-5580,/api/v2/receipts,POST,ReceivingEvent,RCV-0091,supplier_name,,Acme Industrial,svc_receiving,service_account,2026-07-30T06:02:00Z,none,FALSE
+API-5583,/api/v2/agents/optimizer,POST,SalesOrder,SO-10520,promise_date,2026-09-10,2026-09-05,agent_delivery_optimizer,ai_agent,2026-07-29T08:44:00Z,none,FALSE

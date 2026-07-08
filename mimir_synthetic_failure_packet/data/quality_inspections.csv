@@ -1,0 +1,11 @@
+inspection_id,lot_id,part_number,supplier_ref,result,inspector,inspection_date,cert_ref,disposition,so_reference
+QI-0044,LOT-77Z,ZN BOLT 440,ACME,Pass,s.novak,2026-07-31,CERT-77Z-A,Released,SO-10482
+QI-0031,LOT-71Z,BOLT-440-ZN,ACME Fastener Co.,Pass,s.novak,2026-07-19,CERT-71Z,Released,
+QI-0047,LOT-79Z,440-ZINC-BOLT,Acme Fasteners LLC,Conditional,s.novak,2026-08-03,,Use-As-Is,
+QI-0022,LOT-55W,WASHER-440-SS,Delta Fastening,Pass,a.reed,2026-07-06,CERT-55W,Released,
+QI-0025,LOT-22B,BRKT-AL-221,Ironwood Castings,Pass,a.reed,2026-07-12,CERT-22B,Released,
+QI-0028,LOT-33S,SEAL-NBR-06,Precision Seals,Pass,a.reed,2026-07-15,CERT-33S,Released,
+QI-0050,LOT-90T,SHAFT-TI-905,Titan Metals,Pass,s.novak,2026-08-06,CERT-90T,Released,
+QI-0053,LOT-17G,GEAR-17T-CS,Blue Ridge Gear Works,Pass,a.reed,2026-08-09,CERT-17G,Released,
+QI-0056,LOT-77Z,BOLT440ZN,Acme Industrial,Pass,s.novak,2026-08-11,CERT-77Z-B,Released,
+QI-0059,LOT-81Z,BOLT-440-ZN,Summit Hardware,Pass,s.novak,2026-08-13,CERT-81Z,Released,

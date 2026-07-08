@@ -1,0 +1,15 @@
+customer_id,customer_name,customer_code,region,industry_segment,account_manager,credit_terms,defense_program_flag,created_at
+CUST-1001,Northstar Defense Systems,NSDS,US-Northeast,Defense Prime,j.brennan,Net 45,TRUE,2021-03-14
+CUST-1002,Cascade Aerospace Group,CASC,US-West,Aerospace Tier 1,m.ito,Net 30,TRUE,2020-08-02
+CUST-1003,Halcyon Medical Devices,HALC,US-Midwest,Medical Device,r.okafor,Net 30,FALSE,2022-01-19
+CUST-1004,Bluegrass Industrial Supply,BLUE,US-Southeast,Distribution,l.chen,Net 60,FALSE,2019-11-30
+CUST-1005,Northstar Defense Sys.,NSDS,US-Northeast,Defense Prime,j.brennan,Net 45,TRUE,2023-06-01
+CUST-1006,Meridian Robotics,MERI,US-West,Industrial Automation,m.ito,Net 30,FALSE,2022-09-12
+CUST-1007,Front Range Turbine,FRTU,US-West,Energy,r.okafor,Net 45,FALSE,2021-05-23
+CUST-1008,Kestrel Marine Systems,KEST,US-Southeast,Defense Sub-tier,l.chen,Net 45,TRUE,2020-02-17
+CUST-1009,Provident Rail Components,PROV,US-Midwest,Transportation,j.brennan,Net 60,FALSE,2018-12-04
+CUST-1010,Aegis Optics,AEGI,US-Northeast,Defense Sub-tier,m.ito,Net 30,TRUE,2023-02-28
+CUST-1011,Copperline Fabrication,COPP,US-Southeast,Contract Manufacturing,r.okafor,Net 30,FALSE,2021-07-08
+CUST-1012,Sentinel Power Units,SENT,US-West,Energy,l.chen,Net 45,FALSE,2022-04-15
+CUST-1013,Granite State Machining,GRAN,US-Northeast,Contract Manufacturing,j.brennan,Net 30,FALSE,2020-10-21
+CUST-1014,Vantage Aero Fasteners,VANT,US-Midwest,Aerospace Tier 2,m.ito,Net 45,FALSE,2019-03-11

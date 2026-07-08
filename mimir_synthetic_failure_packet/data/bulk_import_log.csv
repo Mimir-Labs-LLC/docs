@@ -1,0 +1,6 @@
+import_id,file_name,target_table,rows_processed,fields_touched,imported_by,import_timestamp,validation_mode,errors_flagged
+BLK-0203,ship_schedule_aug.xlsx,customer_orders,42,"expected_ship_date;promise_date",svc_scheduler,2026-07-27T02:12:00Z,none,0
+BLK-0205,ship_schedule_aug_rev2.xlsx,customer_orders,17,"expected_ship_date;promise_date",svc_scheduler,2026-07-29T03:00:00Z,none,0
+BLK-0198,supplier_master_sync.csv,suppliers,63,"supplier_name;status",svc_procurement,2026-07-20T23:15:00Z,none,4
+BLK-0201,inventory_reconcile.xlsx,inventory_snapshot,410,"qty_on_hand;supplier_ref",svc_inventory,2026-07-25T22:40:00Z,warn_only,11
+BLK-0207,margin_overlay_q3.xlsx,finance_margin_report,120,"on_time_delivery;ship_date_basis",fin_analyst,2026-08-02T13:05:00Z,none,0

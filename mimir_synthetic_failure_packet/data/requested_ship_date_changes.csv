@@ -1,0 +1,8 @@
+change_id,so_number,field_name,previous_value,proposed_value,requested_by,request_timestamp,approval_ref,approval_status,applied,applied_timestamp
+RSDC-0007,SO-10482,requested_ship_date,2026-08-15,2026-08-29,j.brennan,2026-07-22T14:05:00Z,EMAIL-3391,approved,TRUE,2026-07-22T14:06:11Z
+RSDC-0002,SO-10468,requested_ship_date,2026-08-08,2026-08-10,l.chen,2026-07-15T09:20:00Z,EMAIL-3310,approved,TRUE,2026-07-15T09:41:00Z
+RSDC-0004,SO-10493,requested_ship_date,2026-08-20,2026-08-22,l.chen,2026-07-19T16:33:00Z,EMAIL-3350,approved,TRUE,2026-07-19T16:52:00Z
+RSDC-0009,SO-10490,requested_ship_date,2026-08-21,2026-08-25,r.okafor,2026-07-25T11:10:00Z,,pending,FALSE,
+RSDC-0011,SO-10471,requested_ship_date,2026-08-12,2026-08-20,svc_scheduler,2026-07-27T02:14:00Z,,none,FALSE,
+RSDC-0013,SO-10502,requested_ship_date,2026-08-26,2026-09-02,svc_scheduler,2026-07-29T03:02:00Z,,none,FALSE,
+RSDC-0006,SO-10455,requested_ship_date,2026-07-28,2026-07-31,m.ito,2026-07-10T13:47:00Z,EMAIL-3288,approved,TRUE,2026-07-10T14:05:00Z

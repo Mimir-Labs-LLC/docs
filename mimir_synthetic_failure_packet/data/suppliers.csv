@@ -1,0 +1,9 @@
+supplier_id,supplier_name,supplier_code,canonical_flag,duns,status,approved_vendor,created_at
+SUP-2001,ACME Fastener Co.,ACMEFC,TRUE,07-329-4471,Active,TRUE,2019-04-10
+SUP-2002,Titan Metals LLC,TITAN,TRUE,08-551-2093,Active,TRUE,2018-09-22
+SUP-2003,Precision Seals Inc.,PSEAL,TRUE,09-118-7742,Active,TRUE,2020-01-15
+SUP-2004,Cardinal Coatings,CARDC,TRUE,06-882-3310,Active,TRUE,2021-03-30
+SUP-2005,Ironwood Castings,IRONW,TRUE,05-447-9921,Active,TRUE,2017-11-08
+SUP-2006,Blue Ridge Gear Works,BRGEAR,TRUE,04-990-1123,Active,TRUE,2019-07-19
+SUP-2007,Summit Hardware Supply,SUMHW,TRUE,03-772-6650,Hold,FALSE,2022-05-25
+SUP-2008,Delta Fastening Systems,DELTF,TRUE,02-334-8817,Active,TRUE,2020-10-12

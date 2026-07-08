@@ -1,0 +1,11 @@
+report_line_id,so_number,customer_name,revenue_usd,cogs_usd,margin_pct,on_time_delivery,ship_date_basis,basis_date,actual_ship_date,computed_from,provenance_preserved
+FMR-10482,SO-10482,Northstar Defense Systems,184500,121400,34.2,TRUE,expected_ship_date,2026-08-29,2026-08-28,reporting_view,FALSE
+FMR-10455,SO-10455,Cascade Aerospace Group,96200,60100,37.5,TRUE,requested_ship_date,2026-07-31,2026-07-30,reporting_view,FALSE
+FMR-10460,SO-10460,Halcyon Medical Devices,41800,27900,33.3,TRUE,promise_date,2026-08-06,2026-08-06,reporting_view,FALSE
+FMR-10468,SO-10468,Bluegrass Industrial Supply,22750,15600,31.4,FALSE,requested_ship_date,2026-08-10,2026-08-14,reporting_view,FALSE
+FMR-10471,SO-10471,Northstar Defense Sys.,133900,86200,35.6,TRUE,expected_ship_date,2026-08-20,2026-08-19,reporting_view,FALSE
+FMR-10490,SO-10490,Kestrel Marine Systems,112300,73800,34.3,TRUE,expected_ship_date,2026-08-27,2026-08-26,reporting_view,FALSE
+FMR-10502,SO-10502,Copperline Fabrication,38900,26100,32.9,TRUE,expected_ship_date,2026-09-02,2026-09-01,reporting_view,FALSE
+FMR-10507,SO-10507,Sentinel Power Units,89600,58200,35.0,TRUE,promise_date,2026-08-28,2026-08-28,reporting_view,FALSE
+FMR-10511,SO-10511,Granite State Machining,27300,18900,30.8,FALSE,requested_ship_date,2026-08-29,2026-08-31,reporting_view,FALSE
+FMR-10493,SO-10493,Provident Rail Components,19850,13700,31.0,FALSE,requested_ship_date,2026-08-22,2026-08-25,reporting_view,FALSE

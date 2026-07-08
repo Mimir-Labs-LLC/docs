@@ -1,0 +1,159 @@
+{
+  "manifest": "mimir_labs.canonical_governance_manifest",
+  "version": "1.0",
+  "description": "Representative canonical governance manifest for the synthetic Keystone Motion Components dataset. Defines canonical entities, keys, and write-path invariants enforced by Yggdrasil ERP at the point of commit. This is illustrative of the enforcement model, not a production schema.",
+  "principles": [
+    "Invariants are bound to business state, not to a screen, workflow, endpoint, or caller identity.",
+    "Every write path (UI, API, bulk import, service account, autonomous agent) is validated by the same invariants.",
+    "Invalid state is refused before commit; it is never persisted and then flagged.",
+    "Provenance is a first-class part of a transaction, not an attachment discovered after the fact."
+  ],
+  "validation_outcomes": {
+    "commit_valid": "All invariants satisfied; state committed.",
+    "reject_invalid_approval": "A referenced CustomerApprovalArtifact does not authorize this specific change.",
+    "reject_ambiguous_field": "The approval artifact does not name the field, order, or values it purports to authorize.",
+    "reject_mismatched_date": "The approval's previous/proposed values do not match the transaction's from/to values.",
+    "reject_missing_provenance": "A controlled field was changed without a complete, validated provenance chain.",
+    "reject_alias_collision": "An entity reference resolves to an unresolved or unmapped alias rather than a canonical entity."
+  },
+  "canonical_entities": [
+    {
+      "entity": "Customer",
+      "canonical_key": "customer_id",
+      "identity_rule": "One canonical record per legal customer. Surface names and codes are aliases requiring resolution; duplicate codes (e.g. NSDS on CUST-1001 and CUST-1005) must be merged before commit of dependent transactions.",
+      "required_fields": ["customer_id", "legal_name", "customer_code"],
+      "invariants": ["no_duplicate_canonical_customer_for_same_legal_entity"]
+    },
+    {
+      "entity": "SalesOrder",
+      "canonical_key": "sales_order_id",
+      "controlled_fields": ["requested_ship_date"],
+      "derived_fields": ["expected_ship_date", "promise_date", "actual_ship_date"],
+      "commitment_field": "requested_ship_date",
+      "required_fields": ["sales_order_id", "customer_id", "requested_ship_date"],
+      "invariants": [
+        "customer_id_must_resolve_to_canonical_customer",
+        "requested_ship_date_is_the_sole_delivery_commitment",
+        "derived_fields_may_not_be_used_as_the_commitment_in_any_downstream_metric",
+        "requested_ship_date_immutable_except_via_valid_ShipDateChangeRequest",
+        "any_mutation_of_a_delivery_commitment_field_requires_matching_approval_and_provenance_regardless_of_write_path"
+      ]
+    },
+    {
+      "entity": "SalesOrderLine",
+      "canonical_key": "sales_order_line_id",
+      "required_fields": ["sales_order_line_id", "sales_order_id", "part_id", "qty_ordered"],
+      "invariants": [
+        "part_id_must_resolve_to_canonical_part",
+        "sales_order_id_must_reference_existing_SalesOrder"
+      ]
+    },
+    {
+      "entity": "Part",
+      "canonical_key": "part_id",
+      "identity_rule": "One canonical record per physical part. Free-text part numbers coined by inventory, receiving, or quality systems are aliases and must resolve to a single canonical part_id before any transaction referencing them commits.",
+      "required_fields": ["part_id", "canonical_part_number"],
+      "invariants": ["no_transaction_may_reference_an_unresolved_part_alias"]
+    },
+    {
+      "entity": "Supplier",
+      "canonical_key": "supplier_id",
+      "identity_rule": "One canonical record per legal supplier. Surface names are aliases; an alias must be resolved to a canonical supplier_id (resolution confidence 1.0) before it can act as supplier-of-record.",
+      "required_fields": ["supplier_id", "legal_name", "approved_vendor"],
+      "invariants": [
+        "unresolved_or_unmapped_alias_may_not_be_supplier_of_record",
+        "supplier_of_record_must_be_approved_vendor_for_controlled_material"
+      ]
+    },
+    {
+      "entity": "InventoryLot",
+      "canonical_key": "lot_id",
+      "required_fields": ["lot_id", "part_id", "supplier_id", "quantity"],
+      "invariants": [
+        "part_id_must_resolve_to_canonical_part",
+        "supplier_id_must_resolve_to_canonical_supplier",
+        "a_lot_must_have_exactly_one_canonical_part_and_one_canonical_supplier"
+      ]
+    },
+    {
+      "entity": "CustomerApprovalArtifact",
+      "canonical_key": "approval_artifact_id",
+      "required_fields": [
+        "approval_artifact_id",
+        "customer_id",
+        "sales_order_id",
+        "field_name",
+        "previous_value",
+        "proposed_value",
+        "approval_author",
+        "approval_timestamp",
+        "source_document_id",
+        "source_document_hash",
+        "provenance_chain"
+      ],
+      "invariants": [
+        "artifact_must_explicitly_name_order_field_and_both_values",
+        "authorization_explicit_must_be_true",
+        "a_general_correspondence_may_not_authorize_a_specific_field_change"
+      ]
+    },
+    {
+      "entity": "ShipDateChangeRequest",
+      "canonical_key": "change_request_id",
+      "required_fields": [
+        "change_request_id",
+        "sales_order_id",
+        "field_name",
+        "previous_value",
+        "proposed_value",
+        "approval_artifact_id"
+      ],
+      "strict_invariant": {
+        "name": "requested_ship_date_change_requires_matching_approval",
+        "statement": "RequestedShipDate on a SalesOrder cannot be changed unless the committing transaction includes a valid CustomerApprovalArtifact whose fields match the change exactly.",
+        "match_conditions": [
+          "approval.customer_id == sales_order.customer_id",
+          "approval.sales_order_id == change_request.sales_order_id",
+          "approval.field_name == 'requested_ship_date'",
+          "approval.previous_value == change_request.previous_value",
+          "approval.proposed_value == change_request.proposed_value",
+          "approval.approval_author is a recognized customer contact",
+          "approval.approval_timestamp precedes the change",
+          "approval.source_document_id or approval.source_document_hash is present and verifiable",
+          "approval.provenance_chain is complete and unbroken"
+        ],
+        "on_any_condition_false": "reject",
+        "applies_to_all_write_paths": true
+      }
+    },
+    {
+      "entity": "ReceivingEvent",
+      "canonical_key": "receiving_event_id",
+      "required_fields": ["receiving_event_id", "part_id", "supplier_id", "lot_id", "quantity"],
+      "invariants": [
+        "supplier_reference_must_resolve_to_canonical_supplier_before_receipt",
+        "reject_receipt_against_unresolved_or_unmapped_supplier_alias",
+        "part_reference_must_resolve_to_canonical_part"
+      ]
+    },
+    {
+      "entity": "QualityInspection",
+      "canonical_key": "inspection_id",
+      "required_fields": ["inspection_id", "lot_id", "part_id", "result"],
+      "invariants": [
+        "lot_id_must_reference_existing_canonical_InventoryLot",
+        "a_lot_may_not_hold_conflicting_part_or_supplier_identities_across_inspections"
+      ]
+    },
+    {
+      "entity": "AuditEvent",
+      "canonical_key": "event_id",
+      "required_fields": ["event_id", "entity_type", "entity_id", "action", "actor", "source_path", "timestamp", "semantic_validation"],
+      "invariants": [
+        "semantic_validation must be one of the validation_outcomes and may never be 'not_evaluated' for a committed state change",
+        "every committed state change carries the validated provenance that authorized it"
+      ],
+      "note": "In the enforced model the audit event records not only that a change occurred but the validation verdict that permitted it. An event can exist only because a valid transaction produced it."
+    }
+  ]
+}
