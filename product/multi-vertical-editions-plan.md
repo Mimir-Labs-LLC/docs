@@ -1,6 +1,6 @@
 # Yggdrasil ERP — Multi-Vertical Editions Plan
 
-*How Yggdrasil ERP becomes one config-driven application that serves Manufacturing, Government (broad public sector), and Healthcare administration from a single deployable — by extracting a domain-agnostic platform and expressing each vertical as canon + configuration rather than a code fork.*
+*How Yggdrasil ERP becomes one config-driven application that serves many verticals — Manufacturing, Government (broad public sector), Healthcare administration, Insurance, Distribution, Field/Professional Service, and beyond — from a single deployable, by extracting a domain-agnostic platform and expressing each vertical as canon + configuration composed from reusable domain packs rather than a code fork. Manufacturing, Government, and Healthcare are the worked near-term examples; §8 is the strategic catalog.*
 
 *Draft — July 2026. Status: planning. Decisions of record: (1) config-driven single app; (2) Government = broad public sector (agency administration + municipal utility operations); (3) sequence platform extraction first, re-express Manufacturing as the first profile, then one new vertical.*
 
@@ -92,7 +92,73 @@ Boundary decision of record: **administrative, not clinical** — no diagnosis/t
 
 ---
 
-## 7. Cross-cutting concerns (consequences of the single-app choice)
+## 7. Composable domain packs (verticals compose, they don't duplicate)
+
+The single most important consequence of the config-driven model: **a vertical is not a monolith, it is a composition of reusable domain packs plus a thin unique slice.** A pack is a coherent bundle — schema domain + module definitions + ROPE policy library + Mimisbrunnr vocabulary — that *more than one* profile activates. Build the pack once; every profile that needs it turns it on.
+
+This is the compounding return on the platform investment: the first vertical pays to build the packs it needs; the fifth vertical is mostly *choosing* packs it already has, with a small domain-specific remainder. It is the "rules are data, not code" thesis applied to product-line economics.
+
+**The pack library (the building blocks):**
+- **Core Financials** — GL, AR, AP, banking. Every profile.
+- **Fund Accounting** — restricted funds, appropriations, encumbrances, grant tracking. Government, Nonprofit, Higher-Ed.
+- **Projects / PSA** — projects, resource staffing, time & expense, milestone / T&M billing, utilization. Service, Construction, Legal, Consulting, research administration.
+- **Field Service** — work orders, dispatch/scheduling, assets, SLAs, mobile, truck-stock. Field Service, Utilities, Facilities, Equipment dealers.
+- **Inventory & Warehouse** — multi-location, lot/serial, picking, replenishment. Manufacturing, Distribution, Retail, Healthcare supply, 3PL.
+- **Trading-Partner EDI** — X12 850/810/856/832/etc., AS2. Distribution, Retail, Logistics; Healthcare's 837/835 is a specialized member of this pack.
+- **Pricing & Rebates** — tiered/contract pricing, rebates, chargebacks. Distribution, Manufacturing, Retail.
+- **CRM / Constituent** — accounts, contacts, cases, correspondence (relabeled per profile: customers, constituents, members, donors, students). Every profile.
+- **Contract & Lifecycle Admin** — a governed lifecycle object (draft → active → amend/renew → terminate). Insurance policies, Legal matters, Subscriptions/SaaS, Leases, Loans.
+- **Claims / Case Adjudication** — intake → assess → decide → pay → appeal. Insurance claims, Healthcare claims, Government benefits, Warranty.
+- **Credentialing / Licensing** — apply → verify → approve → renew → expire, with expiry gates enforced at the transition. Healthcare credentialing, Government licensing, Education certification, HR licensure.
+- **Scheduling & Resources** — appointments, resources, calendars. Healthcare, Field Service, Hospitality, Education.
+- **Metering / Subscription Billing** — meter-to-cash, usage rating, recurring billing. Utilities, SaaS, Telecom.
+
+Each pack's *rules* are ROPE policy and its *reference data* is Mimisbrunnr vocabulary, so a pack ships governed and auditable by construction. A vertical profile is then a manifest: which packs, which policy libraries, which vocabularies, plus a short list of profile-unique modules and gated code.
+
+## 8. The vertical catalog
+
+### 8.1 The fit rubric
+
+A domain is a strong Yggdrasil vertical to the degree it is:
+1. **Rule-dense** — operational rules that today live in heads, spreadsheets, and code (ROPE turns them into governed, signed policy).
+2. **State-driven** — the domain is fundamentally records moving through gated lifecycles (the State Constraint Engine is the spine).
+3. **Audit-mandated** — regulators or auditors demand provable *who did what, under what authority, when* (the audit spine + signed decisions).
+4. **Fragmented / legacy-served** — the incumbents are siloed, legacy, or customization nightmares (the governed-canon / no-custom-field-sprawl wedge).
+5. **Composable** — the more it reuses existing packs, the cheaper and faster it is to stand up.
+
+The strongest candidates score high on 1–3 (which is where the moat lives) *and* high on 5 (which is where the economics live).
+
+### 8.2 The catalog
+
+Beyond the three worked examples, the reachable set. "Packs" lists the reusable §7 packs each composes; "unique" is the profile-specific remainder (mostly gated code); adjacency notes how close it sits to existing Yggdrasil code.
+
+| Vertical | Fit (rules/state/audit) | Composes from packs | Profile-unique / gated code | Compliance surface |
+|---|---|---|---|---|
+| **Insurance** (P&C carrier + agency) | Very high | Contract & Lifecycle, Claims/Adjudication, Core Financials, CRM (producers) | Rating engine (much ROPE-expressible), ACORD forms/data, reinsurance | State DOI filings, NAIC |
+| **Distribution / Wholesale** | High | Inventory & Warehouse, Trading-Partner EDI, Pricing & Rebates, Core Financials, CRM | Drop-ship, chargeback reconciliation | Light |
+| **Field / Professional Service** | High | Field Service, Scheduling, Projects/PSA, Core Financials, CRM | Dispatch optimization, mobile | Light (varies by trade) |
+| **Construction / E&C** | High | Projects/PSA, Field Service, Core Financials | Job costing, AIA/progress billing, retainage, change orders, subcontracts | Prevailing wage, lien waivers, certified payroll |
+| **Nonprofit / NGO** | High | Fund Accounting, CRM (donors), Core Financials | Donor-restricted funds, grant outcomes, program budgets | FASB (nonprofit), grantor reporting |
+| **Lending / Loan Servicing** | Very high | Contract & Lifecycle (loan), Claims/Adjudication (underwriting/collections), Core Financials, CRM | Amortization/servicing, escrow, KYC/AML | Heavy — lending/consumer-finance regulation (flag: high regulatory surface) |
+| **Higher-Ed Administration** | High | CRM (students), Fund Accounting (grants/research), Scheduling, Credentialing (certification), Core Financials | Student-record lifecycle, financial aid | FERPA, Title IV |
+| **Legal / Professional Firms** | Medium-High | Projects/PSA (matters), Contract & Lifecycle, Core Financials | Trust / IOLTA accounting, conflicts checking | Bar trust-accounting rules |
+| **Real Estate / Property Mgmt** | Medium-High | Contract & Lifecycle (leases), Field Service (maintenance), Core Financials, CRM | CAM reconciliation, rent roll, escalations | Light |
+| **Logistics / 3PL / Transport** | High | Inventory & Warehouse, Trading-Partner EDI, Field Service (fleet), Core Financials | Freight rating, 3PL activity billing | DOT / carrier |
+| **Retail / Omnichannel** | Medium | Inventory & Warehouse, Pricing & Rebates, Trading-Partner EDI, Core Financials (+ existing POS Lite) | Merchandising, replenishment, loyalty | PCI (payments) |
+| **Hospitality / Food Service** | Medium | Scheduling (reservations), Inventory & Warehouse, Core Financials (+ POS Lite) | Recipe/F&B costing (Yggdrasil already ships Restaurant vocabulary presets) | Light |
+| **Subscription / SaaS Ops** | Medium-High | Contract & Lifecycle, Metering/Subscription Billing, CRM, Core Financials | Usage rating, revenue recognition (ASC 606) | ASC 606 / audit |
+| **Pharma / Life-Sciences (GxP)** | High | Manufacturing + Quality (existing) + Inventory | Serialization / track-and-trace (DSCSA) | 21 CFR Part 11 (already in ROPE library), GxP |
+| **Agriculture / Agribusiness** | Medium | Manufacturing, Inventory & Warehouse, Distribution | Lot traceability, commodity/contract pricing | Food-safety traceability |
+
+### 8.3 Reading the catalog
+
+Three things fall out of it:
+
+- **The cheapest next verticals are the ones nearest existing code.** Distribution and Field/Professional Service reuse Yggdrasil's Purchasing/Warehouse/Sales/Finance and Service/Projects modules almost directly — they are the lowest-effort profiles after the three worked examples, and good candidates to prove composability before a from-scratch domain.
+- **A few packs unlock a disproportionate share of the catalog.** Contract & Lifecycle Admin and Claims/Adjudication together underwrite Insurance, Lending, Legal, Real Estate, Subscriptions, and (with Healthcare) most of the "policy/claim" world. Projects/PSA underwrites Service, Construction, Legal, and research administration. Building those packs well is high-leverage.
+- **Regulatory surface, not technical fit, is the real gating variable.** Almost everything in the catalog is a strong *technical* fit (that is the point of a governed state engine). The differentiator between "fast" and "slow" verticals is compliance/certification and sales-cycle drag — Lending and Government sit at the heavy end; Distribution, Service, Hospitality, and Real Estate at the light end. Sequence accordingly.
+
+## 9. Cross-cutting concerns (consequences of the single-app choice)
 
 - **Schema bloat.** Namespace every vertical's tables by domain prefix; keep them out of a tenant's reachable surface via module gating + RLS; document the profile→table map in `app-manifest.json`. Postgres handles the table count; the discipline is in access-scoping, not raw count.
 - **Release coupling.** Profile-scoped feature flags; profile-scoped seeds/migrations; a CI matrix that provisions one tenant per profile and runs each profile's story tests. A change is not shippable until every profile's matrix is green.
@@ -101,7 +167,7 @@ Boundary decision of record: **administrative, not clinical** — no diagnosis/t
 
 ---
 
-## 8. Sequencing
+## 10. Sequencing
 
 1. **Phase 0 — platform extraction** (Section 4). The unlock; nothing new-vertical ships until this is proven with Manufacturing.
 2. **Phase 1 — first new vertical.** Recommendation to confirm: pick the vertical whose earliest slice is the most self-contained. Government administration's permitting/licensing/procurement slice is largely State-Constraint-Engine + ROPE + vocabulary (little new code) and is a strong first proof; GASB fund accounting and the full utility-operations scope follow as later slices. Healthcare's earliest slice is gated behind the standards layer + PHI logging, so it is more code-heavy up front.
@@ -111,7 +177,7 @@ Each vertical ships in slices, not as a monolith: register the profile, add the 
 
 ---
 
-## 9. Risks and honest caveats
+## 11. Risks and honest caveats
 
 - **The config-driven choice trades operational leanness for release coupling.** If one vertical's compliance/regulatory cadence diverges sharply (healthcare HITRUST re-cert, government FedRAMP), the shared release train becomes a constraint. Revisit the single-app decision if a vertical's release governance can no longer tolerate coupling.
 - **Government "broad public sector" is the largest scope and the slowest sales motion** (procurement cycles, certification). Sequencing its self-contained administrative slice first limits exposure.
