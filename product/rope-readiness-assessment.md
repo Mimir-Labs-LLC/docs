@@ -38,29 +38,29 @@ Score each criterion **Pass (2) / Partial (1) / Fail (0)**. Criteria marked **�
 
 ## 3. Part B — Application criteria (determines: *enforceable*)
 
-### 3.1 What MUST be true
+**The enforcement machinery is part of the graft, not a precondition.** The interceptor/gate, the predicate evaluator, the policy engine and rules-as-data store (decisions, artifacts, compiled constraints), the governance evaluation and audit log, the semantic-edge graph, and — for a foreign target — the contract and mapping layer all ship *with* ROPE / Jormungandr. Do **not** score the target on whether it already has them. This section lists only what the target application must independently *be* or *permit* for that machinery to attach and act.
+
+### 3.1 What MUST be true of the target application
 
 | # | Criterion | Must be true | Hard gate | Failure mode if absent |
 |---|---|---|---|---|
-| B1 | **A single mediated write path (the gate)** | Every state transition on a governed entity passes through one interposable point (service / repository / API / gateway) where policy is evaluated with authority to reject. | ⛔ | No enforcement possible — evaluation only. |
-| B2 | **Synchronous, pre-commit evaluation** | The gate evaluates *before* the transition is authoritative, inside the transaction (or a two-phase that can abort), so a rejected transition never commits. | ⛔ | Post-hoc "check then undo" — race conditions, partial commits. |
-| B3 | **Actor + authority resolvable at the gate** | The app knows who is acting and their roles/authority at the moment of transition, and passes that context to the evaluator. | ⛔ | Role/approval artifacts can't resolve; no attribution. |
-| B4 | **Changes are expressed as named transitions** | The app models a change as from-state → to-state on an identified entity it can intercept, not as an opaque bulk update. | ⛔ | The gate can't tell "what this record is trying to become." |
-| B5 | **Evaluation context is readable in-transaction** | The record under transition and the relationships a predicate needs are readable at the gate within its transaction (a consistent snapshot). | — | Predicates read stale/uncommitted data; unsound verdicts. |
-| B6 | **Rules-as-data hook** | The app defers the decision to the policy engine at the gate rather than hardcoding the rule in a branch. | ⛔ | The rule is welded into code; ROPE can't own it. |
-| B7 | **The verdict is honored** | The app actually enforces the returned decision — block on reject, route on approval-required, apply derived values. | ⛔ | Calls the engine but ignores "block" → advisory by construction. |
-| B8 | **Attributable, immutable audit** | The transition + the decision applied are recorded append-only (the app's log or ROPE's evaluation log). | — | No provable enforcement; fails the "governed" claim. |
+| B1 | **Consolidatable write topology** | Every mutation of governed state can be routed through a single interposition point; there is no *irreducible* second write path. The gate is supplied — the requirement is only that a chokepoint is *achievable*. | ⛔ | The graft can observe but never guarantee it saw the change. Enforcement is impossible. |
+| B2 | **Pre-commit interceptability** | The write path permits synchronous interception before the change becomes authoritative, inside a transaction (or two-phase step) that can be aborted. | ⛔ | Only post-hoc reversal is available — races, partial commits, not prevention. |
+| B3 | **Actor + authority present at the mutation point** | The application carries the authenticated identity and role/authority of whoever performs the change, and can hand it to the interception point. | ⛔ | Role/approval predicates can't resolve; the decision can't be attributed. |
+| B4 | **Governed changes are named transitions** | The application performs governed-state changes as identifiable from→to transitions on an identified entity, not opaque bulk writes that hide intent. | ⛔ | Nothing to evaluate against — the seam can't tell what the record is becoming. |
+| B5 | **Consistent in-transaction read** | At the interception point, the record under change and the relationships a predicate needs are readable as a consistent snapshot. | — | Predicates read stale or uncommitted data; unsound verdicts. |
+| B6 | **The application cedes final authority to the seam** | It honors the returned verdict — block, route-for-approval, or apply a derived value — and does not proceed anyway, retry around it, or re-mutate the governed field out of band. Any rule the app enforces itself must be allowed to be superseded by the gate. | ⛔ | Consults the seam but overrides it → advisory by construction. |
 
-### 3.2 What MUST NOT be true
+### 3.2 What MUST NOT be true of the target application
 
 | # | Anti-criterion | Must NOT be true | Why it's disqualifying |
 |---|---|---|---|
-| C1 | **Bypass paths / side-channels** | Direct DB writes, ETL/batch jobs, DB triggers, admin backdoors, or secondary services that mutate governed state without passing the gate. | Any bypass is a hole in enforcement. **This is the most common disqualifier on existing systems.** |
-| C2 | **State as an inferred side-effect** | Lifecycle state derived from the existence of other rows or a timestamp instead of set through a transition. | No transition event to intercept. |
-| C3 | **Post-commit-only evaluation** | The only hook is a trigger/watcher that runs after the write lands and tries to reverse it. | Not atomic; not prevention. |
-| C4 | **Client/UI as the sole enforcer** | The only validation is client-side or in a bypassable layer. | Trivially circumvented; the gate must be server-authoritative. |
-| C5 | **Out-of-band mutation of governed fields** | Background jobs or integrations writing governed columns directly. | Same as C1 — an unguarded write path. |
-| C6 | **Eventual-consistency for the governed read** | The authoritative read at eval time may be stale. | The decision is computed against the wrong state. |
+| C1 | **Irreducible bypass paths** | Direct DB writes, ETL/batch jobs, DB triggers, admin backdoors, or integrations that mutate governed state and *cannot* be routed through the interception point or disabled. | Any surviving bypass is a permanent hole in enforcement. **The most common disqualifier on existing systems.** |
+| C2 | **State inferred as a side-effect** | Lifecycle state derived from a timestamp or the existence of other rows instead of set through a transition. | No transition event exists to intercept. |
+| C3 | **No pre-commit seam** | The only available hook runs after the write has already landed. | Not atomic; detection, not prevention. |
+| C4 | **UI/client as the sole enforcer** | The only authoritative validation is client-side or in a bypassable tier. | Trivially circumvented; the seam must be server-authoritative. |
+| C5 | **Un-reroutable out-of-band mutation** | Background jobs or integrations that write governed columns directly and cannot be brought behind the seam. | Same as C1 — an unguarded writer. |
+| C6 | **Stale governed reads at the seam** | The authoritative read available at interception can lag (eventual consistency on the governed data). | The verdict is computed against the wrong state. |
 
 ---
 
@@ -69,11 +69,11 @@ Score each criterion **Pass (2) / Partial (1) / Fail (0)**. Criteria marked **�
 Apply in order; the first matching rule is the verdict.
 
 1. **Not viable (redesign required)** — any **schema** hard gate (A1–A4, A6) is Fail and cannot be remediated (e.g., no state model at all, governed data irrecoverably unaddressable with no mapping possible).
-2. **Advisory-only (evaluable, not enforceable)** — schema hard gates pass or are remediable, **but** B1 (no interposable gate) fails, or any **C-series bypass** is present and cannot be closed. ROPE runs in shadow/advisory mode: it reports "would have blocked," never prevents. (This maps to `enforcement_mode='advisory'`.)
-3. **Graftable — contract-mediated (enforceable via Jormungandr)** — schema passes or is remediable; a gate can be *interposed* (a Jormungandr contract fronting a consolidatable write path) with bypasses closable; B2–B7 satisfiable through the contract layer. Enforcement is real but rides on the contract, not native ownership.
-4. **Native ROPE-ready** — schema passes; the app *natively* owns the mediated gate (B1–B7) with no C-series bypasses. Full enforcement with no contract layer needed. (A greenfield system built to this rubric lands here.)
+2. **Advisory-only (evaluable, not enforceable)** — schema hard gates pass or are remediable, **but** B1 (no consolidatable chokepoint) fails, or any **C-series bypass** is present and cannot be closed. ROPE runs in shadow/advisory mode: it reports "would have blocked," never prevents. (This maps to `enforcement_mode='advisory'`.)
+3. **Graftable — contract-mediated (enforceable via Jormungandr)** — schema passes or is remediable; a chokepoint can be *interposed* (a Jormungandr contract fronting a consolidatable write path) with bypasses closable; B2–B6 satisfiable through the contract layer. Enforcement is real but rides on the contract, not native ownership.
+4. **Native ROPE-ready** — schema passes; the app *natively* routes all governed mutations through one server-authoritative seam (B1–B6) with no C-series bypasses. Full enforcement with no contract layer needed. (A greenfield system built to this rubric lands here.)
 
-Record two sub-scores (Schema /16, Application /16) and the verdict tier. The verdict is bounded by the weaker dimension.
+Record two sub-scores (Schema /16, Application /12) and the verdict tier. The verdict is bounded by the weaker dimension.
 
 ---
 
@@ -86,8 +86,8 @@ Record two sub-scores (Schema /16, Application /16) and the verdict tier. The ve
 | No explicit state column (A1) | Add a status column, or derive one deterministically in a canonical view. | Low |
 | Drifting / free-text codes (A5, A7) | Normalize to a lookup/enum; map variants in the contract; monitor with Ratatosk. | Medium |
 | Many write paths / side-channels (B1, C1) | Consolidate mutations behind one server-authoritative gateway; retire or route the batch/trigger/integration writers through it. | **High — usually the hard part** |
-| Post-commit-only hook (B2, C3) | Move evaluation to a synchronous pre-commit interceptor in the write path. | Medium–High |
-| Rule welded into code (B6) | Extract the rule into a ROPE decision; replace the branch with an engine consult. | Medium |
+| No pre-commit seam (B2, C3) | Add a synchronous pre-commit interception point to the write path (the interceptor logic is supplied by the graft). | Medium–High |
+| App enforces a competing rule it won't cede (B6) | Let the gate be authoritative; the app's hardcoded rule is superseded or removed so it doesn't re-mutate around the verdict. | Medium |
 
 The pattern: schema gaps are **remediable with data work** (promotion, views, normalization, contract mapping). The application gap that actually decides enforceability — **consolidating the write path and closing side-channels** — is the expensive, high-risk one, and it's where most "we have governance" claims quietly fail.
 
