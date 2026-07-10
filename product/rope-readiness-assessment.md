@@ -1,10 +1,10 @@
 # ROPE-Readiness Assessment
 
-*A scored rubric for deciding whether ROPE (or its portable form, a Jormungandr contract) can be grafted onto a target system — greenfield or existing — and at what level: evaluable, or actually enforceable. Companion to the multi-vertical editions plan.*
+*A scored assessment of whether a system — greenfield or existing — can receive ROPE governance (natively, or via a Jormungandr contract), and at what level: policy that can be evaluated, or policy that can be enforced before an invalid change becomes authoritative. Designed to be run jointly by Mimir Labs and a partner or prospective customer against a target system.*
 
 *Draft — July 2026.*
 
-> **Confidentiality & IP — Controlled asset (NDA-gated); tightest handling of the set.** © 2026 Mimir Labs, LLC. Confidential; not for public distribution. This rubric maps the boundary of the enforcement moat, which makes it the most sensitive of the `product/` documents: share only with qualified counterparties under a confidentiality agreement, keep the competitive diagnostics for internal and sales use, and do not post publicly. It describes *requirements*, not implementation — the enforcement engine and governed-policy corpus are protected separately as trade secrets.
+> **Confidentiality & IP.** © 2026 Mimir Labs, LLC. Shared with partners and prospective customers under a confidentiality agreement; not for onward distribution or public posting. This document describes the *requirements* a target system must meet to receive ROPE governance — it is not the implementation. The State Constraint Engine, the policy compiler and evaluator, semantic-edge extraction, and the Jormungandr contract layer are proprietary Mimir Labs technology, protected separately.
 
 ---
 
@@ -13,7 +13,7 @@
 There are two levels of readiness, and conflating them is the most common mistake:
 
 - **Evaluable** — ROPE can bind a predicate to the data model and compute a verdict. This is a **schema** property.
-- **Enforceable** — ROPE can block an invalid transition *before it becomes authoritative*. This is an **application** property (you must own an interposable gate with no bypasses).
+- **Enforceable** — ROPE can block an invalid transition *before it becomes authoritative*. This is an **application** property: it requires an interposable write gate, with no bypasses, that the enforcement layer can control.
 
 A system can be perfectly evaluable and completely unenforceable. A pristine schema behind a dozen uncontrolled write paths yields *detection*, not *prevention*. So the assessment scores schema and application separately, and the **verdict is the weaker of the two**.
 
@@ -27,7 +27,7 @@ Score each criterion **Pass (2) / Partial (1) / Fail (0)**. Criteria marked **�
 |---|---|---|---|---|---|
 | A1 | **Explicit columnar state** | Each governed entity carries its lifecycle state as a discrete, enumerable column. | ⛔ | State implied by a timestamp, by rows existing elsewhere, or by app logic. | Add an explicit status column, or derive one in a canonical view. |
 | A2 | **Stable primary key** | Every governed table has a stable, addressable PK (natural or surrogate). | ⛔ | No PK; mutable/ambiguous keys. | Add a surrogate key; stabilize the natural key. |
-| A3 | **Addressable, typed governed attributes** | Every field a policy tests is a real, typed column the engine can `SELECT`. | ⛔ (per referenced field) | Governed values in JSON blobs, EAV/key-value tables, serialized fields, or free-text. | Promote to columns (the UDF-promotion pattern generalizes); or lift into a canonical view. |
+| A3 | **Addressable, typed governed attributes** | Every field a policy tests is a real, typed column the engine can `SELECT`. | ⛔ (per referenced field) | Governed values in JSON blobs, EAV/key-value tables, serialized fields, or free-text. | Promote the values into typed columns; or lift them into a canonical view. |
 | A4 | **Explicit, enforced foreign keys** | Relationships a policy traverses are real FK constraints with referential integrity, and the FK graph is introspectable. | ⛔ (for multi-hop predicates only) | Join-by-convention; application-only integrity; dangling refs. | Add/enforce FKs; or model the joins in the contract mapping. |
 | A5 | **Controlled vocabularies for coded values** | Coded columns (status, category, type) reference an enum / lookup / group-code scheme, stable over time. | — (degrades reliability) | Free-text codes with many spellings; drifting code sets. | Normalize to a lookup/enum; map variants in the contract. |
 | A6 | **Clear scope boundary** | Where multi-tenant, governed rows carry a tenant/owner column so policy binds to one scope. | ⛔ (if multi-tenant) | Shared rows with no ownership column; scope inferred from app session only. | Add a scope column; enforce it with row-level security. |
@@ -83,7 +83,7 @@ Record two sub-scores (Schema /16, Application /12) and the verdict tier. The ve
 
 | Gap | Move | Cost |
 |---|---|---|
-| Governed values in blobs / EAV / free-text (A3) | Promote to typed columns (UDF-promotion pattern), or project a canonical view/contract that lifts them out. | Low–Medium |
+| Governed values in blobs / EAV / free-text (A3) | Promote the values into typed columns, or project a canonical view/contract that lifts them out. | Low–Medium |
 | Implicit relationships (A4) | Formalize FKs; or declare the joins in the Jormungandr contract mapping. | Low–Medium |
 | No explicit state column (A1) | Add a status column, or derive one deterministically in a canonical view. | Low |
 | Drifting / free-text codes (A5, A7) | Normalize to a lookup/enum; map variants in the contract; monitor with Ratatosk. | Medium |
@@ -99,6 +99,6 @@ The pattern: schema gaps are **remediable with data work** (promotion, views, no
 
 - **A system in development** that follows this rubric — explicit columnar state, stable PKs, typed governed columns, enforced FKs, controlled vocabularies, a scope column, stable semantics, and *one* server-authoritative write path — lands at **Native ROPE-ready** with essentially no remediation. This is the cheapest place to be, and the argument for designing to the rubric early.
 - **A well-modeled legacy ERP** with a clean schema but many integration/batch write paths typically scores high on schema, fails B1/C1, and lands at **Advisory-only** until the write path is consolidated — after which a Jormungandr contract moves it to **Graftable**.
-- **A large clinical or enterprise platform you cannot modify** (e.g., an EHR) is usually schema-remediable through a contract/view but only **Graftable** where it exposes a mediated write API to front, and **Advisory-only** where it doesn't — which is exactly the boundary of what governing a system you can't replace can honestly promise.
+- **A large clinical or enterprise platform that cannot be modified** (e.g., an EHR) is usually schema-remediable through a contract/view but only **Graftable** where it exposes a mediated write API to front, and **Advisory-only** where it doesn't — which is exactly the boundary of what governing a system that cannot be replaced can honestly promise.
 
-The rubric's real purpose is to make that last sentence provable before anyone signs up to enforce, rather than after.
+The assessment's real purpose is to make that boundary provable before an enforcement commitment is made, rather than after.
