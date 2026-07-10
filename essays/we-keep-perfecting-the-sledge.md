@@ -4,6 +4,8 @@
 
 *Draft — July 2026.*
 
+> **Confidentiality & IP — Public / thought leadership; cleared for publication.** © 2026 Mimir Labs, LLC. Attribution: Christopher Gaither, Mimir Labs. Presents the general thesis only; the operational ROPE-readiness rubric, competitive diagnostics, and implementation are held separately as controlled and trade-secret assets.
+
 ---
 
 Everyone assumes ERP has to be painful.

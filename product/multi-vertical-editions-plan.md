@@ -4,6 +4,8 @@
 
 *Draft — July 2026. Status: planning. Decisions of record: (1) config-driven single app; (2) Government = broad public sector (agency administration + municipal utility operations); (3) sequence platform extraction first, re-express Manufacturing as the first profile, then one new vertical.*
 
+> **Confidentiality & IP — Controlled asset (NDA-gated).** © 2026 Mimir Labs, LLC. Confidential; not for public distribution. Share only with qualified counterparties under a confidentiality agreement. This document describes *requirements and strategy*, not implementation — the State Constraint Engine, the ROPE compiler and evaluator, semantic-edge extraction, the Jormungandr contract layer, and the accumulated governed-policy corpus are protected separately as trade secrets. Do not post publicly or excerpt without approval.
+
 ---
 
 ## 1. The decision and what it commits us to

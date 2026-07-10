@@ -4,6 +4,8 @@
 
 *Draft — July 2026.*
 
+> **Confidentiality & IP — Controlled asset (NDA-gated); tightest handling of the set.** © 2026 Mimir Labs, LLC. Confidential; not for public distribution. This rubric maps the boundary of the enforcement moat, which makes it the most sensitive of the `product/` documents: share only with qualified counterparties under a confidentiality agreement, keep the competitive diagnostics for internal and sales use, and do not post publicly. It describes *requirements*, not implementation — the enforcement engine and governed-policy corpus are protected separately as trade secrets.
+
 ---
 
 ## 1. The one distinction that governs everything
