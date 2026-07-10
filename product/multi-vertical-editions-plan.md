@@ -1,6 +1,6 @@
 # Yggdrasil ERP — Multi-Vertical Editions Plan
 
-*How Yggdrasil ERP becomes one config-driven application that serves many verticals — Manufacturing, Government (broad public sector), Healthcare administration, Insurance, Distribution, Field/Professional Service, and beyond — from a single deployable, by extracting a domain-agnostic platform and expressing each vertical as canon + configuration composed from reusable domain packs rather than a code fork. Manufacturing, Government, and Healthcare are the worked near-term examples; §8 is the strategic catalog.*
+*How Yggdrasil ERP becomes one config-driven application that serves many verticals — Manufacturing, Government (broad public sector), Healthcare administration, Insurance, Distribution, Field/Professional Service, Hospitality, and beyond — from a single deployable, by extracting a domain-agnostic platform and expressing each vertical as canon + configuration composed from reusable domain packs rather than a code fork. Manufacturing, Government, and Healthcare are the worked near-term examples; §8 is the strategic catalog.*
 
 *Draft — July 2026. Status: planning. Decisions of record: (1) config-driven single app; (2) Government = broad public sector (agency administration + municipal utility operations); (3) sequence platform extraction first, re-express Manufacturing as the first profile, then one new vertical.*
 
@@ -115,6 +115,8 @@ This is the compounding return on the platform investment: the first vertical pa
 
 Each pack's *rules* are ROPE policy and its *reference data* is Mimisbrunnr vocabulary, so a pack ships governed and auditable by construction. A vertical profile is then a manifest: which packs, which policy libraries, which vocabularies, plus a short list of profile-unique modules and gated code.
 
+**Relabeling, not duplicating (the vocabulary layer).** Reuse goes deeper than turning the same pack on: entities that are notionally similar *and share the same relationships* are the **same canonical table, relabeled per profile** — they are never rebuilt vertical by vertical. Yggdrasil already ships this as **Tenant Label Overrides** (rename modules and entities without touching code — Item Masters → Recipes, Sales Orders → Tickets) plus one-click vocabulary presets (Restaurant, Field Service, Light Retail). The canonical column and its foreign keys carry the governed meaning; the label carries the vertical's language on top. A *customer* becomes a *guest* (Hospitality), a *constituent* (Government), a *member* (Healthcare), or a *donor* (Nonprofit) with no new schema, and a *sales order* becomes a *ticket*, a *reservation*, or a *check*. Two consequences: first, this is the schema-bloat concern answered positively — most of what looks like a new vertical's entities is existing canonical entities wearing new vocabulary, so net-new tables are the exception, not the rule; second, because the semantics underneath are unchanged, a single ROPE policy written against the canonical column governs *every* vertical that relabels it — you do not re-author the rule per vertical any more than you re-create the table.
+
 ## 8. The vertical catalog
 
 ### 8.1 The fit rubric
@@ -160,7 +162,7 @@ Three things fall out of it:
 
 ## 9. Cross-cutting concerns (consequences of the single-app choice)
 
-- **Schema bloat.** Namespace every vertical's tables by domain prefix; keep them out of a tenant's reachable surface via module gating + RLS; document the profile→table map in `app-manifest.json`. Postgres handles the table count; the discipline is in access-scoping, not raw count.
+- **Schema bloat.** First mitigated at the source by relabeling over duplicating (§7): notionally-similar entities are shared canonical tables under vertical vocabulary, so most verticals add few net-new tables. For the tables that genuinely are new: namespace them by domain prefix; keep them out of a tenant's reachable surface via module gating + RLS; document the profile→table map in `app-manifest.json`. Postgres handles the count; the discipline is in access-scoping and in relabeling before creating, not in raw count.
 - **Release coupling.** Profile-scoped feature flags; profile-scoped seeds/migrations; a CI matrix that provisions one tenant per profile and runs each profile's story tests. A change is not shippable until every profile's matrix is green.
 - **Security surface.** PHI logging, field encryption, and break-glass are built as platform capabilities gated on by profile — so the healthcare-driven controls harden the whole product rather than living in a silo.
 - **The gated-code budget.** Track the set of vertical-specific *code* modules (EDI, GASB, PHI logging) as a deliberate, small, named list. Anything that can be expressed as ROPE policy or vocabulary must be, not written as code. This keeps the "config-driven" claim honest.
