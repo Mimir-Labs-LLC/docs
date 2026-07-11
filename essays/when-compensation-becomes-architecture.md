@@ -2,9 +2,9 @@
 
 *How ERP was defined by its limitations, why enterprise AI is repeating the pattern, and what it would mean to solve the actual problem.*
 
-*Draft — July 2026.*
+*Draft, July 2026.*
 
-> **Confidentiality & IP — Public / thought leadership; cleared for publication.** © 2026 Mimir Labs, LLC. Attribution: Christopher Gaither, Mimir Labs. Presents category-level analysis only; product internals and the governed-policy corpus are held separately as trade-secret assets.
+> **Confidentiality & IP: Public / thought leadership; cleared for publication.** © 2026 Mimir Labs, LLC. Attribution: Christopher Gaither, Mimir Labs. Presents category-level analysis only; product internals and the governed-policy corpus are held separately as trade-secret assets.
 
 ---
 
