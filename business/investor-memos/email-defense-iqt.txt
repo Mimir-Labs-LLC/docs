@@ -1,0 +1,24 @@
+Subject: Deterministic substrate for AI-mediated operational systems
+
+
+[first name] —
+
+A short note. I'm building Mimir Labs. We are constructing the deterministic operational substrate that AI-mediated workflows in contested logistics, sustainment, and mission-support environments will require but do not have today.
+
+The architectural problem: commercial enterprise systems record transactions but do not preserve, in the substrate, the operational meaning that mission elements rely on — supplier qualification at the time of acceptance, item revision at the time of release, authority at the time of approval, policy version at the time of decision. The meaning lives in side stores and operator knowledge. Humans absorb the gap through reconciliation and meetings. Agents inheriting write access do not. The result is a substrate where autonomous action is structurally unsafe regardless of how good the agent is.
+
+Our architecture: every state transition passes through a single State Constraint Engine. Every constraint is a signed, versioned policy artifact compiled from administrative Decisions through Runtime Operational Policy Enforcement (ROPE), with cited authority and full lifecycle. Agents communicate through a typed tools layer that can read scoped data and emit typed proposals; they cannot call SQL, cannot commit state, cannot bypass the constraint engine. The safety guarantee lives in the database, not the prompt. Zero-trust at the operational substrate layer rather than only at the perimeter.
+
+We start with Ratatosk, a discovery engagement that maps one operational chain across all the systems and side stores the customer runs, and surfaces where operational truth is currently lost. Yggdrasil ERP is the substrate built on the resulting canonical model, with self-hosted, ITAR-compatible deployment options. Jormungandr extends the same enforcement model to external systems through JSON Schema contracts so substrates that can't or won't be replaced can still be governed.
+
+Founder is a USMC veteran and mechanical engineer.
+
+Asks:
+
+1. A short call to test the deterministic-substrate thesis against your investment frame.
+2. If it holds up, technical diligence and — where appropriate — introductions to mission-adjacent industrial operators or program offices whose autonomy-readiness decisions are forcing the substrate question.
+
+Best,
+Christopher Gaither
+Mimir Labs
+mimirlabs.net

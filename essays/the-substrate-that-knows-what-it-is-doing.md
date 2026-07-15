@@ -69,33 +69,3 @@ So the same primitives that make the substrate powerful are the ones that make i
 The goal is not to remove humans from these institutions. The goal is to stop making humans serve as the hidden integration layer for defective institutional memory. Today, when a record fails to carry its own meaning, a person reconstructs it: the coder who infers intent, the clerk who checks the deadline, the caseworker who re-verifies the fact, the adjuster who explains the denial, the auditor who rebuilds the chain. That labor is invisible until it fails, and it fails constantly. Administration stops being a reconstruction industry only when the record governs reality at the point of action instead of describing it afterward.
 
 A world built on governed operational-reality platforms is not a more automated version of the present. It is a present with less hidden work in it. Less paperwork. Less reconstruction. Less institutional amnesia. Fewer shadow systems. Fewer bogus single sources of truth. Less AI guessing. Not everything becomes ERP. Everything that matters gets a substrate capable of knowing what it is doing, and the people who run these institutions get to do the part that actually requires a person.
-
----
-
-## Implementation Grounding
-
-What in the essay maps to concrete, observed capability in the Yggdrasil ERP / Mimir Labs codebase:
-
-- **Canonical schema (shared meaning).** Single 323-table model in `database/schema/yggdrasil_complete_schema.sql`; no custom fields / per-tenant code paths is a stated product constraint (`business/data-room/02-financial/PRICING.md`, CLAUDE.md).
-- **Governed state transitions, evaluated in-transaction.** `server/src/services/StateMachine.cpp` (`transition()` blocks on constraint violation before commit); registry in `state_entity_types` / `state_transitions` / `state_definitions` (seeded in `database/seeds/system_seeds.sql`).
-- **Runtime predicate engine.** `server/src/services/ConstraintEvaluator.cpp`: boolean composition (and/or/not), quantifiers (any/none/count), multi-hop and upward join paths, JSONB virtual fields, and conditional consequences (`block`, `require_role`, `require_extension`, `assign_extension`).
-- **Signed policies with cited authority (ROPE).** `rope_decisions` (carries `authority_citation`, `decision_code`, signed lifecycle, `phase`), `rope_decision_artifacts`, compiled `state_transition_constraints`; `server/src/services/RopeService.cpp`, `server/src/routes/RopeRoutes.cpp`; concept in `docs/whitepapers/11-rope.md`.
-- **Authority / RBAC.** `server/src/auth/AuthManager.cpp`, `tenant_roles`, `rope_decision_signers` (`required_role`), credential revocation epoch `users.tokens_valid_after`.
-- **Immutable audit and ledger.** DB triggers in `yggdrasil_complete_schema.sql` raise on UPDATE/DELETE/TRUNCATE for `audit_change_log` (lines ~1074/1090) and `ledger_entries` (~1105/1121); `audit_change_log` holds full field-level deltas (the real append-only log).
-- **Provenance, evidence, exceptions.** `rope_decision_evidence`, `rope_evaluation_log`, `rope_exception_grants` (the agent → ROPE → human exception trace is seeded in `database/seeds/generators/chains/c2_procure_to_pay.py`); the `require_extension` prompt mechanism forces a recorded justification before a transition proceeds.
-- **Strict data boundaries.** Multi-tenant `tenant_id` isolation, `FORCE ROW LEVEL SECURITY`, `RouteHelpers::resolveTenantId` + `Repository::setTenantContext`; constraint evaluation is tenant-scoped.
-- **Event / state history.** `state_transitions`, `rope_decision_versions`, and the real-time `B2BEventHub` (`common/src/B2BEventHub.cpp`).
-- **Operational workflows and approval gates.** Workflow engine (`workflow_templates`, `workflow_instances`), `approval_rules` / `approval_requests`, `server/src/routes/ApprovalRoutes.cpp` (submit-for-approval now runs the governed transition and refuses on a policy block).
-- **Portability across deployments.** Portable policy bundle `mimirlabs.rope.policy-bundle` (`docs/whitepapers/12-policy-bundle-format.md`); cross-system governance via Jormungandr; integration playbooks via Bifrost.
-- **The manufacturing worked example is shipping**, including the receive-time policy block that names the governing policy and cited authority, and authority-and-threshold-gated approval.
-
-## Claims to Avoid Overstating
-
-Frame these as extrapolation or future work, not current product capability:
-
-- **Every non-manufacturing domain (medical, courts, benefits, insurance, finance-beyond-ERP).** The *pattern* transfers; the *content* does not exist. Each needs a domain ontology, a regulatory mapping, and a governance body to author and sign the policies. Yggdrasil ERP demonstrates the mechanism on manufacturing only.
-- **The AI typed-tools / propose-but-cannot-commit layer.** The enforcement substrate is real and would gate an agent the same way it gates a human, but a hardened, production agent-tools runtime is architectural intent and positioning, not a fully shipped, audited subsystem in the current codebase.
-- **"Read/write separation."** Writes are disciplined (they flow through governed transitions, not arbitrary state-setting), but this is not a formal CQRS architecture; do not claim one.
-- **Cross-institution fact reuse (the benefits example).** This is primarily a legal, consent, and inter-agency governance problem, not something the platform solves by existing. The portable policy bundle shows policies can travel between tenants; it does not establish the legal authority for one institution to treat another's verified fact as input.
-- **Maturity.** The platform is alpha, with a live demo deployment and no signed production customers. The essay's institutional vision is a thesis about a platform pattern, grounded in a working manufacturing implementation, not a description of deployed civic infrastructure.
-- **Audit immutability scope.** The database-level immutability is real for `audit_change_log` and `ledger_entries`; do not generalize it to mean every table is append-only (business records are intentionally mutable, with the change *log* sealed).

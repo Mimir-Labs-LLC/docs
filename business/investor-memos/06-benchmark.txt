@@ -1,0 +1,24 @@
+Mimir Labs — Benchmark memo
+A new system of record for agentic operations
+
+Prepared June 2026 · Christopher Gaither, Mimir Labs
+
+
+One-sentence thesis. The enterprise system of record needs to be rebuilt around state-machine discipline before autonomous agents can be safely placed on top of it, and Mimir Labs is the team and architecture doing it from the substrate up.
+
+Why now. AI agents are about to acquire operational write access to systems whose substrate was designed for human-mediated workflows. Human operators absorbed the missingness; agents will not. The customers who solve this before the visible incident lands are the references the rest of the market will buy from. The architecture has to be in place before the demand arrives, because the substrate is the asset and substrates are not retrofitted.
+
+What broke. The system of record is not the system of reality. The ERP records that a transaction happened; it does not preserve, in the substrate, what made the transaction valid — policy state, authority, evidence, admissibility, version. That meaning lives in side stores and operator heads. The gap is a survivable inconvenience under human mediation. It is the safety boundary under autonomous mediation. The category has not yet acknowledged the distinction in product terms.
+
+What Mimir Labs built. Yggdrasil ERP is a governance-native ERP where every state transition passes through a single State Constraint Engine. Every constraint is a signed, versioned policy artifact compiled from administrative Decisions through Runtime Operational Policy Enforcement. The substrate carries operational meaning — states, authority, evidence, policy, exception path — as first-class data. AI agents act on the substrate through a typed tools layer that can read scoped data and emit typed proposals but cannot commit state or bypass the constraint engine. The safety guarantee lives in the database, not the prompt. Ratatosk is the diagnostic engagement that gets us into the customer's environment first — a scoped, repeatable walkthrough of one value stream that produces a written operating model the customer keeps. The wedge teaches the platform. The platform is where the substrate lives.
+
+Why this is investable. The architecture is clean. The wedge has its own unit economics. The substrate is the moat — once the canonical operational model is captured for a customer, the migration path back out is the same painful path every ERP cutover takes today, only this time the customer is moving away from a substrate that worked rather than one that didn't. The category is teachable in the 2026-2027 window before competitors learn the vocabulary; whoever owns the vocabulary owns the procurement RFPs that follow.
+
+Proof / current signal. v0.8.0a in alpha; State Constraint Engine in production; ROPE engine with multi-hop join paths, quantifiers, nested boolean composition, conditional THEN actions, multi-phase rules; integration test arcs covering O2C, P2P, L2C, Q2O, R2R, Q2R, and round-trip equivalence of the portable policy bundle. Native Qt 6 desktop client and Next.js web client. 323-table multi-tenant Postgres schema with row-level security; immutable audit trail at field level. Twelve technical whitepapers; academic preprint; companion essays establishing the operational-canon doctrine. Penn State LaunchBox incubation; MANTEC partnership; 2026 Validation Cohort of five PA manufacturers in discovery now. Founder: USMC veteran, mechanical engineer, architect-of-record on the system.
+
+What we need. A technical diligence conversation that goes deep on the state-machine substrate and the ROPE policy model, with the partner whose pattern recognition matches "system of record" investments at the category level. If the architecture stands up, the next question is whether the wedge-to-platform motion is the right shape for a Benchmark seed.
+
+Closing. The system of record is being rebuilt. We are the team rebuilding it.
+
+
+Mimir Labs LLC · mimirlabs.net · Christopher Gaither, Founder/CEO · cgaither@mimirlabs.net

@@ -1,0 +1,702 @@
+{
+  "summary": "MiroFish-style YEAR-BY-YEAR forecast with THREE concurrent capitalization tracks (revenue + investment + acquisition) valued in concert → continuous enterprise valuation, MRR/COGS/burn, staged rounds, exits, founder-millionaire (paper + liquid), growth potential",
+  "agentCount": 82,
+  "logs": [
+    "Plan: 1 distill + 5×16 reactors + 1 synth ≈ 82 agents, ≤6 concurrent (one reliable flat-schema call per persona/year). Three capital tracks + ledger are free JS.",
+    "Y1: ARR $15,616 | val $93,693 (revenue) | cash $-30,558 | paper $93,693 liquid $0 | rounds 0 | offer $0",
+    "Y2: ARR $25,183 | val $151,100 (revenue) | cash $-51,186 | paper $151,100 liquid $0 | rounds 0 | offer $0",
+    "Y3: ARR $61,046 | val $366,274 (revenue) | cash $-43,129 | paper $366,274 liquid $0 | rounds 0 | offer $0",
+    "Y4: ARR $64,637 | val $387,825 (revenue) | cash $8,596 | paper $387,825 liquid $0 | rounds 0 | offer $0",
+    "Y5: ARR $66,838 | val $4,400,000 (round) | cash $330,635 | paper $4,000,000 liquid $0 | rounds 1 | offer $650000"
+  ],
+  "result": {
+    "question": "Model Mimir Labs year by year (5 years): parse every capitalization opportunity in concert — revenue, investment rounds, and acquisition — and tabulate enterprise valuation / growth potential, runway, and time to founder becoming a millionaire (paper vs liquid).",
+    "config": {
+      "personas": 16,
+      "years": 5,
+      "concurrency_cap": 6,
+      "approx_agents_used": 82
+    },
+    "report": {
+      "question": "Model Mimir Labs year by year (5 years): parse every capitalization opportunity in concert — revenue, investment rounds, and acquisition — and tabulate enterprise valuation / growth potential, runway, and time to founder becoming a millionaire (paper vs liquid).",
+      "prediction": {
+        "headline": "A small pre-seed (~$400K at $4M pre) closes around month 50; nothing larger is fundable on $65K ARR growing 6%, and no exit consummates inside the horizon.",
+        "primary_probability": 0.55,
+        "confidence": "medium",
+        "distribution": {
+          "closes": 0.55,
+          "partial_or_bridge": 0.3,
+          "stalls": 0.15
+        },
+        "likely_lead": "Ironspring Ventures or Ben Franklin Technology Partners (C&N PA) — the only two capital personas that stay 'engaged' with stage-sized indicative checks ($250K / $150K)",
+        "terms_estimate": "Pre-seed, ~$400K proceeds on a $4M pre / $4.4M post, ~9.1% dilution; SAFE or priced note. Seed and Series A remain fiction at this ARR/growth.",
+        "raise_year": 5
+      },
+      "financial_outlook": {
+        "per_year": [
+          {
+            "year": 1,
+            "end_arr_usd": 15616,
+            "end_cash_usd": -30558,
+            "net_usd": -30558,
+            "marked_valuation_usd": 93693,
+            "valuation_source": "revenue"
+          },
+          {
+            "year": 2,
+            "end_arr_usd": 25183,
+            "end_cash_usd": -51186,
+            "net_usd": -20628,
+            "marked_valuation_usd": 151100,
+            "valuation_source": "revenue"
+          },
+          {
+            "year": 3,
+            "end_arr_usd": 61046,
+            "end_cash_usd": -43129,
+            "net_usd": 8057,
+            "marked_valuation_usd": 366274,
+            "valuation_source": "revenue"
+          },
+          {
+            "year": 4,
+            "end_arr_usd": 64637,
+            "end_cash_usd": 8596,
+            "net_usd": 51725,
+            "marked_valuation_usd": 387825,
+            "valuation_source": "revenue"
+          },
+          {
+            "year": 5,
+            "end_arr_usd": 66838,
+            "end_cash_usd": 330635,
+            "net_usd": -77961,
+            "marked_valuation_usd": 4400000,
+            "valuation_source": "round"
+          }
+        ],
+        "ending_arr_usd": 66838,
+        "ending_cash_usd": 330635,
+        "blended_gross_margin": 0.89,
+        "first_profitable_year_or_null": 3,
+        "rounds_closed": [
+          {
+            "name": "pre-seed",
+            "month": 50,
+            "proceeds_usd": 400000,
+            "post_money_usd": 4400000,
+            "dilution_pct": 9.09
+          }
+        ],
+        "best_acquisition_offer_usd": 650000,
+        "founder_millionaire": {
+          "paper_year_or_null": 5,
+          "liquid_year_or_null": null,
+          "note": "PAPER millionaire crosses in Year 5, and the source is the priced round, not revenue: 90.91% ownership x $4.4M post-money = $4.0M paper. Revenue alone never gets there — at 6x, $66.8K ARR marks only ~$401K, far under $1M. LIQUID stays null all five years: founder never draws salary (ARR peaks at $66.8K, far below the $255K = 3x-base draw trigger), takes no secondary, and no acquisition closes. The standing $650K NTT/EPAM offer is a marking signal, not a consummated cash exit, and even at a 70% cash portion x 90.91% would yield only ~$414K liquid — below the millionaire line. Liquid millionaire is out of reach within the horizon."
+        },
+        "one_liner": "Real but tiny SaaS — $66.8K ARR at ~89% gross margin after five years — that becomes a Year-5 PAPER millionaire purely via a $4.4M-post pre-seed mark, while LIQUID net worth stays at zero because the founder never draws and never exits."
+      },
+      "growth_potential": {
+        "ending_valuation_usd": 4400000,
+        "arr_cagr": 0.438,
+        "valuation_cagr": 1.618,
+        "value_creation_story": "Marked valuation climbs in two distinct regimes. Years 1-4 it is purely revenue-driven (ARR x6): $94K -> $151K -> $366K -> $388K, tracking the ARR build from $15.6K to $64.6K — strong YoY ARR growth early (61%, then 142% in Year 3 as subscriptions and services stack) that then flattens hard to 6% in Year 4 and 3% in Year 5 as the solo-founder capacity ceiling bites. Then in Year 5 the valuation source switches from 'revenue' to 'round': the $4.4M pre-seed post-money replaces the ~$401K revenue mark as the max(), causing the headline valuation to jump ~11x in a single year. That single repricing event is why valuation CAGR (161.8%) wildly outruns ARR CAGR (43.8%) — the growth is financing-driven, not earned by recurring revenue. The standing $650K acquisition offer never becomes the marking max because the round post-money exceeds it. The honest read: enterprise value is real but small and capacity-bound; the eye-catching ending number is a negotiated round mark on a still-tiny revenue base, not a revenue-substantiated valuation."
+      },
+      "causal_narrative": "Years 1-2 are the underwater wedge phase: the founder lands paid Ratatosk diagnostics for first revenue ($15.6K then $25.2K ARR) at 83% gross margin, but $44.8K fixed OpEx and zero outside cash drive cash to -$51K — the company survives only because lifestyle is externally funded and no salary is drawn. Year 3 is the operational high-water mark: a Yggdrasil subscription plus services push ARR up 142% to $61K, gross margin rises to 90%, and the company turns its first (thin) operating profit, lifting the revenue-based mark to $366K. But the binding constraint — one AI-augmented founder — then caps growth: ARR adds only 6% (Year 4) and 3% (Year 5), production deploys stay at one tenant, SOC 2 never completes, and the open data-loss blocker keeps regulated prospects parked, so the seed and Series A 'arr_floors' ($600K / $2.5M) are never cleared. The one financing event that does fire is a ~$400K pre-seed at month 50 ($4.4M post), which dilutes the founder to 90.91%, injects the cash that lifts ending balance to $331K (then Year-5 OpEx triples to $136K on the post-raise hire/spend, turning net negative again), and — decisively — re-marks the company at $4.4M, making the founder a Year-5 PAPER millionaire. Across all three tracks the verdict is consistent: revenue creates a real but small, capacity-bound asset; investment supplies the only millionaire-making mark but only at micro-round scale; and acquisition stays optionality (a $650K standing NTT/EPAM signal) that never closes, leaving LIQUID net worth at $0 throughout.",
+      "caveats": [
+        "LIQUID never crosses $1M and is in fact $0 every year: the founder draws no salary (ARR never reaches the $255K = 3x-base trigger), takes no secondary, and no exit consummates — so the 'millionaire' status is paper-only and illiquid.",
+        "The Year-5 valuation jump to $4.4M is a financing artifact (round post-money), not revenue-substantiated; at the 6x ARR multiple the business marks only ~$401K. Valuation CAGR of 161.8% massively overstates underlying business growth (ARR CAGR 43.8%).",
+        "Round close is modeled as occurring at month 50 with ~9.1% dilution; the persona table shows most capital sources skeptical/cold and explicitly call the $40M-pre Series A 'fiction,' so even the small pre-seed close carries real execution risk (distribution: 55% closes / 30% partial-or-bridge / 15% stalls).",
+        "Growth stalls structurally at 6% then 3% YoY because of the solo-founder capacity ceiling, open critical blockers (YGGDATA-258 data loss), and incomplete SOC 2 — these gate the enterprise/regulated cohort and keep ARR two orders of magnitude below the seed/Series-A floors.",
+        "The $650K NTT/EPAM offer is a standing marking signal, not a binding term sheet; even if consummated at the 70% cash portion it would net the founder only ~$414K liquid, below the millionaire threshold.",
+        "Year-1 and Year-2 cash is negative (down to -$51K); the model only stays solvent because founder lifestyle is externally funded and no draw is taken — a genuine bridge or services-cash gap could break the timeline before the pre-seed wire lands."
+      ],
+      "coalitions": [
+        {
+          "faction": "capital",
+          "members": [
+            "Ironspring Ventures (engaged, $250K indicative)",
+            "Ben Franklin Technology Partners C&N PA (engaged, $150K)",
+            "Ben Franklin statewide (interested)"
+          ],
+          "end_stance": "Engaged at stage size only",
+          "note": "The only realistic source of the ~$400K pre-seed; all explicitly refuse the Series A premise at $65K ARR / 6% growth."
+        },
+        {
+          "faction": "capital-skeptical",
+          "members": [
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Differential Ventures",
+            "DataTribe",
+            "640 Oxford",
+            "Work-Bench"
+          ],
+          "end_stance": "Skeptical to curious",
+          "note": "Cooled over the horizon; flat ARR and no SOC 2 / pilots failed to earn the warm-intro lead or a check."
+        },
+        {
+          "faction": "design-partner",
+          "members": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ],
+          "end_stance": "Committed but cautious",
+          "note": "Stays a paying anchor for five years; flat growth and thin vendor cash make it question staying power rather than expand."
+        },
+        {
+          "faction": "prospect",
+          "members": [
+            "Regulated/defense-adjacent manufacturer",
+            "Regional Yggdrasil pilot evaluator",
+            "Norn self-serve adopter"
+          ],
+          "end_stance": "Gated / parked",
+          "note": "Blocked on SOC 2, open data-loss blocker, and broken onboarding/email — never convert to production."
+        },
+        {
+          "faction": "acquirer",
+          "members": [
+            "NTT DATA / EPAM (interested, marking $650K)",
+            "ServiceNow (curious)",
+            "Workday (cold)"
+          ],
+          "end_stance": "Optionality, no close",
+          "note": "IP/architecture interest sets a floor but flat $65K ARR + solo founder + no certs read as a small acqui-hire, not a strategic buy."
+        }
+      ],
+      "swing_factors": [
+        {
+          "factor": "Breaking the solo-founder capacity ceiling (post-raise engineering hire actually shipping)",
+          "impact": "high",
+          "why": "ARR stalled at 6% then 3% is the root cause that keeps the company below every round floor and at a small acqui-hire valuation; added throughput is the only path to seed-stage ARR and a revenue-led (not financing-led) valuation."
+        },
+        {
+          "factor": "Closing critical blockers + SOC 2 Type 1/Type 2",
+          "impact": "high",
+          "why": "The open data-loss blocker (YGGDATA-258) and missing certs keep the regulated/defense cohort and enterprise references parked, capping deal size and gating the Series A thesis."
+        },
+        {
+          "factor": "Whether the pre-seed wire actually lands at month 50",
+          "impact": "high",
+          "why": "It is the single event that makes the founder a paper millionaire and lifts cash to positive; with most capital cold, a stall (15%) or bridge (30%) would erase the Year-5 mark and leave valuation at the ~$401K revenue level."
+        },
+        {
+          "factor": "Consummating the NTT/EPAM acquisition vs. leaving it standing",
+          "impact": "medium",
+          "why": "It is the only realistic LIQUID path in-horizon, but at $650K x 70% cash x 90.91% it nets ~$414K — below $1M — so even a close does not make the founder a liquid millionaire; a materially higher strategic bid would be required."
+        },
+        {
+          "factor": "Reaching the $255K ARR founder-draw trigger",
+          "impact": "medium",
+          "why": "Until ARR hits 3x base, the founder draws $0 and the slow salary-minus-lifestyle liquid path contributes nothing; ARR peaks at $66.8K, so this trigger is never hit and liquid net worth stays at $0."
+        }
+      ],
+      "key_personas": [
+        {
+          "name": "Ironspring Ventures",
+          "end_stance": "engaged ($250K indicative)",
+          "role": "Most likely pre-seed lead — customer-discovery gate met via real recurring MRR, but only writes a stage-sized check"
+        },
+        {
+          "name": "Ben Franklin Technology Partners (C&N PA)",
+          "end_stance": "engaged ($150K indicative)",
+          "role": "Near-non-dilutive econ-dev door; open thread, convertible to a small grant/check"
+        },
+        {
+          "name": "NTT DATA / EPAM",
+          "end_stance": "interested (marking $650K)",
+          "role": "Best standing acquisition signal; FOMO from differentiated IP, but flat ARR keeps it at a marking offer, not a close"
+        },
+        {
+          "name": "South-Central PA mid-market manufacturer (Ratatosk anchor)",
+          "end_stance": "committed",
+          "role": "Anchor design partner and recurring-revenue backbone for five years"
+        },
+        {
+          "name": "ServiceNow (Corp Dev)",
+          "end_stance": "curious",
+          "role": "Architecture intrigue but reads the company as a small IP/acqui-hire, not strategic"
+        },
+        {
+          "name": "Robin Hood Ventures",
+          "end_stance": "skeptical",
+          "role": "Institutional VC that the thesis failed to win — no warm-intro lead earned without traction"
+        }
+      ]
+    },
+    "financial_trajectory": [
+      {
+        "year": 1,
+        "end_cash": -30558,
+        "end_mrr": 1301,
+        "end_arr": 15616,
+        "arr_growth_yoy": null,
+        "revenue": 17089,
+        "cogs": 2827,
+        "opex": 44820,
+        "net": -30558,
+        "gross_margin": 0.83,
+        "eoy_runway_months": -1,
+        "marked_valuation_usd": 93693,
+        "valuation_source": "revenue",
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 93693,
+        "founder_liquid_usd": 0,
+        "active_tenants": 0,
+        "committed_capital": 0,
+        "rounds_closed_to_date": 0,
+        "standing_offer_usd": 0,
+        "acquired": false
+      },
+      {
+        "year": 2,
+        "end_cash": -51186,
+        "end_mrr": 2099,
+        "end_arr": 25183,
+        "arr_growth_yoy": 0.61,
+        "revenue": 29184,
+        "cogs": 4992,
+        "opex": 44820,
+        "net": -20628,
+        "gross_margin": 0.83,
+        "eoy_runway_months": -1,
+        "marked_valuation_usd": 151100,
+        "valuation_source": "revenue",
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 151100,
+        "founder_liquid_usd": 0,
+        "active_tenants": 0,
+        "committed_capital": 100000,
+        "rounds_closed_to_date": 0,
+        "standing_offer_usd": 0,
+        "acquired": false
+      },
+      {
+        "year": 3,
+        "end_cash": -43129,
+        "end_mrr": 5087,
+        "end_arr": 61046,
+        "arr_growth_yoy": 1.42,
+        "revenue": 58595,
+        "cogs": 5719,
+        "opex": 44820,
+        "net": 8057,
+        "gross_margin": 0.9,
+        "eoy_runway_months": -1,
+        "marked_valuation_usd": 366274,
+        "valuation_source": "revenue",
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 366274,
+        "founder_liquid_usd": 0,
+        "active_tenants": 0,
+        "committed_capital": 100000,
+        "rounds_closed_to_date": 0,
+        "standing_offer_usd": 0,
+        "acquired": false
+      },
+      {
+        "year": 4,
+        "end_cash": 8596,
+        "end_mrr": 5386,
+        "end_arr": 64637,
+        "arr_growth_yoy": 0.06,
+        "revenue": 106136,
+        "cogs": 9591,
+        "opex": 44820,
+        "net": 51725,
+        "gross_margin": 0.91,
+        "eoy_runway_months": 999,
+        "marked_valuation_usd": 387825,
+        "valuation_source": "revenue",
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 387825,
+        "founder_liquid_usd": 0,
+        "active_tenants": 1,
+        "committed_capital": 225000,
+        "rounds_closed_to_date": 0,
+        "standing_offer_usd": 0,
+        "acquired": false
+      },
+      {
+        "year": 5,
+        "end_cash": 330635,
+        "end_mrr": 5570,
+        "end_arr": 66838,
+        "arr_growth_yoy": 0.03,
+        "revenue": 65918,
+        "cogs": 7389,
+        "opex": 136490,
+        "net": -77961,
+        "gross_margin": 0.89,
+        "eoy_runway_months": 50.9,
+        "marked_valuation_usd": 4400000,
+        "valuation_source": "round",
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 90.91,
+        "founder_paper_net_worth_usd": 4000000,
+        "founder_liquid_usd": 0,
+        "active_tenants": 1,
+        "committed_capital": 400000,
+        "rounds_closed_to_date": 1,
+        "standing_offer_usd": 650000,
+        "acquired": false
+      }
+    ],
+    "ending": {
+      "year": 5,
+      "end_cash": 330635,
+      "end_mrr": 5570,
+      "end_arr": 66838,
+      "arr_growth_yoy": 0.03,
+      "revenue": 65918,
+      "cogs": 7389,
+      "opex": 136490,
+      "net": -77961,
+      "gross_margin": 0.89,
+      "eoy_runway_months": 50.9,
+      "marked_valuation_usd": 4400000,
+      "valuation_source": "round",
+      "founder_salary_annual_usd": 0,
+      "founder_drawing": false,
+      "founder_ownership_pct": 90.91,
+      "founder_paper_net_worth_usd": 4000000,
+      "founder_liquid_usd": 0,
+      "active_tenants": 1,
+      "committed_capital": 400000,
+      "rounds_closed_to_date": 1,
+      "standing_offer_usd": 650000,
+      "acquired": false
+    },
+    "capitalization": {
+      "revenue": {
+        "ending_arr_usd": 66838,
+        "arr_cagr_pct": 43.8
+      },
+      "investment": {
+        "rounds_closed": [
+          {
+            "month": 50,
+            "name": "pre-seed",
+            "proceeds": 400000,
+            "post_money": 4400000
+          }
+        ],
+        "total_raised_usd": 400000
+      },
+      "acquisition": {
+        "best_standing_offer_usd": 650000,
+        "acquired": false,
+        "acquisition_price_usd": null
+      }
+    },
+    "growth_potential": {
+      "ending_valuation_usd": 4400000,
+      "arr_cagr_pct": 43.8,
+      "valuation_cagr_pct": 161.8,
+      "valuation_by_year": [
+        {
+          "year": 1,
+          "valuation_usd": 93693,
+          "source": "revenue",
+          "arr": 15616
+        },
+        {
+          "year": 2,
+          "valuation_usd": 151100,
+          "source": "revenue",
+          "arr": 25183
+        },
+        {
+          "year": 3,
+          "valuation_usd": 366274,
+          "source": "revenue",
+          "arr": 61046
+        },
+        {
+          "year": 4,
+          "valuation_usd": 387825,
+          "source": "revenue",
+          "arr": 64637
+        },
+        {
+          "year": 5,
+          "valuation_usd": 4400000,
+          "source": "round",
+          "arr": 66838
+        }
+      ]
+    },
+    "founder_millionaire": {
+      "paper": {
+        "year": 5,
+        "month": 50,
+        "net_worth_at_horizon_usd": 4000000,
+        "ownership_pct_at_horizon": 90.91,
+        "basis": "ownership × marked valuation, where valuation = max(ARR×multiple, round post-money, standing acquisition offer). ILLIQUID."
+      },
+      "liquid": {
+        "year": null,
+        "month": null,
+        "cash_at_horizon_usd": 0,
+        "acquired": false,
+        "basis": "acquisition cash-out + founder secondary + slow (salary − lifestyle) accrual once drawing (ARR ≥ $255K). Lifestyle externally funded until draw. A fundraise yields $0 liquid."
+      }
+    },
+    "year_log": [
+      {
+        "year": 1,
+        "stimulus": "YEAR 1 (2026-05 -> 2027-05): Open the BFTP thread into intros; land 1-2 paid Ratatosk diagnostics (~$8K each) with South-Central PA manufacturers for first revenue and a named outcome, while closing critical blocker YGGDATA-258. Attempt min-viable pre-seed close ($300K-$750K, pre $4M). Outcome to model: first non-zero ARR trickle, paper mark on pre-seed close (~$3.5-4M founder paper), liquid ~$0 (no draw, no exit).",
+        "sentiment": -0.16,
+        "momentum": 0.25,
+        "committed_capital": 0,
+        "commercial_events": [
+          "ratatosk_signed"
+        ],
+        "acq_standing": 0,
+        "acq_commit": 0,
+        "financials": {
+          "year": 1,
+          "end_cash": -30558,
+          "end_mrr": 1301,
+          "end_arr": 15616,
+          "arr_growth_yoy": null,
+          "revenue": 17089,
+          "cogs": 2827,
+          "opex": 44820,
+          "net": -30558,
+          "gross_margin": 0.83,
+          "eoy_runway_months": -1,
+          "marked_valuation_usd": 93693,
+          "valuation_source": "revenue",
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 93693,
+          "founder_liquid_usd": 0,
+          "active_tenants": 0,
+          "committed_capital": 0,
+          "rounds_closed_to_date": 0,
+          "standing_offer_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (Central & Northern PA)"
+          ],
+          "design-partner": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ]
+        }
+      },
+      {
+        "year": 2,
+        "stimulus": "YEAR 2 (2027-05 -> 2028-05): Convert one manufacturer to a $35K Yggdrasil pilot -> ~$2.5K/mo subscription; sign 1-2 design partners; attain SOC 2 Type 1 and pass pen test (one-time $20K + $8K outlays). Hire first customer-facing engineer post-raise. Model: ARR crossing toward $255K founder-draw trigger; runway extended by pre-seed cash.",
+        "sentiment": 0.05,
+        "momentum": 0.2,
+        "committed_capital": 100000,
+        "commercial_events": [
+          "ratatosk_signed"
+        ],
+        "acq_standing": 0,
+        "acq_commit": 0,
+        "financials": {
+          "year": 2,
+          "end_cash": -51186,
+          "end_mrr": 2099,
+          "end_arr": 25183,
+          "arr_growth_yoy": 0.61,
+          "revenue": 29184,
+          "cogs": 4992,
+          "opex": 44820,
+          "net": -20628,
+          "gross_margin": 0.83,
+          "eoy_runway_months": -1,
+          "marked_valuation_usd": 151100,
+          "valuation_source": "revenue",
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 151100,
+          "founder_liquid_usd": 0,
+          "active_tenants": 0,
+          "committed_capital": 100000,
+          "rounds_closed_to_date": 0,
+          "standing_offer_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (Central & Northern PA)"
+          ],
+          "design-partner": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ]
+        }
+      },
+      {
+        "year": 3,
+        "stimulus": "YEAR 3 (2028-05 -> 2029-05): Scale Ratatosk/Ragnarok services + 2-3 Yggdrasil subscriptions; ARR approaches the $600K seed arr_floor. Raise seed (up to $4M, pre $12M) marked at max(pre_money, ARR x6). Model: paper valuation step-up, founder paper well past $1M; liquid begins via salary-minus-lifestyle once ARR>$255K; first inbound corp-dev curiosity (ServiceNow/EPAM).",
+        "sentiment": 0.25,
+        "momentum": 0.2,
+        "committed_capital": 100000,
+        "commercial_events": [
+          "subscription_started"
+        ],
+        "acq_standing": 0,
+        "acq_commit": 0,
+        "financials": {
+          "year": 3,
+          "end_cash": -43129,
+          "end_mrr": 5087,
+          "end_arr": 61046,
+          "arr_growth_yoy": 1.42,
+          "revenue": 58595,
+          "cogs": 5719,
+          "opex": 44820,
+          "net": 8057,
+          "gross_margin": 0.9,
+          "eoy_runway_months": -1,
+          "marked_valuation_usd": 366274,
+          "valuation_source": "revenue",
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 366274,
+          "founder_liquid_usd": 0,
+          "active_tenants": 0,
+          "committed_capital": 100000,
+          "rounds_closed_to_date": 0,
+          "standing_offer_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (Central & Northern PA)",
+            "Schematic Ventures",
+            "Ironspring Ventures",
+            "640 Oxford"
+          ],
+          "design-partner": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ]
+        }
+      },
+      {
+        "year": 4,
+        "stimulus": "YEAR 4 (2029-05 -> 2030-05): Multiple production Yggdrasil tenants + named case studies; ARR pushing toward the $2.5M series-A arr_floor; enterprise/regulated cohort unlocked by SOC 2 Type 2. Model: enterprise valuation at ARR x6 rivaling round marks; standing acquisition interest from ServiceNow/Workday/NTT-EPAM begins to set the floor.",
+        "sentiment": 0.41,
+        "momentum": 0.16,
+        "committed_capital": 225000,
+        "commercial_events": [
+          "pilot_signed",
+          "ratatosk_signed"
+        ],
+        "acq_standing": 0,
+        "acq_commit": 0,
+        "financials": {
+          "year": 4,
+          "end_cash": 8596,
+          "end_mrr": 5386,
+          "end_arr": 64637,
+          "arr_growth_yoy": 0.06,
+          "revenue": 106136,
+          "cogs": 9591,
+          "opex": 44820,
+          "net": 51725,
+          "gross_margin": 0.91,
+          "eoy_runway_months": 999,
+          "marked_valuation_usd": 387825,
+          "valuation_source": "revenue",
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 387825,
+          "founder_liquid_usd": 0,
+          "active_tenants": 1,
+          "committed_capital": 225000,
+          "rounds_closed_to_date": 0,
+          "standing_offer_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (Central & Northern PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Ironspring Ventures",
+            "640 Oxford"
+          ],
+          "design-partner": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ],
+          "prospect": [
+            "Regulated/defense-adjacent manufacturer (validation cohort)",
+            "Norn self-serve SaaS adopter (data-quality wedge)"
+          ]
+        }
+      },
+      {
+        "year": 5,
+        "stimulus": "YEAR 5 (2030-05 -> 2031-05): Series A available (up to $15M, pre $40M) AND/OR a strategic acquisition offer materializes. Model the fork: (a) raise Series A -> high paper mark, liquid still mostly salary-path unless founder secondary; (b) acquisition at ARR x6 / offer -> founder LIQUID millionaire via 70% cash portion x ownership. Tabulate time-to-millionaire paper (Year 1 on pre-seed close) vs liquid (acquisition year, else multi-year salary climb).",
+        "sentiment": 0.19,
+        "momentum": -0.22,
+        "committed_capital": 400000,
+        "commercial_events": [],
+        "acq_standing": 650000,
+        "acq_commit": 0,
+        "financials": {
+          "year": 5,
+          "end_cash": 330635,
+          "end_mrr": 5570,
+          "end_arr": 66838,
+          "arr_growth_yoy": 0.03,
+          "revenue": 65918,
+          "cogs": 7389,
+          "opex": 136490,
+          "net": -77961,
+          "gross_margin": 0.89,
+          "eoy_runway_months": 50.9,
+          "marked_valuation_usd": 4400000,
+          "valuation_source": "round",
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 90.91,
+          "founder_paper_net_worth_usd": 4000000,
+          "founder_liquid_usd": 0,
+          "active_tenants": 1,
+          "committed_capital": 400000,
+          "rounds_closed_to_date": 1,
+          "standing_offer_usd": 650000,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (Central & Northern PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Ironspring Ventures"
+          ],
+          "design-partner": [
+            "South-Central PA mid-market manufacturer (Ratatosk anchor)"
+          ],
+          "prospect": [
+            "Regulated/defense-adjacent manufacturer (validation cohort)"
+          ],
+          "acquirer": [
+            "NTT DATA / EPAM (services-IP acquirer)"
+          ]
+        }
+      }
+    ],
+    "method": "Three capitalization tracks (revenue, staged investment, acquisition) advance in concert each year; the company is marked continuously = max(ARR×multiple, round post-money, standing offer). Persona swarm (one reliable flat-schema call per persona/year, ≤6 concurrent) drives all three; deterministic ledger runs 12 months/year. Re-seed state/initial-state.json as reality changes."
+  }
+}

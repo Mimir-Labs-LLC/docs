@@ -1,0 +1,269 @@
+{
+  "_meta": {
+    "schema": "dais-state/v1",
+    "as_of": "2026-05-30",
+    "seeding": "hybrid — hard numbers pulled from repo docs; soft probabilities proposed and tagged ASSUMPTION",
+    "sources": [
+      "business/PRE_SEED_TERM_SHEET.md",
+      "business/PROJECTIONS.md",
+      "business/COSTS.md",
+      "business/ceo-runbook.md",
+      "business/Hubspot investor data.csv",
+      "product/ROADMAP.md",
+      "product/SOC2_ROADMAP.md",
+      "due-diligence/DD-05-MATURITY-AND-RISK.md"
+    ],
+    "doc_inconsistencies_to_reconcile": [
+      "Version: DD-05 says 0.4.4a; ROADMAP/SOC2 say 0.4.5a",
+      "RLS: DD-05 says not enabled; SOC2_ROADMAP says done (migration 015)",
+      "MFA/CORS/password: DD-05 'early-stage'; SOC2_ROADMAP marks resolved",
+      "Raise size: TERM_SHEET opening = $500K; PROJECTIONS assumes $800K"
+    ]
+  },
+
+  "disposition": {
+    "investor_warmth":      { "value": 0.15, "prior": 0.15, "note": "All 37 targets cold (Lead/New). No engagement yet." },
+    "proof_traction":       { "value": 0.05, "prior": 0.05, "note": "0 customers, 0 production deploys, $0 revenue." },
+    "founder_visibility":   { "value": 0.32, "prior": 0.30, "note": "Substack essays live, LinkedIn cadence, CEO runbook in motion. ASSUMPTION on level." },
+    "narrative_resonance":  { "value": 0.45, "prior": 0.45, "note": "Substrate/operational-canon thesis; IBM/Bob thread engagement. ASSUMPTION." },
+    "corp_dev_interest":    { "value": 0.10, "prior": 0.10, "note": "Corp-dev outreach not yet sent (runbook Week 2-3). ASSUMPTION." },
+    "market_timing":        { "value": 0.65, "prior": 0.65, "note": "AI-readiness / ERP-pain tailwind (MIT/Stanford/NIST, IBM CEO study). ASSUMPTION." },
+    "platform_credibility": { "value": 0.50, "prior": 0.50, "note": "Strong architecture (~90% build) but alpha, unproven, critical blockers open. Shared dim." }
+  },
+
+  "company": {
+    "stage": "pre-seed, pre-revenue",
+    "team_fte": 1,
+    "cash_on_hand_usd": 50000,
+    "_cash_note": "ASSUMPTION — founder bootstrap reserve; no figure in repo. Tune to actual.",
+    "monthly_burn_usd": 5150,
+    "_burn_note": "~$151/mo infra+tooling (COSTS.md) + ~$5,000/mo founder draw ($60K/yr Year-1 in PROJECTIONS).",
+    "runway_months": 9,
+    "mrr_usd": 0,
+    "arr_usd": 0,
+
+    "raise": {
+      "instrument": "priced equity (preferred)",
+      "target_raise_usd": 500000,
+      "pre_money_usd": 5000000,
+      "post_money_usd": 5500000,
+      "base_equity_pct": 10.0,
+      "max_dilution_pct": 15.0,
+      "walkaway_pre_money_usd": 3500000,
+      "status": "not_started",
+      "soft_circled_usd": 0,
+      "committed_usd": 0
+    },
+
+    "investor_funnel_stages": ["identified","contacted","replied","meeting","diligence","term_sheet","committed","wired"],
+    "investor_pipeline": [
+      { "name": "Ben Franklin Technology Partners (C&N PA)", "tier": 1, "relevance": 97, "stage": "contacted", "type": "regional econ-dev", "gate": "thread already open; ask for investor + pilot intros" },
+      { "name": "Ben Franklin Technology Partners (statewide)", "tier": 1, "relevance": 94, "stage": "contacted", "type": "regional econ-dev network", "gate": "route via existing BFTP contact" },
+      { "name": "Robin Hood Ventures", "tier": 1, "relevance": 91, "stage": "identified", "type": "angel group", "gate": "warm intro via BFTP; needs tightened memo + pilot pipeline" },
+      { "name": "Schematic Ventures", "tier": 1, "relevance": 90, "stage": "identified", "type": "industrial/supply-chain VC", "gate": "needs 2-3 manufacturer conversations first" },
+      { "name": "Differential Ventures", "tier": 2, "relevance": 89, "stage": "identified", "type": "AI/data pre-seed/seed", "gate": "data-infra deck variant" },
+      { "name": "Ironspring Ventures", "tier": 2, "relevance": 88, "stage": "identified", "type": "digital industrial VC", "gate": "needs customer-discovery proof" },
+      { "name": "DataTribe", "tier": 2, "relevance": 87, "stage": "identified", "type": "cyber/data foundry", "gate": "security/compliance memo variant" },
+      { "name": "640 Oxford", "tier": 2, "relevance": 86, "stage": "identified", "type": "reindustrialization VC", "gate": "why-now memo tied to AI agents + compliance" },
+      { "name": "Work-Bench", "tier": 2, "relevance": 86, "stage": "identified", "type": "enterprise software seed", "gate": "enterprise GTM-is-moat angle" },
+      { "name": "Zetta Venture Partners", "tier": 2, "relevance": 86, "stage": "identified", "type": "AI-native B2B", "gate": "AI-infra memo; second wave" },
+      { "name": "Stage 2 Capital", "tier": 2, "relevance": 85, "stage": "identified", "type": "B2B GTM VC", "gate": "nurture; pitch after paid engagements/LOIs" },
+      { "name": "Dynamo Ventures", "tier": 2, "relevance": 85, "stage": "identified", "type": "supply-chain VC", "gate": "supply-chain-specific one-pager" },
+      { "name": "Rittenhouse Ventures", "tier": 2, "relevance": 84, "stage": "identified", "type": "Mid-Atlantic B2B SW", "gate": "nurture; pitch after pilot evidence/LOIs" },
+      { "name": "Glasswing Ventures", "tier": 2, "relevance": 84, "stage": "identified", "type": "AI-native enterprise/cyber", "gate": "AI governance/defense framing" },
+      { "name": "Innovation Works / AlphaLab", "tier": 2, "relevance": 83, "stage": "identified", "type": "accelerator/early", "gate": "watch application windows" },
+      { "name": "SaaS Ventures", "tier": 2, "relevance": 83, "stage": "identified", "type": "B2B SaaS VC", "gate": "after 1-2 paid diagnostic commitments" },
+      { "name": "Dingman Center Angels", "tier": 2, "relevance": 82, "stage": "identified", "type": "angel group (MD)", "gate": "after BFTP/RHV" },
+      { "name": "Boldstart Ventures", "tier": 2, "relevance": 82, "stage": "identified", "type": "autonomous-enterprise infra", "gate": "second wave after Jormungandr scope shown" },
+      { "name": "1855 Capital", "tier": 2, "relevance": 80, "stage": "identified", "type": "Penn State seed VC", "gate": "needs Penn State affinity path" },
+      { "name": "Forum Ventures", "tier": 2, "relevance": 80, "stage": "identified", "type": "B2B AI pre-seed/accelerator", "gate": "evaluate accelerator terms" },
+      { "name": "Keiretsu Forum Mid-Atlantic", "tier": 3, "relevance": 79, "stage": "identified", "type": "angel syndicate", "gate": "needs polished deck + demo" },
+      { "name": "Osage Venture Partners", "tier": 3, "relevance": 79, "stage": "identified", "type": "B2B SW (post-revenue)", "gate": "nurture; prefers $500K-$3M run-rate" },
+      { "name": "Washington DC ArchAngels", "tier": 3, "relevance": 78, "stage": "identified", "type": "angel network", "gate": "CMMC/federal one-pager" },
+      { "name": "Heavybit", "tier": 3, "relevance": 78, "stage": "identified", "type": "infra/devtools", "gate": "hold until Jormungandr/API-first story" },
+      { "name": "Unusual Ventures", "tier": 3, "relevance": 78, "stage": "identified", "type": "technical enterprise seed", "gate": "needs stronger PMF evidence" },
+      { "name": "BlueTree Allied Angels", "tier": 3, "relevance": 77, "stage": "identified", "type": "angel (W. PA)", "gate": "after short demo video + traction memo" },
+      { "name": "Bonfire Ventures", "tier": 3, "relevance": 77, "stage": "identified", "type": "B2B SW seed", "gate": "after first paid pilots / signed design partners" },
+      { "name": "Grotech Ventures", "tier": 3, "relevance": 76, "stage": "identified", "type": "early tech VC", "gate": "nurture after pilot/BFTP validation" },
+      { "name": "Harpoon Ventures", "tier": 3, "relevance": 76, "stage": "identified", "type": "dual-use/defense/AI", "gate": "CMMC/defense-supplier packet" },
+      { "name": "Eniac Ventures", "tier": 3, "relevance": 75, "stage": "identified", "type": "seed VC", "gate": "lower priority unless warm intro" },
+      { "name": "Eclipse", "tier": 3, "relevance": 74, "stage": "identified", "type": "physical-economy VC", "gate": "warm intro only; after traction" },
+      { "name": "Plug and Play Supply Chain & Logistics", "tier": 3, "relevance": 74, "stage": "identified", "type": "corp accelerator", "gate": "after Ratatosk pilot deck" },
+      { "name": "Everywhere Ventures", "tier": 3, "relevance": 73, "stage": "identified", "type": "global pre-seed", "gate": "breadth target after top 15" },
+      { "name": "Techstars", "tier": 3, "relevance": 68, "stage": "identified", "type": "accelerator", "gate": "only if targeted program open" },
+      { "name": "Antler US", "tier": 3, "relevance": 65, "stage": "identified", "type": "founder residency", "gate": "low priority; product already exists" },
+      { "name": "NEA", "tier": 3, "relevance": 62, "stage": "identified", "type": "multi-stage VC", "gate": "warm intro only; long-term" },
+      { "name": "Blue Bear Capital", "tier": 3, "relevance": 61, "stage": "identified", "type": "energy/infra/climate AI", "gate": "park unless vertical shifts" }
+    ],
+
+    "grants": [
+      { "name": "Ben Franklin Technology Partners (investment/grant)", "stage": "in_thread", "type": "non-dilutive-like", "note": "strongest institutional door already open" },
+      { "name": "NSF (SBIR/pitch)", "stage": "pitch_drafted", "type": "non-dilutive", "note": "sales/NSF Pitch exists" }
+    ],
+
+    "corp_dev_funnel_stages": ["identified","contacted","replied","briefing","diligence","LOI","term_sheet","close"],
+    "corp_dev_targets": [
+      { "name": "ServiceNow", "stage": "identified", "thesis": "operating-system-of-enterprise; operational substrate gap" },
+      { "name": "Workday", "stage": "identified", "thesis": "object-model cousin; operations-scope extension" },
+      { "name": "NTT DATA", "stage": "identified", "thesis": "AI-factory differentiated IP" },
+      { "name": "EPAM", "stage": "identified", "thesis": "AI-native transformation IP; PA proximity" },
+      { "name": "Palantir", "stage": "identified", "thesis": "Foundry architectural peer (commercial-strategy door)" },
+      { "name": "Databricks", "stage": "identified", "thesis": "data-platform adjacency" },
+      { "name": "Siemens", "stage": "identified", "thesis": "Digital Industries M&A" },
+      { "name": "Accenture", "stage": "identified", "thesis": "transformation IP" }
+    ],
+
+    "commercial": {
+      "ratatosk_paid_diagnostics": 0,
+      "design_partners_signed": 0,
+      "validation_cohort_target": "3-5 (2026)",
+      "norn_free_signups": 0,
+      "norn_paid": 0,
+      "pilots_sold": 0
+    },
+
+    "milestones_to_seed": {
+      "arr_run_rate_target_usd": 500000,
+      "team_fte_target": "2-3",
+      "ratatosk_workshops_target": "3-5",
+      "named_case_studies_target": "2+",
+      "ygg_pilots_in_prod_target": 1,
+      "positions_for_seed_at_usd": "8M-15M valuation"
+    }
+  },
+
+  "platform": {
+    "version": "0.4.5a",
+    "build_readiness": 0.90,
+    "sell_use_readiness": 0.75,
+    "eng_capacity_fte": 1,
+    "eng_capacity_note": "Solo founder, AI-augmented (Claude Code). Binding constraint.",
+    "customers_production": 0,
+    "production_deploys": 0,
+    "pilots_live": 0,
+
+    "production_blockers": [
+      { "id": "YGGDATA-258", "title": "Portal DAL in-memory Maps → data loss on restart", "severity": "critical", "status": "open" },
+      { "id": "YGGDATA-144", "title": "Email sending non-functional (logs to stdout)", "severity": "high", "status": "open" },
+      { "id": "YGGDATA-262", "title": "6 broken business-flow transitions (quote→order, order→invoice, MRP→PO, SO→WO)", "severity": "high", "status": "open" },
+      { "id": "web-gaps", "title": "Web app: WebSocket client, pagination, global search, PDF, toasts, bulk ops", "severity": "medium", "status": "open" }
+    ],
+
+    "soc2": {
+      "type1_phase": "Phase 3 in progress",
+      "type1_controls_remaining": [
+        { "id": "3.1", "title": "Field-level PII encryption", "status": "not_started" },
+        { "id": "3.2", "title": "Secrets vault integration (YGGDATA-264)", "status": "not_started" },
+        { "id": "3.3", "title": "JWT secret rotation", "status": "not_started" }
+      ],
+      "type1_ready": false,
+      "type2_observation_window_months": 6,
+      "type2_started": false,
+      "pen_test": "planned ($5K-15K)",
+      "sast_dep_scan_sbom": "not_started",
+      "policies": "10 docs drafted, effective 2026-03-01, not yet management-approved/operational"
+    },
+
+    "demo_readiness": {
+      "clean_tenant_spinup": true,
+      "demo_env_sample_data": false,
+      "onboarding_workflow": false
+    },
+
+    "test_coverage": "thin — sparse unit tests; 20 integration arcs not in CI; no e2e",
+    "latent_incident_risk": 0.10
+  },
+
+  "financial_model": {
+    "_note": "Monthly operating model for the next ~6 months (wedge phase, mid-2026). Grounded in PROJECTIONS.md (Year-1) and COSTS.md. Pre-raise solo-founder OpEx ≈ $8.7K/mo. Revenue is event-driven: customer/prospect personas converting generate the revenue lines; the ledger does the accounting.",
+    "opening_cash_usd": 0,
+    "_opening_cash_note": "Per founder direction: no cash on hand today. Company is underwater from month 1 unless services cash or a bridge lands.",
+    "monthly_opex_usd": {
+      "infra_tooling": 151,
+      "sales_marketing": 1250,
+      "legal_accounting": 833,
+      "insurance_compliance": 417,
+      "ga": 417,
+      "travel": 667
+    },
+    "_opex_note": "≈ $3,735/mo non-draw OpEx (S&M, legal, insurance, G&A, travel, infra) from PROJECTIONS Year-1 + COSTS. Founder draw is NOT here — it is ARR-gated in founder_compensation below.",
+    "founder_compensation": {
+      "base_salary_usd": 85000,
+      "draw_start_arr_multiple": 3,
+      "founder_lifestyle_usd_monthly": 4500,
+      "tax_rate": 0,
+      "salary_savings_to_liquid": true,
+      "salary_schedule_by_arr": [
+        { "arr_floor_usd": 255000, "annual_salary_usd": 85000 },
+        { "arr_floor_usd": 1000000, "annual_salary_usd": 120000 },
+        { "arr_floor_usd": 3000000, "annual_salary_usd": 150000 },
+        { "arr_floor_usd": 8000000, "annual_salary_usd": 185000 }
+      ],
+      "_note": "Founder draws $0 until ARR >= 3× base ($255K). Then salary steps up at ARR milestones (concave / non-linear — ARR can grow 30x while salary ~2x). Each month, (salary − lifestyle) accumulates toward the LIQUID millionaire index — the slow organic path, distinct from an exit. While not drawing, salary contributes $0 to liquid. tax_rate 0 = literal salary − lifestyle; raise it to model take-home. ARR here = recurring MRR × 12."
+    },
+    "first_hire": {
+      "trigger": "raise_close",
+      "role": "customer-facing engineer",
+      "monthly_cost_usd": 9167,
+      "onboarding_lag_months": 1,
+      "_note": "$110K/yr per PRE_SEED_TERM_SHEET use-of-funds; adds burn but adds platform capacity."
+    },
+    "one_time_outlays_usd": {
+      "soc2_type1_audit": 20000,
+      "pen_test": 8000,
+      "_note": "Per COSTS.md planned one-time items; triggered when the respective work is engaged."
+    },
+    "norn_saas": {
+      "paid_adds_per_month": 1,
+      "arpa_usd": 140,
+      "monthly_churn": 0.04,
+      "cogs_pct": 0.15,
+      "_note": "Self-serve background SaaS. PROJECTIONS Year-1: ~25 paid conv/yr, blended ARPA $140/mo, 4% churn, 85%+ gross margin. Modeled as a small deterministic trickle, not persona-driven."
+    },
+    "services": {
+      "ratatosk_engagement_usd": 8000,
+      "ratatosk_cogs_pct": 0.15,
+      "ragnarok_engagement_usd": 20000,
+      "ragnarok_cogs_pct": 0.20,
+      "_note": "One-time cash on delivery. PROJECTIONS Year-1 avg engagement: Ratatosk $8K, Ragnarok $20K. COGS = travel/materials (founder labor already in draw)."
+    },
+    "yggdrasil": {
+      "pilot_fee_usd": 35000,
+      "pilot_cogs_usd": 1500,
+      "subscription_mrr_usd": 2500,
+      "hosting_cogs_per_tenant_usd": 30,
+      "recurring_cogs_pct": 0.02,
+      "_note": "Pilot $35K one-time (PROJECTIONS Pilot Track). Subscription ~$30K/yr ≈ $2.5K/mo after pilot. Hosting per tenant + ~2% recurring COGS per COSTS (>98% gross margin)."
+    },
+    "payment_processing_pct": 0.029,
+    "_payment_note": "Square 2.9% + $0.30/txn on card-collected (Norn) revenue.",
+    "valuation": {
+      "arr_multiple": 6,
+      "_note": "Enterprise value implied by recurring revenue (ARR × multiple). PROJECTIONS.md uses 5-8× ARR for mid-market vertical SaaS; 6× is the mid. The company's MARKED valuation each period = max(ARR × this multiple, latest round post-money, standing acquisition offer, asserted mark). This is what makes revenue create growth potential continuously, not only at a priced event."
+    },
+    "raise": {
+      "min_viable_close_usd": 300000,
+      "close_lag_months": 1,
+      "founder_starting_ownership_pct": 1.0,
+      "stages": [
+        { "name": "pre-seed", "arr_floor_usd": 0,       "max_size_usd": 750000,   "pre_money_usd": 4000000 },
+        { "name": "seed",     "arr_floor_usd": 600000,  "max_size_usd": 4000000,  "pre_money_usd": 12000000 },
+        { "name": "series_a", "arr_floor_usd": 2500000, "max_size_usd": 15000000, "pre_money_usd": 40000000 }
+      ],
+      "_note": "INVESTMENT TRACK — staged, concurrent with revenue & acquisition. A stage closes when committed-indicative interest >= min_viable AND ARR >= that stage's arr_floor; proceeds = min(committed, stage max_size) at pre = max(stage pre_money, ARR×valuation.arr_multiple); it dilutes the founder, injects cash, marks the round post-money, and the next stage becomes available. Caps prevent hallucinated mega-rounds. close_lag_months delays the wire."
+    },
+    "founder_millionaire_index": {
+      "threshold_usd": 1000000,
+      "current_marked_valuation_usd": null,
+      "paper_basis": "founder_ownership_pct × marked valuation (priced round pre-money or acquisition price). ILLIQUID.",
+      "liquid_basis": "actual founder cash: acquisition cash-out (ownership × price × cash portion) + any founder secondary (+ salary only if count_salary_toward_liquid). A priced fundraise does NOT count — proceeds go to the company treasury, not the founder.",
+      "liquidity": {
+        "acquisition_cash_portion": 0.7,
+        "founder_secondary_usd": 0,
+        "founder_liquid_start_usd": 0
+      },
+      "liquid_paths_note": "Liquid net worth accrues three ways: (1) acquisition cash-out, (2) founder secondary in a round, (3) the SLOW organic path — (salary − lifestyle) per month, governed by founder_compensation. A priced fundraise alone does NOT make the founder liquid.",
+      "_note": "Pre-revenue, no prior priced round → NOT a paper millionaire at t0, and $0 liquid. A priced raise marks PAPER (founder ~$3.5-4M on close) but yields ~$0 LIQUID. In a 6-month RAISE scenario expect paper = raise-close month; liquid stays ~null because the founder isn't even drawing salary yet (ARR << $255K) and there's no exit. The salary−lifestyle path is a multi-year climb."
+    }
+  }
+}

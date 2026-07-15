@@ -1,0 +1,24 @@
+Mimir Labs — Redpoint memo
+Why agentic AI needs a governed system of reality, not another semantic layer
+
+Prepared June 2026 · Christopher Gaither, Mimir Labs
+
+
+One-sentence thesis. The current investment thesis in agent infrastructure — orchestrators, evaluation harnesses, semantic layers over read paths, vector stores — sits on top of operational substrates that do not contain enough meaning to make the agent's actions safe, and Mimir Labs is the layer underneath that closes the gap.
+
+Why now. Three waves of agent infrastructure have shipped: orchestration (LangChain, Agentforce-class platforms), evaluation (eval harnesses, observability), and semantic layers (knowledge graphs, vector stores, retrieval). None of them addresses the underlying problem that the operational systems agents act on do not carry the rules, authority, evidence, or admissibility context that would make the agent's actions provably valid. The fatigue cycle around AI hype is accelerating. The first visible enterprise failure lands in 2027 on a primed audience. The customers who already understand the substrate problem are the ones quietly fixing it now, not the ones still arguing about which orchestrator wins.
+
+What broke. Semantic layers and knowledge graphs sit on the read path. They describe data the operational system already produced. They do not change what the operational system was willing to record. If a transaction was written without the policy state, authority, evidence, and admissibility context that made it valid, no downstream layer can reconstruct what was lost. The market has agreed that "AI needs clean data." The market has not yet agreed that clean data is necessary but not sufficient. The data can be correct in every field and still be unsafe for an agent to act on, because the rule that should have decided what the field carries is not in the system. This is not a description problem. It is a substrate problem on the write path.
+
+What Mimir Labs built. Yggdrasil ERP is a governance-native ERP whose substrate carries operational meaning — states, authority, policy, evidence, exception path — as first-class data, with every state transition gated through a constraint engine that evaluates Runtime Operational Policy Enforcement rules at the moment the transition is recorded. Ratatosk is the diagnostic that gets us into the customer's environment first: a scoped engagement that walks one value stream end-to-end and surfaces where operational meaning is currently being lost across their existing systems. The diagnostic is honest standalone — customer keeps the artifact whether or not they buy the platform — and it teaches the platform conversation. Jormungandr extends the same enforcement to external ERPs through JSON Schema contracts, so customers who cannot replace their current stack can still close the substrate gap.
+
+Why this is investable. This is category creation in the layer beneath where every current AI infrastructure bet sits. The vocabulary forms in 2027. Whoever teaches the market the difference between governing the agent and governing the world the agent acts on owns the second half of the agent-infrastructure category. The wedge — Ratatosk diagnostic — sells today against AI-readiness budgets that are already allocated. The strategic destination — Yggdrasil ERP — is the substrate buyers will be looking for once the first visible agent failure makes the substrate question impossible to defer. We are early enough to write the vocabulary into procurement RFPs before the demand spike brings competitors in.
+
+Proof / current signal. v0.8.0a in alpha; full ten-module ERP with 900+ endpoints, multi-tenant Postgres, real-time event mesh; ROPE engine in production with multi-hop path traversal, ANY/ALL/COUNT quantifiers, nested boolean composition, conditional THEN actions, and multi-phase rules. Portable policy bundle format flows policies between Jormungandr-governed external ERPs and Yggdrasil ERP. Twelve technical whitepapers; published academic preprint on the missing layer in enterprise AI-readiness; companion essays already circulating in operator and analyst circles. Founder writing publicly through the operational-canon doctrine: the substrate is the AI safety question.
+
+What we need. A pressure-test of the category-creation thesis from a partner who has invested in the read-path side of the agent infrastructure space and is looking for what comes underneath. If the thesis holds up, the most useful next step is two or three introductions to enterprise AI buyers who are already past the orchestration tier and looking at the substrate question.
+
+Closing. Every agent infrastructure investment that succeeds in 2027 will be paired with a substrate investment. Mimir Labs is the substrate side of the trade.
+
+
+Mimir Labs LLC · mimirlabs.net · Christopher Gaither, Founder/CEO · cgaither@mimirlabs.net

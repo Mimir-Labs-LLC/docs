@@ -1,0 +1,489 @@
+{
+  "summary": "Lightweight MiroFish-style emergent prediction: distill → bounded persona rounds (≤6 concurrent) with mean-field contagion → synthesize report",
+  "agentCount": 50,
+  "logs": [
+    "Plan: 1 distill + 4×12 reactors + 1 synth ≈ 50 agents, ≤6 concurrent.",
+    "Round 1: sentiment -0.10 (Δ0.10), committed $0",
+    "Round 2: sentiment 0.17 (Δ0.27), committed $0",
+    "Round 3: sentiment 0.44 (Δ0.27), committed $425,000",
+    "Round 4: sentiment 0.40 (Δ-0.04), committed $365,000"
+  ],
+  "result": {
+    "question": "Will the $500K pre-seed close within ~2 quarters? Probability, likely lead, rough terms, timeline.",
+    "config": {
+      "personas": 12,
+      "rounds": 4,
+      "personas_per_agent": 1,
+      "concurrency_cap": 6,
+      "approx_agents_used": 50
+    },
+    "report": {
+      "question": "Will the $500K pre-seed close within ~2 quarters? Probability, likely lead, rough terms, timeline.",
+      "prediction": {
+        "headline": "Partial soft-circle (~$365K, ~73% of target) is the modal outcome; a full $500K priced close in-horizon is unlikely. BFTP anchors, Robin Hood fills, but proof gates leave a ~$135K gap unfilled.",
+        "primary_probability": 0.27,
+        "confidence": "medium",
+        "distribution": {
+          "closes": 0.27,
+          "partial_or_bridge": 0.55,
+          "stalls": 0.18
+        },
+        "likely_lead": "Ben Franklin Technology Partners (C&N PA) — the only warm institutional door and the explicit anchor; $150K indicative, with statewide BFTP matching $100K behind it. Robin Hood Ventures ($100K) syndicates on the warm BFTP intro but explicitly caps at a partial fill.",
+        "terms_estimate": "Priced preferred at repriced ~$3.5M-$4.0M pre-money (down from the aggressive $5M ask, toward the walkaway band given pre-revenue / 0 customers). At a $365K raise on ~$3.75M pre that is ~8.9% dilution; a full $500K would be ~11-13%. Realistically structured as a smaller priced round or a SAFE/note bridge to preserve the cap table until proof lands.",
+        "timeline": "BFTP anchor + angel fill can soft-circle within the 2-quarter window (stances firmed to 'engaged' by Round 2-3), but a full priced close slips beyond ~2 quarters because the data-loss blocker (YGGDATA-258), SOC 2 Type 1, and the absent pilot/LOI pipeline gate the VC tranche. Expect first-close on the BFTP+RHV portion in-horizon, final close past horizon."
+      },
+      "causal_narrative": "The raise advanced only as far as its single warm institutional door allowed: BFTP's anchor signal pulled in statewide BFTP, Robin Hood, and the Mid-Atlantic angel connector ($365K committed-indicative), but contagion stopped dead at the econ-dev/angel boundary. Every Tier-2 VC held its evidence gate — Schematic needs manufacturer conversations, Ironspring/Differential need customer-discovery and a data-infra deck, DataTribe and Work-Bench need SOC 2 and enterprise design partners, Stage 2 needs paid LOIs — and none cleared because the critical YGGDATA-258 data-loss blocker stayed open and proof points stayed at zero. Momentum inverted in Round 4 (+0.27 to -0.04) and committed capital actually receded from $425K to $365K, signaling the soft-circle firming as a partial rather than building toward a full close. The narrative tailwind and influencer warmth are real but thin channels that amplify attention without converting into hard checks absent a demo artifact or closed blocker.",
+      "coalitions": [
+        {
+          "name": "Regional econ-dev anchor bloc",
+          "members": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)"
+          ],
+          "committed_usd": 250000,
+          "role": "Anchor + match; the spine of any close. Statewide is contingent on C&N anchoring and a PA-jobs/match story."
+        },
+        {
+          "name": "Angel fill + amplification",
+          "members": [
+            "Robin Hood Ventures",
+            "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)"
+          ],
+          "committed_usd": 115000,
+          "role": "Fills behind the BFTP anchor on warm intro; angel connector makes downstream intros but does not raise conviction without proof."
+        },
+        {
+          "name": "Stalled evidence-gated VCs",
+          "members": [
+            "Schematic Ventures",
+            "Differential Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "Work-Bench",
+            "Stage 2 Capital",
+            "640 Oxford"
+          ],
+          "committed_usd": 0,
+          "role": "Contagion firewall. All held curious/skeptical/interested; each gate (manufacturer demand, customer discovery, SOC 2, enterprise design partners, paid LOIs) remained shut, so zero VC capital materialized."
+        }
+      ],
+      "swing_factors": [
+        {
+          "factor": "Closing YGGDATA-258 (in-memory DAL data-loss blocker)",
+          "impact": "high",
+          "why": "It is cited verbatim as a live blocker by BFTP C&N, Robin Hood, Ironspring, DataTribe, and 640 Oxford. Closing it is the single highest-leverage unlock — it would convert RHV from partial-fill to full, and potentially open one Tier-2 gate, materially lifting the close probability."
+        },
+        {
+          "factor": "First paid pilot / signed design-partner LOI",
+          "impact": "high",
+          "why": "Zero pilots and zero LOIs cap RHV, hard-gate Stage 2 and Work-Bench, and block Schematic/Ironspring's demand thesis. A single paid engagement would validate the GTM-is-moat and demand gates that currently keep $0 of VC capital in play."
+        },
+        {
+          "factor": "SOC 2 Type 1 progress (3 controls unstarted)",
+          "impact": "medium",
+          "why": "Directly gates DataTribe (would-be security lead) and reinforces Work-Bench skepticism. Less broadly load-bearing than the data-loss blocker, but unlocks the cyber/enterprise lane that is fully closed today."
+        },
+        {
+          "factor": "Valuation reprice to the $3.5M-$4M walkaway band",
+          "impact": "medium",
+          "why": "The $5M pre ask is flagged aggressive for a pre-revenue solo founder. Repricing is largely priced-in by Round 4 and is necessary to keep BFTP/RHV engaged; failure to reprice risks the partial soft-circle slipping to a stall."
+        },
+        {
+          "factor": "Solo-founder engineering capacity",
+          "impact": "medium",
+          "why": "1 FTE is the binding constraint and 9-month runway. The founder cannot close blockers, run customer discovery, and run a raise simultaneously — capacity contention is why momentum stalled in Round 4 and why the timeline slips past horizon."
+        }
+      ],
+      "key_personas": [
+        {
+          "name": "Ben Franklin Technology Partners (C&N PA)",
+          "end_stance": "engaged ($150K indicative)",
+          "role": "Anchor / likely lead — only warm institutional door; anchors after PA-jobs/match story and data-loss close"
+        },
+        {
+          "name": "Ben Franklin Technology Partners (statewide)",
+          "end_stance": "engaged ($100K indicative)",
+          "role": "Match capital, contingent on C&N anchoring"
+        },
+        {
+          "name": "Robin Hood Ventures",
+          "end_stance": "engaged ($100K indicative)",
+          "role": "Angel-group fill on warm BFTP intro; explicitly caps at partial fill, not full $500K"
+        },
+        {
+          "name": "Mid-Atlantic angel/analyst influencer",
+          "end_stance": "engaged ($15K indicative)",
+          "role": "Small check + downstream warm-intro contagion channel"
+        },
+        {
+          "name": "640 Oxford",
+          "end_stance": "interested ($0)",
+          "role": "Closest Tier-2 holdout; needs AI-agents why-now memo + external validation"
+        },
+        {
+          "name": "DataTribe",
+          "end_stance": "skeptical ($0)",
+          "role": "Would-be security lead, hard-blocked by data-loss blocker + no SOC 2"
+        },
+        {
+          "name": "Work-Bench",
+          "end_stance": "skeptical ($0)",
+          "role": "Enterprise GTM gate unmet — no design partners, no deploys"
+        },
+        {
+          "name": "Schematic / Differential / Ironspring / Stage 2",
+          "end_stance": "curious ($0)",
+          "role": "Evidence-gated VCs; none firmed — proof gates never cleared"
+        }
+      ],
+      "caveats": [
+        "Committed figures are indicative interest, not signed term sheets — every 'engaged' check (BFTP C&N, statewide, RHV, angel) is conditioned on closing the data-loss blocker and/or a match/proof story, so the $365K is soft and could erode further if blockers persist (Round 4 already showed capital receding from $425K to $365K).",
+        "The $365K modal outcome falls ~$135K (27%) short of the $500K target; whether this counts as a 'close' depends on definition — it is a credible partial first-close but not a full priced round in-horizon.",
+        "Solo-founder, 9-month runway, $5,150/mo burn: capacity contention between blocker remediation, customer discovery, and the raise is the structural reason momentum stalled. A slip past 2 quarters also pressures runway.",
+        "No Tier-2 VC moved at all across 4 rounds — if the synthesis assumed any VC contagion it would be unsupported; the close, if it happens, is entirely regional-econ-dev + angel, with no priced-VC lead.",
+        "Valuation is modeled at the repriced $3.5M-$4M band, not the $5M ask; if the founder holds firm at $5M pre, probability of even the partial close drops.",
+        "Probabilities are calibrated to a thin, single-door pipeline; the favorable AI-readiness tailwind (~0.65) is a narrative tailwind only and does not substitute for the missing proof points."
+      ]
+    },
+    "round_log": [
+      {
+        "round": 1,
+        "stimulus": "Round 1 — BFTP activation: founder converts the open BFTP (C&N) thread into a meeting, presents the tightened 'operational substrate' memo + clean-tenant demo, and explicitly requests an investment/grant path plus 2-3 investor and pilot intros. (Realistic now; only warm door.)",
+        "sentiment": -0.1,
+        "momentum": 0.1,
+        "committed_capital": 0,
+        "coalitions": {},
+        "stances": [
+          {
+            "name": "Ben Franklin Technology Partners (C&N PA)",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Ben Franklin Technology Partners (statewide)",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Robin Hood Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Schematic Ventures",
+            "stance": "cold",
+            "check": 0
+          },
+          {
+            "name": "Differential Ventures",
+            "stance": "cold",
+            "check": 0
+          },
+          {
+            "name": "Ironspring Ventures",
+            "stance": "cold",
+            "check": 0
+          },
+          {
+            "name": "DataTribe",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "640 Oxford",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Work-Bench",
+            "stance": "cold",
+            "check": 0
+          },
+          {
+            "name": "Stage 2 Capital",
+            "stance": "cold",
+            "check": 0
+          },
+          {
+            "name": "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Operational-canon thesis influencer (Substack/LinkedIn audience)",
+            "stance": "curious",
+            "check": 0
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "stimulus": "Round 2 — Proof + warm-intro fan-out: founder lands 2-3 manufacturer/customer-discovery conversations and closes the critical YGGDATA-258 data-loss blocker, then uses BFTP intro to open Robin Hood Ventures and the Mid-Atlantic angel connector with an updated memo showing pipeline. (Plausible escalation; modest proof.)",
+        "sentiment": 0.17,
+        "momentum": 0.27,
+        "committed_capital": 0,
+        "coalitions": {
+          "regional-econ-dev / anchor": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "regional-econ-dev": [
+            "Ben Franklin Technology Partners (statewide)"
+          ],
+          "angel-group / likely-fill": [
+            "Robin Hood Ventures"
+          ],
+          "reindustrialization-vc": [
+            "640 Oxford"
+          ],
+          "influencer / contagion-channel": [
+            "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)"
+          ],
+          "influencer / narrative-channel": [
+            "Operational-canon thesis influencer (Substack/LinkedIn audience)"
+          ]
+        },
+        "stances": [
+          {
+            "name": "Ben Franklin Technology Partners (C&N PA)",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Ben Franklin Technology Partners (statewide)",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Robin Hood Ventures",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Schematic Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Differential Ventures",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "Ironspring Ventures",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "DataTribe",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "640 Oxford",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Work-Bench",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "Stage 2 Capital",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Operational-canon thesis influencer (Substack/LinkedIn audience)",
+            "stance": "interested",
+            "check": 0
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "stimulus": "Round 3 — Soft-circle forming: BFTP signals an anchor commitment (investment/grant), Robin Hood opens diligence, and 1-2 design-partner LOIs land; founder circulates a soft-circled-lead update to Tier-2 names (Differential, 640 Oxford, Ironspring) with variant decks. (Escalates only if Round 2 produced real signal.)",
+        "sentiment": 0.44,
+        "momentum": 0.27,
+        "committed_capital": 425000,
+        "coalitions": {
+          "regional-econ-dev / anchor": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "regional-econ-dev": [
+            "Ben Franklin Technology Partners (statewide)"
+          ],
+          "angel-group / likely-fill": [
+            "Robin Hood Ventures"
+          ],
+          "reindustrialization-vc": [
+            "640 Oxford"
+          ],
+          "influencer / contagion-channel": [
+            "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)"
+          ],
+          "influencer / narrative-channel": [
+            "Operational-canon thesis influencer (Substack/LinkedIn audience)"
+          ]
+        },
+        "stances": [
+          {
+            "name": "Ben Franklin Technology Partners (C&N PA)",
+            "stance": "engaged",
+            "check": 150000
+          },
+          {
+            "name": "Ben Franklin Technology Partners (statewide)",
+            "stance": "engaged",
+            "check": 150000
+          },
+          {
+            "name": "Robin Hood Ventures",
+            "stance": "engaged",
+            "check": 100000
+          },
+          {
+            "name": "Schematic Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Differential Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Ironspring Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "DataTribe",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "640 Oxford",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Work-Bench",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Stage 2 Capital",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)",
+            "stance": "engaged",
+            "check": 25000
+          },
+          {
+            "name": "Operational-canon thesis influencer (Substack/LinkedIn audience)",
+            "stance": "engaged",
+            "check": 0
+          }
+        ]
+      },
+      {
+        "round": 4,
+        "stimulus": "Round 4 — Close-or-partial: anchor + angel fill toward $300K-$500K with revised terms (pre-money likely negotiated toward $3.5M-$4M walkaway band given pre-revenue); if proof/blockers lag, outcome is a partial soft-circle / extended timeline rather than a full priced close in-horizon. (Realistic terminal state, not assumed success.)",
+        "sentiment": 0.4,
+        "momentum": -0.04,
+        "committed_capital": 365000,
+        "coalitions": {
+          "regional-econ-dev / anchor": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "regional-econ-dev": [
+            "Ben Franklin Technology Partners (statewide)"
+          ],
+          "angel-group / likely-fill": [
+            "Robin Hood Ventures"
+          ],
+          "reindustrialization-vc": [
+            "640 Oxford"
+          ],
+          "influencer / contagion-channel": [
+            "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)"
+          ],
+          "influencer / narrative-channel": [
+            "Operational-canon thesis influencer (Substack/LinkedIn audience)"
+          ]
+        },
+        "stances": [
+          {
+            "name": "Ben Franklin Technology Partners (C&N PA)",
+            "stance": "engaged",
+            "check": 150000
+          },
+          {
+            "name": "Ben Franklin Technology Partners (statewide)",
+            "stance": "engaged",
+            "check": 100000
+          },
+          {
+            "name": "Robin Hood Ventures",
+            "stance": "engaged",
+            "check": 100000
+          },
+          {
+            "name": "Schematic Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Differential Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Ironspring Ventures",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "DataTribe",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "640 Oxford",
+            "stance": "interested",
+            "check": 0
+          },
+          {
+            "name": "Work-Bench",
+            "stance": "skeptical",
+            "check": 0
+          },
+          {
+            "name": "Stage 2 Capital",
+            "stance": "curious",
+            "check": 0
+          },
+          {
+            "name": "Mid-Atlantic angel/analyst influencer (RHV + BFTP network)",
+            "stance": "engaged",
+            "check": 15000
+          },
+          {
+            "name": "Operational-canon thesis influencer (Substack/LinkedIn audience)",
+            "stance": "engaged",
+            "check": 0
+          }
+        ]
+      }
+    ],
+    "method": "Single-pass emergent estimate via mean-field persona swarm. Re-run with updated state/initial-state.json as reality changes."
+  }
+}

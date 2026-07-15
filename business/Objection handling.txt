@@ -1,0 +1,287 @@
+1. Why the data layer?
+
+I would phrase it more precisely as the write-path operational layer, not “the database” in isolation. The point is not that passive tables should contain all business behavior. The point is that operational validity has to be enforced where business events become durable records. If policy, authority, state, and exception logic only live in UI code, workflow scripts, reports, integrations, or tribal knowledge, then the system records the transaction without preserving why it was valid. That is exactly what makes reporting, audit, automation, and AI fragile later.
+
+2. Why the write path?
+
+Because the moment of ingress is the last clean moment to preserve context. Once a business event is written without its policy state, authority state, exception path, provenance, and operational meaning, every downstream layer has to reconstruct meaning from residue. Humans can sometimes do that with meetings and tribal knowledge. AI agents should not be asked to. The write path is where the claim enters reality.
+
+3. Why not just use a knowledge graph?
+
+Knowledge graphs are useful, and I would not reject them. They are excellent for representing relationships, dependencies, lineage, semantic proximity, and concept navigation. The issue is that a graph is only as truthful as the events and states that feed it. If the system of record never captured whether inventory was quarantined, whether a supplier was approved for that revision, or whether a cost was provisional, a downstream graph can represent the missingness, but it cannot magically recover the lost operational truth. In Mimir Labs, the semantic model can be graph-shaped, but the system still has to preserve validity at the write path.
+
+4. So is Mimir Labs anti-knowledge-graph?
+
+No. The distinction is not graph versus relational. The distinction is read-path reconstruction versus write-path preservation. A graph can be part of the semantic layer. A relational core can be part of the transactional layer. What matters is whether operational meaning is captured when work happens and whether policy can deterministically constrain action.
+
+5. Why not RAG or vectorless RAG over SOPs, manuals, and ERP exports?
+
+RAG can find the rule. It cannot prove that the current operational state satisfies the rule unless the state was preserved correctly. A retrieval system may find the sales policy or quality procedure, but it still needs trusted facts: this inventory state, this supplier approval, this part revision, this policy version, this approver authority, this exception status. RAG helps with knowledge access. ROPE handles operational admissibility.
+
+6. Why not use the existing ERP and add agents?
+
+That works only if the ERP preserved enough meaning for the agent to trust. Many ERPs record that a transaction happened, but not the full context that made the transaction valid or invalid. Agents over lossy records create confident automation over incomplete reality. Mimir Labs tests and fixes the substrate problem before asking agents to act.
+
+7. Why not just put this in the application layer?
+
+Application-layer logic fragments over time. Different clients, integrations, scripts, reports, admin overrides, and partner customizations all become alternate paths around truth. The operational rule must be enforced below those paths. Applications can present and guide behavior, but the system of record must decide what is admissible.
+
+8. Why not a traditional rules engine?
+
+A rules engine is part of the answer, not the whole answer. ROPE is not just “rules.” It requires canonical concepts, policy versioning, authority context, state transitions, provenance, exception handling, and auditable outcomes. A traditional rules engine can evaluate conditions. ROPE evaluates operational admissibility against governed business meaning.
+
+9. Where do the predicates come from?
+
+They come from a combination of system artifacts and knowledge elicitation. Ratatosk starts with schemas, reports, workflows, integration logic, BI models, exports, and shadow spreadsheets because those reveal what the business has already formalized. Then scenario walkthroughs expose where the record stops being sufficient: “in this case we know to…” is usually where tacit logic lives. Domain owners validate the inferred rule before it becomes enforceable.
+
+10. Can everything really be expressed in predicate logic?
+
+Not every human explanation starts as predicate logic. But any operational policy that should constrain a system has to become explicit enough to evaluate. The system does not need to model all human judgment perfectly. It needs to identify what is allowed, blocked, provisional, unknown, or requires review. If a rule cannot be expressed yet, the correct system answer is not a guess; it is “needs review” or “unknown.”
+
+11. Does this make the business too rigid?
+
+No. It makes ambiguity explicit. Mimir Labs does not eliminate exceptions. It gives exceptions a governed path. The current problem is that exceptions often happen invisibly through spreadsheets, side conversations, overrides, or tribal process. ROPE allows exception handling, but makes the authority, reason, scope, and evidence visible.
+
+12. How do you handle policy changes?
+
+Policies are versioned. The system must know not only what the rule is now, but what rule governed the event at the time. That is essential for audit, compliance, and defensible AI. Otherwise, the system evaluates historical actions against present-day assumptions and produces false certainty.
+
+13. Why would manufacturers adopt this instead of staying with their current ERP?
+
+They do not have to start with replacement. The entry point is proof. Bring one transaction chain your current system cannot fully prove. Ratatosk identifies where meaning is lost. ROPE/Yggdrasil shows what it looks like when the missing meaning is preserved and enforceable. Replacement is a later outcome, not the first ask.
+
+14. What is the simplest example?
+
+Inventory quantity says there are 10 units. A human knows five are quarantined, three are reserved, and two are usable. A normal system may expose “10 on hand.” An agent may say the order can proceed. Mimir Labs asks the operationally correct question: usable for this order, under this policy, at this state, with this evidence? That is the difference.
+
+15. Isn’t this just data governance?
+
+Traditional data governance usually tries to clean, catalog, define, or monitor data after systems already created it. Mimir Labs pushes governance into the operational substrate. The goal is not only to describe data better later. The goal is to prevent meaning loss when the business event is recorded.
+
+16. Isn’t this just master data management?
+
+MDM helps reconcile entities like customer, supplier, item, or location. Mimir Labs goes beyond entity resolution. It preserves operational meaning: state, authority, policy, exception path, provenance, provisionality, and admissibility. “Is this the same supplier?” is MDM. “Was this supplier approved for this part revision at the time this order was released?” is operational truth.
+
+17. Why is this urgent now?
+
+Because AI agents remove the human workaround layer. In the old world, bad records created meetings, spreadsheets, reports, and manual reconciliation. In the agentic world, bad records create automated mistakes that look defensible. Before connecting agents to ERP, companies need to know whether the system preserved enough meaning for the agent to act safely.
+
+18. What is the core claim?
+
+The old ERP question was: can the system record the transaction? The AI-era question is: did the system preserve enough meaning for an agent, auditor, or executive to trust the transaction?
+
+19. What does ROPE actually return?
+
+ROPE should not simply return yes or no. It returns allowed, blocked, needs review, or unknown, with the evidence and policy context behind the answer. That matters because a safe operational system must be able to refuse false certainty.
+
+20. What is the moat?
+
+The moat is not a single rule engine or schema. It is the canonical operational model, the policy enforcement layer, the audit/provenance structure, the transaction-chain proof method, and the accumulated map of where enterprise systems lose meaning. The hard part is not saying “rules should be explicit.” The hard part is turning messy operational reality into enforceable truth without losing the business.
+
+---
+
+# George Call Flow Script
+
+Drafted 2026-06-16 for the upcoming conversation with George, host of The ERP Perspective. Goal of the call: test whether George recognizes the causal model behind Mimir Labs, and create the next concrete action. George is a potential amplifier, strategic advisor, podcast/media connection, partner, customer-introducer, or early believer. This is not a sales demo. The product walk-through is the last move, not the first.
+
+The thesis to preserve through every branch:
+
+> Most ERP projects do not fail because the business failed to obey the system. They fail because the system never fully contained the business. The ERP is the system of record. The business runs somewhere else.
+
+Ratatosk is the first concrete offer (a diagnostic engagement that surfaces where operational meaning is lost). Yggdrasil ERP is the strategic destination (a governance-native ERP whose substrate is designed to contain the missing model). Jormungandr and ROPE are the enforcement layer for the operational model wherever it lives. Don’t introduce names until the premise lands.
+
+## 1. Opening frame
+
+Three options. Strongest first. Pick based on rapport; lead with the test-the-premise opening unless the call needs warmer scaffolding.
+
+**A. Test-the-premise opening (preferred).**
+“Before I get too deep into product, I want to test the premise. In your experience, how often is the ERP actually where the business runs, versus where the business reports through?”
+
+**B. Pattern-naming opening.**
+“I want to start with an observation rather than a pitch. After watching enough ERP projects, I’ve come to believe most of them don’t fail because the customer failed to obey the system. They fail because the system never fully contained the customer. Does that match what you’ve seen?”
+
+**C. Operating-substrate opening.**
+“If you had to point at where one of your manufacturing customers actually runs the business — not where they report through, but where the decisions actually happen — would you point at the ERP, or somewhere else?”
+
+All three openings are designed to surface George’s frame before Mimir Labs’ frame. If he answers honestly, the rest of the call is downhill.
+
+## 2. Discovery questions
+
+Use selectively. The point is not to run a checklist; it is to find the two or three places where George’s experience and the Mimir Labs thesis already overlap, then go deep there.
+
+1. In your podcast experience, what is the most common reason guests give for an ERP project disappointing the customer?
+2. How many of those reasons would you actually believe if you got the customer alone in a room?
+3. When you walk a manufacturing floor, what fraction of the operating decisions you see being made are visible in the ERP at all?
+4. Have you ever seen an ERP cutover where, six months in, the company is still running the old shadow process alongside the new system?
+5. What does Excel actually do for a mid-size manufacturer that the ERP cannot? Be specific.
+6. When two reports disagree, which one does the operator actually trust, and why?
+7. What is the cleanest example you’ve seen of a business rule that the ERP recorded but did not enforce?
+8. Have you watched a migration project where requirements workshops turned into archaeology?
+9. When somebody tells you the data is dirty, do they ever distinguish between dirty data and missing operational meaning? Or is it all framed as a hygiene problem?
+10. In the AI/agentic conversations you’re hearing from vendors right now, who is talking about the substrate the agent acts on, and who is just talking about the agent?
+11. If you had to bet on where the first big public agent failure lands, what does it look like?
+12. Where in the market do you see actual pull right now for a substrate-level fix, versus people who recognize it but won’t buy?
+13. If you described the system-of-record-versus-system-of-reality gap to people in your network, who would already recognize it without needing it explained — the kind of person who would say “yes, that’s the thing I’ve been watching for years”?
+14. Who would push back on it the hardest, and what would they say?
+15. If we were having this conversation in 18 months, what would have to be true for you to say “you saw it coming”?
+
+Question 13 is the most important. Whoever already recognizes the gap before George finishes describing it is the next call.
+
+## 3. Flow branches
+
+Twelve scripted responses to likely George reactions. For each: one short verbal response (~10 seconds), one deeper explanation (~30–45 seconds) if he wants more, and one redirect question that keeps the conversation moving.
+
+### Branch 1 — “Yes, I see this all the time.”
+- **Short:** “Then we’re probably arguing about the same thing. The question is whether the field has a name for it yet.”
+- **Deeper:** “Most people I talk to recognize the pattern but don’t have vocabulary for it. They reach for ‘dirty data’ or ‘change management’ or ‘the team needs to use the system better.’ Those are real, but they sit on top of the problem. The thing underneath is that the ERP isn’t carrying the meaning, so the rest of the organization has to. The work I’m doing at Mimir Labs is to name the gap and then build the substrate that closes it.”
+- **Redirect:** “When you’ve seen it most clearly, what made it visible? An incident, a migration, an audit? Where does it surface?”
+
+### Branch 2 — “This sounds like data governance.”
+- **Short:** “Adjacent, but it’s the wrong center of gravity. Traditional governance describes data after the system creates it. We have to govern when the business event is recorded, not after.”
+- **Deeper:** “Data governance, MDM, catalogs — they all run on read paths. They ask ‘what did the system produce, can we make sense of it later.’ The substrate problem is on the write path. By the time you’re cleaning the field, the rule that should have decided what value the field carries is already gone. We don’t replace governance. We move the governance question into the moment the transaction enters the record.”
+- **Redirect:** “If governance lived at the write path instead of the read path, what would change for your audience?”
+
+### Branch 3 — “This sounds like MDM.”
+- **Short:** “MDM answers ‘is this the same supplier.’ The harder question is ‘was this supplier approved for this part revision when this order shipped.’ That’s not entity resolution. That’s operational truth.”
+- **Deeper:** “MDM is necessary and it’s not what we’re doing. MDM gets you a clean supplier record. It does not tell you whether the supplier was tier-1 last quarter when the contract called for tier-1 only, or whether the corrective-action plan they were on was closed before the receipt was accepted. Those are state, policy, authority, evidence — they’re not entity attributes. They’re the operational decisions the entity participates in. The substrate has to carry both.”
+- **Redirect:** “Have you seen an MDM project that solved everything the customer thought it would, or does it always reveal the next layer of problem?”
+
+### Branch 4 — “This sounds like process discipline / change management.”
+- **Short:** “Change management is necessary every time the substrate is incomplete. If the substrate were complete, you wouldn’t need to change-manage people into working around it.”
+- **Deeper:** “Change management is the cost we pay when the system can’t carry the operating model on its own. It is real work and the firms doing it are valuable. But it scales with the gap between what the system describes and what the business actually does. When that gap is wide enough, no amount of training fixes it — the operator has to choose between violating the documented process and getting the work done. They get the work done. The decision Mimir Labs helps customers make is whether to keep paying that tax forever or close the gap structurally.”
+- **Redirect:** “Have you ever seen a customer where the change management bill was bigger than the original ERP license?”
+
+### Branch 5 — “This sounds like ERP customization.”
+- **Short:** “Customization adds fields. It almost never adds rules. The thing that decides what the field should say is what we’re after.”
+- **Deeper:** “Most ERP customization extends the data model: new fields, new states, new linear branches. What it does not add is a way to express ‘under these five conditions this transition is allowed, under those three it requires an exception grant, under those other two it is refused.’ That layer doesn’t exist in any of the major ERPs as a first-class thing. It lives in code, in workflow tools that route work without deciding what the work means, or in operator heads. The customization conversation is exactly what makes me trust this thesis — every customization budget is evidence that the standard model didn’t carry the customer’s operating reality.”
+- **Redirect:** “What’s the most expensive customization you’ve seen, and would you say the customer got what they paid for?”
+
+### Branch 6 — “This sounds too big / too radical.”
+- **Short:** “The entry is small. It’s a diagnostic engagement on one transaction chain. Replacement isn’t the first ask. Proof is.”
+- **Deeper:** “We don’t walk in saying ‘rip out your ERP.’ We walk in with Ratatosk, which is a discovery engagement on one slice of the customer’s operation — usually a chain where they already know something is wrong. We surface where meaning is lost: schema gaps, shadow stores, integration drift, undocumented authority paths. The customer gets an artifact they can act on with or without us. The strategic destination is Yggdrasil ERP, but the first month is just teaching them what they already half-knew, in a form their CFO can read.”
+- **Redirect:** “If a customer could afford one diagnostic engagement before their next big ERP decision, where would you point them?”
+
+### Branch 7 — “Who is the buyer?”
+- **Short:** “For Ratatosk it’s the operations or transformation leader who has a project they don’t trust. For Yggdrasil it’s the CFO or CEO who has decided the next platform decision can’t go the way the last one did.”
+- **Deeper:** “The diagnostic is bought by someone with budget for ‘figure out what’s actually happening before we commit.’ Title varies — Chief Transformation Officer, VP Operations, sometimes a CIO who has been burned. The platform decision is a different sale: it’s a CFO or CEO who has lived through a bad implementation and is willing to question the architecture, not just the vendor. Two different conversations. The Ratatosk engagement is what makes the second conversation possible.”
+- **Redirect:** “In your audience, which title would buy the diagnostic first?”
+
+### Branch 8 — “What do you actually sell first?”
+- **Short:** “Ratatosk. A scoped diagnostic on one value stream or product line. End-to-end through the operational chain, not function-by-function. Five to eight weeks.”
+- **Deeper:** “The unit of work is one value stream — quote to cash, or one product line from design through service. The engagement maps the operational chain through every system and side store, surfaces where meaning is lost between steps, and produces a written model the customer can use to make better decisions about ERP, integration, governance, or AI deployment. The output is theirs. The relationship is ours to earn from there.”
+- **Redirect:** “Is there a customer you’re thinking of where that engagement would land?”
+
+### Branch 9 — “Is this an ERP replacement?”
+- **Short:** “Eventually, for the customers who decide they want the substrate. Not for the customers who only need the diagnostic. Both are fine outcomes.”
+- **Deeper:** “Yggdrasil ERP is the destination for customers who get to the end of a Ratatosk engagement and decide the answer to their problem isn’t configuration of the current system — it’s a substrate that carries what the current system doesn’t. That’s a small fraction in any given year. For most customers, Ratatosk’s output is the asset, and we hand it to them. We’re not trying to convert every engagement into a replacement project. We’re trying to be right about which ones should be.”
+- **Redirect:** “If a customer wanted the diagnostic but not the replacement, would your audience trust that as a valid outcome, or would they expect us to push?”
+
+### Branch 10 — “How is this different from semantic layer / knowledge graph / data catalog?”
+- **Short:** “Read-path versus write-path. Those tools describe the data after the system created it. We govern what gets recorded, when it gets recorded.”
+- **Deeper:** “Semantic layers and knowledge graphs are useful and we don’t reject them. They sit on top of the data the operational systems produced. The question we’re asking is one layer down: did the operational system preserve enough meaning that the semantic layer can do its job? If a transaction was recorded without the policy state, authority, evidence, and admissibility context, no downstream catalog can recover what was lost. We work on the moment the event is captured. They work on what to do with it after.”
+- **Redirect:** “Have you seen a semantic layer project that struggled because the underlying records were incomplete in the way you couldn’t fix from above?”
+
+### Branch 11 — “Why now?”
+- **Short:** “Because AI agents take the human workaround layer out of the operating model. The substrate that was good enough for human-mediated systems isn’t good enough for agent-mediated ones.”
+- **Deeper:** “For thirty years the cost of a substrate that didn’t fully describe the business was paid in meetings, spreadsheets, exception handling, and tribal knowledge. Humans absorbed the missingness. Agents won’t. An agent acting on a substrate of correct-but-incomplete records produces confident automation over partial reality, at speed. The fatigue around AI hype is also accelerating — buyers who would have been credulous in 2025 are skeptical in 2026, and a visible failure in 2027 lands on a primed audience. The window for substrate-aware language to enter procurement vocabulary is the next twelve months. After that, every vendor claims it.”
+- **Redirect:** “What’s your read on when the AI fatigue starts pushing buyers toward harder questions about the architecture, not the model?”
+
+### Branch 12 — “How does AI change the urgency?”
+- **Short:** “It collapses the time between a wrong record and a wrong action. Humans used to be the latency in the loop. Agents remove the latency.”
+- **Deeper:** “In the human world, a wrong record creates a meeting. In the agent world, a wrong record creates a wrong action. The latency between substrate error and operational consequence used to be measured in days. With agents in the path, it’s measured in seconds. That changes the economics. The cost of a substrate gap goes from ‘inconvenient operational friction’ to ‘material business risk’ as soon as one customer-visible incident lands. We think the first one lands within twelve to eighteen months. The customers who close the gap before that are the ones who don’t become the case study.”
+- **Redirect:** “When you talk to ERP buyers about agents, are they asking about the agent’s capability or about the substrate they’d let it act on?”
+
+## 4. Product explanation ladder
+
+Use only when George asks. Don’t volunteer the 3-minute version unless he explicitly asks for it.
+
+### 15-second version (causal model + the wedge)
+“Enterprise systems are losing meaning at the write path, and downstream AI is going to act on that loss. We start with a diagnostic engagement called Ratatosk that maps one value stream end-to-end and surfaces where meaning is being lost. The customer gets the map. They use it to decide what to do next.”
+
+### 60-second version (Ratatosk → Yggdrasil)
+“The thesis is that most ERP projects fail because the system never fully contained the business. The business runs in spreadsheets, exception meetings, side databases, and the heads of people who know when the documented process doesn’t apply. We start with Ratatosk — a five-to-eight-day diagnostic that follows one value stream or product line through every system and side store the customer runs, and produces a written model of where operational meaning is being lost. That’s the entry. The strategic destination is Yggdrasil ERP, a governance-native ERP that carries the operational model — states, authorities, policies, exceptions — as first-class data, enforced at the moment a transition is recorded. Customers who want the diagnostic get the diagnostic. Customers who decide they want the substrate get a platform built around it. The diagnostic is honest standalone; the platform is the answer for the ones who choose it.”
+
+### 3-minute version (full architecture, only if asked)
+“The platform has four pieces. Ratatosk discovers what the operation actually contains, including the rules that live in side stores. Mimisbrunnr is the canonical vocabulary the discovery resolves into, so the same concept means the same thing at every customer. Yggdrasil ERP is the operational substrate built on that vocabulary; it carries the states the operation actually has, governs transitions through a constraint engine, and audits at the field level. Jormungandr is the architectural mirror for customers who can’t or won’t replace their incumbent ERP — it owns the canonical state models and emits JSON Schema contracts that the customer’s integration layer honors before a transition commits. Sitting across both is ROPE, Runtime Operational Policy Enforcement: rules carried as data, evaluated at the moment of the state transition, with their authority, evidence, and version tracked through every decision. The wire format that connects them is portable; policies authored against an external ERP through Jormungandr can travel into Yggdrasil at migration time, which means a customer who deploys Jormungandr today to govern their current system accumulates a library that becomes a populated asset the day they decide to consolidate. Four products, one architectural thesis: operational meaning belongs in the substrate, enforced at the moment of the decision.”
+
+## 5. Objection handling (extensions)
+
+These are appended to the 20 entries above. Use Christopher’s voice: clear, slightly contrarian, precise, not defensive.
+
+### 21. “Companies already know their processes.”
+They know the documented process. They do not know the operational process — the conditional one that produces the actual outcome. The gap between the two is what every consulting engagement re-discovers and the system never carries. If companies actually knew their processes, ERP migration projects would not be five times their original budget. The very fact that requirements workshops on the second platform produce surprises is the evidence that the first platform did not contain the truth.
+
+### 22. “This is what consultants already do.”
+Consultants produce documents. We produce a structural artifact the consultant could not produce, because consultants observe and recommend; they don’t change what the substrate is willing to carry. The valuable consultants find the same gaps Ratatosk finds. The difference is what happens after. The consultant hands the customer a deck. We hand the customer a model that the next system can be built against, and a path to a substrate that won’t recreate the gap.
+
+### 23. “This is a tooling problem, not an architecture problem.”
+If it were a tooling problem, the dozen vendors who have promised to fix it would have. They didn’t, because tooling lives on top of a substrate that is incomplete. You cannot tool your way to a state your schema doesn’t carry. You cannot deduplicate your way to a meaning your transactions never recorded. The architecture has to admit the layer before the tool can do anything useful with it.
+
+### 24. “You are asking companies to rethink too much.”
+We are asking them to rethink one value stream. Not the company. Not the ERP. Not the architecture. One slice of the operation, mapped honestly, end-to-end. The rethinking that follows is the customer’s, not ours. We have a strong opinion about where it usually leads, but the first engagement is the one they buy.
+
+### 25. “Nobody wants to replace ERP.”
+Correct. Nobody wants to replace ERP. Everyone wants the system that was supposed to be the ERP. The difference between those two sentences is the entire opportunity. We are not selling replacement; we are selling the diagnostic that lets the customer make the platform decision honestly. If they decide the answer is keeping the current ERP and closing the gap with Jormungandr, that is a real outcome. If they decide the answer is the substrate Yggdrasil ERP carries, that is also a real outcome. We are agnostic about which one they choose; we are not agnostic about whether they choose with the right information.
+
+### 26. “This will be hard to sell.”
+Yes. The market vocabulary forms in 2027. We are early. Early is where the cheap customer acquisition lives if you can survive long enough to be there when buyers start asking. The hard sale today is the cheap sale in eighteen months. We have built the company around being early enough to teach the vocabulary, not late enough to fight for the buyer who already knows what to ask for.
+
+### 27. “This is too early.”
+The product is in production with demo customers. The architecture is built. The whitepapers and the academic preprint are out. The wedge offering is scoped to a single value stream and priced for an executive who wants to make a better decision before the next platform commitment. Early describes the market’s vocabulary, not the company’s readiness.
+
+### 28. “AI agents aren’t ready anyway.”
+Then the substrate work is even more urgent, because when agents are ready, the substrate is what makes the difference between a vendor that ships and a vendor that gets sued. Companies that wait for agents to be ready before fixing the substrate are committing to do both at once, under deadline, with the lawyers in the room. The work to make a substrate agent-ready is the same work that makes it audit-ready and migration-ready right now. Customers who do it for the AI reason still get the audit and migration benefits.
+
+### 29. “Why would an incumbent not just build this?”
+Three reasons. First, incumbents have thirty years of accumulated commitment to a transactional-financial center of gravity that the substrate-aware architecture is structurally incompatible with. They cannot rebuild around a different center without invalidating their installed base. Second, the consulting and customization revenue that an incomplete substrate generates is too large for any incumbent to voluntarily disrupt — it is the business model, not a side effect. Third, the team you would need to build this is not an enterprise-software team. It is a team that takes seriously the claim that operational logic belongs in the substrate, which sounds obvious until you try to implement it against forty years of received practice. If an incumbent built it, they would have built it. They didn’t. The window is open precisely because of why it’s open.
+
+## 6. Desired outcomes (ranked, with the ask)
+
+Rank from best to acceptable. Pick the outcome the call is converging on; close with that ask.
+
+### Outcome 1 — Direct pilot or customer introduction
+**Ask:** “Of the customers in your network who would understand the diagnostic engagement, is there one you’d be willing to introduce me to? I’ll handle the rest of the conversation; the introduction is the only thing I’d ask for.”
+
+### Outcome 2 — Strategic advisor relationship
+**Ask:** “Would you be open to a standing relationship where I can bring you the harder questions about positioning and market timing? Quarterly, hour-long, no obligation past whatever you find interesting. I’d compensate the time, or trade for something useful on my side — your call.”
+
+### Outcome 3 — Podcast or media appearance
+**Ask:** “If the thesis seems worth a longer conversation, I’d be glad to come on The ERP Perspective and have it out in front of your audience. The argument is one I think your listeners would either recognize immediately or push back on hard, and either is useful.”
+
+### Outcome 4 — Investor or acquirer introduction
+**Ask:** “If you know anyone on the capital side who is investing in enterprise architecture rather than enterprise applications, I’d value an introduction. We’re not raising right now, but the conversations I want to be having are the ones that surface the right questions early.”
+
+### Outcome 5 — Public amplification or commentary
+**Ask:** “If anything in this conversation lands, the most useful thing you could do is name the problem publicly in your own words. Not endorse Mimir Labs — that’s premature and the audience would smell it. Name the system-of-record-versus-system-of-reality gap, and let the readers who recognize it come find both of us.”
+
+### Outcome 6 — Second call with a specific stakeholder
+**Ask:** “Is there someone on your team — or someone you’d trust to vet this for you — that you’d want me to walk through this with? I’m happy to do that conversation independently and bring you the result.”
+
+Closing-ask priority order on the call: 1, 2, 5, 3, 6, 4. Pilot intro is the highest-value outcome, advisor relationship is the most durable, public amplification is the cheapest to ask for. Investor intro is asked only if he raises it; we are not raising and don’t want to read as if we are.
+
+## 7. Closing language
+
+Three closing options. Pick by feel.
+
+### A. The call goes very well
+“This was the conversation I was hoping it would be. The fastest way to close the loop on what we just talked about is the introduction I mentioned. If there’s a name that came to mind while we were talking, I’d follow up on it within the week. Anything else you want me to bring you while it’s warm?”
+
+### B. He is interested but noncommittal
+“I don’t need a yes today. The thing I would value most is a quick reaction in writing — even three sentences — after you’ve had a day to sit with it. If the frame holds up for you, I’ll know it’s worth pushing harder. If it doesn’t, I’d rather know that now than three months from now.”
+
+### C. He understands the thesis but doesn’t know how to help
+“The most useful thing right now isn’t a help; it’s a recognition. If at some point in the next six months you watch someone’s ERP project blow up in the way we just described, send me a one-line note about it. That’s how I know the thesis is landing in the way it should be, and it’s how I learn where the next case study is going to come from.”
+
+## 8. Editing principles (applied throughout)
+
+The script above was written under these constraints, which should hold for any revision:
+
+- Founder-led conversation, not sales enablement. No “discovery” checklists run mechanically. The premise has to land before anything else gets said.
+- No generic “unlock value” language. No “AI-powered” fluff. No platform-of-platforms phrasing.
+- Norse naming used only when explaining product architecture, never as positioning shorthand. George knows the products. The audience he might bring in does not.
+- The premise lands before the architecture. No Yggdrasil ERP details until George asks, no ROPE until the substrate question is on the table.
+- Dirty data vs. incomplete operational meaning is preserved as a structural distinction, not a slogan. Same for system of record vs. system of reality.
+- Ratatosk is the first concrete offer in every branch that lands on a concrete offer. Yggdrasil ERP is the strategic destination, not the entry point.
+- Em-dash density kept low (house preference). Em-dashes used only where they clearly outperform a period or a parenthetical.
+- Voice is calibrated: confident but not certain, specific but not technical, direct but not combative. Match the tone of entries 1–20 above.
+

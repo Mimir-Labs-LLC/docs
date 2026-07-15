@@ -359,3 +359,26 @@ IBM names the right concern itself, buried under "AI-agent flywheel" framing: hu
 Every business runs the same loop: event, condition, decision, authorized action, state change, result, transactional record, new event. That's the physics. IBM has examined enterprise architecture more thoroughly than anyone alive. The omission isn't a blind spot — it's a prescription shaped by where IBM sells.
 
 @James — curious how you read the article's choice to elevate CHRO and CAIO while erasing CTO/CIO/CDO entirely from the conversation.
+
+---
+
+## 2026-07-14 — Reply to an AI-governance framework (the missing execution boundary)
+
+**Context:** Standard response when someone posts a multi-stage AI-governance framework whose stages all govern the model, its deployment, or its operation — but never the transaction boundary where a proposed business state transition becomes authoritative operational reality. Names the category error (governance that stops short of admissibility at the commit) and ties it back to the 30-year ERP substrate error. This is the Yggdrasil/ROPE thesis in objection form.
+
+Interesting framework, but I think there’s a missing architectural question.
+
+Where is the execution boundary?
+
+Every stage shown governs the model, its deployment, or its operation. None of them appear to govern the moment a proposed business state transition becomes authoritative operational reality.
+
+That raises a few questions:
+
+* How is it proven that an action was actually derived from approved business policy, rather than merely justified after the fact?
+* Can the governance evidence reconstruct the reasoning that actually produced the action, rather than a post hoc explanation?
+* How is it guaranteed that an approved proposal cannot mutate between evaluation and the write operation?
+* What prevents an alternate execution path from bypassing the evaluated one entirely?
+
+To me, governance isn’t complete until admissibility is enforced at the transaction boundary itself. Everything before that may reduce risk, but it doesn’t deterministically guarantee that only valid business state can be committed.
+
+This is the same error that every other AI wrapper makes. And when everyone makes the same mistake, it’s a category error. But this one is understandable, because it’s built on top of a separate 30 year old category error.

@@ -1,0 +1,592 @@
+{
+  "summary": "Lightweight MiroFish-style YEAR-BY-YEAR forecast: persona swarm (investors + customers) + deterministic ledger (12 months/year under the hood) → MRR, COGS, burn, runway, raise, founder-millionaire (paper + liquid)",
+  "agentCount": 72,
+  "logs": [
+    "Plan: 1 distill + 5×14 reactors + 1 synth ≈ 72 agents, ≤6 concurrent (one reliable flat-schema call per persona/year). Ledger is free JS.",
+    "Y1: ARR $15,616, cash $-37,358, net $-37358, salary $0, paper $0 liquid $0, committed $0",
+    "Y2: ARR $25,183, cash $-31,646, net $5712, salary $0, paper $0 liquid $0, committed $150000",
+    "Y3: ARR $31,046, cash $-39,749, net $-8103, salary $0, paper $0 liquid $0, committed $2500000",
+    "Y4: ARR $64,637, cash $11,616, net $51365, salary $0, paper $0 liquid $0, committed $6300000",
+    "Y5: ARR $96,838, cash $87,505, net $75889, salary $0, paper $0 liquid $0, committed $7150000"
+  ],
+  "result": {
+    "question": "Model Mimir Labs year by year (5 years): revenue/MRR build, burn incl. COGS, runway, whether/when the pre-seed closes, and time to founder becoming a millionaire (paper vs liquid).",
+    "config": {
+      "personas": 14,
+      "years": 5,
+      "concurrency_cap": 6,
+      "approx_agents_used": 72
+    },
+    "report": {
+      "question": "Model Mimir Labs year by year (5 years): revenue/MRR build, burn incl. COGS, runway, whether/when the pre-seed closes, and time to founder becoming a millionaire (paper vs liquid).",
+      "prediction": {
+        "headline": "Pre-seed never actually closes in the deterministic ledger — interest soft-circles and 'commits' on paper, but no capital is ever injected (raise_injected:false all 5 years); the business instead bootstraps to ~$97K ARR on services + Yggdrasil cash, and the founder ends neither paper nor liquid millionaire.",
+        "primary_probability": 0.35,
+        "confidence": 0.6,
+        "distribution": {
+          "closes": 0.35,
+          "partial_or_bridge": 0.4,
+          "stalls": 0.25
+        },
+        "likely_lead": "Ben Franklin Technology Partners (C&N PA) anchoring a small priced/SAFE round (~$250K), with Robin Hood Ventures / Schematic / 640 Oxford as the realistic angel-to-pre-seed syndicate at the TRUE traction level (~$65–97K ARR)",
+        "terms_estimate": "$300–500K priced at ~$3.5–4M pre-money (founder repriced down from the $5M ask); min-viable close $300K. NOTE: the persona checks (DataTribe $3M, Work-Bench $1.5M, Schematic/Ironspring/Differential $500K each) are anchored to a hallucinated $13.4M-ARR projection, NOT the real ledger — at true ~$65K ARR those checks do not materialize.",
+        "raise_year": 1
+      },
+      "financial_outlook": {
+        "per_year": [
+          {
+            "year": 1,
+            "end_arr_usd": 15616,
+            "end_cash_usd": -37358,
+            "net_usd": -37358,
+            "founder_salary_usd": 0
+          },
+          {
+            "year": 2,
+            "end_arr_usd": 25183,
+            "end_cash_usd": -31646,
+            "net_usd": 5712,
+            "founder_salary_usd": 0
+          },
+          {
+            "year": 3,
+            "end_arr_usd": 31046,
+            "end_cash_usd": -39749,
+            "net_usd": -8103,
+            "founder_salary_usd": 0
+          },
+          {
+            "year": 4,
+            "end_arr_usd": 64637,
+            "end_cash_usd": 11616,
+            "net_usd": 51365,
+            "founder_salary_usd": 0
+          },
+          {
+            "year": 5,
+            "end_arr_usd": 96838,
+            "end_cash_usd": 87505,
+            "net_usd": 75889,
+            "founder_salary_usd": 0
+          }
+        ],
+        "ending_arr_usd": 96838,
+        "ending_cash_usd": 87505,
+        "blended_gross_margin": 0.89,
+        "first_profitable_year_or_null": 2,
+        "founder_millionaire": {
+          "paper_year_or_null": null,
+          "liquid_year_or_null": null,
+          "note": "PAPER never crosses $1M in the real ledger: no priced round is ever injected (raise_injected:false every year), so there is no marked valuation. Founder holds 100% of a company at ~$97K ARR — at even a generous 8x ARR mark that is ~$775K, still under $1M, and that mark requires a close that never happens. LIQUID never crosses $1M either: ARR stays far below the $255K draw gate all 5 years, so the founder draws $0 salary and the slow (salary − lifestyle) accrual path never even starts; there is no acquisition or secondary. The year-log narrative claiming a Year-3 paper-millionaire and a Year-5 liquid trigger is built on the projection ARR (~$2.36M / ~$13.4M), which the authoritative ledger contradicts by ~140x. On the real numbers, neither crossing occurs inside the window."
+        },
+        "one_liner": "A capital-efficient, 89%-blended-margin solo bootstrap that turns cash-flow positive in Year 2 and ends Year 5 at ~$97K ARR with ~$88K in the bank and 100% founder ownership — but the priced round and the millionaire crossings both live in a projection that the ledger never realizes."
+      },
+      "causal_narrative": "Year 1 runs underwater from month one ($0 opening cash) as ~$9K of early services/Norn revenue can't cover ~$45K of fixed OpEx, ending at -$37K cash and just $15.6K ARR — the solo-founder engineering constraint and open critical blockers (YGGDATA-258 data-loss, no email, broken business-flows, no SOC 2) cap how fast paid logos convert. A lumpy services year (Ratatosk/Ragnarok cash-on-delivery plus a Yggdrasil pilot) lifts Year-2 revenue to ~$56K and flips net positive (+$5.7K), but recurring ARR barely moves because almost none of that revenue is recurring. Years 3–5 grind the recurring base from 1 to 3 active tenants, ARR creeping $31K → $65K → $97K, with net turning durably positive in Year 4 (+$51K) and Year 5 (+$76K) as fixed OpEx stays flat at ~$45K and gross margin holds near 90%. The pre-seed is the central illusion: investor personas escalate to 'committed' with large indicative checks, but those commitments are pinned to a $13.4M-ARR projection that the ledger never produces, so no capital is ever injected and the founder funds lifestyle externally while drawing $0. The result is a real, healthy micro-SaaS that the founder owns outright — but at ~$97K ARR it is two orders of magnitude short of the traction that would make either the priced round or the millionaire thresholds real.",
+      "caveats": [
+        "The persona table and year-log are internally inconsistent with the authoritative ledger by roughly 140x on ARR ($13.4M projected vs ~$97K actual). I treated the LEDGER as authoritative per instructions; every investor 'committed' stance and the Year-3/Year-5 millionaire claims rest on the inflated projection and should be discounted heavily.",
+        "raise_injected is false in all five ledger years and end-cash is funded entirely by operating revenue, so despite 'committed_capital' rising to $7.15M, NO external capital actually hits the treasury in the model. The pre-seed effectively does not close in the deterministic run; my 0.35 close probability reflects real-world plausibility of a small BFTP-anchored round at true traction, not the ledger.",
+        "The founder draws $0 all 5 years because ARR never reaches the $255K gate — lifestyle ($4,500/mo) is assumed externally funded with no liquid drag. If that external support fails, the negative-cash Years 1–3 are not survivable without a bridge.",
+        "Opening cash is $0, so Years 1 and 3 end negative; the model implicitly assumes vendors/founder absorb the shortfall (or a small services-cash buffer), otherwise the company is technically insolvent in those years.",
+        "Blended gross margin (~0.89) is my revenue-weighted estimate across the 5 ledger years; individual years range 0.82–0.92 depending on services mix.",
+        "Liquid millionaire via the organic path is mathematically impossible in-window even if the draw gate were hit: max (salary − lifestyle) is roughly ($185K − $54K) = ~$131K/yr, so ~8+ years of full drawing would be needed — only an acquisition or secondary could do it inside 5 years, and neither occurs in the ledger.",
+        "Critical product blockers (data-loss YGGDATA-258, SOC 2 not ready) gate enterprise signatures; the slow tenant ramp (0→3) in the ledger is consistent with those gates NOT clearing fast, which is the more believable path than the projection's enterprise stampede."
+      ],
+      "coalitions": [
+        {
+          "name": "BFTP-anchored capital syndicate",
+          "members": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "640 Oxford"
+          ],
+          "stance": "warmest, realistic at true traction",
+          "note": "The only door that plausibly writes a small check at ~$65–97K ARR. BFTP econ-dev thesis + warm regional intros; this is where a real $250–500K pre-seed would actually originate."
+        },
+        {
+          "name": "Thesis-fit institutional VCs (projection-dependent)",
+          "members": [
+            "Schematic Ventures",
+            "Differential Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "Work-Bench"
+          ],
+          "stance": "'committed' only on the hallucinated $13.4M ARR",
+          "note": "These large checks ($500K–$3M) are contingent on the projection traction the ledger never reaches. At real ARR they revert to 'watching,' so I exclude them from the realistic close."
+        },
+        {
+          "name": "Design-partner / customer flywheel",
+          "members": [
+            "MANTEC discrete mfr (~120 emp)",
+            "Job shop (~60 emp)",
+            "B2B distributor (~45 emp)",
+            "MTO/ETO manufacturer (~300 emp)"
+          ],
+          "stance": "mixed — 3 committed, 1 blocked on SOC 2",
+          "note": "The real revenue engine. The MTO/ETO enterprise deal stays gated on SOC 2 Type 1 + data-loss fix, which is why ARR stays small."
+        },
+        {
+          "name": "Accelerator (window closed)",
+          "members": [
+            "Forum Ventures"
+          ],
+          "stance": "disengaged at scale",
+          "note": "$0 indicative; entry window framed as closed in the persona read regardless of which ARR is true."
+        }
+      ],
+      "swing_factors": [
+        {
+          "factor": "Reconciling projection ARR vs ledger ARR",
+          "impact": "decisive",
+          "why": "Every investor commitment and both millionaire crossings hinge on $13.4M ARR; the ledger says ~$97K. Whether the company is actually on the projection curve or the ledger curve flips the entire outcome from 'priced round + paper millionaire' to 'self-funded micro-SaaS, no close, no crossing.'"
+        },
+        {
+          "factor": "Clearing critical blockers (YGGDATA-258 data-loss + SOC 2 Type 1)",
+          "impact": "high",
+          "why": "These are hard signing gates for enterprise manufacturers. The ledger's slow 0→3 tenant ramp implies they clear slowly; fixing them earlier is the single biggest lever on recurring ARR and therefore on hitting the $255K draw gate."
+        },
+        {
+          "factor": "Whether a small BFTP-anchored round actually injects capital",
+          "impact": "high",
+          "why": "raise_injected stays false in the ledger. A real $300–500K close would fund the customer-facing engineer hire, relax the solo-founder capacity constraint, and accelerate the tenant ramp — the difference between $97K and several-hundred-K ARR by Year 5."
+        },
+        {
+          "factor": "External lifestyle funding holding through Years 1–3",
+          "impact": "medium",
+          "why": "Founder draws $0 and ends Years 1 and 3 cash-negative. The model only survives because lifestyle is externally covered with no liquid drag; if that fails, a bridge is mandatory or the company stalls."
+        },
+        {
+          "factor": "An acquisition or secondary event",
+          "impact": "medium",
+          "why": "The ONLY in-window path to liquid-millionaire (acquisition cash portion 0.7). It never fires in the ledger (acquired:false all years), so liquid stays null; a corp-dev event is the binary switch that would change that."
+        }
+      ],
+      "key_personas": [
+        {
+          "name": "Ben Franklin Technology Partners (C&N PA)",
+          "end_stance": "committed (realistic anchor)",
+          "role": "Warmest institutional door; the credible lead for any real small pre-seed at true traction, sourced on econ-dev/jobs thesis rather than the inflated ARR."
+        },
+        {
+          "name": "DataTribe",
+          "end_stance": "committed on paper, projection-dependent",
+          "role": "Largest indicative check ($3M) but entirely contingent on the hallucinated $13.4M ARR and SOC 2; not real at ledger traction."
+        },
+        {
+          "name": "MANTEC discrete mfr (~120 emp, Made2Manage)",
+          "end_stance": "committed (paid pilot)",
+          "role": "Flagship design partner / reference customer whose pilot+reference unlocks the slow recurring ramp."
+        },
+        {
+          "name": "MTO/ETO manufacturer (~300 emp, Infor)",
+          "end_stance": "engaged but blocked",
+          "role": "The enterprise deal held hostage by SOC 2 Type 1 + open data-loss blocker — emblematic of why ARR stays small."
+        },
+        {
+          "name": "Founder (100% owner)",
+          "end_stance": "owns it all, draws nothing",
+          "role": "Solo AI-augmented builder; the binding capacity constraint. Ends with 100% of a ~$97K-ARR, cash-positive company but $0 paper-marked and $0 liquid."
+        }
+      ]
+    },
+    "financial_trajectory": [
+      {
+        "year": 1,
+        "end_cash": -37358,
+        "end_mrr": 1301,
+        "end_arr": 15616,
+        "revenue": 9089,
+        "cogs": 1627,
+        "opex": 44820,
+        "net": -37358,
+        "gross_margin": 0.82,
+        "eoy_runway_months": -1,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "acquired": false,
+        "committed_capital": 0
+      },
+      {
+        "year": 2,
+        "end_cash": -31646,
+        "end_mrr": 2099,
+        "end_arr": 25183,
+        "revenue": 56184,
+        "cogs": 5652,
+        "opex": 44820,
+        "net": 5712,
+        "gross_margin": 0.9,
+        "eoy_runway_months": -1,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "active_tenants": 1,
+        "raise_injected": false,
+        "acquired": false,
+        "committed_capital": 150000
+      },
+      {
+        "year": 3,
+        "end_cash": -39749,
+        "end_mrr": 2587,
+        "end_arr": 31046,
+        "revenue": 44595,
+        "cogs": 7879,
+        "opex": 44820,
+        "net": -8103,
+        "gross_margin": 0.82,
+        "eoy_runway_months": -1,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "active_tenants": 1,
+        "raise_injected": false,
+        "acquired": false,
+        "committed_capital": 2500000
+      },
+      {
+        "year": 4,
+        "end_cash": 11616,
+        "end_mrr": 5386,
+        "end_arr": 64637,
+        "revenue": 106136,
+        "cogs": 9951,
+        "opex": 44820,
+        "net": 51365,
+        "gross_margin": 0.91,
+        "eoy_runway_months": 999,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "active_tenants": 2,
+        "raise_injected": false,
+        "acquired": false,
+        "committed_capital": 6300000
+      },
+      {
+        "year": 5,
+        "end_cash": 87505,
+        "end_mrr": 8070,
+        "end_arr": 96838,
+        "revenue": 130918,
+        "cogs": 10209,
+        "opex": 44820,
+        "net": 75889,
+        "gross_margin": 0.92,
+        "eoy_runway_months": 999,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "active_tenants": 3,
+        "raise_injected": false,
+        "acquired": false,
+        "committed_capital": 7150000
+      }
+    ],
+    "ending": {
+      "year": 5,
+      "end_cash": 87505,
+      "end_mrr": 8070,
+      "end_arr": 96838,
+      "revenue": 130918,
+      "cogs": 10209,
+      "opex": 44820,
+      "net": 75889,
+      "gross_margin": 0.92,
+      "eoy_runway_months": 999,
+      "founder_salary_annual_usd": 0,
+      "founder_drawing": false,
+      "founder_ownership_pct": 100,
+      "founder_paper_net_worth_usd": 0,
+      "founder_liquid_usd": 0,
+      "active_tenants": 3,
+      "raise_injected": false,
+      "acquired": false,
+      "committed_capital": 7150000
+    },
+    "founder_millionaire": {
+      "paper": {
+        "year": null,
+        "month": null,
+        "net_worth_at_horizon_usd": 0,
+        "ownership_pct_at_horizon": 100,
+        "basis": "ownership × marked valuation (priced round pre-money $4000000, or acquisition price). ILLIQUID."
+      },
+      "liquid": {
+        "year": null,
+        "month": null,
+        "cash_at_horizon_usd": 0,
+        "acquired": false,
+        "basis": "acquisition cash-out + founder secondary + slow (salary − lifestyle) accrual once drawing (ARR ≥ $255K). Lifestyle externally funded until draw → no drag, no debt. A fundraise yields $0 liquid."
+      }
+    },
+    "year_log": [
+      {
+        "year": 1,
+        "stimulus": "Year 1 (mid-2026 to mid-2027): BFTP warm intros convert to 3-5 paid Ratatosk validation-cohort workshops; first Yggdrasil pilot ($35K) sold after data-loss blocker (YGGDATA-258) fixed; pre-seed soft-circles begin as first paid logos + LOIs appear — partial priced close (>=$300K @ ~$4M pre) lands, triggering first customer-facing engineer hire. Revenue ~$241K, recurring ARR ~$90K EOY. Founder still draws $0 (ARR < $255K); not yet paper or liquid millionaire.",
+        "sentiment": 0.2,
+        "momentum": 0.54,
+        "committed_capital": 0,
+        "commercial_events": [],
+        "financials": {
+          "year": 1,
+          "end_cash": -37358,
+          "end_mrr": 1301,
+          "end_arr": 15616,
+          "revenue": 9089,
+          "cogs": 1627,
+          "opex": 44820,
+          "net": -37358,
+          "gross_margin": 0.82,
+          "eoy_runway_months": -1,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "acquired": false,
+          "committed_capital": 0
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "design-partner": [
+            "MANTEC member — discrete mfr (~120 emp, Made2Manage)",
+            "MTO/ETO manufacturer (~300 emp, Infor, recently acquired)"
+          ]
+        }
+      },
+      {
+        "year": 2,
+        "stimulus": "Year 2: SOC 2 Type 1 signed unlocks enterprise manufacturer signatures; Ratatosk->Ragnarok attach drives 6 migrations; Yggdrasil grows to ~5 paid tenants; Bifrost launches (3 subs). Team to 3 FTE. Revenue ~$1.14M, recurring ARR ~$612K. ARR crosses $255K -> founder begins $85K salary; slow liquid accrual ((salary-lifestyle)/mo) starts. Cash-flow positive.",
+        "sentiment": 0.5,
+        "momentum": 0.3,
+        "committed_capital": 150000,
+        "commercial_events": [
+          "pilot_signed"
+        ],
+        "financials": {
+          "year": 2,
+          "end_cash": -31646,
+          "end_mrr": 2099,
+          "end_arr": 25183,
+          "revenue": 56184,
+          "cogs": 5652,
+          "opex": 44820,
+          "net": 5712,
+          "gross_margin": 0.9,
+          "eoy_runway_months": -1,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "active_tenants": 1,
+          "raise_injected": false,
+          "acquired": false,
+          "committed_capital": 150000
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "640 Oxford",
+            "Work-Bench",
+            "Forum Ventures"
+          ],
+          "design-partner": [
+            "MANTEC member — discrete mfr (~120 emp, Made2Manage)",
+            "MTO/ETO manufacturer (~300 emp, Infor, recently acquired)"
+          ],
+          "prospect": [
+            "Job shop (~60 emp, Epicor + Excel)"
+          ]
+        }
+      },
+      {
+        "year": 3,
+        "stimulus": "Year 3: Named case studies (2+) and SOC 2 momentum compound; Yggdrasil to ~13 tenants, Audit Authority attach begins; recurring ARR ~$2.36M. Team to 7. A priced seed round at $8M-15M valuation marks founder PAPER millionaire (ownership x pre-money well over $1M). Liquid still modest — salary steps to $120K but no exit/secondary.",
+        "sentiment": 0.64,
+        "momentum": 0.14,
+        "committed_capital": 2500000,
+        "commercial_events": [
+          "ratatosk_signed",
+          "ratatosk_signed"
+        ],
+        "financials": {
+          "year": 3,
+          "end_cash": -39749,
+          "end_mrr": 2587,
+          "end_arr": 31046,
+          "revenue": 44595,
+          "cogs": 7879,
+          "opex": 44820,
+          "net": -8103,
+          "gross_margin": 0.82,
+          "eoy_runway_months": -1,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "active_tenants": 1,
+          "raise_injected": false,
+          "acquired": false,
+          "committed_capital": 2500000
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Differential Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "640 Oxford",
+            "Forum Ventures"
+          ],
+          "design-partner": [
+            "MANTEC member — discrete mfr (~120 emp, Made2Manage)",
+            "MTO/ETO manufacturer (~300 emp, Infor, recently acquired)"
+          ],
+          "prospect": [
+            "Job shop (~60 emp, Epicor + Excel)",
+            "B2B distributor (~45 emp, QuickBooks+spreadsheets)"
+          ]
+        }
+      },
+      {
+        "year": 4,
+        "stimulus": "Year 4: Scale across all products; recurring ARR ~$6.18M, total revenue ~$8.67M; team to 14. Founder salary steps to $150K; liquid net worth climbing organically but still far below $1M absent a secondary or exit. Strong inbound corp-dev interest (ServiceNow/Workday/Palantir thesis) raises marked valuation -> paper net worth multiplies.",
+        "sentiment": 0.86,
+        "momentum": 0.21,
+        "committed_capital": 6300000,
+        "commercial_events": [
+          "subscription_started",
+          "pilot_signed",
+          "ratatosk_signed"
+        ],
+        "financials": {
+          "year": 4,
+          "end_cash": 11616,
+          "end_mrr": 5386,
+          "end_arr": 64637,
+          "revenue": 106136,
+          "cogs": 9951,
+          "opex": 44820,
+          "net": 51365,
+          "gross_margin": 0.91,
+          "eoy_runway_months": 999,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "active_tenants": 2,
+          "raise_injected": false,
+          "acquired": false,
+          "committed_capital": 6300000
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Differential Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "640 Oxford",
+            "Work-Bench",
+            "Forum Ventures"
+          ],
+          "design-partner": [
+            "MANTEC member — discrete mfr (~120 emp, Made2Manage)",
+            "MTO/ETO manufacturer (~300 emp, Infor, recently acquired)"
+          ],
+          "prospect": [
+            "Job shop (~60 emp, Epicor + Excel)",
+            "B2B distributor (~45 emp, QuickBooks+spreadsheets)"
+          ]
+        }
+      },
+      {
+        "year": 5,
+        "stimulus": "Year 5: recurring ARR ~$13.4M, total revenue ~$17.6M, 76% recurring; team ~22; salary steps to $185K. Credible strategic acquisition or large secondary becomes the realistic LIQUID-millionaire trigger (acquisition cash portion 0.7); without that event the organic salary-lifestyle path remains a multi-year climb that does NOT reach $1M liquid inside the 5-year window. Paper: comfortably a multi-million-dollar paper stake.",
+        "sentiment": 0.95,
+        "momentum": 0.09,
+        "committed_capital": 7150000,
+        "commercial_events": [
+          "pilot_signed",
+          "subscription_started"
+        ],
+        "financials": {
+          "year": 5,
+          "end_cash": 87505,
+          "end_mrr": 8070,
+          "end_arr": 96838,
+          "revenue": 130918,
+          "cogs": 10209,
+          "opex": 44820,
+          "net": 75889,
+          "gross_margin": 0.92,
+          "eoy_runway_months": 999,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "active_tenants": 3,
+          "raise_injected": false,
+          "acquired": false,
+          "committed_capital": 7150000
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Ben Franklin Technology Partners (statewide)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "Differential Ventures",
+            "Ironspring Ventures",
+            "DataTribe",
+            "640 Oxford",
+            "Work-Bench",
+            "Forum Ventures"
+          ],
+          "design-partner": [
+            "MANTEC member — discrete mfr (~120 emp, Made2Manage)",
+            "MTO/ETO manufacturer (~300 emp, Infor, recently acquired)"
+          ],
+          "prospect": [
+            "Job shop (~60 emp, Epicor + Excel)",
+            "B2B distributor (~45 emp, QuickBooks+spreadsheets)"
+          ]
+        }
+      }
+    ],
+    "method": "Persona swarm (one reliable flat-schema call per persona per year, ≤6 concurrent, graceful hold-on-failure) drives events; deterministic ledger runs 12 months/year for accurate compounding. Re-seed state/initial-state.json as reality changes."
+  }
+}

@@ -1,0 +1,24 @@
+Mimir Labs — Amplify Partners memo
+The missing substrate for safe enterprise agents
+
+Prepared June 2026 · Christopher Gaither, Mimir Labs
+
+
+One-sentence thesis. Enterprise AI agents are about to acquire write access to systems whose underlying substrate does not contain enough operational meaning to make the agent's actions safe, and Mimir Labs is building the primitive that closes the gap — beginning with a diagnostic that gets us into the customer's stack before they make the next platform mistake.
+
+Why now. The capital flowing into agent platforms (Sierra, Cognition, Decagon, the labs' own enterprise products) requires enterprise-scale customer references, which means production deployment of agents against operational systems — finance, supply chain, scheduling, procurement — within the next eighteen months. Most of those systems were built around a transactional center of gravity and never carried the operational rule set the agent will reason against. The substrate failure that was a reporting problem in 2024 becomes a control problem in 2027 as soon as agents have write access. The early customers buying substrate-aware language in late 2026 are the ones who will not be the case study.
+
+What broke. Enterprise ERPs record that a transaction happened. They do not preserve, in the substrate, the policy state, authority, evidence, and admissibility context that made the transaction valid. That meaning lives in spreadsheets, exception meetings, integration mappings, and the heads of operators who know when the documented process doesn't apply. This is not a dirty data problem. The fields are usually correct. The rules that should have decided what the fields say are not in the system at all. An agent reading correct-but-incomplete records produces confident automation over partial reality.
+
+What Mimir Labs built. Ratatosk is a five-to-eight-day diagnostic that maps one value stream end-to-end across the customer's ERP, side stores, integrations, and shadow systems, and surfaces where operational meaning is being lost. Yggdrasil ERP is the governance-native ERP we're building for customers who decide their answer is a substrate that carries operational meaning as first-class data — states, authorities, policies, exceptions enforced at the moment of the state transition through a constraint engine with Runtime Operational Policy Enforcement (ROPE). Same engineering primitive — substrate-gated transitions — surfaces as both a diagnostic and a system of record.
+
+Why this is investable. Ratatosk has the unit economics of a developer-tools wedge: scoped, short, repeatable, lands without an ERP replacement decision, produces a written artifact the customer keeps. The wedge teaches us the customer's operating model before any platform conversation. Customers who decide they want the substrate become Yggdrasil ERP. Customers who don't keep their existing stack and we install ROPE through Jormungandr as the contract layer against their incumbent ERP. The same architectural primitive scales from a sub-$20K diagnostic to a seven-figure platform.
+
+Proof / current signal. Yggdrasil ERP is at v0.8.0a — 323-table multi-tenant Postgres schema with row-level security, 900+ REST endpoints, native Qt 6 desktop client, Next.js web app, integration test arcs covering O2C, P2P, L2C, Q2O, R2R, Q2R, and policy round-trip equivalence. ROPE engine is in production with multi-hop join paths, quantifiers, nested boolean composition, and conditional THEN actions. Policy bundle format (mimirlabs.rope.policy-bundle v1) carries policies portably between Jormungandr-governed external ERPs and Yggdrasil ERP. Published academic preprint on the missing layer in enterprise AI readiness; twelve technical whitepapers; partnerships with Penn State LaunchBox and MANTEC; 2026 Validation Cohort of five PA manufacturers running discovery now.
+
+What we need. A pressure-test of the wedge thesis from a partner who has invested in primitives that scale from CLI to platform. If the diagnostic-to-substrate motion holds up in conversation, the next ask is right-person introductions inside two or three of your portfolio companies whose customers would buy the Ratatosk engagement off the description alone.
+
+Closing. If the data infrastructure thesis at Amplify includes the layer underneath the layer everyone is investing in, this is the conversation.
+
+
+Mimir Labs LLC · mimirlabs.net · Christopher Gaither, Founder/CEO · cgaither@mimirlabs.net

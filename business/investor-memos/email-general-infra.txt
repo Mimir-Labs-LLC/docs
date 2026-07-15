@@ -1,0 +1,24 @@
+Subject: Mimir Labs — governed substrate for enterprise agents
+
+
+Hi [first name],
+
+Quick note. I'm building Mimir Labs. The thesis in one sentence: enterprise AI agents are about to acquire write access to systems whose substrate does not contain enough operational meaning to make the agent's actions safe, and the substrate gap is what every current AI infrastructure bet sits on top of.
+
+Most enterprises have a system of record. They do not necessarily have a system of reality. The ERP records that the transaction happened. The rules that made it valid — policy state, authority, evidence, admissibility, version — live in spreadsheets, exception meetings, integration mappings, and operators' heads. Human operators absorbed the missingness. Agents will not. This is not a dirty data problem; the fields are correct. It is a missing-rule problem on the write path.
+
+Our wedge is Ratatosk — a five-to-eight-day diagnostic that walks one value stream end-to-end across the customer's systems and side stores and surfaces where operational meaning is being lost. The strategic destination is Yggdrasil ERP, a governance-native ERP where every state transition is gated by Runtime Operational Policy Enforcement at the database layer rather than described in documentation.
+
+Status: v0.8.0a in alpha, full 10-module ERP, 900+ endpoints, native desktop + web clients, multi-tenant Postgres with row-level security, integration test arcs covering end-to-end business processes including portable policy round-trip equivalence. Twelve technical whitepapers; academic preprint on AI-readiness substrate gaps. Penn State LaunchBox + MANTEC partnerships; 2026 Validation Cohort in discovery.
+
+Two asks:
+
+1. A short call to pressure-test the substrate thesis. Twenty minutes.
+2. If it lands, an introduction to the right person at the firm — or in your portfolio — who should see this.
+
+Founder-led, technical, pre-revenue by design. Happy to send the whitepapers and preprint ahead of the call.
+
+Best,
+Christopher Gaither
+Mimir Labs
+mimirlabs.net

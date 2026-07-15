@@ -1,0 +1,568 @@
+{
+  "summary": "Lightweight MiroFish-style 6-month operating forecast: persona swarm (investors + customers) + deterministic monthly P&L/cash ledger (MRR, COGS, burn, runway, raise)",
+  "agentCount": 32,
+  "logs": [
+    "Plan: 1 distill + 6×5 reactors + 1 synth ≈ 32 agents, ≤6 concurrent. Ledger is free JS.",
+    "M1: cash $-3,625, MRR $134, burn $3625, runway -1mo, committed $0",
+    "M2: cash $-343, MRR $263, burn $-3281, runway 999mo, committed $0",
+    "parallel[0] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[1] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[2] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[3] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[4] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "M3: cash $-3,760, MRR $387, burn $3417, runway -1.1mo, committed $0",
+    "parallel[0] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[1] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[2] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[4] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "M4: cash $-280, MRR $506, burn $-3481, runway 999mo, committed $0",
+    "parallel[0] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[1] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[2] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[3] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "parallel[4] failed: agent({schema}): subagent completed without calling StructuredOutput (after 2 in-conversation nudges)",
+    "M5: cash $-3,506, MRR $620, burn $3226, runway -1.1mo, committed $0",
+    "M6: cash $-6,641, MRR $730, burn $3136, runway -2.1mo, committed $100000"
+  ],
+  "result": {
+    "question": "Model Mimir Labs' next 6 months: MRR generation, burn (incl. COGS), runway, and whether/when the $500K pre-seed closes — month by month.",
+    "config": {
+      "personas": 14,
+      "months": 6,
+      "personas_per_agent": 3,
+      "concurrency_cap": 6,
+      "approx_agents_used": 32
+    },
+    "report": {
+      "question": "Model Mimir Labs' next 6 months: MRR generation, burn (incl. COGS), runway, and whether/when the $500K pre-seed closes — month by month.",
+      "prediction": {
+        "headline": "A partial ~$300–400K pre-seed triggers at month 6 on the strength of two engaged manufacturers, first paid services, and a closing-momentum narrative — but with a 1-month close lag, cash actually lands in month 7, just outside the 6-month horizon. In-horizon, the round is committed/closing but not yet funded, and the company runs underwater the whole way.",
+        "primary_probability": 0.55,
+        "confidence": 0.5,
+        "distribution": {
+          "closes": 0.45,
+          "partial_or_bridge": 0.4,
+          "stalls": 0.15
+        },
+        "likely_lead": "Ben Franklin Technology Partners (C&N PA) anchoring (~$100K econ-dev check), with Schematic Ventures ($150K) and 640 Oxford ($150K) filling the partial round; Robin Hood Ventures warm via BFTP",
+        "terms_estimate": "Priced preferred, ~$3.5–4M pre-money (repriced down from the $5M / $500K ask); min-viable close $300K, realistic partial $300–400K of the $500K target",
+        "timeline": "Indicative interest crosses min-viable (~$300K) around month 4–5; round 'triggers to close' month 6; proceeds land month 7 after the 1-month close lag and trigger the first hire (customer-facing engineer) in month 8."
+      },
+      "financial_outlook": {
+        "ending_cash_usd": -6641,
+        "ending_recurring_mrr_usd": 730,
+        "ending_arr_usd": 8759,
+        "blended_gross_margin": 0.82,
+        "ending_net_burn_usd": 3136,
+        "ending_runway_months": -2.1,
+        "cash_out_month_or_null": 1,
+        "raise_close_month_or_null": 6,
+        "revenue_6mo_usd": 26200,
+        "founder_millionaire": {
+          "paper_month_or_null": null,
+          "liquid_month_or_null": null,
+          "note": "PAPER stays null in-horizon: although the round triggers/closes at month 6, the ledger shows raise_injected:false and founder_paper_net_worth_usd:$0 for all six months — the priced mark is only realized once proceeds actually land (month 7, out of horizon). Even then, a fundraise marks PAPER (~$3.5–4M × ~99% post-dilution ownership) but yields ~$0 LIQUID. LIQUID stays null throughout: founder draws $0 salary (ARR $8.8K << $255K trigger), there is no exit and no secondary, so the slow organic (salary − lifestyle) path contributes nothing yet."
+        },
+        "one_liner": "Six months of pure burn on $0 opening cash — recurring MRR climbs to a thin $730/mo while episodic $8K Ratatosk diagnostics keep two months cash-positive, but the company is underwater every month (ending cash −$6.6K) and the closing pre-seed funds in month 7, just past the horizon."
+      },
+      "causal_narrative": "With $0 opening cash, Mimir is underwater from month 1; the only thing keeping it alive is event-driven services cash — two $8K Ratatosk diagnostics (months 2 and 4) flip those months net-positive, but the off months bleed the steady ~$3,735 non-draw OpEx against negligible MRR, leaving ending cash at −$6,641. Fixing the critical data-loss blocker (YGGDATA-258) and broken business-flow transitions unlocked the first paid diagnostic, a design-partner LOI, and a first Norn seat, which in turn moved BFTP, Schematic, Robin Hood, and 640 Oxford toward a closing partial round at month 6. The crucial reconciliation: the ledger never injects the raise (raise_injected:false all six months, paper net worth $0) because the priced close carries a 1-month lag — it triggers in month 6 but funds in month 7, so in-horizon the runway stays negative and the company survives on services float, not on the round. SOC 2 still not being ready and the food/beverage Yggdrasil pilot being SOC-2-contingent are the brakes that keep recurring revenue thin and several investors (DataTribe, Differential, Stage 2) on the sidelines.",
+      "caveats": [
+        "The month log narrative says the round 'closes' at month 6, but the authoritative ledger shows raise_injected:false and founder_paper_net_worth_usd:$0 for ALL six months — so no cash injection or paper mark is realized in-horizon. The close/funding lands in month 7 due to the 1-month close lag. Treat the in-horizon raise as committed-but-not-funded.",
+        "Ending cash is negative (−$6,641) every month after month 1; the company is technically insolvent on a cash basis throughout and only survives by timing $8K diagnostics against monthly OpEx. A single missed diagnostic or a 1-month slip in the raise creates a real cash-out event that the model papers over.",
+        "Runway_months in the ledger is mechanically negative (or 999 in cash-positive months) because cash is negative — it is not a meaningful 'months of runway' figure; read it as 'already underwater.'",
+        "MRR is extremely thin ($730/mo = $8.8K ARR) — three orders of magnitude below the $255K founder-draw trigger and the $500K seed milestone. The 6-month revenue is overwhelmingly one-time services ($16K diagnostics) plus a contingent $35K Yggdrasil pilot booking, not durable recurring revenue.",
+        "The Yggdrasil pilot ($35K, signed month 5) is contingent on SOC 2 Type 1 readiness, which is still in Phase 3 with three controls not started — if SOC 2 slips, that pilot revenue and the food/beverage prospect both fall away.",
+        "The raise probability (0.55) and partial-vs-full split are sensitive: gates for several investors (paid LOIs, production deploy, SOC 2) remain unmet, so the realistic outcome is a partial $300–400K, not the full $500K ask.",
+        "Founder is solo (1 FTE, the binding constraint); the first hire only triggers post-funding (month 8), so execution capacity stays maxed out through the entire horizon, capping how fast blockers clear and pilots deploy."
+      ],
+      "coalitions": [
+        "Capital / closing syndicate (month 6): Ben Franklin Technology Partners C&N PA (~$100K anchor, engaged) + Schematic Ventures ($150K, interested) + 640 Oxford ($150K, interested) + Robin Hood Ventures (warm via BFTP, interested) — the partial-round coalition.",
+        "Capital / on-the-fence, traction-gated: Ben Franklin statewide (curious), Ironspring (curious, needs production deploy), Work-Bench (curious, needs enterprise logos), Stage 2 Capital (curious, needs paid LOIs).",
+        "Capital / thesis-blocked by SOC 2 + data-loss: Differential Ventures (skeptical, data-infra unproven), DataTribe (cold, security/compliance unproven).",
+        "Revenue-generating customer coalition: South-Central PA precision metal fabricator (engaged, two $8K Ratatosk diagnostics) + CNC/contract machine shop (design-partner LOI signed) + industrial distributor (Norn paid seat, $140/mo MRR).",
+        "SOC-2-contingent / not-yet-converted: South-Central PA food/beverage processor (curious; $35K Yggdrasil pilot signed but gated on SOC 2 Type 1 readiness)."
+      ],
+      "swing_factors": [
+        {
+          "factor": "1-month raise close lag vs. the 6-month horizon",
+          "impact": "high",
+          "why": "The round triggers in month 6 but funds in month 7. The entire 'raise closes in-horizon' answer hinges on whether you count the trigger or the wire — the ledger counts the wire (raise_injected:false), so cash never resets before the horizon ends."
+        },
+        {
+          "factor": "Episodic services cash timing (Ratatosk $8K diagnostics)",
+          "impact": "high",
+          "why": "With $0 opening cash and ~$3,735/mo OpEx, the two diagnostics in months 2 and 4 are the only thing preventing a hard cash-out. Slipping either by a month turns survival into insolvency."
+        },
+        {
+          "factor": "SOC 2 Type 1 readiness",
+          "impact": "high",
+          "why": "Gates the $35K Yggdrasil pilot conversion, the $2.5K/mo subscription that would meaningfully lift MRR, and the conviction of security-thesis investors (DataTribe, Differential). It is still Phase 3 with three controls not started."
+        },
+        {
+          "factor": "Open critical/high blockers (YGGDATA-258 data loss, 262 broken transitions, 144 email)",
+          "impact": "medium",
+          "why": "Clearing 258 and 262 unlocked the first paid diagnostic and the design-partner LOI; remaining gaps and thin test coverage keep prospects 'evaluating' and cap willingness to sign or deploy in production."
+        },
+        {
+          "factor": "Size of the partial close ($300K min-viable vs. $500K ask)",
+          "impact": "medium",
+          "why": "Determines post-raise runway and whether the first hire and SOC 2 audit outlay are affordable. A bare $300K close leaves little margin after the $20K SOC 2 audit and $110K/yr hire."
+        },
+        {
+          "factor": "Solo-founder capacity (1 FTE binding constraint)",
+          "impact": "medium",
+          "why": "First hire is post-funding (month 8). Through the whole horizon the founder must simultaneously fix blockers, run SOC 2, deliver diagnostics, and fundraise — any one slipping cascades into the others."
+        }
+      ],
+      "key_personas": [
+        {
+          "name": "Ben Franklin Technology Partners (C&N PA)",
+          "end_stance": "engaged — soft-circles ~$100K econ-dev check; the open-thread anchor whose pilot-pipeline ask is satisfied by the closing round + two engaged manufacturers",
+          "role": "Lead / anchor of the closing syndicate"
+        },
+        {
+          "name": "Schematic Ventures",
+          "end_stance": "interested — $150K indicative; manufacturer-conversation gate cleared by the fabricator + machine shop",
+          "role": "Co-investor in partial round"
+        },
+        {
+          "name": "640 Oxford",
+          "end_stance": "interested — $150K indicative; why-now (AI agents + compliance) hook tied to first recurring revenue",
+          "role": "Co-investor in partial round"
+        },
+        {
+          "name": "South-Central PA precision metal fabricator (~80 emp)",
+          "end_stance": "engaged — signed two $8K Ratatosk diagnostics; the primary services-cash source keeping the company alive",
+          "role": "Revenue-generating prospect / reference"
+        },
+        {
+          "name": "South-Central PA CNC/contract machine shop (~40 emp)",
+          "end_stance": "engaged — design-partner LOI signed after broken transitions fixed; progressing toward Yggdrasil pilot scoping",
+          "role": "Design partner"
+        },
+        {
+          "name": "South-Central PA food/beverage processor (~120 emp)",
+          "end_stance": "curious — $35K Yggdrasil pilot signed but contingent on SOC 2 Type 1; pilot gate stays shut until SOC 2 readies",
+          "role": "Pilot prospect (gated)"
+        },
+        {
+          "name": "DataTribe",
+          "end_stance": "cold — SOC 2 not ready + open data-loss blocker leave the security/compliance story unproven",
+          "role": "Sidelined capital (thesis-blocked)"
+        }
+      ]
+    },
+    "financial_trajectory": [
+      {
+        "month": 1,
+        "cash": -3625,
+        "recurring_mrr": 134,
+        "arr_usd": 1613,
+        "one_time_rev": 0,
+        "cogs": 24,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": -3625,
+        "net_burn": 3625,
+        "runway_months": -1,
+        "gross_margin": 0.82,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      },
+      {
+        "month": 2,
+        "cash": -343,
+        "recurring_mrr": 263,
+        "arr_usd": 3161,
+        "one_time_rev": 8000,
+        "cogs": 1247,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": 3281,
+        "net_burn": -3281,
+        "runway_months": 999,
+        "gross_margin": 0.85,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      },
+      {
+        "month": 3,
+        "cash": -3760,
+        "recurring_mrr": 387,
+        "arr_usd": 4647,
+        "one_time_rev": 0,
+        "cogs": 69,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": -3417,
+        "net_burn": 3417,
+        "runway_months": -1.1,
+        "gross_margin": 0.82,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      },
+      {
+        "month": 4,
+        "cash": -280,
+        "recurring_mrr": 506,
+        "arr_usd": 6074,
+        "one_time_rev": 8000,
+        "cogs": 1291,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": 3481,
+        "net_burn": -3481,
+        "runway_months": 999,
+        "gross_margin": 0.85,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      },
+      {
+        "month": 5,
+        "cash": -3506,
+        "recurring_mrr": 620,
+        "arr_usd": 7444,
+        "one_time_rev": 0,
+        "cogs": 111,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": -3226,
+        "net_burn": 3226,
+        "runway_months": -1.1,
+        "gross_margin": 0.82,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      },
+      {
+        "month": 6,
+        "cash": -6641,
+        "recurring_mrr": 730,
+        "arr_usd": 8759,
+        "one_time_rev": 0,
+        "cogs": 131,
+        "opex": 3735,
+        "founder_salary_annual_usd": 0,
+        "founder_drawing": false,
+        "net": -3136,
+        "net_burn": 3136,
+        "runway_months": -2.1,
+        "gross_margin": 0.82,
+        "active_tenants": 0,
+        "raise_injected": false,
+        "founder_ownership_pct": 100,
+        "founder_paper_net_worth_usd": 0,
+        "founder_liquid_usd": 0,
+        "acquired": false
+      }
+    ],
+    "ending": {
+      "month": 6,
+      "cash": -6641,
+      "recurring_mrr": 730,
+      "arr_usd": 8759,
+      "one_time_rev": 0,
+      "cogs": 131,
+      "opex": 3735,
+      "founder_salary_annual_usd": 0,
+      "founder_drawing": false,
+      "net": -3136,
+      "net_burn": 3136,
+      "runway_months": -2.1,
+      "gross_margin": 0.82,
+      "active_tenants": 0,
+      "raise_injected": false,
+      "founder_ownership_pct": 100,
+      "founder_paper_net_worth_usd": 0,
+      "founder_liquid_usd": 0,
+      "acquired": false
+    },
+    "founder_millionaire": {
+      "paper": {
+        "month": null,
+        "net_worth_at_horizon_usd": 0,
+        "ownership_pct_at_horizon": 100,
+        "basis": "ownership × marked valuation (priced round pre-money $4000000, or acquisition price). ILLIQUID; SAFE/notes do not mark until conversion."
+      },
+      "liquid": {
+        "month": null,
+        "cash_at_horizon_usd": 0,
+        "acquired": false,
+        "basis": "actual founder cash: acquisition cash-out + founder secondary + slow (salary − lifestyle) accrual. Founder draws $0 until ARR ≥ 3× the $85K base ($255K), so the salary path contributes nothing early. A priced fundraise yields $0 liquid — proceeds go to the company. Reaching $1M via salary alone is a multi-year climb."
+      }
+    },
+    "month_log": [
+      {
+        "month": 1,
+        "stimulus": "Month 1 (Jun 2026): Founder fixes critical blocker YGGDATA-258 (data-loss on restart) and stands up demo-env with sample data; sends BFTP follow-up asking for investor + pilot intros; opens 2-3 South-Central PA manufacturer discovery calls (metalfab, CNC shop). No revenue. Pure burn against $0 cash — tests survivability and whether any services cash can be pulled forward.",
+        "sentiment": -0.2,
+        "momentum": -0.16,
+        "committed_capital": 0,
+        "commercial_events": [],
+        "financials": {
+          "month": 1,
+          "cash": -3625,
+          "recurring_mrr": 134,
+          "arr_usd": 1613,
+          "one_time_rev": 0,
+          "cogs": 24,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": -3625,
+          "net_burn": 3625,
+          "runway_months": -1,
+          "gross_margin": 0.82,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      },
+      {
+        "month": 2,
+        "stimulus": "Month 2 (Jul 2026): First paid Ratatosk diagnostic ($8K) signed with metal fabricator after demo-env shown; founder repairs broken business-flow transitions (YGGDATA-262) and email (YGGDATA-144). BFTP routes a warm intro to Robin Hood Ventures; one investor (BFTP) moves to meeting. First services cash partially offsets burn.",
+        "sentiment": 0.16,
+        "momentum": 0.36,
+        "committed_capital": 0,
+        "commercial_events": [
+          "ratatosk_signed"
+        ],
+        "financials": {
+          "month": 2,
+          "cash": -343,
+          "recurring_mrr": 263,
+          "arr_usd": 3161,
+          "one_time_rev": 8000,
+          "cogs": 1247,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": 3281,
+          "net_burn": -3281,
+          "runway_months": 999,
+          "gross_margin": 0.85,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "prospect": [
+            "South-Central PA precision metal fabricator (~80 emp)",
+            "South-Central PA industrial distributor (~60 emp)"
+          ],
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      },
+      {
+        "month": 3,
+        "stimulus": "Month 3 (Aug 2026): CNC shop signs design-partner LOI (broken transitions now fixed); first Norn paid seat from distributor ($140/mo MRR begins). SOC 2 Phase 3 controls (3.1/3.2/3.3) started; pen test engaged. 2-3 investors (Robin Hood, Schematic, Ironspring) move to meeting on the strength of pilot pipeline + first paid diagnostic.",
+        "sentiment": 0.16,
+        "momentum": 0,
+        "committed_capital": 0,
+        "commercial_events": [],
+        "financials": {
+          "month": 3,
+          "cash": -3760,
+          "recurring_mrr": 387,
+          "arr_usd": 4647,
+          "one_time_rev": 0,
+          "cogs": 69,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": -3417,
+          "net_burn": 3417,
+          "runway_months": -1.1,
+          "gross_margin": 0.82,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "prospect": [
+            "South-Central PA precision metal fabricator (~80 emp)",
+            "South-Central PA industrial distributor (~60 emp)"
+          ],
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      },
+      {
+        "month": 4,
+        "stimulus": "Month 4 (Sep 2026): Second Ratatosk diagnostic ($8K); design partner converts toward a Yggdrasil pilot scoping. SOC 2 Type 1 audit engaged ($20K one-time outlay). BFTP soft-circles a check; Schematic + 640 Oxford enter diligence. Soft-circled interest crosses the $300K min-viable threshold but is still rising.",
+        "sentiment": 0.2,
+        "momentum": 0.04,
+        "committed_capital": 0,
+        "commercial_events": [
+          "ratatosk_signed"
+        ],
+        "financials": {
+          "month": 4,
+          "cash": -280,
+          "recurring_mrr": 506,
+          "arr_usd": 6074,
+          "one_time_rev": 8000,
+          "cogs": 1291,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": 3481,
+          "net_burn": -3481,
+          "runway_months": 999,
+          "gross_margin": 0.85,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "prospect": [
+            "South-Central PA precision metal fabricator (~80 emp)",
+            "South-Central PA industrial distributor (~60 emp)"
+          ],
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      },
+      {
+        "month": 5,
+        "stimulus": "Month 5 (Oct 2026): First Yggdrasil pilot ($35K one-time + path to $2.5K/mo subscription) signed with food/beverage processor contingent on SOC 2 Type 1 readiness; named case study from first diagnostic published. Committed-indicative interest firms and stops rising at >= min-viable ($300-400K) — round triggers to close.",
+        "sentiment": 0.2,
+        "momentum": 0,
+        "committed_capital": 0,
+        "commercial_events": [],
+        "financials": {
+          "month": 5,
+          "cash": -3506,
+          "recurring_mrr": 620,
+          "arr_usd": 7444,
+          "one_time_rev": 0,
+          "cogs": 111,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": -3226,
+          "net_burn": 3226,
+          "runway_months": -1.1,
+          "gross_margin": 0.82,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)"
+          ],
+          "prospect": [
+            "South-Central PA precision metal fabricator (~80 emp)",
+            "South-Central PA industrial distributor (~60 emp)"
+          ],
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      },
+      {
+        "month": 6,
+        "stimulus": "Month 6 (Nov 2026): Priced pre-seed closes at ~$300-400K (partial of $500K ask, ~$4M pre-money); proceeds land after 1-month close lag and trigger first hire (customer-facing engineer, $9,167/mo, 1-mo onboarding lag). Recurring MRR now Norn seats + Yggdrasil subscription; runway resets from underwater to funded. Founder still draws $0 (ARR << $255K).",
+        "sentiment": 0.34,
+        "momentum": 0.14,
+        "committed_capital": 100000,
+        "commercial_events": [],
+        "financials": {
+          "month": 6,
+          "cash": -6641,
+          "recurring_mrr": 730,
+          "arr_usd": 8759,
+          "one_time_rev": 0,
+          "cogs": 131,
+          "opex": 3735,
+          "founder_salary_annual_usd": 0,
+          "founder_drawing": false,
+          "net": -3136,
+          "net_burn": 3136,
+          "runway_months": -2.1,
+          "gross_margin": 0.82,
+          "active_tenants": 0,
+          "raise_injected": false,
+          "founder_ownership_pct": 100,
+          "founder_paper_net_worth_usd": 0,
+          "founder_liquid_usd": 0,
+          "acquired": false
+        },
+        "coalitions": {
+          "capital": [
+            "Ben Franklin Technology Partners (C&N PA)",
+            "Robin Hood Ventures",
+            "Schematic Ventures",
+            "640 Oxford"
+          ],
+          "prospect": [
+            "South-Central PA precision metal fabricator (~80 emp)",
+            "South-Central PA industrial distributor (~60 emp)"
+          ],
+          "design-partner": [
+            "South-Central PA CNC/contract machine shop (~40 emp)"
+          ]
+        }
+      }
+    ],
+    "method": "Persona swarm (investors + customers, mean-field contagion) drives events; deterministic monthly ledger does the P&L/cash accounting. Single-pass emergent estimate. Re-seed state/initial-state.json (esp. opening_cash_usd) as reality changes."
+  }
+}

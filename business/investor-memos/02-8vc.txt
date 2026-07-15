@@ -1,0 +1,24 @@
+Mimir Labs — 8VC memo
+Canonical operational infrastructure for manufacturing, logistics, and defense-adjacent enterprises
+
+Prepared June 2026 · Christopher Gaither, Mimir Labs
+
+
+One-sentence thesis. Industrial enterprises run on substrates that lost operational meaning thirty years ago, and Mimir Labs is the canonical operating substrate the next generation of industrial software was supposed to be built on but wasn't — starting with a diagnostic that exposes the gap in the customer's current ERP/MES/WMS sprawl before a migration or AI-deployment makes it permanent.
+
+Why now. Industrial operations are under three concurrent pressures: ERP fleets aging into forced replacement decisions, AI deployment pushing into operational systems faster than the substrate was designed to support, and defense-adjacent compliance (CMMC Level 2, AS9100, ITAR audit posture) requiring evidence the existing systems cannot produce on demand. The customers feeling all three are the ones who recognize that the answer is not another tier of consulting. It is a substrate whose default behavior is auditable, deterministic, and resistant to side-channel logic.
+
+What broke. Industrial enterprises sit on three or four operational systems that should have agreed on the meaning of a part, a supplier, a state transition, an authority, and don't. The reconciliation labor between them is what consultants sell. The integration drift between them is what creates the audit gap. The undocumented rules in operator heads are what survive every ERP cutover because the new system can't carry them either. The result is an industrial substrate that records transactions but cannot prove operational truth — supplier qualification at the time of acceptance, BOM revision at the time of release, authority at the time of approval, policy version at the time of decision.
+
+What Mimir Labs built. Ratatosk is the diagnostic engagement that walks one value stream from demand through fulfillment across every system and side store, and produces a canonical operating model the customer can act on with or without us. Yggdrasil ERP is the governance-native ERP for customers who decide they want the substrate that carries the operating model directly — built around canonical concepts (Mimisbrunnr), state-machine governance enforced at the database gate, and Runtime Operational Policy Enforcement that carries authority, evidence, and version through every decision. For customers who can't or won't replace their current ERP, Jormungandr is the same enforcement layer emitted as JSON Schema contracts the integration surface honors before a transition commits. The portable policy library that accumulates inside Jormungandr is the migration bridge into Yggdrasil ERP when the customer is ready to consolidate.
+
+Why this is investable. Industrial operations is one of the few categories where the architectural answer and the regulatory pressure converge: customers who solve the AI-readiness problem solve the CMMC problem solve the migration problem at the same time, because they all reduce to the same substrate question. The diagnostic engagement is priced inside executive discretionary spend (starts at $14,500, typically $17K-$21K fully scoped for a five-to-eight-day engagement), produces an artifact that justifies the next platform conversation, and is repeatable across the mid-market manufacturing segment. Yggdrasil ERP is positioned at 30-70% of incumbent TCO when consulting, customization, and integration maintenance are accounted for honestly.
+
+Proof / current signal. v0.8.0a in alpha, ~90% build/run readiness; full 10-module ERP, 900+ endpoints, real-time B2B event mesh, native carrier API integration with UPS/FedEx/USPS, validated end-to-end business processes including Quality-to-Resolution with NCR/CAPA cascade. Engineering change control and PLM integrated natively (EBOM/MBOM/ECO). 2026 Validation Cohort with five PA manufacturers identified through MANTEC; Penn State LaunchBox incubation. ROPE policy library demonstrated against GRN-receipt gates including supplier ZIP mismatch detection, supplier-mismatch enforcement, and over-receipt variance. Twelve technical whitepapers; academic preprint on AI-readiness substrate gaps. Founder is a USMC veteran and mechanical engineer.
+
+What we need. Pressure-test the industrial operating-substrate thesis with a partner whose pattern-match includes Palantir-adjacent operational seriousness. If the thesis holds up, introductions to two or three industrial operators in your portfolio or extended network whose current ERP/MES/WMS sprawl is forcing a decision in the next twelve months.
+
+Closing. The industrial software category was built around the wrong premise. We're building what it was supposed to be.
+
+
+Mimir Labs LLC · mimirlabs.net · Christopher Gaither, Founder/CEO · cgaither@mimirlabs.net
