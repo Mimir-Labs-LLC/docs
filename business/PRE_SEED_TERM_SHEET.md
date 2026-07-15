@@ -1,7 +1,7 @@
-# Mimir Labs — Pre-Seed Term Sheet (Opening Position)
+# Mimir Labs — Pre-Seed Term Sheet
 
 **Confidential — Not a binding offer**
-**Date:** April 2026
+**Date:** July 2026
 
 ---
 
@@ -10,9 +10,9 @@
 | Term | Value |
 |------|-------|
 | **Instrument** | Priced equity (preferred stock) |
-| **Raise amount** | $500,000 |
-| **Pre-money valuation** | $5,000,000 |
-| **Post-money valuation** | $5,500,000 |
+| **Raise amount** | $800,000 |
+| **Pre-money valuation** | $7,200,000 |
+| **Post-money valuation** | $8,000,000 |
 | **Equity issued (base)** | 10.0% |
 | **Performance warrants** | Up to 5.0% additional (see below) |
 | **Maximum dilution** | 15.0% |
@@ -24,16 +24,19 @@
 
 | Category | Allocation |
 |----------|-----------|
-| Founder compensation (18 months) | $127,000 |
-| First hire — customer-facing engineer (12 months) | $110,000 |
-| Infrastructure (hosting, tooling, services) | $30,000 |
-| Legal & compliance (SOC 2 prep, contracts, IP) | $20,000 |
-| Sales & marketing (travel, trade shows, content) | $35,000 |
-| Service delivery costs (Ratatosk workshops) | $15,000 |
-| Operating reserve | $63,000 |
-| **Total** | **$400,000** |
+| Founder compensation (18 mo @ $110K/yr) | $165,000 |
+| Hire 1 — Sr. Backend Engineer (15 mo @ $140K/yr) | $175,000 |
+| Hire 2 — Sr. Frontend Engineer (12 mo @ $145K/yr) | $145,000 |
+| Hire 3 — Sales / BD Lead (base; commission from sales) | $65,000 |
+| Infrastructure & tooling | $35,000 |
+| Legal, IP & SOC 2 prep | $30,000 |
+| SOC 2 Type I audit | $25,000 |
+| Sales & marketing (trade shows, content, travel) | $70,000 |
+| Service delivery (Ratatosk/Ragnarok) | $30,000 |
+| Operating reserve | $60,000 |
+| **Total** | **$800,000** |
 
-Remaining $100,000 provides runway extension or accelerated hiring if pipeline exceeds capacity.
+Sales/BD commission is earned from sales revenue, not funded from the raise.
 
 ---
 
@@ -80,7 +83,7 @@ For every **$100 million in annual revenue represented by portfolio companies** 
 - **Exercise window:** 5 years from close
 - **Vesting is cumulative:** Multiple portcos aggregate toward thresholds
 - **Cap:** 5.0% total additional equity regardless of cumulative portco ARR
-- **Anti-dilution:** Warrants are exercisable at the original pre-money valuation ($5M) regardless of subsequent round pricing
+- **Anti-dilution:** Warrants are exercisable at the original pre-money valuation ($7.2M) regardless of subsequent round pricing
 
 ### Anti-Gaming Provisions
 
@@ -131,12 +134,12 @@ With per-agreement vesting, a PE firm with 5 portcos averaging $100M each, all w
 |------|----------|--------|
 | Base equity | 10% | Preserves cap table for seed, Series A, option pool |
 | Warrant cap | 5% | 85% minimum founder ownership post-raise is non-negotiable |
-| Pre-money valuation | $5M | Working six-product platform, not a deck. If they want lower valuation, counter with warrant rate flexibility. |
-| Raise amount | $500K | Less than $350K doesn't fund the first hire. More than $600K can't be deployed productively in 18 months with a 2-person team. |
+| Pre-money valuation | $7.2M | Working six-product platform in market, not a deck. If they want lower valuation, counter with warrant-rate flexibility. |
+| Raise amount | $800K | Funds three hires plus an 18-month runway. Less compresses the hiring plan; materially more can't be productively deployed by a small team in 18 months. |
 
 ### Walkaway
 
-If the investor demands more than 15% total (base + warrants) for $500K, or a pre-money valuation below $3.5M, walk. These terms would compress the cap table too early and signal desperation.
+If the investor demands more than 15% total (base + warrants) for $800K, or a pre-money valuation below $5.0M, walk. These terms would compress the cap table too early and signal desperation.
 
 ---
 
@@ -171,5 +174,3 @@ The warrant structure is designed to attract a specific investor profile:
 A generalist fintech investor who writes a check and disappears gets 10%. A manufacturing-focused investor who actively channels their portfolio onto the platform can earn up to 15%. The structure rewards the investor who is most valuable to the business, not just the one with the largest check.
 
 ---
-
-*This document represents an opening negotiation position. Final terms subject to legal review and mutual agreement.*

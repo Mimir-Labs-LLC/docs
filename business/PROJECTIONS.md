@@ -2,7 +2,7 @@
 
 *Full Platform: Norn + Ratatosk + Ragnarok + Bifrost + Yggdrasil ERP*
 
-**Updated: April 2026**
+**Updated: July 2026**
 
 ---
 
@@ -16,7 +16,7 @@ Mimir Labs generates revenue through five products across two business models:
 | **Ratatosk** | Services (SOW) | $5,000 – $12,500/engagement | Consultative, 2-4 week cycle |
 | **Ragnarok** | Services (SOW) | $15,000 – $75,000/engagement | Consultative, 4-8 week cycle |
 | **Bifrost** | SaaS (subscription) | $2,000 – $5,000/mo | Sales-assisted, 30-60 day cycle |
-| **Yggdrasil ERP** | SaaS + activation | `$75K + ($15K × Footprint Score)` / yr + $50K – $125K activation | Enterprise sales, 60-120 day cycle |
+| **Yggdrasil ERP** | SaaS + activation | `$100K + ($17.5K × Footprint Score)` / yr + $50K – $125K activation | Enterprise sales, 60-120 day cycle |
 
 Additionally:
 | Bundle | Price | Contents |
@@ -96,21 +96,21 @@ Bifrost is a later-stage product. Customers arrive after migration (Ragnarok) wh
 
 ## Revenue — Yggdrasil ERP
 
-Priced under Footprint Score (`Annual License = $75K + $15K × Footprint Score`, bands $90K – $480K+/yr) with humble assumptions on customer count and tier mix. Detailed breakdown in [data-room/02-financial/PROJECTIONS.md](data-room/02-financial/PROJECTIONS.md).
+Priced under Footprint Score (`Annual License = $100K + $17.5K × Footprint Score`, plus a compliance multiplier for validated regimes) across a Compliance Core / Operational Core / Regulated Enterprise / Strategic tier mix. Detailed breakdown in [data-room/02-financial/PROJECTIONS.md](data-room/02-financial/PROJECTIONS.md).
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| Pilots sold (Pilot Track, $35K each) | 3 | 8 | 14 | 25 | 40 |
+| Pilots sold (Pilot Track, $55K each) | 3 | 8 | 14 | 25 | 40 |
 | Pilot → paid conversions | 1 | 4 | 8 | 15 | 25 |
 | **Active paid tenants (EOY)** | **1** | **5** | **13** | **28** | **53** |
 | Mix (CC / OC / RE / Strategic) | 1/0/0/0 | 4/1/0/0 | 9/3/1/0 | 17/8/3/0 | 29/18/5/1 |
 | | | | | | |
-| Pilot revenue | $105K | $280K | $490K | $875K | $1.40M |
-| Activation revenue (front-loaded) | $60K | $260K | $570K | $1.10M | $1.94M |
-| Subscription revenue (net of pilot credit) | $39K | $299K | $1.10M | $2.83M | $6.08M |
+| Pilot revenue | $165K | $440K | $770K | $1.38M | $2.20M |
+| Activation revenue (net of pilot credit) | $48K | $190K | $380K | $713K | $1.19M |
+| Subscription revenue (recognized) | $75K | $485K | $1.61M | $3.92M | $8.16M |
 | Audit Authority revenue (30% attach from Y3) | $0 | $0 | $164K | $353K | $668K |
-| **Total Yggdrasil revenue** | **$204K** | **$839K** | **$2.33M** | **$5.16M** | **$10.09M** |
-| **Recurring ARR (EOY, sub + AA)** | **$100K** | **$590K** | **$1.96M** | **$4.56M** | **$9.19M** |
+| **Total Yggdrasil revenue** | **$288K** | **$1.12M** | **$2.92M** | **$6.36M** | **$12.21M** |
+| **Recurring ARR (EOY, sub + AA)** | **$150K** | **$820K** | **$2.55M** | **$5.80M** | **$11.53M** |
 
 Yggdrasil sales begin Year 1 with a single Compliance Core tenant after pilot validation. Pilot revenue itself is positive-margin and funds the funnel during the validation phase. Tier mix shifts toward higher-value tenants as platform credibility builds and PE / regulated accounts close in Years 3-5.
 
@@ -122,19 +122,19 @@ Yggdrasil sales begin Year 1 with a single Compliance Core tenant after pilot va
 | Ratatosk services | $32K | $114K | $308K | $600K | $975K |
 | Ragnarok services | $20K | $168K | $560K | $1.20M | $2.16M |
 | Bifrost SaaS | $0 | $90K | $403K | $1.19M | $2.69M |
-| Yggdrasil (pilot + activation + sub + AA) | $204K | $839K | $2.33M | $5.16M | $10.09M |
-| **Total revenue** | **$296K** | **$1.43M** | **$4.53M** | **$10.74M** | **$21.67M** |
-| *Recurring ARR (Norn + Bifrost + Yggdrasil sub + AA)* | *$140K* | *$902K* | *$3.30M* | *$8.34M* | *$17.64M* |
-| *Recurring %* | *47%* | *63%* | *73%* | *78%* | *81%* |
+| Yggdrasil (pilot + activation + sub + AA) | $288K | $1.12M | $2.92M | $6.36M | $12.21M |
+| **Total revenue** | **$380K** | **$1.71M** | **$5.12M** | **$11.94M** | **$23.79M** |
+| *Recurring ARR (Norn + Bifrost + Yggdrasil sub + AA)* | *$190K* | *$1.13M* | *$3.89M* | *$9.58M* | *$19.97M* |
+| *Recurring %* | *30%* | *47%* | *61%* | *67%* | *73%* |
 
 ## Revenue Mix Shift
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| Recurring SaaS (Norn + Bifrost + Yggdrasil sub + AA) | 47% | 63% | 73% | 78% | 81% |
-| Services + activation + pilot (Ratatosk + Ragnarok + Yggdrasil pilot/activation) | 53% | 37% | 27% | 22% | 19% |
+| Recurring SaaS (Norn + Bifrost + Yggdrasil sub + AA) | 30% | 47% | 61% | 67% | 73% |
+| Services + activation + pilot (Ratatosk + Ragnarok + Yggdrasil pilot/activation) | 70% | 53% | 39% | 33% | 27% |
 
-The business starts services-heavy (governance and migration consulting) and shifts to SaaS-dominant as the installed base grows. By Year 5, recurring revenue is 81% of total — a healthy, predictable foundation.
+The business starts services-heavy (governance and migration consulting, plus front-loaded Yggdrasil pilot and activation fees) and shifts toward recurring as the installed base grows. By Year 5, recurring revenue is 73% of total — with recurring ARR of ~$20M as the predictable foundation.
 
 ## Expenses
 
@@ -157,11 +157,11 @@ Year 1 reflects a solo founder with minimal overhead. Pre-seed funding ($800K) c
 
 | | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 |---|--------|--------|--------|--------|--------|
-| **Total revenue** | $296K | $1.43M | $4.53M | $10.74M | $21.67M |
+| **Total revenue** | $380K | $1.71M | $5.12M | $11.94M | $23.79M |
 | **Total expenses** | $115K | $553K | $1.30M | $2.49M | $4.00M |
-| **Net income** | $181K | $880K | $3.23M | $8.25M | $17.67M |
-| **Cumulative net** | $181K | $1.06M | $4.29M | $12.54M | $30.21M |
-| **Net margin** | 61% | 61% | 71% | 77% | 82% |
+| **Net income** | $265K | $1.16M | $3.83M | $9.45M | $19.79M |
+| **Cumulative net** | $265K | $1.42M | $5.25M | $14.69M | $34.48M |
+| **Net margin** | 70% | 68% | 75% | 79% | 83% |
 
 Cash-flow positive in Year 1. The pre-seed round provides runway and acceleration, not survival capital — the portfolio is self-sustaining from the first year under this pricing.
 
@@ -220,8 +220,8 @@ Norn has lower LTV:CAC than ERP but requires no sales effort (self-serve). ERP h
 
 | Method | Calculation | Value |
 |--------|-------------|-------|
-| ARR multiple (5-8x) | $17.64M ARR x 5-8x | $88M – $141M |
-| Revenue multiple (3-5x) | $21.67M revenue x 3-5x | $65M – $108M |
-| Net income multiple (15-20x) | $17.67M net x 15-20x | $265M – $353M |
+| ARR multiple (5-8x) | $19.97M ARR x 5-8x | $100M – $160M |
+| Revenue multiple (3-5x) | $23.79M revenue x 3-5x | $71M – $119M |
+| Net income multiple (15-20x) | $19.79M net x 15-20x | $297M – $396M |
 
-Conservative range: **$90M – $140M** at Year 5 based on ARR multiples for mid-market vertical SaaS.
+Conservative range: **$100M – $160M** at Year 5 based on ARR multiples for mid-market vertical SaaS.
