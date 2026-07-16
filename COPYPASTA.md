@@ -382,3 +382,11 @@ That raises a few questions:
 To me, governance isn’t complete until admissibility is enforced at the transaction boundary itself. Everything before that may reduce risk, but it doesn’t deterministically guarantee that only valid business state can be committed.
 
 This is the same error that every other AI wrapper makes. And when everyone makes the same mistake, it’s a category error. But this one is understandable, because it’s built on top of a separate 30 year old category error.
+
+---
+
+## 2026-07-16 — The admissibility sufficiency test (two-part criterion)
+
+**Context:** A crisp, formal statement of what an operational system must satisfy to be trustworthy and to be safely automated. Use when someone needs the criterion in one breath rather than the full essay: the transition component must be able to evaluate every enterprise-defined admissibility condition and authoritatively reject across every path to commit (reliability), and that authority must live in the operational substrate rather than a human/external actor (scalable automation). Two failure modes, two verdicts. Pairs with the execution-boundary reply above and "The Physics of Business" essay.
+
+If the component between two operational states cannot evaluate every enterprise-defined condition of admissibility, and cannot authoritatively reject the transition across every path to commit, the system is insufficient for reliable operations. If that authority resides in a human or other external actor rather than the operational substrate itself, the system is also insufficient for scalable automation.
