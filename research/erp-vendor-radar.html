@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise Data &amp; AI Readiness — ERP Vendor Radar</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1: #2a78d6;  /* Yggdrasil */
+    --series-2: #eb6834;  /* SAP */
+    --series-3: #1baf7a;  /* Dynamics 365 */
+    --series-4: #eda100;  /* NetSuite */
+    --series-5: #e87ba4;  /* Epicor */
+    --series-6: #008300;  /* Infor */
+    --fill-opacity: 0.10;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --series-4: #c98500;
+      --series-5: #d55181;
+      --series-6: #008300;
+      --fill-opacity: 0.14;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #008300;
+    --fill-opacity: 0.14;
+  }
+
+  .viz-root {
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    padding: 32px 20px 56px;
+  }
+  .shell { max-width: 1120px; margin: 0 auto; }
+
+  header h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; }
+  header p.sub { color: var(--text-secondary); font-size: 14px; margin-top: 6px; max-width: 72ch; line-height: 1.5; }
+
+  /* ---- legend chips (interactive) ---- */
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 20px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    font: inherit; font-size: 13px; color: var(--text-primary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+  }
+  .chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+  .chip[aria-pressed="false"] { color: var(--text-muted); }
+  .chip[aria-pressed="false"] .dot { background: var(--baseline); }
+  .chip:hover { border-color: var(--text-muted); }
+  .controls .hint { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+
+  .viewtoggle { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-left: auto; }
+  .viewtoggle button {
+    font: inherit; font-size: 13px; padding: 6px 12px; cursor: pointer;
+    background: var(--surface-1); color: var(--text-secondary); border: none;
+  }
+  .viewtoggle button[aria-pressed="true"] { background: var(--text-primary); color: var(--page); }
+
+  /* ---- stat tiles ---- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .tile .name { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-secondary); }
+  .tile .name .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+  .tile .val { font-size: 24px; font-weight: 650; margin-top: 4px; }
+  .tile .val small { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+
+  /* ---- chart card ---- */
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; margin-top: 18px; padding: 10px; position: relative; }
+  #overlayWrap svg { display: block; width: 100%; height: auto; }
+  .ring-label { font-size: 15px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .axis-label { font-size: 16.5px; fill: var(--text-secondary); }
+  .axis-label.hot { fill: var(--text-primary); font-weight: 600; }
+  .spoke { stroke: var(--grid); stroke-width: 1; }
+  .spoke.group-edge { stroke: var(--baseline); }
+  .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
+  .ring.outer { stroke: var(--baseline); }
+  .poly { fill-opacity: var(--fill-opacity); stroke-width: 2; stroke-linejoin: round; }
+  .hover-sector { fill: transparent; cursor: crosshair; }
+  .hover-sector:hover { fill: var(--grid); fill-opacity: 0.35; }
+  .vertex { stroke: var(--surface-1); stroke-width: 2; pointer-events: none; }
+
+  /* ---- tooltip ---- */
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 5; display: none;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.14); padding: 10px 12px; min-width: 220px;
+  }
+  .tooltip h4 { font-size: 13px; font-weight: 600; }
+  .tooltip .grp { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .tooltip .row { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-secondary); padding: 2px 0; }
+  .tooltip .row .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .tooltip .row b { margin-left: auto; color: var(--text-primary); font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  /* ---- small multiples ---- */
+  #multiples { display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 18px; }
+  .mini { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 12px; position: relative; }
+  .mini h3 { display: flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; }
+  .mini h3 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+  .mini h3 small { margin-left: auto; color: var(--text-muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+  .mini svg { display: block; width: 100%; height: auto; margin-top: 4px; }
+
+  /* ---- table ---- */
+  section.data h2 { font-size: 15px; font-weight: 650; margin: 34px 0 4px; }
+  section.data p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-1); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { padding: 7px 12px; text-align: right; white-space: nowrap; }
+  th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+  th:first-child, td:first-child { text-align: left; }
+  td { color: var(--text-secondary); font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--grid); }
+  td.max { color: var(--text-primary); font-weight: 650; }
+  tr.grp td { color: var(--text-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 14px; background: transparent; }
+  tr:last-child td { border-bottom: none; }
+  th .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px; vertical-align: baseline; }
+  tfoot td { color: var(--text-primary); font-weight: 650; border-top: 1px solid var(--baseline); }
+
+  footer { margin-top: 22px; font-size: 12px; color: var(--text-muted); line-height: 1.6; max-width: 84ch; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="shell">
+    <header>
+      <h1>Enterprise Data &amp; AI Readiness — ERP Vendor Radar</h1>
+      <p class="sub">Twenty-four functional conditions for implementing and operating enterprise data and enterprise
+      AI, graded 0–20 per index across five incumbent ERP platforms and Yggdrasil ERP (Mimir Labs). Indexes are
+      grouped into four clusters: data architecture &amp; custody, data operations, AI readiness &amp; governance,
+      and operations &amp; economics.</p>
+    </header>
+
+    <div class="controls" id="chips" role="group" aria-label="Toggle vendors">
+      <!-- chips injected -->
+      <span class="hint">Overlay defaults to three vendors for readability — toggle to add more, or use Small multiples for all six.</span>
+      <div class="viewtoggle" role="group" aria-label="View">
+        <button id="btnOverlay" aria-pressed="true">Overlay</button>
+        <button id="btnMultiples" aria-pressed="false">Small multiples</button>
+      </div>
+    </div>
+
+    <div class="tiles" id="tiles"></div>
+
+    <div class="card" id="overlayWrap">
+      <div id="overlay"></div>
+      <div class="tooltip" id="tip"></div>
+    </div>
+
+    <div id="multiples"></div>
+
+    <section class="data">
+      <h2>Score table — all 24 indexes × 6 vendors (0–20)</h2>
+      <p>Bold marks the leading score on each index.</p>
+      <div class="tablewrap" id="tablewrap"></div>
+    </section>
+
+    <footer>
+      <strong>Methodology.</strong> Qualitative capability grades on a 0–20 scale, assessed against the functional
+      requirements defined in the Mimir Labs research corpus — <em>The Missing Layer in Enterprise AI Readiness</em>
+      (working paper, May 2026), the ERP structural-failure catalog, and the market analysis. Incumbents are graded on
+      generally available, natively shipped capability (not partner add-ons or services engagements); Yggdrasil is
+      graded on designed and implemented capability and is pre-GA — maturity and ecosystem risk are not encoded in
+      these axes. Scores are directional analyst judgments intended for strategic positioning, not benchmark
+      measurements.
+    </footer>
+  </div>
+</div>
+
+<script>
+const GROUPS = [
+  "Data architecture & custody",
+  "Data operations",
+  "AI readiness & governance",
+  "Operations & economics"
+];
+
+/* label: wrapped lines for the wheel; full: name used in tooltip + table */
+const AXES = [
+  { g:0, full:"Canonical semantic model (shared entity definitions)", label:["Semantic","canon"] },
+  { g:0, full:"Native, immutable audit trail (designed in)",          label:["Audit","trail"] },
+  { g:0, full:"Record history & time-travel versioning",              label:["History /","versioning"] },
+  { g:0, full:"Tenant & data isolation strength",                     label:["Tenant","isolation"] },
+  { g:0, full:"First-class schema extensibility (custom fields)",     label:["Extensibility"] },
+  { g:0, full:"Data lineage & provenance tracking",                   label:["Lineage &","provenance"] },
+  { g:1, full:"Master-data quality tooling",                          label:["MDM","tooling"] },
+  { g:1, full:"Migration tooling & legacy ingestion",                 label:["Migration","tooling"] },
+  { g:1, full:"Integration architecture (CDC, connectors)",           label:["Integration","/ CDC"] },
+  { g:1, full:"Real-time event streaming (vs. batch)",                label:["Event","streaming"] },
+  { g:1, full:"Open APIs & interoperability",                         label:["Open","APIs"] },
+  { g:1, full:"Operational fit (shadow-system elimination)",          label:["Operational","fit"] },
+  { g:2, full:"Runtime policy enforcement at ingress (write path)",   label:["Runtime policy","enforcement"] },
+  { g:2, full:"State-model enforcement (valid states & transitions)", label:["State-model","enforcement"] },
+  { g:2, full:"Evidence-bound transitions",                           label:["Evidence-bound","transitions"] },
+  { g:2, full:"Machine-actionable business rules (operational canon)",label:["Machine-actionable","rules"] },
+  { g:2, full:"Deterministic, explainable automation",                label:["Deterministic","automation"] },
+  { g:2, full:"Human-in-the-loop authority",                          label:["Human-in-","the-loop"] },
+  { g:2, full:"AI-agent safety guardrails",                           label:["Agent","guardrails"] },
+  { g:2, full:"PII posture / zero-knowledge analysis",                label:["PII / zero-","knowledge"] },
+  { g:3, full:"Compliance & audit readiness (8D, CAPA, regulated)",   label:["Compliance","readiness"] },
+  { g:3, full:"Operational observability & metrics",                  label:["Observability"] },
+  { g:3, full:"Total-cost & pricing transparency",                    label:["Pricing","transparency"] },
+  { g:3, full:"Implementation speed / time-to-value",                 label:["Time-to-","value"] }
+];
+
+const VENDORS = [
+  { id:"ygg", name:"Yggdrasil ERP (Mimir Labs)", short:"Yggdrasil", slot:1, on:true,
+    scores:[19,19,18,19,17,18, 17,18,17,18,16,16, 20,19,19,19,19,18,19,18, 17,16,18,15] },
+  { id:"sap", name:"SAP S/4HANA", short:"SAP S/4HANA", slot:2, on:true,
+    scores:[12,13,12,14,10,11, 14, 9,13,12,12, 8,  6, 8, 7, 7, 8, 9, 8, 9, 16,13, 4, 5] },
+  { id:"d365", name:"Microsoft Dynamics 365", short:"Dynamics 365", slot:3, on:true,
+    scores:[10,11,10,12,13,10, 12,10,14,13,15, 9,  7, 8, 6, 8, 7, 9, 9,10, 13,13, 8, 8] },
+  { id:"ns", name:"Oracle NetSuite", short:"NetSuite", slot:4, on:false,
+    scores:[ 9,10, 8, 9,11, 8,  9, 9,11, 9,12, 9,  5, 6, 4, 5, 6, 7, 6, 8, 10,10, 7,11] },
+  { id:"epi", name:"Epicor Kinetic", short:"Epicor", slot:5, on:false,
+    scores:[ 8, 9, 7,10,10, 7,  8, 8, 9, 8,10,10,  4, 6, 5, 4, 7, 8, 5, 7, 11, 9, 5, 9] },
+  { id:"inf", name:"Infor CloudSuite", short:"Infor", slot:6, on:false,
+    scores:[ 9,10, 8,11, 9, 8, 10, 8,10, 9, 9,10,  5, 6, 5, 5, 6, 7, 5, 7, 12, 9, 4, 8] }
+];
+
+const N = AXES.length, MAX = 20;
+const css = v => `var(--series-${v.slot})`;
+const avg = v => v.scores.reduce((a,b)=>a+b,0) / N;
+const angle = i => -Math.PI/2 + i * 2*Math.PI/N;
+const pt = (cx, cy, r, a) => [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+const f1 = x => x.toFixed(1);
+const svgEl = (tag, attrs) => {
+  const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+};
+
+/* ---------- chips ---------- */
+const chipsBox = document.getElementById("chips");
+VENDORS.forEach(v => {
+  const b = document.createElement("button");
+  b.className = "chip";
+  b.style.setProperty("--c", css(v));
+  b.setAttribute("aria-pressed", String(v.on));
+  b.innerHTML = `<span class="dot"></span>${v.short}`;
+  b.addEventListener("click", () => {
+    v.on = !v.on;
+    b.setAttribute("aria-pressed", String(v.on));
+    drawOverlay();
+  });
+  chipsBox.insertBefore(b, chipsBox.querySelector(".hint"));
+});
+
+/* ---------- stat tiles ---------- */
+document.getElementById("tiles").innerHTML = VENDORS.map(v =>
+  `<div class="tile" style="--c:${css(v)}">
+     <div class="name"><span class="dot"></span>${v.short}</div>
+     <div class="val">${f1(avg(v))} <small>/ 20 avg</small></div>
+   </div>`).join("");
+
+/* ---------- overlay radar ---------- */
+const CX = 500, CY = 470, R = 330, VB = 1000, VBH = 940;
+const tip = document.getElementById("tip");
+const overlayBox = document.getElementById("overlay");
+const overlayWrap = document.getElementById("overlayWrap");
+
+function radarScaffold(svg, cx, cy, r, withLabels) {
+  // rings at 5/10/15/20
+  for (let s = 5; s <= MAX; s += 5) {
+    svg.appendChild(svgEl("circle", { cx, cy, r: r*s/MAX, class: "ring" + (s===MAX ? " outer":"") }));
+  }
+  // spokes (group boundaries slightly emphasized, drawn between axes)
+  for (let i = 0; i < N; i++) {
+    const isEdge = AXES[i].g !== AXES[(i-1+N)%N].g;
+    const aEdge = angle(i) - Math.PI/N;
+    const [x1,y1] = pt(cx, cy, r, angle(i));
+    const spoke = svgEl("line", { x1:cx, y1:cy, x2:x1, y2:y1, class:"spoke" });
+    svg.appendChild(spoke);
+    if (isEdge && withLabels) {
+      const [ex,ey] = pt(cx, cy, r*1.02, aEdge);
+      svg.appendChild(svgEl("line", { x1:cx, y1:cy, x2:ex, y2:ey, class:"spoke group-edge" }));
+    }
+  }
+  if (!withLabels) return;
+  // ring value labels on the up axis
+  for (let s = 5; s <= MAX; s += 5) {
+    const t = svgEl("text", { x: cx + 6, y: cy - r*s/MAX - 4, class: "ring-label" });
+    t.textContent = s;
+    svg.appendChild(t);
+  }
+  // axis labels
+  AXES.forEach((ax, i) => {
+    const a = angle(i);
+    const [x, y] = pt(cx, cy, r + 18, a);
+    const cos = Math.cos(a);
+    const anchor = Math.abs(cos) < 0.25 ? "middle" : (cos > 0 ? "start" : "end");
+    const lines = ax.label;
+    const t = svgEl("text", { x, y, "text-anchor": anchor, class: "axis-label", "data-ax": i });
+    const dy0 = Math.sin(a) < -0.3 ? -(lines.length-1)*15 : (Math.sin(a) > 0.3 ? 6 : -(lines.length-1)*7.5);
+    lines.forEach((ln, j) => {
+      const ts = svgEl("tspan", { x, dy: j === 0 ? dy0 : 15 });
+      ts.textContent = ln;
+      t.appendChild(ts);
+    });
+    svg.appendChild(t);
+  });
+}
+
+function polyPoints(v, cx, cy, r) {
+  return v.scores.map((s, i) => pt(cx, cy, r*s/MAX, angle(i)).map(n => n.toFixed(1)).join(",")).join(" ");
+}
+
+let hotAxis = -1;
+function drawOverlay() {
+  overlayBox.innerHTML = "";
+  const svg = svgEl("svg", { viewBox: `0 0 ${VB} ${VBH}`, role: "img",
+    "aria-label": "Radar chart of vendor scores across 24 enterprise data and AI readiness indexes" });
+  radarScaffold(svg, CX, CY, R, true);
+
+  const active = VENDORS.filter(v => v.on);
+  active.forEach(v => {
+    svg.appendChild(svgEl("polygon", { points: polyPoints(v, CX, CY, R),
+      class: "poly", fill: css(v), stroke: css(v) }));
+  });
+
+  // vertex markers layer (shown for hovered axis)
+  const vertexLayer = svgEl("g", {});
+  svg.appendChild(vertexLayer);
+
+  // invisible hover sectors, one per axis
+  for (let i = 0; i < N; i++) {
+    const a0 = angle(i) - Math.PI/N, a1 = angle(i) + Math.PI/N;
+    const [x0,y0] = pt(CX, CY, R, a0), [x1,y1] = pt(CX, CY, R, a1);
+    const sector = svgEl("path", {
+      d: `M ${CX} ${CY} L ${x0} ${y0} A ${R} ${R} 0 0 1 ${x1} ${y1} Z`,
+      class: "hover-sector", "data-ax": i });
+    sector.addEventListener("mousemove", e => showTip(i, e));
+    sector.addEventListener("mouseleave", hideTip);
+    svg.appendChild(sector);
+  }
+
+  function showTip(i, e) {
+    if (hotAxis !== i) {
+      hotAxis = i;
+      vertexLayer.innerHTML = "";
+      active.forEach(v => {
+        const [x, y] = pt(CX, CY, R*v.scores[i]/MAX, angle(i));
+        vertexLayer.appendChild(svgEl("circle", { cx:x, cy:y, r:6, fill: css(v), class:"vertex" }));
+      });
+      svg.querySelectorAll(".axis-label").forEach(t =>
+        t.classList.toggle("hot", +t.getAttribute("data-ax") === i));
+      const rows = active.slice().sort((a,b) => b.scores[i]-a.scores[i]).map(v =>
+        `<div class="row"><span class="dot" style="background:${css(v)}"></span>${v.short}<b>${v.scores[i]}</b></div>`
+      ).join("");
+      tip.innerHTML = `<h4>${AXES[i].full}</h4><div class="grp">${GROUPS[AXES[i].g]} · scale 0–20</div>${rows}`;
+    }
+    const wrapRect = overlayWrap.getBoundingClientRect();
+    tip.style.display = "block";
+    let tx = e.clientX - wrapRect.left + 16, ty = e.clientY - wrapRect.top + 16;
+    if (tx + tip.offsetWidth > wrapRect.width - 8) tx = e.clientX - wrapRect.left - tip.offsetWidth - 16;
+    if (ty + tip.offsetHeight > wrapRect.height - 8) ty = e.clientY - wrapRect.top - tip.offsetHeight - 16;
+    tip.style.left = tx + "px";
+    tip.style.top = ty + "px";
+  }
+  function hideTip() {
+    hotAxis = -1;
+    tip.style.display = "none";
+    vertexLayer.innerHTML = "";
+    svg.querySelectorAll(".axis-label.hot").forEach(t => t.classList.remove("hot"));
+  }
+
+  overlayBox.appendChild(svg);
+}
+drawOverlay();
+
+/* ---------- small multiples ---------- */
+const multiBox = document.getElementById("multiples");
+VENDORS.forEach(v => {
+  const div = document.createElement("div");
+  div.className = "mini";
+  div.style.setProperty("--c", css(v));
+  div.innerHTML = `<h3><span class="dot"></span>${v.short}<small>avg ${f1(avg(v))} / 20</small></h3>`;
+  const size = 300, cx = size/2, cy = size/2, r = 128;
+  const svg = svgEl("svg", { viewBox: `0 0 ${size} ${size}`, role:"img",
+    "aria-label": `Radar for ${v.name}` });
+  radarScaffold(svg, cx, cy, r, false);
+  svg.appendChild(svgEl("polygon", { points: polyPoints(v, cx, cy, r),
+    class: "poly", fill: css(v), stroke: css(v) }));
+  div.appendChild(svg);
+  multiBox.appendChild(div);
+});
+
+/* ---------- view toggle ---------- */
+const btnO = document.getElementById("btnOverlay"), btnM = document.getElementById("btnMultiples");
+function setView(overlay) {
+  overlayWrap.style.display = overlay ? "" : "none";
+  multiBox.style.display = overlay ? "none" : "grid";
+  btnO.setAttribute("aria-pressed", String(overlay));
+  btnM.setAttribute("aria-pressed", String(!overlay));
+}
+btnO.addEventListener("click", () => setView(true));
+btnM.addEventListener("click", () => setView(false));
+
+/* ---------- table ---------- */
+(function buildTable() {
+  const head = `<thead><tr><th>Index</th>${VENDORS.map(v =>
+    `<th><span class="dot" style="--c:${css(v)}"></span>${v.short}</th>`).join("")}</tr></thead>`;
+  let body = "<tbody>";
+  let lastG = -1;
+  AXES.forEach((ax, i) => {
+    if (ax.g !== lastG) {
+      lastG = ax.g;
+      body += `<tr class="grp"><td colspan="${VENDORS.length+1}">${GROUPS[ax.g]}</td></tr>`;
+    }
+    const rowMax = Math.max(...VENDORS.map(v => v.scores[i]));
+    body += `<tr><td>${ax.full}</td>${VENDORS.map(v =>
+      `<td class="${v.scores[i]===rowMax ? "max" : ""}">${v.scores[i]}</td>`).join("")}</tr>`;
+  });
+  body += "</tbody>";
+  const foot = `<tfoot><tr><td>Average (all 24 indexes)</td>${VENDORS.map(v =>
+    `<td>${f1(avg(v))}</td>`).join("")}</tr></tfoot>`;
+  document.getElementById("tablewrap").innerHTML = `<table>${head}${body}${foot}</table>`;
+})();
+</script>
+</body>
+</html>
