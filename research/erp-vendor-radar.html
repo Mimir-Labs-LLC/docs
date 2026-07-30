@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enterprise Data &amp; AI Readiness — ERP Vendor Radar</title>
+<title>Enterprise Data &amp; AI Capability Benchmark — Vendor Radar</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,12 +17,11 @@
     --grid:           #e1e0d9;
     --baseline:       #c3c2b7;
     --border:         rgba(11,11,11,0.10);
-    --series-1: #2a78d6;  /* Yggdrasil */
+    --series-1: #2a78d6;  /* Mimir Labs */
     --series-2: #eb6834;  /* SAP */
-    --series-3: #1baf7a;  /* Dynamics 365 */
-    --series-4: #eda100;  /* NetSuite */
-    --series-5: #e87ba4;  /* Epicor */
-    --series-6: #008300;  /* Infor */
+    --series-3: #1baf7a;  /* Oracle */
+    --series-4: #eda100;  /* Microsoft */
+    --series-5: #e87ba4;  /* Salesforce */
     --fill-opacity: 0.10;
   }
   @media (prefers-color-scheme: dark) {
@@ -41,7 +40,6 @@
       --series-3: #199e70;
       --series-4: #c98500;
       --series-5: #d55181;
-      --series-6: #008300;
       --fill-opacity: 0.14;
     }
   }
@@ -60,7 +58,6 @@
     --series-3: #199e70;
     --series-4: #c98500;
     --series-5: #d55181;
-    --series-6: #008300;
     --fill-opacity: 0.14;
   }
 
@@ -74,7 +71,8 @@
   .shell { max-width: 1120px; margin: 0 auto; }
 
   header h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; }
-  header p.sub { color: var(--text-secondary); font-size: 14px; margin-top: 6px; max-width: 72ch; line-height: 1.5; }
+  header p.sub { color: var(--text-secondary); font-size: 14px; margin-top: 6px; max-width: 76ch; line-height: 1.5; }
+  header p.src { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
 
   /* ---- legend chips (interactive) ---- */
   .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 20px; }
@@ -98,12 +96,13 @@
   .viewtoggle button[aria-pressed="true"] { background: var(--text-primary); color: var(--page); }
 
   /* ---- stat tiles ---- */
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 18px; }
   .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
   .tile .name { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-secondary); }
   .tile .name .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
   .tile .val { font-size: 24px; font-weight: 650; margin-top: 4px; }
   .tile .val small { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+  .tiles-note { font-size: 12.5px; color: var(--text-secondary); margin-top: 10px; max-width: 84ch; line-height: 1.5; }
 
   /* ---- chart card ---- */
   .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; margin-top: 18px; padding: 10px; position: relative; }
@@ -140,9 +139,16 @@
   .mini h3 small { margin-left: auto; color: var(--text-muted); font-weight: 400; font-variant-numeric: tabular-nums; }
   .mini svg { display: block; width: 100%; height: auto; margin-top: 4px; }
 
+  /* ---- rubric ---- */
+  section.rubric { margin-top: 28px; }
+  section.rubric h2, section.data h2, section.rationale h2 { font-size: 15px; font-weight: 650; margin-bottom: 4px; }
+  section.rubric p, section.data p, section.rationale p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+  .rubric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+  .rubric-cell { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; font-size: 12px; color: var(--text-secondary); line-height: 1.45; }
+  .rubric-cell b { display: block; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+
   /* ---- table ---- */
-  section.data h2 { font-size: 15px; font-weight: 650; margin: 34px 0 4px; }
-  section.data p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+  section.data { margin-top: 30px; }
   .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-1); }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { padding: 7px 12px; text-align: right; white-space: nowrap; }
@@ -150,28 +156,43 @@
   th:first-child, td:first-child { text-align: left; }
   td { color: var(--text-secondary); font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--grid); }
   td.max { color: var(--text-primary); font-weight: 650; }
-  tr.grp td { color: var(--text-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 14px; background: transparent; }
+  tr.grp td { color: var(--text-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 14px; }
   tr:last-child td { border-bottom: none; }
   th .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px; vertical-align: baseline; }
   tfoot td { color: var(--text-primary); font-weight: 650; border-top: 1px solid var(--baseline); }
 
-  footer { margin-top: 22px; font-size: 12px; color: var(--text-muted); line-height: 1.6; max-width: 84ch; }
+  /* ---- rationale ---- */
+  section.rationale { margin-top: 30px; }
+  section.rationale details { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; }
+  section.rationale summary { cursor: pointer; padding: 10px 14px; font-size: 13.5px; font-weight: 600; }
+  section.rationale summary small { color: var(--text-muted); font-weight: 400; margin-left: 6px; }
+  .rat-body { padding: 2px 14px 12px; }
+  .rat-row { display: flex; gap: 9px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; padding: 5px 0; border-top: 1px solid var(--grid); }
+  .rat-row:first-child { border-top: none; }
+  .rat-row .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; margin-top: 5px; }
+  .rat-row b { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  footer { margin-top: 26px; font-size: 12px; color: var(--text-muted); line-height: 1.6; max-width: 90ch; }
+  footer p + p { margin-top: 8px; }
 </style>
 </head>
 <body>
 <div class="viz-root">
   <div class="shell">
     <header>
-      <h1>Enterprise Data &amp; AI Readiness — ERP Vendor Radar</h1>
-      <p class="sub">Twenty-four functional conditions for implementing and operating enterprise data and enterprise
-      AI, graded 0–20 per index across five incumbent ERP platforms and Yggdrasil ERP (Mimir Labs). Indexes are
-      grouped into four clusters: data architecture &amp; custody, data operations, AI readiness &amp; governance,
-      and operations &amp; economics.</p>
+      <h1>Enterprise Data &amp; AI Capability Benchmark — Vendor Radar</h1>
+      <p class="sub">Twenty-four functional conditions spanning enterprise data, ERP operations, AI/agents, and
+      execution governance, scored 0–20 against a common rubric for SAP, Oracle, Microsoft, Salesforce, and
+      Mimir Labs. The assessment measures whether a vendor's <em>native architecture</em> satisfies each function —
+      not revenue, implementation workforce, or installed base. Incumbents are evaluated at full-portfolio level
+      (e.g., Microsoft includes Purview, Fabric, Entra, and Copilot Studio, not Dynamics 365 alone).</p>
+      <p class="src">Figure 1 of <em>Enterprise Data and AI Capability Benchmark</em> v1.0, July 30, 2026.
+      Scores are directional analyst judgments, not vendor-certified benchmarks.</p>
     </header>
 
     <div class="controls" id="chips" role="group" aria-label="Toggle vendors">
       <!-- chips injected -->
-      <span class="hint">Overlay defaults to three vendors for readability — toggle to add more, or use Small multiples for all six.</span>
+      <span class="hint">Overlay defaults to three vendors for readability — toggle to add more, or use Small multiples for all five.</span>
       <div class="viewtoggle" role="group" aria-label="View">
         <button id="btnOverlay" aria-pressed="true">Overlay</button>
         <button id="btnMultiples" aria-pressed="false">Small multiples</button>
@@ -179,6 +200,11 @@
     </div>
 
     <div class="tiles" id="tiles"></div>
+    <p class="tiles-note"><strong>Aggregate averages conceal the central finding.</strong> The incumbents achieve
+    broad, relatively even profiles; Mimir Labs has a sharper one — exceptional scores concentrated in the
+    execution-governance cluster (pre-write policy enforcement, state-transition validation, immutable
+    auditability, deterministic execution), with its largest gaps in integration breadth and agent-platform
+    tooling. The radar <em>shape</em> is more informative than the average.</p>
 
     <div class="card" id="overlayWrap">
       <div id="overlay"></div>
@@ -187,73 +213,229 @@
 
     <div id="multiples"></div>
 
+    <section class="rubric">
+      <h2>Scoring rubric</h2>
+      <p>Native capability outranks partner or custom-project capability; mandatory enforcement outranks optional
+      configuration or after-the-fact remediation; architectural design is credited, but undeployed capability is
+      discounted for operational maturity.</p>
+      <div class="rubric-grid">
+        <div class="rubric-cell"><b>0–3 · Absent</b>No meaningful native capability; substantial custom development required.</div>
+        <div class="rubric-cell"><b>4–7 · Limited</b>Narrow, immature, or highly dependent on external products.</div>
+        <div class="rubric-cell"><b>8–11 · Partial</b>Useful capability, but material gaps in coverage, enforcement, or maturity.</div>
+        <div class="rubric-cell"><b>12–15 · Strong</b>Credible native capability with limitations in breadth, consistency, or deployment.</div>
+        <div class="rubric-cell"><b>16–18 · Very strong</b>Mature and broadly applicable; only bounded gaps remain.</div>
+        <div class="rubric-cell"><b>19–20 · Exceptional</b>Category-leading or architecturally central, with comprehensive native support.</div>
+      </div>
+    </section>
+
     <section class="data">
-      <h2>Score table — all 24 indexes × 6 vendors (0–20)</h2>
-      <p>Bold marks the leading score on each index.</p>
+      <h2>Score table — all 24 indexes × 5 vendors (0–20)</h2>
+      <p>Bold marks the leading score on each index. Machine-readable matrix: <code>erp-vendor-benchmark-scores.csv</code> (Appendix A).</p>
       <div class="tablewrap" id="tablewrap"></div>
     </section>
 
+    <section class="rationale">
+      <h2>Score rationale</h2>
+      <p>Per-index explanations from the benchmark (Sections 3.1–3.24), condensed. Expand any index.</p>
+      <div id="rationale"></div>
+    </section>
+
     <footer>
-      <strong>Methodology.</strong> Qualitative capability grades on a 0–20 scale, assessed against the functional
-      requirements defined in the Mimir Labs research corpus — <em>The Missing Layer in Enterprise AI Readiness</em>
-      (working paper, May 2026), the ERP structural-failure catalog, and the market analysis. Incumbents are graded on
-      generally available, natively shipped capability (not partner add-ons or services engagements); Yggdrasil is
-      graded on designed and implemented capability and is pre-GA — maturity and ecosystem risk are not encoded in
-      these axes. Scores are directional analyst judgments intended for strategic positioning, not benchmark
-      measurements.
+      <p><strong>Key conclusions.</strong> (1)&nbsp;The incumbents are not governance-naive — Oracle, SAP, Microsoft,
+      and Salesforce all provide serious authorization, policy, audit, and agent controls; positioning that claims
+      otherwise invites immediate rebuttal. (2)&nbsp;Incumbent governance remains heterogeneous — distributed across
+      application logic, identity systems, workflow engines, catalogs, database constraints, and AI trust layers —
+      and does not necessarily create one canonical admissibility boundary across a mixed estate.
+      (3)&nbsp;Mimir Labs' strongest comparative claim is architectural concentration: discovering enterprise
+      semantics, formalizing them canonically, governing boundary crossings, and preventing invalid operational
+      states before commit. (4)&nbsp;Mimir Labs' largest weaknesses are execution risk, not conceptual gaps —
+      connector breadth, deployed scale, tooling, localization, and reference customers trail the incumbents.</p>
+      <p><strong>Limitations.</strong> Scores rely on public documentation and supplied Mimir Labs architecture
+      materials; some Mimir Labs technical claims are not yet independently tested in a production customer
+      environment. All 24 conditions are weighted equally. The benchmark deliberately does not score total cost,
+      pricing transparency, vendor viability, implementation capacity, localization, or installed base — commercial
+      dimensions that would materially favor incumbents on support and scale, and Mimir Labs on published
+      formula-based pricing and per-tenant database isolation. A future version should replace analyst judgment
+      with test protocols (unauthorized state transitions, split transactions, stale-state writes, schema drift)
+      to convert this from a position paper into a measured benchmark.</p>
+      <p><strong>Revision note.</strong> v2 replaces the first-pass chart (2ff75d7), which graded incumbent ERP
+      products in isolation and materially under-credited portfolio-level governance capability while
+      over-crediting Mimir Labs on integration and agent-tooling breadth. Scores now follow the benchmark
+      document's matrix verbatim.</p>
     </footer>
   </div>
 </div>
 
 <script>
 const GROUPS = [
-  "Data architecture & custody",
-  "Data operations",
-  "AI readiness & governance",
-  "Operations & economics"
+  "Data foundation & semantics",
+  "Integration & operations",
+  "AI & agent platform",
+  "Execution governance"
 ];
 
-/* label: wrapped lines for the wheel; full: name used in tooltip + table */
+/* Axis order regrouped from the benchmark's Sections 3.1–3.24 so clusters are
+   contiguous on the wheel (manufacturing depth, §3.24, sits with operations).
+   rat = [Mimir Labs, SAP, Oracle, Microsoft, Salesforce] rationale strings. */
 const AXES = [
-  { g:0, full:"Canonical semantic model (shared entity definitions)", label:["Semantic","canon"] },
-  { g:0, full:"Native, immutable audit trail (designed in)",          label:["Audit","trail"] },
-  { g:0, full:"Record history & time-travel versioning",              label:["History /","versioning"] },
-  { g:0, full:"Tenant & data isolation strength",                     label:["Tenant","isolation"] },
-  { g:0, full:"First-class schema extensibility (custom fields)",     label:["Extensibility"] },
-  { g:0, full:"Data lineage & provenance tracking",                   label:["Lineage &","provenance"] },
-  { g:1, full:"Master-data quality tooling",                          label:["MDM","tooling"] },
-  { g:1, full:"Migration tooling & legacy ingestion",                 label:["Migration","tooling"] },
-  { g:1, full:"Integration architecture (CDC, connectors)",           label:["Integration","/ CDC"] },
-  { g:1, full:"Real-time event streaming (vs. batch)",                label:["Event","streaming"] },
-  { g:1, full:"Open APIs & interoperability",                         label:["Open","APIs"] },
-  { g:1, full:"Operational fit (shadow-system elimination)",          label:["Operational","fit"] },
-  { g:2, full:"Runtime policy enforcement at ingress (write path)",   label:["Runtime policy","enforcement"] },
-  { g:2, full:"State-model enforcement (valid states & transitions)", label:["State-model","enforcement"] },
-  { g:2, full:"Evidence-bound transitions",                           label:["Evidence-bound","transitions"] },
-  { g:2, full:"Machine-actionable business rules (operational canon)",label:["Machine-actionable","rules"] },
-  { g:2, full:"Deterministic, explainable automation",                label:["Deterministic","automation"] },
-  { g:2, full:"Human-in-the-loop authority",                          label:["Human-in-","the-loop"] },
-  { g:2, full:"AI-agent safety guardrails",                           label:["Agent","guardrails"] },
-  { g:2, full:"PII posture / zero-knowledge analysis",                label:["PII / zero-","knowledge"] },
-  { g:3, full:"Compliance & audit readiness (8D, CAPA, regulated)",   label:["Compliance","readiness"] },
-  { g:3, full:"Operational observability & metrics",                  label:["Observability"] },
-  { g:3, full:"Total-cost & pricing transparency",                    label:["Pricing","transparency"] },
-  { g:3, full:"Implementation speed / time-to-value",                 label:["Time-to-","value"] }
+  { g:0, full:"Canonical semantic model", label:["Canonical","semantics"], rat:[
+    "Canonical semantics are the organizing principle of the stack: all governed records resolve to Mimisbrunnr definitions, which Yggdrasil treats as authoritative.",
+    "Strong business semantics via S/4HANA, Datasphere, and Business Data Cloud, but canonicality remains distributed across products, domains, and implementation choices.",
+    "Fusion's unified application data model and database metadata give strong semantic consistency, though enterprise-wide canonicality depends on Oracle application scope and implementation discipline.",
+    "Fabric semantic models, Dataverse, and Common Data Model provide broad modeling tools, but no single mandatory operational ontology governs the whole Microsoft estate.",
+    "Data 360 and platform metadata create a coherent customer-domain model, but canonical depth is strongest in CRM rather than the full enterprise operating model."] },
+  { g:0, full:"Data discovery", label:["Data","discovery"], rat:[
+    "Ratatosk is purpose-built to scan schemas, BI models, structured exports, and undocumented relationships, but connector coverage and production deployment breadth remain limited.",
+    "Extensive cataloging, metadata, and landscape discovery, especially in Datasphere and Business Data Cloud, with some dependence on configuration and partners.",
+    "Catalog, metadata, and discovery across database, analytics, and Fusion estates, but less unified across heterogeneous third-party systems than Microsoft.",
+    "Purview's estate-wide scanning, classification, and cataloging give Microsoft the strongest broad discovery posture in the comparison.",
+    "Discovers and unifies customer and engagement data effectively, but broad non-customer operational discovery is not its design center."] },
+  { g:0, full:"Data lineage", label:["Data","lineage"], rat:[
+    "The architecture requires observable integrations and topology mapping, but continuous lineage across a large production connector estate is not yet demonstrated at incumbent scale.",
+    "Mature lineage across analytics, data products, and SAP application landscapes where SAP-managed metadata is available.",
+    "Mature across database, analytics, and cloud data services, although cross-vendor application lineage can require additional tooling.",
+    "Purview and Fabric provide end-to-end lineage from sources through pipelines, models, and Power BI — the highest score in this category.",
+    "Strong metadata and data-flow observability inside the platform, but full operational lineage across external systems is less comprehensive."] },
+  { g:0, full:"Master data governance", label:["Master data","governance"], rat:[
+    "The canonical manifest and Mimisbrunnr model provide strong architectural master-data authority, but stewardship workflows and deployment evidence remain less mature than SAP's.",
+    "SAP Master Data Governance is a category-leading, domain-rich product with mature workflows, stewardship, and process integration.",
+    "Substantial product, customer, supplier, and financial master-data controls within Fusion, with strong application-native governance.",
+    "Dataverse, Purview, and partners can support MDM programs, but Microsoft lacks one comparably dominant native enterprise MDM application.",
+    "Excels at customer identity resolution and unified profiles, though less complete across manufacturing and finance masters."] },
+  { g:0, full:"Data quality enforcement", label:["Data quality","enforcement"], rat:[
+    "Strict schema validation, no-coercion parsing, and rejection of nonconforming inputs make prevention rather than downstream remediation a first-class rule.",
+    "Mature data-quality, validation, and remediation capabilities, but many controls remain configurable and permit downstream-correction patterns.",
+    "Strong validation, data-quality, and application controls across Fusion and database services, with significant implementation flexibility.",
+    "Fabric, Purview, Dataverse, and Power Platform support quality rules and monitoring, but enforcement is distributed rather than universally pre-commit.",
+    "Validation rules, duplicate management, and governed Data 360 policies, strongest within Salesforce objects and flows."] },
+  { g:0, full:"Schema governance", label:["Schema","governance"], rat:[
+    "A fixed canonical schema, schema-derived contracts, and explicit rejection of nonconforming writes make schema governance foundational rather than optional.",
+    "Strongly governs application schemas and business objects, but extensions, customization, and multiple product generations complicate universal control.",
+    "Database-grade schema controls plus Fusion application metadata, yet customer extensions and heterogeneous estates prevent full uniformity.",
+    "Dataverse and Fabric provide strong metadata governance, but platform openness lets schemas proliferate across databases, lakes, apps, and connectors.",
+    "Metadata is highly governed within an org, though packages, custom objects, and external data models introduce variation."] },
+  { g:0, full:"Semantic interoperability", label:["Semantic","interoperability"], rat:[
+    "Cross-system mappings must resolve to one canonical representation, directly addressing semantic rather than merely syntactic interoperability.",
+    "Broad interoperability through business objects, APIs, Datasphere, and partner networks, particularly in SAP-heavy enterprises.",
+    "Strong within Fusion and Oracle data services, with robust APIs but less neutral semantic authority across non-Oracle applications.",
+    "Supports many formats, connectors, and semantic models, but technical interoperability does not always resolve conflicting business definitions.",
+    "MuleSoft, Data 360, and platform metadata give strong customer-centric interoperability; enterprise ontology coverage is uneven outside CRM."] },
+  { g:1, full:"Migration capability", label:["Migration","capability"], rat:[
+    "Ragnarok is explicitly designed around ontology-to-ontology transformation and reversible staging, but production scale and connector maturity warrant a material discount.",
+    "Extensive migration tooling, services, and partner capacity, though projects often preserve or recreate semantic inconsistency.",
+    "Mature cloud migration, database migration, and Fusion conversion tooling with substantial implementation expertise.",
+    "Broad migration services for Azure, Fabric, Dynamics, and databases, but no single ontology-first migration method spans the portfolio.",
+    "Effective for CRM and platform adoption but not a general-purpose ERP or operational-system migration stack."] },
+  { g:1, full:"Cross-system synchronization", label:["Cross-system","sync"], rat:[
+    "Bifrost is designed for observable, policy-conforming synchronization, but current implementation maturity and connector breadth trail the incumbents.",
+    "Integration Suite, eventing, and business networks provide strong synchronization across SAP and external systems.",
+    "Oracle Integration, GoldenGate, and Fusion APIs provide mature replication and application synchronization.",
+    "Power Platform connectors, Fabric pipelines, Azure integration services, and event infrastructure give exceptional transport breadth.",
+    "MuleSoft and platform events provide strong synchronization, particularly for customer-facing architectures."] },
+  { g:1, full:"Integration breadth", label:["Integration","breadth"], rat:[
+    "The architecture is vendor-neutral, but actual connector inventory and field-tested integrations are still narrow — the largest Mimir Labs capability gap.",
+    "An enormous certified ecosystem, business network, and integration catalog covering most enterprise process categories.",
+    "Broad application, database, and cloud integration coverage, though the ecosystem is somewhat less expansive than SAP's or Microsoft's.",
+    "Azure, Power Platform, and 1,000+ connectors give the broadest general integration surface in this comparison.",
+    "MuleSoft and AppExchange provide very broad reach, especially around front-office and digital workflows."] },
+  { g:1, full:"Operational workflow", label:["Operational","workflow"], rat:[
+    "Yggdrasil ERP contains broad operational state machines and workflows, but commercial deployment depth remains substantially below SAP and Oracle.",
+    "Deeply modeled, end-to-end enterprise processes across finance, supply chain, manufacturing, HR, and service.",
+    "Similarly deep cross-functional workflows with strong approvals, controls, and transaction integration.",
+    "Dynamics 365 and Power Platform cover broad workflow needs, but depth varies by application and partner implementation.",
+    "Exceptionally strong in sales, service, and customer workflows; not as complete in core manufacturing execution."] },
+  { g:1, full:"ERP transaction depth", label:["ERP transaction","depth"], rat:[
+    "Yggdrasil covers major ERP modules and many state machines, but lacks the field history, localization, and edge-case coverage of mature incumbents.",
+    "A benchmark enterprise transaction platform with decades of depth across complex global operations.",
+    "Fusion ERP and SCM provide benchmark-level transaction coverage and financial control.",
+    "Dynamics 365 has credible ERP functionality, but the wider Microsoft portfolio's operational depth is less uniformly integrated.",
+    "Not a full general-purpose ERP, despite strong revenue, service, and industry transaction capabilities."] },
+  { g:1, full:"Manufacturing operational depth", label:["Manufacturing","depth"], rat:[
+    "Yggdrasil was designed around manufacturing, distribution, and operational integrity, but field deployment, localization, and specialized industry breadth remain unproven.",
+    "Exceptional manufacturing, planning, asset, quality, and supply-chain depth across industries.",
+    "Extensive manufacturing and supply-chain execution, planning, and product-lifecycle capabilities.",
+    "Dynamics 365 supports credible manufacturing, but the total platform is less specialized and globally deep than SAP or Oracle.",
+    "Supports manufacturing sales and service scenarios but depends on ERP and partner systems for plant-floor depth."] },
+  { g:2, full:"AI / agent capability", label:["AI / agent","capability"], rat:[
+    "Designed to govern agents rather than compete as a frontier agent platform — native model, tooling, and agent-development breadth are intentionally limited.",
+    "Joule and SAP's agent portfolio provide substantial business-agent capability grounded in SAP data and workflows.",
+    "Fusion AI Agent Studio and embedded agents support native action against Fusion business objects and workflows.",
+    "Copilot Studio, Azure AI Foundry, Microsoft 365 Copilot, and Fabric agents make Microsoft the broadest agent platform compared.",
+    "Agentforce is a leading packaged enterprise-agent platform with strong action, reasoning, and CRM integration."] },
+  { g:2, full:"AI business context", label:["AI business","context"], rat:[
+    "Canonical definitions and authoritative operational state are intended to give agents precise business meaning, though the deployed context corpus is not yet broad.",
+    "SAP's strongest AI advantage is access to deeply structured enterprise process and transaction context.",
+    "Fusion's shared data model and embedded application agents provide similarly strong operational context.",
+    "Microsoft IQ, Graph, Fabric, and Dynamics provide broad organizational context, though distributed across services.",
+    "Data 360 grounds Agentforce in unified customer data and metadata — excellent customer and revenue context."] },
+  { g:2, full:"Agent orchestration", label:["Agent","orchestration"], rat:[
+    "ROPE and the governance stack constrain execution, but Mimir Labs does not yet provide a comparably complete general agent-orchestration workbench.",
+    "Supports multi-agent and workflow orchestration but remains earlier and more application-bounded than Microsoft or Salesforce.",
+    "AI Agent Studio and the native Fusion runtime provide strong orchestration and application action with growing multi-agent support.",
+    "Copilot Studio and Azure AI Foundry provide highly mature orchestration, connectors, agent collaboration, and tooling.",
+    "Agentforce provides mature topic, action, reasoning, and multi-agent orchestration focused on business workflows."] },
+  { g:2, full:"AI governance", label:["AI","governance"], rat:[
+    "Scores highly because it governs the resulting operational action at the authoritative state boundary — not merely prompts, responses, or agent identity.",
+    "Embeds authorization, workflow, and governance into Joule and application agents, with growing enterprise AI controls.",
+    "Agents inherit Fusion security, governance, approvals, and auditability, with native observability and evaluation.",
+    "Purview, Entra, Copilot controls, and platform administration create the broadest cross-environment AI governance suite.",
+    "The Trust Layer, Data 360 governance, and agent auditing provide a strong packaged governance posture."] },
+  { g:2, full:"Identity & authorization", label:["Identity &","authorization"], rat:[
+    "MFA, deterministic RBAC, and role-bound action logging are architecturally strong, but ecosystem breadth and administrative maturity trail the incumbents.",
+    "Mature enterprise IAM, role models, segregation-of-duties controls, and application authorization.",
+    "Mature identity, roles, privileges, and application security across Fusion and OCI.",
+    "Entra is a market-leading identity plane integrated across Microsoft applications, data, and AI services.",
+    "The permission model, profiles, roles, sharing, and identity services are mature and granular."] },
+  { g:3, full:"Pre-write policy enforcement", label:["Pre-write policy","enforcement"], rat:[
+    "Every governed action is intended to pass deterministic policy validation before authoritative commit — the architecture's principal differentiator.",
+    "Enforces many application rules and approvals before transaction completion, but universal enforcement across extensions and external write paths is not guaranteed.",
+    "Fusion's native agents inherit workflows, security, and approvals, and Oracle Database enforces powerful constraints — the strongest incumbent score.",
+    "Power Platform and Dynamics can validate and authorize writes, but Fabric and agent governance are not one mandatory pre-commit boundary across the estate.",
+    "Validation rules, flows, Apex, and permissions can block writes, though policy remains object- and implementation-dependent."] },
+  { g:3, full:"State-transition validation", label:["State-transition","validation"], rat:[
+    "Yggdrasil's design requires validated state-machine authorization before SQL compilation, directly binding transition legality to execution.",
+    "Business processes constrain many transitions, but customization and direct integration patterns can create alternate paths.",
+    "Fusion workflows and object rules provide strong state control, though not every enterprise transition is represented by one universal engine.",
+    "Dynamics and Dataverse support business-process and state rules, but enforcement varies across services and custom implementations.",
+    "Supports status constraints, flows, and validation, but no universal state-machine token is required for every database mutation."] },
+  { g:3, full:"Immutable auditability", label:["Immutable","auditability"], rat:[
+    "Append-only audit structures, transaction traceability, and deterministic replay are explicit platform properties rather than optional reporting features.",
+    "Extensive change documents, logs, and compliance capabilities, but immutability varies by product, configuration, and archive design.",
+    "Mature auditing and tamper-resistant options, though immutable end-to-end event replay is not universal by default.",
+    "Purview, platform audit logs, and security services provide excellent observability, but operational event immutability varies across workloads.",
+    "Strong setup, field-history, event, and AI audit trails, but retention and completeness depend on editions and configuration."] },
+  { g:3, full:"Deterministic execution", label:["Deterministic","execution"], rat:[
+    "The platform explicitly separates probabilistic proposal from deterministic admissibility and commit — the core technical thesis.",
+    "Core ERP transactions are deterministic, but agent reasoning, custom extensions, and distributed process logic reduce end-to-end determinism.",
+    "Database and Fusion object execution are strongly deterministic, with native agent integration raising the score above other incumbents.",
+    "Can build deterministic applications, but the broad low-code, data, and agent estate does not impose deterministic execution universally.",
+    "Transaction processing is reliable, but flows, Apex, external actions, and probabilistic agents produce variable end-to-end behavior."] },
+  { g:3, full:"Drift detection", label:["Drift","detection"], rat:[
+    "Jormungandr is explicitly designed for schema drift, canonical-concept enforcement, and integration compliance detection, although SaaS maturity remains incomplete.",
+    "Data, process, and configuration monitoring, but semantic and policy drift across complex landscapes still often requires governance programs and partners.",
+    "Monitoring, metadata, and configuration controls, though enterprise semantic drift across third-party systems is not the primary focus.",
+    "Purview scanning, cataloging, and policy services provide excellent data-estate drift visibility.",
+    "Metadata, policy, and activity monitoring, but broad cross-system semantic drift coverage is less comprehensive."] },
+  { g:3, full:"Human oversight", label:["Human","oversight"], rat:[
+    "The architecture supports human authority and overrides with traceability, but operational user experience and large-scale oversight tooling are less mature.",
+    "Mature approvals, workflow inboxes, controls, and role separation across enterprise processes.",
+    "Strong configurable approvals, exception handling, and audit-backed human intervention.",
+    "Extensive approval, review, and human-in-the-loop patterns through Power Platform and Copilot tooling.",
+    "Mature queues, approvals, escalation, and agent handoff patterns."] }
 ];
 
+/* Scores follow the benchmark matrix verbatim, in the axis order above. */
 const VENDORS = [
-  { id:"ygg", name:"Yggdrasil ERP (Mimir Labs)", short:"Yggdrasil", slot:1, on:true,
-    scores:[19,19,18,19,17,18, 17,18,17,18,16,16, 20,19,19,19,19,18,19,18, 17,16,18,15] },
-  { id:"sap", name:"SAP S/4HANA", short:"SAP S/4HANA", slot:2, on:true,
-    scores:[12,13,12,14,10,11, 14, 9,13,12,12, 8,  6, 8, 7, 7, 8, 9, 8, 9, 16,13, 4, 5] },
-  { id:"d365", name:"Microsoft Dynamics 365", short:"Dynamics 365", slot:3, on:true,
-    scores:[10,11,10,12,13,10, 12,10,14,13,15, 9,  7, 8, 6, 8, 7, 9, 9,10, 13,13, 8, 8] },
-  { id:"ns", name:"Oracle NetSuite", short:"NetSuite", slot:4, on:false,
-    scores:[ 9,10, 8, 9,11, 8,  9, 9,11, 9,12, 9,  5, 6, 4, 5, 6, 7, 6, 8, 10,10, 7,11] },
-  { id:"epi", name:"Epicor Kinetic", short:"Epicor", slot:5, on:false,
-    scores:[ 8, 9, 7,10,10, 7,  8, 8, 9, 8,10,10,  4, 6, 5, 4, 7, 8, 5, 7, 11, 9, 5, 9] },
-  { id:"inf", name:"Infor CloudSuite", short:"Infor", slot:6, on:false,
-    scores:[ 9,10, 8,11, 9, 8, 10, 8,10, 9, 9,10,  5, 6, 5, 5, 6, 7, 5, 7, 12, 9, 4, 8] }
+  { id:"ml", name:"Mimir Labs (Yggdrasil)", short:"Mimir Labs", slot:1, on:true,
+    scores:[20,18,17,19,20,20,20, 16,17,11,18,17,18, 12,18,12,19,18, 20,20,20,20,19,17] },
+  { id:"sap", name:"SAP", short:"SAP", slot:2, on:true,
+    scores:[18,17,18,20,17,17,18, 17,17,20,20,20,19, 18,19,17,18,19, 15,16,18,15,17,19] },
+  { id:"ora", name:"Oracle", short:"Oracle", slot:3, on:true,
+    scores:[18,16,17,19,17,18,17, 17,17,19,20,20,18, 19,19,19,19,19, 17,17,18,17,16,19] },
+  { id:"ms", name:"Microsoft", short:"Microsoft", slot:4, on:false,
+    scores:[16,19,20,16,17,17,18, 16,19,20,17,14,13, 20,18,20,20,20, 14,13,18,13,19,19] },
+  { id:"sf", name:"Salesforce", short:"Salesforce", slot:5, on:false,
+    scores:[17,17,16,18,16,16,17, 13,16,18,19,14,10, 20,19,20,19,19, 15,14,17,14,16,19] }
 ];
 
 const N = AXES.length, MAX = 20;
@@ -298,30 +480,25 @@ const overlayBox = document.getElementById("overlay");
 const overlayWrap = document.getElementById("overlayWrap");
 
 function radarScaffold(svg, cx, cy, r, withLabels) {
-  // rings at 5/10/15/20
   for (let s = 5; s <= MAX; s += 5) {
     svg.appendChild(svgEl("circle", { cx, cy, r: r*s/MAX, class: "ring" + (s===MAX ? " outer":"") }));
   }
-  // spokes (group boundaries slightly emphasized, drawn between axes)
   for (let i = 0; i < N; i++) {
     const isEdge = AXES[i].g !== AXES[(i-1+N)%N].g;
     const aEdge = angle(i) - Math.PI/N;
     const [x1,y1] = pt(cx, cy, r, angle(i));
-    const spoke = svgEl("line", { x1:cx, y1:cy, x2:x1, y2:y1, class:"spoke" });
-    svg.appendChild(spoke);
+    svg.appendChild(svgEl("line", { x1:cx, y1:cy, x2:x1, y2:y1, class:"spoke" }));
     if (isEdge && withLabels) {
       const [ex,ey] = pt(cx, cy, r*1.02, aEdge);
       svg.appendChild(svgEl("line", { x1:cx, y1:cy, x2:ex, y2:ey, class:"spoke group-edge" }));
     }
   }
   if (!withLabels) return;
-  // ring value labels on the up axis
   for (let s = 5; s <= MAX; s += 5) {
     const t = svgEl("text", { x: cx + 6, y: cy - r*s/MAX - 4, class: "ring-label" });
     t.textContent = s;
     svg.appendChild(t);
   }
-  // axis labels
   AXES.forEach((ax, i) => {
     const a = angle(i);
     const [x, y] = pt(cx, cy, r + 18, a);
@@ -347,7 +524,7 @@ let hotAxis = -1;
 function drawOverlay() {
   overlayBox.innerHTML = "";
   const svg = svgEl("svg", { viewBox: `0 0 ${VB} ${VBH}`, role: "img",
-    "aria-label": "Radar chart of vendor scores across 24 enterprise data and AI readiness indexes" });
+    "aria-label": "Radar chart of vendor scores across 24 enterprise data and AI capability indexes" });
   radarScaffold(svg, CX, CY, R, true);
 
   const active = VENDORS.filter(v => v.on);
@@ -356,11 +533,9 @@ function drawOverlay() {
       class: "poly", fill: css(v), stroke: css(v) }));
   });
 
-  // vertex markers layer (shown for hovered axis)
   const vertexLayer = svgEl("g", {});
   svg.appendChild(vertexLayer);
 
-  // invisible hover sectors, one per axis
   for (let i = 0; i < N; i++) {
     const a0 = angle(i) - Math.PI/N, a1 = angle(i) + Math.PI/N;
     const [x0,y0] = pt(CX, CY, R, a0), [x1,y1] = pt(CX, CY, R, a1);
@@ -453,6 +628,20 @@ btnM.addEventListener("click", () => setView(false));
   const foot = `<tfoot><tr><td>Average (all 24 indexes)</td>${VENDORS.map(v =>
     `<td>${f1(avg(v))}</td>`).join("")}</tr></tfoot>`;
   document.getElementById("tablewrap").innerHTML = `<table>${head}${body}${foot}</table>`;
+})();
+
+/* ---------- rationale ---------- */
+(function buildRationale() {
+  const box = document.getElementById("rationale");
+  let out = "";
+  AXES.forEach((ax, i) => {
+    const rows = VENDORS.map((v, vi) =>
+      `<div class="rat-row"><span class="dot" style="background:${css(v)}"></span>
+       <span><b>${v.short} — ${v.scores[i]}/20.</b> ${ax.rat[vi]}</span></div>`).join("");
+    out += `<details><summary>${ax.full}<small>${GROUPS[ax.g]}</small></summary>
+            <div class="rat-body">${rows}</div></details>`;
+  });
+  box.innerHTML = out;
 })();
 </script>
 </body>

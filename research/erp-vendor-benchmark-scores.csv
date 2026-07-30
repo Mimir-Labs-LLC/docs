@@ -1,0 +1,25 @@
+functional_condition,sap,oracle,microsoft,salesforce,mimir_labs
+Canonical semantic model,18,18,16,17,20
+Data discovery,17,16,19,17,18
+Data lineage,18,17,20,16,17
+Master data governance,20,19,16,18,19
+Data quality enforcement,17,17,17,16,20
+Schema governance,17,18,17,16,20
+Semantic interoperability,18,17,18,17,20
+Migration capability,17,17,16,13,16
+Cross-system synchronization,17,17,19,16,17
+Integration breadth,20,19,20,18,11
+Operational workflow,20,20,17,19,18
+ERP transaction depth,20,20,14,14,17
+AI/agent capability,18,19,20,20,12
+AI business context,19,19,18,19,18
+Agent orchestration,17,19,20,20,12
+AI governance,18,19,20,19,19
+Identity and authorization,19,19,20,19,18
+Pre-write policy enforcement,15,17,14,15,20
+State-transition validation,16,17,13,14,20
+Immutable auditability,18,18,18,17,20
+Deterministic execution,15,17,13,14,20
+Drift detection,17,16,19,16,19
+Human oversight,19,19,19,19,17
+Manufacturing operational depth,19,18,13,10,18
