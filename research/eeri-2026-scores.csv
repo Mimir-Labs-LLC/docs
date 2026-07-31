@@ -1,0 +1,31 @@
+condition,domain,sap,oracle,microsoft,salesforce,infor,epicor,sage_x3,acumatica,odoo,rappit,mimir_labs
+Canonical semantic authority,Semantic and data authority,18,18,16,17,16,15,14,14,13,12,20
+Data discovery,Semantic and data authority,17,16,19,17,16,13,12,12,10,11,18
+Lineage and provenance,Semantic and data authority,18,17,20,18,16,13,12,13,11,12,17
+Master data governance,Semantic and data authority,20,19,16,19,16,14,14,13,12,11,19
+Data quality enforcement,Semantic and data authority,17,17,17,18,16,16,15,15,14,14,20
+Schema governance,Semantic and data authority,17,18,17,17,16,15,14,14,12,15,20
+Semantic interoperability,Interoperability and controlled change,18,17,18,18,17,14,14,14,13,13,20
+Migration fidelity and reversibility,Interoperability and controlled change,17,17,16,15,15,14,14,13,13,16,16
+Cross-system synchronization,Interoperability and controlled change,17,17,19,18,17,15,14,15,14,15,17
+Integration breadth,Interoperability and controlled change,20,19,20,19,18,17,16,16,17,14,11
+Drift and contract compliance,Interoperability and controlled change,17,16,19,18,16,14,13,14,12,14,19
+Policy portability and lifecycle,Interoperability and controlled change,14,15,16,16,14,10,10,11,10,13,20
+Operational workflow,Operational platform,20,20,17,19,19,19,17,17,18,17,18
+ERP transaction depth,Operational platform,20,20,15,14,19,19,18,17,17,15,17
+Manufacturing operational depth,Operational platform,19,18,15,10,19,19,18,17,17,15,18
+Identity and authorization,Operational platform,19,19,20,19,18,17,17,18,16,16,18
+Governance-preserving extensibility,Operational platform,15,17,15,16,15,15,14,14,12,16,20
+Operational resilience and recovery,Operational platform,19,20,20,18,18,17,16,17,15,16,17
+AI and agent capability,Enterprise AI and human control,19,19,20,20,17,16,15,16,17,18,12
+AI business context,Enterprise AI and human control,19,19,18,19,17,17,16,16,16,16,18
+Agent orchestration,Enterprise AI and human control,18,19,20,20,16,15,14,15,16,18,12
+AI governance,Enterprise AI and human control,19,19,20,19,17,16,15,16,14,17,19
+Agent observability and traceability,Enterprise AI and human control,18,19,20,20,17,15,15,15,14,17,18
+Human oversight and intervention,Enterprise AI and human control,19,19,19,19,18,18,18,18,17,18,17
+Authoritative execution surface,Authoritative execution integrity,13,15,10,11,12,13,11,11,10,12,20
+Pre-commit policy enforcement,Authoritative execution integrity,15,17,14,15,15,16,14,15,14,15,20
+State-transition validation,Authoritative execution integrity,16,17,13,14,15,16,14,15,14,15,20
+Concurrency and stale-state protection,Authoritative execution integrity,17,19,16,16,16,16,15,16,15,15,20
+Immutable audit and correction integrity,Authoritative execution integrity,18,18,17,17,17,17,16,17,14,15,20
+Deterministic execution and decision explainability,Authoritative execution integrity,15,17,13,14,15,16,15,15,14,16,20

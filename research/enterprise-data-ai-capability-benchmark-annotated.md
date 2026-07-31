@@ -4,6 +4,8 @@
 **Version 1.1 (annotated) | July 30, 2026**
 **Companion to:** *Enterprise Data and AI Capability Benchmark* v1.0 (score matrix adopted verbatim), interactive radar (`erp-vendor-radar.html`), machine-readable matrix (`erp-vendor-benchmark-scores.csv`).
 
+> **Status note (July 31, 2026).** The published scoring instrument is now the **Enterprise Execution Readiness Index 2026** (`Enterprise_Execution_Readiness_Index_2026.pdf`, `eeri-2026-scores.csv`), which expands this benchmark to **11 vendors × 30 conditions in five domains**, adding Infor, Epicor, Sage X3, Acumatica, Odoo, and Rappit, and six architecture-sensitive indexes (authoritative execution surface, pre-commit enforcement universality, policy portability, governance-preserving extensibility, concurrency/stale-state protection, agent observability). Where the two matrices differ, **EERI 2026 governs** — notable updates: Salesforce gains on data indexes via Informatica; SAP/Oracle rise on agent capability; Mimir Labs records the highest unweighted average (18.0, vs. Oracle 17.9 and SAP 17.6) while its shape is unchanged. This annotated edition remains the roadmap and trade-off companion; its per-index reasoning, trade-off register, and roadmap ledger carry over to the EERI framing, and the new EERI conditions land squarely on existing entries (policy portability → the bundle roadmap item; governance-preserving extensibility → trade T3; concurrency/audit → trades T4/T5).
+
 This is Mimir Labs' own reading of the 24-index benchmark. It keeps the v1.0 scores and rubric unchanged and adds what a score matrix cannot carry: *why* each rating is what it is, stated specifically enough to be checked; **where our roadmap intends to outpace the incumbents**; and — just as important — **where a lower score is a deliberate trade, not a gap we failed to notice**. A benchmark that shows us behind on an index we chose to be behind on is working as intended; this document says which indexes those are and what we bought with the trade.
 
 Scores are directional analyst judgments, not vendor-certified benchmarks. Incumbents are evaluated at full-portfolio level (SAP including Datasphere and Business Data Cloud; Oracle including Fusion, OCI, and GoldenGate; Microsoft including Purview, Fabric, Entra, Dataverse, and Copilot Studio; Salesforce including Data 360, MuleSoft, and Agentforce) — not their ERP products in isolation. Mimir Labs is graded on designed and implemented capability, discounted for deployment maturity per the rubric.
@@ -305,7 +307,7 @@ Where we intend to outpace, by horizon. Vehicles are named so progress is checka
 
 - **Semantic interoperability / AI governance (hold 20 / 19, change the game):** portable policy bundles (whitepaper 12; shipped in Yggdrasil RopeService, Jormungandr export, Heimdall cross-tenant migration) as the policy-interchange standard no distributed-governance incumbent can emit or consume.
 - **Drift detection (19 → 20):** Jormungandr SaaS maturity; drift that triggers enforcement, not annotation.
-- **Pre-write enforcement / state validation / determinism (hold 20, make it measurable):** publish the Enterprise Execution Readiness Index — adversarial test protocols (unauthorized transitions, split transactions, stale-state writes, alternate-tool writes, drift, provenance failures) run against each platform with published pass/fail. Convert this benchmark from position paper to instrument.
+- **Pre-write enforcement / state validation / determinism (hold 20, make it measurable):** ~~publish the Enterprise Execution Readiness Index~~ **Delivered July 31, 2026** — EERI 2026 published as an 11-vendor, 30-condition instrument with six architecture-sensitive indexes and buyer threshold guidance. Next step per its own §8: the empirical revision — adversarial test protocols (unauthorized transitions, transaction slicing, stale-state writes, alternate-tool writes, direct-integration bypass, drift, provenance failures, replay, privileged mutation) scored on observed behavior, not documentation.
 - **Data lineage (17 → parity+):** governed-boundary lineage across production Bifrost estates; each hop carries admissibility evidence Purview's passive scan cannot.
 
 **Long term / research (capability-gated)**
@@ -327,7 +329,8 @@ Incumbent characterizations rely on public documentation current to July 2026; p
 
 ## References
 
-- *Enterprise Data and AI Capability Benchmark* v1.0, July 30, 2026 (source score matrix; archived in this directory).
+- Mimir Labs Research, *Enterprise Execution Readiness Index 2026*, July 31, 2026 (final published instrument; archived in this directory with `eeri-2026-scores.csv`).
+- *Enterprise Data and AI Capability Benchmark* v1.0, July 30, 2026 (source score matrix for this edition; archived in this directory).
 - Mimir Labs, *The Missing Layer in Enterprise AI Readiness* (working paper, May 2026) — operational canon, OPE, record-level operational sufficiency.
 - Mimir Labs, *Why ERP Is Inadequate* (structural-failure catalog) — misfit/shadow-system basis for T3–T5.
 - Mimir Labs whitepapers 05 (Mimisbrunnr), 07 (Ragnarok), 08 (Ratatosk), 09 (Bifrost), 10 (Jormungandr), 11 (ROPE), 12 (Portable Policy Bundle Format).
